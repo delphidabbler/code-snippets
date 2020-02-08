@@ -1,0 +1,5 @@
+﻿function TryHexToBytes(HexStr: string; out Bytes: TBytes): Boolean;
+begin
+  SetLength(Bytes, HexByteSize(HexStr));
+  Result := TryHexToBuf(HexStr, Bytes[0]);
+end;

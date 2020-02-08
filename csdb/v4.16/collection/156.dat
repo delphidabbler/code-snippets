@@ -1,0 +1,6 @@
+﻿function UnixDateToDateTime(const USec: Longint): TDateTime;
+const
+  cUnixStartDate: TDateTime = 25569.0; // 1970/01/01
+begin
+  Result := (Usec / 86400) + cUnixStartDate;
+end;

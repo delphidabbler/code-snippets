@@ -1,0 +1,7 @@
+﻿function GetLastDirectory(APath: string): string;
+begin
+  if IsDirectory(APath) then
+    Result := SysUtils.ExtractFileName(PathToDir(APath))
+  else
+    Result := '';
+end;

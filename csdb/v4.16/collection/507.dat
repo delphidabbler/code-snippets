@@ -1,0 +1,9 @@
+﻿procedure DisableTreeViewToolTips(const TV: ComCtrls.TTreeView);
+begin
+  Windows.SetWindowLong(
+    TV.Handle,
+    Windows.GWL_STYLE,
+    Windows.GetWindowLong(TV.Handle, Windows.GWL_STYLE)
+      or CommCtrl.TVS_NOTOOLTIPS
+  );
+end;

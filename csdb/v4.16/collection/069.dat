@@ -1,0 +1,14 @@
+﻿function DriveDisplayName(const Drive: string): string;
+var
+  FI: ShellAPI.TSHFileInfo; // info about drive
+begin
+  if ShellAPI.SHGetFileInfo(
+    PChar(Drive),
+    0,
+    FI,
+    SizeOf(FI),
+    ShellAPI.SHGFI_DISPLAYNAME
+  ) = 0 then
+    SysUtils.RaiseLastWin32Error;
+  Result := FI.szDisplayName;
+end;

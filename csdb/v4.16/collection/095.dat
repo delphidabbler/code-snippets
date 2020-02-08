@@ -1,0 +1,13 @@
+﻿function GMTToLocalTime(GMTTime: TDateTime): TDateTime;
+var
+  GMTST: Windows.TSystemTime;
+  LocalST: Windows.TSystemTime;
+begin
+  SysUtils.DateTimeToSystemTime(GMTTime, GMTST);
+  SysUtils.Win32Check(
+    Windows.SystemTimeToTzSpecificLocalTime(
+      nil, GMTST, LocalST
+    )
+  );
+  Result := SysUtils.SystemTimeToDateTime(LocalST);
+end;

@@ -1,0 +1,19 @@
+﻿function SpecialFolderPath(CSIDL: Integer): string;
+var
+  PIDL: ShlObj.PItemIDList; // PIDL of the special folder
+begin
+  Result := '';
+  // Get PIDL for required folder
+  if Windows.Succeeded(
+    ShlObj.SHGetSpecialFolderLocation(0, CSIDL, PIDL)
+  ) then
+  begin
+    try
+      // Get path from PIDL
+      Result := PIDLToFolderPath(PIDL);
+    finally
+      // Free the PIDL using shell allocator
+      FreePIDL(PIDL);
+    end;
+  end
+end;

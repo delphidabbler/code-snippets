@@ -1,0 +1,7 @@
+﻿function IsValidDriveNum(const DriveNum: Byte): Boolean;
+begin
+  if DriveNum in [0..25] then
+    Result := Windows.GetLogicalDrives and (1 shl DriveNum) <> 0
+  else
+    Result := False;
+end;

@@ -1,0 +1,5 @@
+﻿function BytesToGBStr(const Bytes: Int64; const DecimalPlaces: Byte;
+  const SeparateThousands: Boolean): string;
+begin
+  Result := FloatToFixed(BytesToGB(Bytes), DecimalPlaces, SeparateThousands);
+end;

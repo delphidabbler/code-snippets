@@ -1,0 +1,50 @@
+﻿function TextWrap(const Text: string; const Width, Margin: Integer): string;
+var
+  Word: string;               // next word in input text
+  Line: string;               // current output line
+  Words: Classes.TStringList; // list of words in input text
+  I: Integer;                 // loops thru all words in input text
+
+  // -------------------------------------------------------------------------
+  procedure AddLine(const Line: string);
+  begin
+    // Adds line of text to output, offsetting line by width of margin
+    if Result <> '' then    // not first line: insert new line
+      Result := Result + #13#10;
+    Result := Result + StringOfChar(' ', Margin) + Line;
+  end;
+  // -------------------------------------------------------------------------
+
+begin
+  // Get all words in text
+  Words := Classes.TStringList.Create;
+  try
+    ExplodeStr(Text, ' ', Words);
+    Result := '';
+    Line := '';
+    // Loop for each word in text
+    for I := 0 to Pred(Words.Count) do
+    begin
+      Word := Words[I];
+      if Length(Line) + Length(Word) + 1 <= Width then
+      begin
+        // Word fits on current line: add it
+        if Line = '' then
+          Line := Word  // 1st word on line
+        else
+          Line := Line + ' ' + Word;
+      end
+      else
+      begin
+        // Word doesn't fit on line
+        AddLine(Line);  // output line
+        Line := Word;   // store word as first on next line
+      end;
+    end;
+    if Line <> '' then
+      // Residual line after end of loop: add to output
+      AddLine(Line);
+  finally
+    Words.Free;
+  end;
+end;

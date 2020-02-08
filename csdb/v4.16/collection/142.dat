@@ -1,0 +1,64 @@
+﻿function RecycleBinInfo(const Drive: Char; out BinSize, FileCount: Int64):
+  Boolean;
+type
+  // structure passed to SHQueryRecycleBin to get information about recyle bin
+  TSHQueryRBInfo = packed record
+    cbSize: Integer;    // size of structure
+    i64Size: Int64;     // size of recycle bin
+    i64NumItems: Int64; // number of items in recycle bin.
+  end;
+  PSHQueryRBInfo = ^TSHQueryRBInfo;
+  // function prototype for SHQueryRecycleBin (prototypes Unicode version when
+  // PChar = PWideChar and ANSI version when PChar = PAnsiChar
+  TSHQueryRecycleBin = function(RootPath: PChar; Query: PSHQueryRBInfo): 
+    Integer; stdcall;
+const
+  {$IFDEF UNICODE}
+  cSHQueryRecycleBin = 'SHQueryRecycleBinW';  // Unicode SHQueryRecycleBin fn
+  {$ELSE}
+  cSHQueryRecycleBin = 'SHQueryRecycleBinA';  // ANSI SHQueryRecycleBin fn
+  {$ENDIF}
+  cShell32 = 'shell32.dll';                   // SHQueryRecycleBin's DLL
+var
+  SHQueryRecycleBin: TSHQueryRecycleBin;  // reference to SHQueryRecycleBin fn
+  Shell32: Windows.THandle;               // handle to shel32.dll
+  SHQueryRBInfo: TSHQueryRBInfo;          // structure receive recyle bin info
+  RootDir: string;                        // directory we are getting info for
+  PRootDir: PChar;                        // pointer to root dir or nil
+begin
+  // Intialise to assume failure
+  Result := False;
+  BinSize := 0;
+  FileCount := 0;
+  // Attempt to load required SHQueryRecycleBin function from DLL
+  Shell32 := SysUtils.SafeLoadLibrary(cShell32);
+  if Shell32 <> 0 then
+  begin
+    @SHQueryRecycleBin := Windows.GetProcAddress(Shell32, cSHQueryRecycleBin);
+    if Assigned(@SHQueryRecycleBin) then
+    begin
+      // Set structure size before calling SHQueryRecycleBin
+      SHQueryRBInfo.cbSize := SizeOf(SHQueryRBInfo);
+      // Create pointer to required drive (nul to get all drives)
+      {$IFDEF UNICODE}
+      if SysUtils.CharInSet(UpCase(Drive), ['A'..'Z']) then
+      {$ELSE}
+      if UpCase(Drive) in ['A'..'Z'] then
+      {$ENDIF}
+      begin
+        RootDir := UpCase(Drive) + ':\';
+        PRootDir := PChar(RootDir);
+      end
+      else
+        PRootDir := nil;
+      // Get recycle info
+      Result := SHQueryRecycleBin(PRootDir, @SHQueryRBInfo) = 0;
+      if Result then
+      begin
+        // Success: pass info back through params
+        BinSize := SHQueryRBInfo.i64Size;
+        FileCount := SHQueryRBInfo.i64NumItems;
+      end;
+    end;
+  end;
+end;

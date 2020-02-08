@@ -1,0 +1,50 @@
+﻿function CountColors(const Bitmap: Graphics.TBitmap): Integer;
+var
+  Flags: array[Byte, Byte] of Classes.TBits;
+  I, J, K: Integer;
+  RowIn: PRGBTripleArray;
+begin
+  // Be sure bitmap is 24-bits/pixel
+  Assert(Bitmap.PixelFormat = Graphics.pf24Bit);
+
+  // Clear 2D array of TBits objects
+  for J := 0 to 255 do
+    for I := 0 to 255 do
+      Flags[I, J] := nil;
+
+  // Step through each scanline of image
+  for J := 0 to Bitmap.Height - 1 do
+  begin
+    RowIn  := Bitmap.Scanline[J];
+    for I := 0 to Bitmap.Width - 1 do
+    begin
+      with RowIn[I] do
+      begin
+        if not Assigned(Flags[rgbtRed, rgbtGreen]) then
+        begin
+          // Create 3D column when needed
+          Flags[rgbtRed, rgbtGreen] := Classes.TBits.Create;
+          Flags[rgbtRed, rgbtGreen].Size := 256;
+        end;
+        // Mark this R-G-B triple
+        Flags[rgbtRed, rgbtGreen].Bits[rgbtBlue] := True;
+      end;
+    end;
+  end;
+
+  Result := 0;
+  // Count and Free TBits objects
+  for J := 0 to 255 do
+  begin
+    for I := 0 to 255 do
+    begin
+      if Assigned(Flags[I, J]) then
+      begin
+        for K := 0 to 255 do
+          if Flags[I, J].Bits[K] then
+            Inc(Result);
+        Flags[I, J].Free;
+      end;
+    end;
+  end;
+end;

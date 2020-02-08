@@ -1,0 +1,14 @@
+﻿function IsTrueTypeFont(const Font: Graphics.TFont): Boolean; overload;
+var
+  DC: Windows.HDC;          // device context in which font is selected
+  TM: Windows.TTextMetric;  // text metrics for font in DC
+begin
+  DC := CreateDisplayDC;
+  try
+    Windows.SelectObject(DC, Font.Handle);
+    Windows.GetTextMetrics(DC, TM);
+    Result := IsFlagSet(TM.tmPitchAndFamily, Windows.TMPF_TRUETYPE);
+  finally
+    Windows.DeleteDC(DC);
+  end;
+end;

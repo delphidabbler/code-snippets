@@ -1,0 +1,7 @@
+﻿function ScaleRect(const ARect: Types.TRect; AScaling: Double): Types.TRect;
+begin
+  Result.Left := System.Round(ARect.Left * AScaling);
+  Result.Top := System.Round(ARect.Top * AScaling);
+  Result.Right := System.Round(ARect.Right * AScaling);
+  Result.Bottom := System.Round(ARect.Bottom * AScaling);
+end;

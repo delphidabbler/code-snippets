@@ -1,0 +1,6 @@
+﻿function IsValidDate(const DateString: string): Boolean;
+var
+  DT: TDateTime; // unused date time value
+begin
+  Result := SysUtils.TryStrToDate(DateString, DT);
+end;

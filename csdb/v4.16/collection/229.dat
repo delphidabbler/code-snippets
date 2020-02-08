@@ -1,0 +1,10 @@
+﻿function Is24HourTimeFormat: Boolean;
+var
+  DefaultLCID: Windows.LCID;  // thread's default locale
+begin
+  DefaultLCID := Windows.GetThreadLocale;
+  Result := 0 <> SysUtils.StrToIntDef(
+    SysUtils.GetLocaleStr(DefaultLCID, Windows.LOCALE_ITIME, '0'),
+    0
+  );
+end;

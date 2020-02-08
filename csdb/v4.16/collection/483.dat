@@ -1,0 +1,14 @@
+﻿function LastIndexOfByte(const B: Byte; const A: array of Byte): Integer;
+var
+  I: Integer;
+begin
+  Result := -1;
+  for I := Pred(Length(A)) downto 0 do
+  begin
+    if A[I] = B then
+    begin
+      Result := I;
+      Exit;
+    end;
+  end;
+end;

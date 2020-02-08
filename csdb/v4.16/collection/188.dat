@@ -1,0 +1,4 @@
+﻿function SortIDFromLCID(LCID: Windows.LCID): Word;
+begin
+  Result := Word((Windows.DWORD(LCID) shr 16) and $000F);
+end;

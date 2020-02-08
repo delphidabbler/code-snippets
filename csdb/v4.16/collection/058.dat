@@ -1,0 +1,36 @@
+﻿function DeleteFiles(const Dir, Wildcard: string): Integer;
+var
+  Files: Classes.TStringList; // stores files to be deleted
+  I: Integer;                 // loops thru files in folder
+  AFile: string;              // a file to be deleted
+  Path: string;               // path to directory
+  Attr: Integer;              // attributes of a file
+begin
+  Result := 0;
+  // Create list to stores files to be deleted
+  Files := Classes.TStringList.Create;
+  try
+    // List files per file spec into string list
+    if not ListFiles(Dir, Wildcard, Files) then
+      Exit;
+    // Get path of directory containing files
+    Path := DirToPath(Dir);
+    // Loop through all files
+    for I := 0 to Pred(Files.Count) do
+    begin
+      // Get name and attributes of file to be deleted
+      AFile := Path + Files[I];
+      Attr := SysUtils.FileGetAttr(AFile);
+      // Delete file if it is not a directory
+      if (Attr and SysUtils.faDirectory = 0) then
+      begin
+        if SysUtils.DeleteFile(AFile) then
+          // File deleted: count it
+          Inc(Result);
+      end;
+    end;
+  finally
+    // Tidy up
+    Files.Free;
+  end;
+end;

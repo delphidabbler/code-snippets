@@ -1,0 +1,12 @@
+﻿function FindAssociatedApp(const Doc: string): string;
+var
+  PExecFile: array[0..Windows.MAX_PATH] of Char; // buffer to hold exe name
+begin
+  // Win API call in ShellAPI
+  if ShellAPI.FindExecutable(PChar(Doc), nil, PExecFile) < 32 then
+    // No associated program found
+    Result := ''
+  else
+    // Return program file name
+    Result := PExecFile;
+end;

@@ -1,0 +1,4 @@
+﻿function ColorToRGBTriple(const Color: Graphics.TColor): Windows.TRGBTriple;
+begin
+  ExtractRGB(Color, Result.rgbtRed, Result.rgbtGreen, Result.rgbtBlue);
+end;

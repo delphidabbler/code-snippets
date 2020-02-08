@@ -1,0 +1,16 @@
+﻿function DarkenColor(const AColor: Graphics.TColor; const APercentage: Byte):
+  Graphics.TColor;
+var
+  Red, Green, Blue: Byte; // red, green and blue colour components
+  Factor: Double;         // scaling factor for each colour
+begin
+  // extract component colours, adjusting system colours correctly
+  ExtractRGB(AColor, Red, Green, Blue);
+  // make colours darker by APercentage
+  Factor := (100 - APercentage) / 100;
+  Red := Clamp(Round(Red * Factor), 0, 255);
+  Green := Clamp(Round(Green * Factor), 0, 255);
+  Blue := Clamp(Round(Blue * Factor), 0, 255);
+  // rebuild the darkened colour
+  Result := Windows.RGB(Red, Green, Blue);
+end;

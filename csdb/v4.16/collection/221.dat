@@ -1,0 +1,34 @@
+﻿function GetPNGSize(const FileName: string): Types.TSize;
+type
+  TPNGSig = array[0..7] of Byte;  // png signature byte array
+const
+  // png signature
+  cValidSig: TPNGSig = ($89, $50, $4E, $47, $0D, $0A, $1A, $0A);
+var
+  Sig: TPNGSig;             // png signature read from file
+  FS: Classes.TFileStream;  // stream onto png file
+  X: Integer;               // loops through bytes of signature
+begin
+  Result.cx := 0;
+  Result.cy := 0;
+  if (FileName = '') or not SysUtils.FileExists(FileName) then
+    Exit;
+  FS := Classes.TFileStream.Create(
+    FileName, SysUtils.fmOpenRead or SysUtils.fmShareDenyNone
+  );
+  try
+    // Check signature
+    FillChar(Sig, SizeOf(Sig), #0);
+    FS.Read(Sig[0], SizeOf(Sig));
+    for X := Low(Sig) to High(Sig) do
+      if Sig[X] <> cValidSig[X] then
+        Exit;
+    // Signature valid: get dimensions
+    FS.Seek(18, Classes.soFromBeginning);
+    Result.cx := ReadBigEndianWord(FS);
+    FS.Seek(22, Classes.soFromBeginning);
+    Result.cy := ReadBigEndianWord(FS);
+  finally
+    FS.Free;
+  end;
+end;

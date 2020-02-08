@@ -1,0 +1,14 @@
+﻿function CloneCursorHandleAsBitmap(const Handle: Windows.HCURSOR;
+  const PixelFmt: Graphics.TPixelFormat;
+  const TransparentColor: Graphics.TColor): Graphics.TBitmap;
+var
+  CursorIcon: Graphics.TIcon;
+begin
+  CursorIcon := Graphics.TIcon.Create;
+  try
+    CursorIcon.Handle := Handle;
+    Result := CloneGraphicAsBitmap(CursorIcon, PixelFmt, TransparentColor);
+  finally
+    CursorIcon.Free;
+  end;
+end;

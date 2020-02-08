@@ -1,0 +1,11 @@
+﻿function ComputerName: string;
+var
+  Buf: array[0..Windows.MAX_COMPUTERNAME_LENGTH] of Char; // for computer name
+  BufSize: Windows.DWORD;                                 // size of name buffer
+begin
+  BufSize := SizeOf(Buf);
+  if Windows.GetComputerName(Buf, BufSize) then
+    Result := Buf
+  else
+    Result := '';
+end;

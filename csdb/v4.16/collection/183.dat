@@ -1,0 +1,12 @@
+﻿function CountUnquotedWords(const S: string; const AQuote: Char = '"'): Integer;
+begin
+  with Classes.TStringList.Create do
+  try
+    QuoteChar := AQuote;
+    Delimiter := ' ';
+    DelimitedText := S;
+    Result := Count;
+  finally
+    Free;
+  end;
+end;

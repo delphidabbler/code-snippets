@@ -1,0 +1,19 @@
+﻿function HardDiskSerial(const Drive: string): Windows.DWORD;
+var
+  Unused: Windows.DWORD;        // unused parameters
+  PrevErrorMode: Windows.UINT;  // stores Windows error mode
+begin
+  // Inhibit system dialog appearing on error
+  PrevErrorMode := Windows.SetErrorMode(
+    Windows.SEM_FAILCRITICALERRORS
+  );
+  try
+    Result := 0;
+    Windows.GetVolumeInformation(
+      PChar(Drive), nil, 0, @Result, Unused, Unused, nil, 0
+    );
+  finally
+    // Restore old error mode
+    Windows.SetErrorMode(PrevErrorMode);
+  end;
+end;

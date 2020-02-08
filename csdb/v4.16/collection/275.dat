@@ -1,0 +1,4 @@
+﻿function CloneCursorAsIcon(const Cursor: Controls.TCursor): Graphics.TIcon;
+begin
+  Result := CloneCursorHandleAsIcon(Forms.Screen.Cursors[Cursor]);
+end;

@@ -1,0 +1,12 @@
+﻿function TrimLeftChar(const S: string; const C: Char): string;
+var
+  Idx: Integer; // index into string
+begin
+  Idx := 1;
+  while (Idx <= Length(S)) and (S[Idx] = C) do
+    Inc(Idx);
+  if Idx > 1 then
+    Result := Copy(S, Idx, MaxInt)
+  else
+    Result := S;
+end;

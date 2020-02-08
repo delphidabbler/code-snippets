@@ -1,0 +1,17 @@
+﻿procedure ListDrives(const List: Classes.TStrings);
+var
+  Drives: PChar;    // buffer for list of drives
+  BufSize: Integer; // size of drive buffer
+begin
+  // Get buffer size and allocate it
+  BufSize := Windows.GetLogicalDriveStrings(0, nil);
+  GetMem(Drives, BufSize * SizeOf(Char));
+  try
+    // Get #0 delimited drives list and convert to string list
+    if Windows.GetLogicalDriveStrings(BufSize, Drives) = 0 then
+      SysUtils.RaiseLastOSError;
+    MultiSzToStrings(Drives, List);
+  finally
+    FreeMem(Drives);
+  end;
+end;

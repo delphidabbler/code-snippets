@@ -1,0 +1,43 @@
+﻿function WBInvokeCmd(WB: SHDocVw.TWebbrowser; InvokeIE: Boolean;
+  CmdId, CmdExecOpt: Cardinal; var InArgs, OutArgs: OleVariant): Boolean;
+  overload;
+const
+  // This GUID is used to inform MSHTML to use IE to process command ID.
+  CGID_WebBrowser: TGUID = '{ED016940-BD5B-11cf-BA4E-00C04FD70816}';
+var
+  CmdTarget: ActiveX.IOleCommandTarget;
+  PtrGUID: PGUID;
+begin
+  Result := False;
+  if InvokeIE then
+  begin
+    New(PtrGUID);
+    PtrGUID^ := CGID_WebBrowser;
+  end
+  else
+    PtrGUID := nil;
+  try
+    if WB.Document <> nil then
+    begin
+      try
+        if SysUtils.Supports(
+          WB.Document, ActiveX.IOleCommandTarget, CmdTarget
+        ) then
+        begin
+          try
+            Result := ActiveX.Succeeded(
+              CmdTarget.Exec(PtrGUID, CmdId, CmdExecOpt, InArgs, OutArgs)
+            );
+          finally
+            CmdTarget._Release;
+          end;
+        end;
+      except
+        // Swallow any exception
+      end;
+    end;
+  finally
+    if Assigned(PtrGUID) then
+      Dispose(PtrGUID);
+  end;
+end;

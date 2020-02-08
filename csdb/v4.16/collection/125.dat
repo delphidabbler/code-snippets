@@ -1,0 +1,8 @@
+﻿function NormalizeRect(const R: Windows.TRect): Windows.TRect;
+begin
+  Result := R;
+  if Result.Left > Result.Right then
+    ExchangeInt(Result.Left, Result.Right);
+  if Result.Top > Result.Bottom then
+    ExchangeInt(Result.Top, Result.Bottom);
+end;

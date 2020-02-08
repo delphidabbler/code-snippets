@@ -1,0 +1,6 @@
+﻿function DateYear(const ADate: TDateTime): Word;
+var
+  Month, Day: Word;  // unused dummy values required by DecodeDate
+begin
+  SysUtils.DecodeDate(ADate, Result, Month, Day);
+end;

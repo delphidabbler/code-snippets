@@ -1,0 +1,9 @@
+﻿procedure WBCopy(WB: SHDocVw.TWebbrowser);
+begin
+  WBInvokeCmd(
+    WB,
+    False,
+    SHDocVw.OLECMDID_COPY,
+    SHDocVw.OLECMDEXECOPT_DODEFAULT
+  );
+end;

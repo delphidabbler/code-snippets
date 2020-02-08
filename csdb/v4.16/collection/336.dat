@@ -1,0 +1,10 @@
+﻿function Clamp(const Value, RangeLo, RangeHi: Integer ): Integer;
+begin
+  Assert(RangeLo <= RangeHi);
+  if Value < RangeLo then
+    Result := RangeLo
+  else if Value > RangeHi then
+    Result := RangeHi
+  else
+    Result := Value;
+end;

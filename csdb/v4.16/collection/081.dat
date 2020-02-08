@@ -1,0 +1,12 @@
+﻿function UnicodeFileToWideString(const FileName: string): WideString;
+var
+  FS: Classes.TFileStream;  // Stream onto file
+begin
+  FS := Classes.TFileStream.Create(
+    FileName, SysUtils.fmOpenRead or SysUtils.fmShareDenyNone);
+  try
+    Result := UnicodeStreamToWideString(FS);
+  finally
+    FS.Free;
+  end;
+end;

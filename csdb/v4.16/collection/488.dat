@@ -1,0 +1,5 @@
+﻿function Size(const ACX, ACY: Integer): Types.TSize;
+begin
+  Result.cx := ACX;
+  Result.cy := ACY;
+end;

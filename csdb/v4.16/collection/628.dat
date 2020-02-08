@@ -1,0 +1,8 @@
+﻿function NowGMT: TDateTime;
+var
+  ST: Windows.TSystemTime;  // current system time
+begin
+  // This Windows API function gets system time in UTC/GMT
+  Windows.GetSystemTime(ST);
+  Result := SysUtils.SystemTimeToDateTime(ST);
+end;

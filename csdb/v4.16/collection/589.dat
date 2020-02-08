@@ -1,0 +1,9 @@
+﻿procedure WBRedo(WB: SHDocVw.TWebbrowser);
+begin
+  WBInvokeCmd(
+    WB,
+    False,
+    SHDocVw.OLECMDID_REDO,
+    SHDocVw.OLECMDEXECOPT_DODEFAULT
+  );
+end;

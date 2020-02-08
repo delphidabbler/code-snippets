@@ -1,0 +1,5 @@
+﻿function RectSize(const R: Windows.TRect): Windows.TSize;
+begin
+  Result.cx := RectWidth(R);
+  Result.cy := RectHeight(R);
+end;

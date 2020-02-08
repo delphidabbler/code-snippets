@@ -1,0 +1,23 @@
+﻿function Touch(const FileName: string): Boolean;
+var
+  FileH: Integer; // handle of file
+begin
+  // Assume failure
+  Result := False;
+  // Try to open file: bail out if can't open
+  FileH := SysUtils.FileOpen(
+    FileName, SysUtils.fmOpenWrite or SysUtils.fmShareDenyWrite
+  );
+  if FileH = -1 then
+    Exit;
+  try
+    // Set date to current date and time: return true if succeed
+    if SysUtils.FileSetDate(
+      FileH, SysUtils.DateTimeToFileDate(SysUtils.Now())
+    ) = 0 then
+      Result := True;
+  finally
+    // Close the file
+    SysUtils.FileClose(FileH);
+  end;
+end;

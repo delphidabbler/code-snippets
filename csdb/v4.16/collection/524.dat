@@ -1,0 +1,31 @@
+﻿function IsASCIIStream(const Stm: Classes.TStream; Count: Int64 = 0;
+  BufSize: Integer = 8*1024): Boolean;
+var
+  StmPos: Int64;        // original stream position
+  Buf: array of Byte;   // stream read buffer
+  BytesRead: Integer;   // number of bytes read from stream in each chunk
+  I: Integer;           // loops thru each byte in read buffer
+begin
+  Result := False;
+  StmPos := Stm.Position;
+  try
+    if BufSize < 1024 then
+      BufSize := 1024;
+    SetLength(Buf, BufSize);
+    if (Count = 0) or (Count > Stm.Size) then
+      Count := Stm.Size;
+    while Count > 0 do
+    begin
+      BytesRead := Stm.Read(Pointer(Buf)^, Math.Min(Count, Length(Buf)));
+      if BytesRead = 0 then
+        Exit;
+      Dec(Count, BytesRead);
+      for I := 0 to Pred(BytesRead) do
+        if Buf[I] > $7F then
+          Exit;
+    end;
+    Result := True;
+  finally
+    Stm.Position := StmPos;
+  end;
+end;

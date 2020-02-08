@@ -1,0 +1,36 @@
+﻿function GetRegistryString(const RootKey: Windows.HKEY;
+  const SubKey, Name: string): string;
+var
+  Reg: Registry.TRegistry;          // registry access object
+  ValueInfo: Registry.TRegDataInfo; // info about registry value
+begin
+  Result := '';
+  // Open registry at required root key
+  Reg := Registry.TRegistry.Create;
+  try
+    Reg.RootKey := RootKey;
+    // Open registry key and check value exists
+    if Reg.OpenKeyReadOnly(SubKey)
+      and Reg.ValueExists(Name) then
+    begin
+      // Check if registry value is string or integer
+      Reg.GetDataInfo(Name, ValueInfo);
+      case ValueInfo.RegData of
+        Registry.rdString, Registry.rdExpandString:
+          // string value: just return it
+          Result := Reg.ReadString(Name);
+        Registry.rdInteger:
+          // integer value: convert to string
+          Result := SysUtils.IntToStr(Reg.ReadInteger(Name));
+        else
+          // unsupported value: raise exception
+          raise SysUtils.Exception.Create(
+            'Unsupported registry type'
+          );
+      end;
+    end;
+  finally
+    // Close registry
+    Reg.Free;
+  end;
+end;

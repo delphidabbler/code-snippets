@@ -1,0 +1,64 @@
+﻿function CompareNumberStr(const S1, S2: string): Integer;
+
+  // Gets a chunk of all numeric or all non-numeric text from Source starting at
+  // Pos and stores in Dest. Pos is moved past the end of the chunk.
+  procedure GetChunk(Source: string; var Pos: Integer; out Dest: string);
+  var
+    IsNum: Boolean; // flags if string chunk is numeric
+    DP: Integer;    // cursor into Source string
+  begin
+    if Pos > Length(Source) then
+      Dest := ''
+    else
+    begin
+      IsNum := IsASCIIDigit(Source[Pos]);
+      DP := 0;
+      while (Pos + DP <= Length(Source))
+        and (IsASCIIDigit(Source[Pos + DP]) = IsNum) do
+        Inc(DP);
+      Dest := Copy(Source, Pos, DP);
+      Pos := Pos + DP;
+    end;
+  end;
+
+var
+  Chunk1, Chunk2: string; // chunks of text from S1 and S2 respectively
+  Pos1, Pos2: Integer;    // current position in S1 and S2 respectively
+begin
+  if (S1 = '') or (S2 = '')
+    or (IsASCIIDigit(S1[1]) xor IsASCIIDigit(S2[1])) then
+    // Either S1 or S2 is empty OR one starts with a digit and the other starts
+    // with a non-digit. In either case we just need a normal string compare.
+    Result := SysUtils.CompareStr(S1, S2)
+  else
+  begin
+    // Either both S1 and S2 start with digits OR both start with non-digits.
+    // Therefore the strings may (or do) contain numbers, so we need special
+    // processing.
+    Pos1 := 1;
+    Pos2 := 1;
+    Result := 0;
+    repeat
+      // Get the first digit only or non-digit only chunks of the strings. If
+      // both strings are non empty they will either both be digit strings or
+      // both be non-digit strings
+      GetChunk(S1, Pos1, Chunk1);
+      GetChunk(S2, Pos2, Chunk2);
+      if Chunk1 = '' then
+      begin
+        if Chunk2 <> '' then
+          Result := -1;
+      end
+      else if Chunk2 = '' then
+        Result := 1
+      else if IsASCIIDigit(Chunk1[1]) then
+        // These chunks are both numeric: compare numbers.
+        Result := SysUtils.StrToInt(Chunk1) - SysUtils.StrToInt(Chunk2)
+      else
+        // These chunks are both non-numeric: compare text
+        Result := SysUtils.CompareStr(Chunk1, Chunk2);
+      // If existing chunks compare same, we move on to compare next chunks,
+      // providing we have not run out of text.
+    until (Result <> 0) or ((Chunk1 = '') and (Chunk2 = ''));
+  end;
+end;

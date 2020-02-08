@@ -1,0 +1,11 @@
+﻿function CurrentMemoryUsage: Cardinal;
+var
+  PMC: PsAPI.TProcessMemoryCounters; // receives info about process memory
+begin
+  Result := 0;  // default result on error or if not supported on OS
+  PMC.cb := SizeOf(PMC);
+  if PsAPI.GetProcessMemoryInfo(
+    Windows.GetCurrentProcess, @PMC, SizeOf(PMC)
+  ) then
+    Result := PMC.WorkingSetSize;
+end;

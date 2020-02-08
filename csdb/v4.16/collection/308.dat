@@ -1,0 +1,12 @@
+﻿function ReplaceWordByIndex(const N: Integer; const NewWord: string;
+  var Str: string; const Delims: TCharSet): Boolean;
+var
+  St, En: Integer;  // start and end of word to change
+begin
+  Result := GetStartAndEndWord(N, Str, Delims, St, En);
+  if Result then
+  begin
+    Delete(Str, St, En - St + 1);
+    Insert(NewWord, Str, St);
+  end;
+end;

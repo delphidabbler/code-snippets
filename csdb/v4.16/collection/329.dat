@@ -1,0 +1,4 @@
+﻿function DeleteVolumeName(ADrive: string): Boolean;
+begin
+  Result := Windows.SetVolumeLabel(PChar(ADrive), '');
+end;

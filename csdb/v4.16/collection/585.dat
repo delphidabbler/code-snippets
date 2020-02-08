@@ -1,0 +1,9 @@
+﻿procedure WBDelete(WB: SHDocVw.TWebbrowser);
+begin
+  WBInvokeCmd(
+    WB,
+    False,
+    SHDocVw.OLECMDID_DELETE,
+    SHDocVw.OLECMDEXECOPT_DODEFAULT
+  );
+end;

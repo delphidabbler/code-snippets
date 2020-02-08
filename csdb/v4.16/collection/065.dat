@@ -1,0 +1,4 @@
+﻿function IsWinNT: Boolean;
+begin
+  Result := (SysUtils.Win32Platform = Windows.VER_PLATFORM_WIN32_NT);
+end;

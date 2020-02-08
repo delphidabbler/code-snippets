@@ -1,0 +1,4 @@
+﻿function ColorToHSB(const Color: Graphics.TColor): THSBColor;
+begin
+  Result := RGBToHSB(ColorToRGBTriple(Color));
+end;

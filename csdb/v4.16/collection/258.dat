@@ -1,0 +1,13 @@
+﻿function SizeOfFile(const FileName: string): Windows.DWORD;
+var
+  FH: THandle;  // file handle
+begin
+  FH := SysUtils.FileOpen(
+    FileName, SysUtils.fmOpenRead or SysUtils.fmShareDenyNone
+  );
+  try
+    Result := Windows.GetFileSize(FH, nil);
+  finally
+    SysUtils.FileClose(FH);
+  end;
+end;

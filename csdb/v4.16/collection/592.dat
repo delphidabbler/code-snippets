@@ -1,0 +1,13 @@
+﻿function TerminateProcessByID(ProcessID: Cardinal): Boolean;
+var
+  HProcess : THandle;
+begin
+  Result := False;
+  HProcess := Windows.OpenProcess(Windows.PROCESS_TERMINATE, False, ProcessID);
+  if HProcess > 0 then
+  try
+    Result := SysUtils.Win32Check(Windows.TerminateProcess(HProcess, 0));
+  finally
+    Windows.CloseHandle(HProcess);
+  end;
+end;

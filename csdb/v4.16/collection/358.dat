@@ -1,0 +1,4 @@
+﻿{$IFNDEF UNICODE}
+type
+  RawByteString = AnsiString;
+{$ENDIF}

@@ -1,0 +1,4 @@
+﻿function ProgramFileName: string;
+begin
+  Result := SysUtils.ExtractFileName(ProgramFileSpec)
+end;

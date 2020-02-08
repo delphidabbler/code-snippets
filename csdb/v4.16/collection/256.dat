@@ -1,0 +1,4 @@
+﻿function CheckBDEInstalled: Boolean;
+begin
+  Result := (BDE.dbiInit(nil) = BDE.DBIERR_NONE);
+end;

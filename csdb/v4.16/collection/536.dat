@@ -1,0 +1,24 @@
+﻿function StripWhiteSpace(const S: string): string;
+var
+  Idx: Integer;       // loops thru all characters in string
+  ResCount: Integer;  // counts number of characters in result string
+  PRes: PChar;        // pointer to characters in result string
+begin
+  SetLength(Result, Length(S));
+  PRes := PChar(Result);
+  ResCount := 0;
+  Idx := 1;
+  while Idx <= Length(S) do
+  begin
+    if (SysUtils.ByteType(S, Idx) <> mbSingleByte)
+      or not IsWhiteSpace(S[Idx]) then
+    begin
+      PRes^ := S[Idx];
+      Inc(ResCount);
+      Inc(PRes);
+    end;
+    Inc(Idx);
+  end;
+  if ResCount < Length(S) then
+    SetLength(Result, ResCount);
+end;

@@ -1,0 +1,9 @@
+﻿procedure WBClearSelection(WB: SHDocVw.TWebBrowser);
+begin
+  WBInvokeCmd(
+    WB,
+    False,
+    SHDocVw.OLECMDID_CLEARSELECTION,
+    SHDocVw.OLECMDEXECOPT_DODEFAULT
+  );
+end;

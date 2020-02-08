@@ -1,0 +1,10 @@
+﻿function ForceFileExt(const FileName, Ext: string): string;
+begin
+  Result := RemoveFileExt(FileName);
+  if Ext = '' then
+    Exit;
+  if Ext[1] = '.' then
+    Result := Result + Ext
+  else
+    Result := Result + '.' + Ext;
+end;

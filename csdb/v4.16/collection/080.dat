@@ -1,0 +1,13 @@
+﻿procedure StringToStream(const Str: string; const Stm: Classes.TStream);
+var
+  SS: Classes.TStringStream;  // used to copy string to stream
+begin
+  // This TStreamStream constructor uses default ANSI encoding in Unicode
+  // versions of Delphi.
+  SS := Classes.TStringStream.Create(Str);
+  try
+    Stm.CopyFrom(SS, Length(Str));
+  finally
+    SS.Free;
+  end;
+end;

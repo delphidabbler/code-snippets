@@ -1,0 +1,4 @@
+﻿function Percentage(A, B: Integer): Integer;
+begin
+  Result := Round((A / B) * 100);
+end;

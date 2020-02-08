@@ -1,0 +1,15 @@
+﻿procedure CursorHandleToBitmap(const Handle: Windows.HCURSOR;
+  const Bmp: Graphics.TBitmap; const TransparentColor: Graphics.TColor);
+var
+  CursorIcon: Graphics.TIcon; // icon used to render cursor
+begin
+  // Render cursor in icon
+  CursorIcon := Graphics.TIcon.Create;
+  try
+    CursorIcon.Handle := Handle;
+    // Draw icon on bitmap
+    GraphicToBitmap(CursorIcon, Bmp, TransparentColor);
+  finally
+    CursorIcon.Free;
+  end;
+end;

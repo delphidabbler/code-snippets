@@ -1,0 +1,4 @@
+﻿function LastChar(const S: string): Char;
+begin
+  Result := S[Length(S)];
+end;

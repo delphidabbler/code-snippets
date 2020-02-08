@@ -1,0 +1,5 @@
+﻿function CloneCursorHandleAsIcon(const Handle: Windows.HCURSOR): Graphics.TIcon;
+begin
+  Result := Graphics.TIcon.Create;
+  Result.Handle := Handle;
+end;

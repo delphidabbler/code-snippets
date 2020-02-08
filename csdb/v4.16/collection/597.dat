@@ -1,0 +1,21 @@
+﻿function GetEnvironmentBlockSize: Cardinal;
+var
+  PEnvVars: PChar;    // pointer to start of environment block
+  PEnvEntry: PChar;   // pointer to an environment string in block
+begin
+  // Get reference to environment block for this process
+  PEnvVars := Windows.GetEnvironmentStrings;
+  if PEnvVars <> nil then
+  begin
+    PEnvEntry := PEnvVars;
+    try
+      while PEnvEntry^ <> #0 do
+        Inc(PEnvEntry, SysUtils.StrLen(PEnvEntry) + 1);
+      Result := (PEnvEntry - PEnvVars) + 1;
+    finally
+      Windows.FreeEnvironmentStrings(PEnvVars);
+    end;
+  end
+  else
+    Result := 0;
+end;

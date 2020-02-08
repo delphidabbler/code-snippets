@@ -1,0 +1,4 @@
+﻿function IsValidDrive(const Drive: string): Boolean;
+begin
+  Result := DriveTypeFromPath(Drive) <> 1;
+end;

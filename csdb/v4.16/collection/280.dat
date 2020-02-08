@@ -1,0 +1,20 @@
+﻿procedure JPEGFileToBitmapFile(const JPEGFile: string; BitmapFile: string = '');
+var
+  Bmp: Graphics.TBitmap; // bitmap file in memory
+  Jpg: JPEG.TJPEGImage;  // jpeg file in memory
+begin
+  if (BitmapFile = '') or
+    (SysUtils.AnsiCompareText(BitmapFile, JPEGFile) = 0) then
+    BitmapFile := SysUtils.ChangeFileExt(JPEGFile, '.bmp');
+  Bmp := nil;
+  Jpg := JPEG.TJPEGImage.Create;
+  try
+    Bmp := Graphics.TBitmap.Create;
+    Jpg.LoadFromFile(JPEGFile);
+    Bmp.Assign(Jpg);
+    Bmp.SaveToFile(BitmapFile);
+  finally
+    Bmp.Free;
+    Jpg.Free;
+  end;
+end;

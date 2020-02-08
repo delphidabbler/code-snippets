@@ -1,0 +1,18 @@
+﻿function IntToBinary(Value: Int64; const Digits: Byte): string; overload;
+const
+  BitsPerInt32 = 8 * SizeOf(Integer);
+var
+  HiDigits: Byte;
+begin
+  if SysUtils.Int64Rec(Value).Hi = 0 then
+    Result := IntToBinary(Integer(SysUtils.Int64Rec(Value).Lo), Digits)
+  else
+  begin
+    if Digits > BitsPerInt32 then
+      HiDigits := Digits - BitsPerInt32
+    else
+      HiDigits := 0;
+    Result := IntToBinary(Integer(SysUtils.Int64Rec(Value).Hi), HiDigits)
+      + IntToBinary(Integer(SysUtils.Int64Rec(Value).Lo), BitsPerInt32);
+  end;
+end;

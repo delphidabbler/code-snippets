@@ -1,0 +1,29 @@
+﻿function FloatToNumberText(const ANumber: Double; APrecision: Integer): string;
+{$IFDEF FPC}
+const
+{$ELSE}
+resourcestring
+{$ENDIF}
+  sPoint = 'point';   // name of decimal point
+const
+  // map of number names
+  cNumStrings: array[0..9] of string = (
+    'zero', 'one', 'two', 'three', 'four',
+    'five', 'six', 'seven', 'eight', 'nine'
+  );
+var
+  IntValue: Integer;  // integer component of ANumber
+  FracStr: string;    // fractional part of ANumber as string
+  Idx: Integer;       // loops through characters of FracStr
+begin
+  IntValue := Trunc(ANumber);
+  Result := IntToNumberText(IntValue);
+  if APrecision > 0 then
+  begin
+    FracStr := SysUtils.Format('%.*f', [APrecision, Abs(Frac(ANumber))]);
+    Delete(FracStr, 1, Pos(SysUtils.DecimalSeparator, FracStr));
+    Result := Result + ' ' + sPoint;
+    for Idx := 1 to Length(FracStr) do
+      Result := Result + ' ' + cNumStrings[Ord(FracStr[Idx]) - Ord('0')];
+  end;
+end;

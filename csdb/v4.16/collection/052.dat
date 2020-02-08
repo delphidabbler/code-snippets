@@ -1,0 +1,9 @@
+﻿procedure FreePIDL(PIDL: ShlObj.PItemIDList);
+var
+  Malloc: ActiveX.IMalloc;  // shell's allocator
+begin
+  // Try to get shell allocator
+  if Windows.Succeeded(ShlObj.SHGetMalloc(Malloc)) then
+    // Use allocator to free PIDL: Malloc is freed by Delphi
+    Malloc.Free(PIDL);
+end;

@@ -1,0 +1,16 @@
+﻿function FileHasWatermark(const FileName: string;
+  const Watermark: array of Byte; const Offset: Integer = 0): Boolean;
+  overload;
+var
+  FS: Classes.TFileStream;
+begin
+  FS := Classes.TFileStream.Create(
+    FileName, SysUtils.fmOpenRead or SysUtils.fmShareDenyNone
+  );
+  try
+    FS.Position := Offset;
+    Result := StreamHasWatermark(FS, Watermark);
+  finally
+    FS.Free;
+  end;
+end;

@@ -1,0 +1,4 @@
+﻿function DayOfYear(const DT: TDateTime): Integer;
+begin
+  Result := Trunc(DT - DateYearStart(DT)) + 1;
+end;

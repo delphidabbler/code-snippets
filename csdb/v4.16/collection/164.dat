@@ -1,0 +1,16 @@
+﻿function GetDriveNumber(const Drive: string): Integer;
+var
+  DriveLetter: Char;  // drive letter
+begin
+  Result := -1;
+  if Drive <> '' then
+  begin
+    DriveLetter := UpCase(Drive[1]);
+    {$IFDEF UNICODE}
+    if SysUtils.CharInSet(DriveLetter, ['A'..'Z']) then
+    {$ELSE}
+    if DriveLetter in ['A'..'Z'] then
+    {$ENDIF}
+      Result := Ord(DriveLetter) - Ord('A');
+  end;
+end;

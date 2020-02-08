@@ -1,0 +1,6 @@
+﻿procedure GreyScale(const SrcBmp, DestBmp: Graphics.TBitmap;
+  const Method: TGreyScaleMethod); overload;
+begin
+  DestBmp.Assign(SrcBmp);
+  GreyScale(DestBmp, Method);
+end;

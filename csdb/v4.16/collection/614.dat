@@ -1,0 +1,55 @@
+﻿function DOSCommandRedirect(const CommandLine: string;
+  const OutStream: Classes.TStream): Boolean; overload;
+var
+  SA: Windows.TSecurityAttributes;
+  SI: Windows.TStartupInfo;
+  PI: Windows.TProcessInformation;
+  ComSpec: array[0..Pred(Windows.MAX_PATH)] of Char;
+  FullCommandLine: string;
+  StdOutPipeRead, StdOutPipeWrite: THandle;
+  WasOK: Boolean;
+  Buffer: array[0..8*1024-1] of Char;
+  BytesRead: Cardinal;
+begin
+  Windows.GetEnvironmentVariable('COMSPEC', ComSpec, SizeOf(ComSpec));
+  FullCommandLine := ComSpec + ' /C ' + CommandLine;
+  with SA do
+  begin
+    nLength := SizeOf(SA);
+    bInheritHandle := True;
+    lpSecurityDescriptor := nil;
+  end;
+  Windows.CreatePipe(StdOutPipeRead, StdOutPipeWrite, @SA, 0);
+  try
+    with SI do
+    begin
+      FillChar(SI, SizeOf(SI), 0);
+      cb := SizeOf(SI);
+      dwFlags := Windows.STARTF_USESHOWWINDOW or Windows.STARTF_USESTDHANDLES;
+      wShowWindow := Windows.SW_HIDE;
+      // don't redirect stdin
+      hStdInput := Windows.GetStdHandle(Windows.STD_INPUT_HANDLE);
+      hStdOutput := StdOutPipeWrite;
+      hStdError := StdOutPipeWrite;
+    end;
+    Result := Windows.CreateProcess(
+      nil, PChar(FullCommandLine), nil, nil, True, 0, nil, nil, SI, PI
+    );
+    Windows.CloseHandle(StdOutPipeWrite);
+    if Result then
+    try
+      repeat
+        WasOK := Windows.ReadFile(
+          StdOutPipeRead, Buffer, SizeOf(Buffer), BytesRead, nil
+        );
+        if BytesRead > 0 then
+          OutStream.Write(Buffer[0], BytesRead);
+      until not WasOK or (BytesRead = 0);
+    finally
+      Windows.CloseHandle(PI.hThread);
+      Windows.CloseHandle(PI.hProcess);
+    end;
+  finally
+    Windows.CloseHandle(StdOutPipeRead);
+  end;
+end;

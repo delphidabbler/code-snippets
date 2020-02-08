@@ -1,0 +1,5 @@
+﻿function ResizeRect(const R: Types.TRect; const NewWidth, NewHeight: LongInt):
+  Types.TRect; overload;
+begin
+  Result := Types.Bounds(R.Left, R.Top, NewWidth, NewHeight);
+end;

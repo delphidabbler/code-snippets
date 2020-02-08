@@ -1,0 +1,29 @@
+﻿procedure RefreshEnvironment(const Timeout: Cardinal = 5000);
+var
+  {$IFDEF CONDITIONALEXPRESSIONS}
+  {$IF CompilerVersion >= 23.0} // Delphi XE2
+  MessageRes: Windows.DWORD_PTR;
+  {$ELSE}
+  MessageRes: Windows.DWORD;
+  {$IFEND}
+  {$ELSE}
+  MessageRes: Windows.DWORD;
+  {$ENDIF}
+begin
+  Windows.SendMessageTimeout(
+    Windows.HWND_BROADCAST,
+    Messages.WM_SETTINGCHANGE,
+    0,
+    LPARAM(PChar('Environment')),
+    Windows.SMTO_ABORTIFHUNG, Timeout,
+    {$IFDEF CONDITIONALEXPRESSIONS}
+    {$IF CompilerVersion >= 23.0} // Delphi XE2
+    @MessageRes
+    {$ELSE}
+    MessageRes
+    {$IFEND}
+    {$ELSE}
+    MessageRes
+    {$ENDIF}
+  );
+end;

@@ -1,0 +1,7 @@
+﻿function CurentDrive: Char;
+var
+  Dir: string; // current drive as string
+begin
+  GetDir(0, Dir);
+  Result := Dir[1];
+end;

@@ -1,0 +1,10 @@
+﻿function FloatToFixed(const Value: Extended; const DecimalPlaces: Byte;
+  const SeparateThousands: Boolean): string;
+const
+  // float format specifiers
+  cFmtSpec: array[Boolean] of Char = ('f', 'n');
+begin
+  Result := SysUtils.Format(
+    '%.*' + cFmtSpec[SeparateThousands], [DecimalPlaces, Value]
+  );
+end;

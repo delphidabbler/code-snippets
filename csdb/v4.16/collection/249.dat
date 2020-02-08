@@ -1,0 +1,7 @@
+﻿function QuoteSpacedString(const S: string; const Quote: Char): string;
+begin
+  if ContainsWhiteSpace(S) then
+    Result := Quote + S + Quote
+  else
+    Result := S;
+end;

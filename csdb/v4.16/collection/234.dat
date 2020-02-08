@@ -1,0 +1,4 @@
+﻿function LongMonthName(const ADateTime: TDateTime): string;
+begin
+  Result := SysUtils.LongMonthNames[DateMonth(ADateTime)]
+end;

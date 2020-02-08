@@ -1,0 +1,6 @@
+﻿function IsMediaCenterOS: Boolean;
+const
+  SM_MEDIACENTER = 87; // metrics flag not defined in Windows unit
+begin
+  Result := Windows.GetSystemMetrics(SM_MEDIACENTER) <> 0;
+end;

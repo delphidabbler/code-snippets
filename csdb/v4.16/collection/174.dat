@@ -1,0 +1,35 @@
+﻿function MaxWidthOfStrings(const Strings: Classes.TStrings;
+  const Font: Graphics.TFont): Integer;
+var
+  TextW: Integer;           // stores width of each string in list
+  Idx: Integer;             // loops thru all string in list
+  Canvas: Graphics.TCanvas; // canvas used to measure text
+begin
+  Assert(Assigned(Font));
+  Assert(Assigned(Strings));
+  // Intialise
+  Result := 0;
+  if Strings.Count = 0 then
+    Exit;
+  // Create canvas used to measure text
+  Canvas := Graphics.TCanvas.Create;
+  try
+    Canvas.Handle := CreateDisplayDC;
+    try
+      Canvas.Font := Font;
+      // Measure each string's width and record widest in pixels
+      for Idx := 0 to Strings.Count - 1 do
+      begin
+        TextW := Canvas.TextWidth(Strings[Idx]);
+        if TextW > Result then
+          Result := TextW;
+      end;
+    finally
+      // Tidy up
+      Windows.DeleteDC(Canvas.Handle);
+      Canvas.Handle := 0;
+    end;
+  finally
+    Canvas.Free;
+  end;
+end;

@@ -1,0 +1,11 @@
+﻿function HexToBytes(HexStr: string): TBytes;
+{$IFDEF FPC}
+const
+{$ELSE}
+resourcestring
+{$ENDIF}
+  sHexConvertError = '''%s'' is not a valid hexadecimal string';
+begin
+  if not TryHexToBytes(HexStr, Result) then
+    raise SysUtils.EConvertError.CreateFmt(sHexConvertError, [HexStr]);
+end;

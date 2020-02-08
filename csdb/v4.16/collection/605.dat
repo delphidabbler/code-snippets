@@ -1,0 +1,9 @@
+﻿procedure WBShowPropertiesDlg(WB: SHDocVw.TWebbrowser);
+begin
+  WBInvokeCmd(
+    WB,
+    False,
+    SHDocVw.OLECMDID_PROPERTIES,
+    SHDocVw.OLECMDEXECOPT_DODEFAULT
+  );
+end;

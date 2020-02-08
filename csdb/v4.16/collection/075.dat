@@ -1,0 +1,13 @@
+﻿function FileToString(const FileName: string): string;
+var
+  FS: Classes.TFileStream;  // stream used to read file
+begin
+  FS := Classes.TFileStream.Create(
+    FileName, SysUtils.fmOpenRead or SysUtils.fmShareDenyNone
+  );
+  try
+    Result := StreamToString(FS);  // uses default ANSI encoding
+  finally
+    FS.Free;
+  end;
+end;

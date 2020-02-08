@@ -1,0 +1,39 @@
+﻿function DOSCommand(const CommandLine: string; const CmdShow: Integer;
+  const WaitUntilComplete: Boolean; const WorkingDir: string = ''): Boolean;
+var
+ ComSpec: array[0..Pred(Windows.MAX_PATH)] of Char;
+ FullCommandLine: string;
+ PWorkingDir: PChar;
+ SI: Windows.TStartupInfo;
+ PI: Windows.TProcessInformation;
+begin
+  FillChar(SI, SizeOf(SI), #0);
+  SI.cb := SizeOf(SI);
+  SI.dwFlags := Windows.STARTF_USESHOWWINDOW; // needed to use wShowWindow
+  SI.wShowWindow := CmdShow;
+  Windows.GetEnvironmentVariable('COMSPEC', ComSpec, SizeOf(ComSpec));
+  FullCommandLine := ComSpec + ' /C ' + CommandLine;
+  if WorkingDir <> '' then
+    PWorkingDir := PChar(WorkingDir)
+  else
+    PWorkingDir := nil;
+  Result := Windows.CreateProcess(
+    nil,
+    PChar(FullCommandLine),
+    nil,
+    nil,
+    False,
+    Windows.NORMAL_PRIORITY_CLASS,
+    nil,
+    PWorkingDir,
+    SI,
+    PI
+  );
+  if Result then
+  begin
+    if WaitUntilComplete then
+      Windows.WaitforSingleObject(PI.hProcess, Windows.INFINITE);
+    Windows.CloseHandle(PI.hProcess);
+    Windows.CloseHandle(PI.hThread );
+  end;
+end;

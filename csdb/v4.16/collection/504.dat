@@ -1,0 +1,17 @@
+﻿function ExtractURIQueryString(const URI: string): string;
+var
+  QueryStart: Integer;
+  QueryEnd: Integer;
+begin
+  Result := '';
+  QueryStart := SysUtils.AnsiPos('?', URI);
+  if QueryStart = 0 then
+    Exit;
+  Inc(QueryStart);
+  QueryEnd := SysUtils.AnsiPos('#', URI);
+  if QueryEnd < QueryStart then
+    QueryEnd := Length(URI)
+  else
+    Dec(QueryEnd);
+  Result := Copy(URI, QueryStart, QueryEnd - QueryStart + 1);
+end;

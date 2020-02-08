@@ -1,0 +1,24 @@
+﻿function TryHexToBuf(HexStr: string; var Buf): Boolean;
+var
+  I: Integer;       // loops through characters of string
+  PB: ^Byte;        // references each byte in buffer
+  ByteVal: Integer; // a byte value from hex string
+begin
+  Result := False;
+  HexStr := StripHexPrefix(HexStr);
+  if HexStr = '' then
+    Exit;
+  if Odd(Length(HexStr)) then
+    HexStr := '0' + HexStr;
+  I := 1;
+  PB := @Buf;
+  while I <= Length(HexStr) do
+  begin
+    if not TryHexToInt(HexStr[I] + HexStr[I + 1], ByteVal) then
+      Exit;
+    PB^ := Byte(ByteVal);
+    Inc(I, 2);
+    Inc(PB);
+  end;
+  Result := True;
+end;

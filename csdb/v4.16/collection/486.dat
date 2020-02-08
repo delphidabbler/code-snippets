@@ -1,0 +1,7 @@
+﻿function ShiftByteArray(var A: TBytes): Byte;
+begin
+  Assert(Length(A) > 0, 'A must be a non-empty array');
+  Result := A[0];
+  Move(A[1], A[0], Length(A) - 1);
+  SetLength(A, Length(A) - 1);
+end;

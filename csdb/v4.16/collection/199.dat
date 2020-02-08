@@ -1,0 +1,5 @@
+﻿function ResourceExistsEx(const Module: Windows.HMODULE;
+  const ResType, ResName: PChar; const Language: Word): Boolean;
+begin
+  Result := Windows.FindResourceEx(Module, ResName, ResType, Language) <> 0;
+end;

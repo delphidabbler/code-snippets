@@ -1,0 +1,8 @@
+﻿function SQLDateToDateTime(const SQLDate: string): TDateTime;
+begin
+  Result := SysUtils.EncodeDate(
+    SysUtils.StrToInt(Copy(SQLDate, 1, 4)),
+    SysUtils.StrToInt(Copy(SQLDate, 6, 2)),
+    SysUtils.StrToInt(Copy(SQLDate, 9, 2))
+  );
+end;

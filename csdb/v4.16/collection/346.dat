@@ -1,0 +1,12 @@
+﻿procedure SetVistaContentFont(const AFont: Graphics.TFont);
+const
+  VistaContentFont = 'Calibri'; // name of Vista content font
+begin
+  if (SysUtils.Win32MajorVersion >= 6)
+    and not SysUtils.SameText(AFont.Name, VistaContentFont)
+    and FontExists(VistaContentFont) then
+  begin
+    AFont.Size := AFont.Size + 2;
+    AFont.Name := VistaContentFont;
+  end;
+end;

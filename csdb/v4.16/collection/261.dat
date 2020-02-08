@@ -1,0 +1,24 @@
+﻿function IsReservedDeviceName(DevName: string): Boolean;
+const
+  // List of reserved device names
+  cReservedNames: array[1..22] of string = (
+    'CON', 'PRN', 'AUX', 'NUL',
+    'COM1', 'COM2', 'COM3', 'COM4', 'COM5', 'COM6', 'COM7', 'COM8', 'COM9',
+    'LPT1', 'LPT2', 'LPT3', 'LPT4', 'LPT5', 'LPT6', 'LPT7', 'LPT8', 'LPT9'
+  );
+var
+  I: Integer; // loops thru all reserved device names
+begin
+  // Get base file name, excluding path
+  DevName := SysUtils.AnsiUpperCase(
+   SysUtils.ExtractFileName(DevName)
+  );
+  Result := False;
+  // Check if name is reserved
+  for I := Low(cReservedNames) to High(cReservedNames) do
+    if cReservedNames[I] = DevName then
+    begin
+      Result := True;
+      Break;
+    end;
+end;

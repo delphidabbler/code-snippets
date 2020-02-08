@@ -1,0 +1,17 @@
+﻿function ByteArraysEqual(const B1, B2: array of Byte): Boolean;
+var
+  I: Integer;
+begin
+  Result := Length(B1) = Length(B2);
+  if Result then
+  begin
+    for I := 0 to High(B1) do
+    begin
+      if B1[I] <> B2[I] then
+      begin
+        Result := False;
+        Exit;
+      end;
+    end;
+  end;
+end;

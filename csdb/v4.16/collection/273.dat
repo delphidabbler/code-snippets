@@ -1,0 +1,41 @@
+﻿function CompilerVer: Double;
+begin
+  {$UNDEF HAVE_RESULT}
+  {$IFNDEF FPC}         // Delphi
+    {$IFDEF VER90}
+      {$DEFINE HAVE_RESULT}
+      Result := 9.0;    // Delphi 2
+    {$ENDIF}
+    {$IFDEF VER100}
+      {$DEFINE HAVE_RESULT}
+      Result := 10.0;   // Delphi 3
+    {$ENDIF}
+    {$IFDEF VER120}
+      {$DEFINE HAVE_RESULT}
+      Result := 12.0;   // Delphi 4
+    {$ENDIF}
+    {$IFDEF VER130}
+      {$DEFINE HAVE_RESULT}
+      Result := 13.0;   // Delphi 5
+    {$ENDIF}
+    {$IFDEF CONDITIONALEXPRESSIONS}
+      {$IF Declared(CompilerVersion)}
+        {$DEFINE HAVE_RESULT}
+        Result := CompilerVersion;  // Delphi 6 and later
+      {$IFEND}
+    {$ENDIF}
+  {$ELSE}               // Free Pascal
+    {$IFDEF VER1}
+      {$DEFINE HAVE_RESULT}
+      Result := 1.0;   // FPC v1.x
+    {$ENDIF}
+    {$IFDEF VER2}
+      {$DEFINE HAVE_RESULT}
+      Result := 2.0;   // FPC v2.x
+    {$ENDIF}
+  {$ENDIF}
+  {$IFNDEF HAVE_RESULT}
+    Result := 0.0;
+  {$ENDIF}
+  {$UNDEF HAVE_RESULT}
+end;

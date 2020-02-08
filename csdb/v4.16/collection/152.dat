@@ -1,0 +1,9 @@
+﻿function TryStrToLongWord(const S: string; out LW: LongWord): Boolean;
+var
+  Value: Int64; // receives 64 bit value of conversion
+begin
+  Result := SysUtils.TryStrToInt64(S, Value)
+    and (SysUtils.Int64Rec(Value).Hi = 0);
+  if Result then
+    LW := SysUtils.Int64Rec(Value).Lo;
+end;

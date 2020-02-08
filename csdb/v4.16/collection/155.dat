@@ -1,0 +1,6 @@
+﻿function DateTimeToUnixDate(const ADate: TDateTime): Longint;
+const
+  cUnixStartDate: TDateTime = 25569.0; // 1970/01/01
+begin
+  Result := Round((ADate - cUnixStartDate) * 86400);
+end;

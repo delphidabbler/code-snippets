@@ -1,0 +1,22 @@
+﻿function IntToRoman(AValue: Word): string;
+const
+  Values: array[1..13] of Word = (
+    1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000
+  );
+  RomanNumerals: array[Low(Values)..High(Values)] of string = (
+    'I', 'IV', 'V', 'IX', 'X', 'XL', 'L', 'XC', 'C', 'CD', 'D', 'CM', 'M'
+  );
+var
+  Idx: Low(Values)..High(Values);
+begin
+  Assert(AValue > 0);
+  Result := '';
+  Idx := High(Values);
+  while AValue > 0 do
+  begin
+    while Values[Idx] > AValue do
+      Dec(Idx);
+    Dec(AValue, Values[Idx]);
+    Result := Result + RomanNumerals[Idx];
+  end;
+end;

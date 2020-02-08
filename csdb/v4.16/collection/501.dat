@@ -1,0 +1,8 @@
+﻿function GetDesktopFolder: string;
+resourcestring
+  sErrorMsg = 'Could not find Desktop folder location.';
+begin
+  if not IsSpecialFolderSupported(ShlObj.CSIDL_DESKTOP) then
+    raise SysUtils.Exception.Create(sErrorMsg);
+  Result := SpecialFolderPath(ShlObj.CSIDL_DESKTOP)
+end;

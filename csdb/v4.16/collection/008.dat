@@ -1,0 +1,4 @@
+﻿function DOSToUnixPath(const PathName: string): string;
+begin
+  Result := SysUtils.StringReplace(PathName, '\', '/', [SysUtils.rfReplaceAll]);
+end;

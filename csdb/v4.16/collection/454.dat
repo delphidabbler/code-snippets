@@ -1,0 +1,6 @@
+﻿function IsValidDouble(const S: string): Boolean;
+var
+  Dummy: Double;
+begin
+  Result := SysUtils.TryStrToFloat(S, Dummy);
+end;

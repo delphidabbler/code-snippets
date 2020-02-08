@@ -1,0 +1,11 @@
+﻿function UnixLineBreaks(const S: string): string;
+begin
+  // Replace any CRLF (MSDOS/Windows) line ends with LF
+  Result := SysUtils.StringReplace(
+    S, #13#10, #10, [SysUtils.rfReplaceAll]
+  );
+  // Replace any remaining CR (Mac) line ends with LF
+  Result := SysUtils.StringReplace(
+    Result, #13, #10, [SysUtils.rfReplaceAll]
+  );
+end;

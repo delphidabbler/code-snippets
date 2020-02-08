@@ -1,0 +1,6 @@
+﻿procedure UnShiftByteArray(const B: Byte; var A: TBytes);
+begin
+  SetLength(A, Length(A) + 1);
+  Move(A[0], A[1], Length(A) - 1);
+  A[0] := B;
+end;

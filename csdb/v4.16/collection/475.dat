@@ -1,0 +1,38 @@
+﻿procedure MinMidMax(const A, B, C: Integer; out Min, Mid, Max: Integer);
+  overload;
+var
+  Temp: Integer;
+begin
+  if A > B then
+  begin
+    Max := A;
+    Min := B;
+  end
+  else
+  begin
+    Max := B;
+    Min := A;
+  end;
+  if C > Max then
+  begin
+    Mid := Max;
+    Max := C;
+    if Mid < Min then
+    begin
+      Temp := Mid;
+      Mid := Min;
+      Min := Temp;
+    end;
+  end
+  else
+  begin
+    Mid := Min;
+    Min := C;
+    if Mid < Min then
+    begin
+      Temp := Mid;
+      Mid := Min;
+      Min := Temp;
+    end;
+  end;
+end;

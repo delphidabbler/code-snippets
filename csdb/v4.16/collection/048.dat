@@ -1,0 +1,20 @@
+﻿function IsURLShortcut(const ShortcutFile: string): Boolean;
+var
+  Ini: IniFiles.TIniFile; // used to read ini files
+begin
+  // File must exist
+  if SysUtils.FileExists(ShortcutFile) then
+  begin
+    // Open ini file and check value exists
+    Ini := IniFiles.TIniFile.Create(ShortcutFile);
+    try
+      Result := Ini.SectionExists('InternetShortcut')
+        and Ini.ValueExists('InternetShortcut', 'URL')
+        and (Ini.ReadString('InternetShortcut', 'URL', '') <> '');
+    finally
+      Ini.Free;
+    end;
+  end
+  else
+    Result := False;
+end;

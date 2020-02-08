@@ -1,0 +1,8 @@
+﻿function StringListToArray(const SL: Classes.TStrings): Types.TStringDynArray;
+var
+  Idx: Integer; // loops thru each string in SL
+begin
+  SetLength(Result, SL.Count);
+  for Idx := 0 to Pred(SL.Count) do
+    Result[Idx] := SL[Idx];
+end;

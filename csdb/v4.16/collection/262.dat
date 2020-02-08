@@ -1,0 +1,6 @@
+﻿function ClientRectToScreen(const Ctrl: Controls.TControl;
+  const CliRect: Windows.TRect): Windows.TRect;
+begin
+  Result.TopLeft := Ctrl.ClientToScreen(CliRect.TopLeft);
+  Result.BottomRight := Ctrl.ClientToScreen(CliRect.BottomRight);
+end;

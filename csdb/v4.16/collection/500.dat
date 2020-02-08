@@ -1,0 +1,7 @@
+﻿function GetWindowTitle(Wnd: Windows.HWND): string;
+var
+  Title: array[0..255] of Char;
+begin
+  Windows.GetWindowText(Wnd, Title, Length(Title));
+  Result := Title;
+end;

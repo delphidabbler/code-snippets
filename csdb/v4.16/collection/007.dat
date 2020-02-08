@@ -1,0 +1,7 @@
+﻿function IsDirectory(const DirName: string): Boolean;
+var
+  Attr: Integer;  // directory's file attributes
+begin
+  Attr := SysUtils.FileGetAttr(DirName);
+  Result := (Attr <> -1) and IsFlagSet(Attr, SysUtils.faDirectory);
+end;

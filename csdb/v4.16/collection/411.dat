@@ -1,0 +1,4 @@
+﻿function SplitPathList(const PathList: string): Types.TStringDynArray; overload;
+begin
+  Result := ExplodeStrArray(PathList, ';', False, True);
+end;

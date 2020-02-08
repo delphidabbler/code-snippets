@@ -1,0 +1,11 @@
+﻿function OpenFolder(const Folder: string): Boolean;
+begin
+  if SysUtils.FileGetAttr(Folder) and faDirectory = faDirectory then
+    // Folder is valid directory: try to open it
+    Result := ShellAPI.ShellExecute(
+      0, 'open', PChar(Folder), nil, nil, Windows.SW_SHOWNORMAL
+    ) > 32
+  else
+    // Folder is not a directory: error
+    Result := False;
+end;

@@ -1,0 +1,19 @@
+﻿function IsValidURLProtocol(const URL: string): Boolean;
+const
+  Protocols: array[1..10] of string = (
+    // Array of valid protocols - per RFC 1738
+    'ftp://', 'http://', 'gopher://', 'mailto:', 'news:', 'nntp://',
+    'telnet://', 'wais://', 'file://', 'prospero://'
+  );
+var
+  I: Integer;   // loops thru known protocols
+begin
+  // Scan array of protocols checking for a match with start of given URL
+  Result := False;
+  for I := Low(Protocols) to High(Protocols) do
+    if Pos(Protocols[I], SysUtils.LowerCase(URL)) = 1 then
+    begin
+      Result := True;
+      Exit;
+    end;
+end;

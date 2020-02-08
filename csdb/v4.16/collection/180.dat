@@ -1,0 +1,4 @@
+﻿function ExplodeWords(const S: string; const Words: Classes.TStrings): Integer;
+begin
+  Result := ExplodeStr(CompressWhiteSpace(S), ' ', Words, False, True);
+end;

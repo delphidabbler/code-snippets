@@ -1,0 +1,5 @@
+﻿function Int64ToFixed(const Value: Int64;
+  const SeparateThousands: Boolean): string;
+begin
+  Result := FloatToFixed(Value, 0, SeparateThousands);
+end;

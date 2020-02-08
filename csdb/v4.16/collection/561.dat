@@ -1,0 +1,8 @@
+﻿function Pow(const Base: Int64; const Exponent: Byte): Int64;
+var
+  I: Byte;
+begin
+  Result := 1;
+  for I := 1 to Exponent do
+    Result := Result * Base;
+end;

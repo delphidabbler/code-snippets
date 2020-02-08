@@ -1,0 +1,31 @@
+﻿procedure SetLockKeyState(KeyCode: Integer; IsOn: Boolean);
+  // ---------------------------------------------------------------------------
+  procedure MoveKey(KeyCode: Integer; Up: Boolean);
+  var
+    Flags: Integer; // flags for MapVirtualKey()
+  begin
+    // Set up flags
+    Flags := Windows.KEYEVENTF_EXTENDEDKEY;
+    if Up then
+      Flags := Flags or Windows.KEYEVENTF_KEYUP;
+    // Simulate key movement
+    Windows.keybd_event(
+      KeyCode,
+      Windows.MapVirtualkey(KeyCode, 0),
+      Flags,
+      0
+    );
+  end;
+  // ---------------------------------------------------------------------------
+begin
+  if not (
+    KeyCode in [Windows.VK_CAPITAL, Windows.VK_NUMLOCK, Windows.VK_SCROLL]
+  ) then
+    raise SysUtils.Exception.Create('Invalid lock key specified.');
+  if IsLockKeyOn(KeyCode) <> IsOn then
+  begin
+    // Need to change state: press & release key
+    MoveKey(KeyCode, False);
+    MoveKey(KeyCode, True);
+  end;
+end;

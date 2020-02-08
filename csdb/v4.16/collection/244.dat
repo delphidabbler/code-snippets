@@ -1,0 +1,14 @@
+﻿type
+  TExeType = (
+    etUnknown,  // unknown file kind: not an executable
+    etError,    // error file kind: used for files that don't exist
+    etDOS,      // DOS executable
+    etExe32,    // 32 bit executable
+    etExe16,    // 16 bit executable
+    etDLL32,    // 32 bit DLL
+    etDLL16,    // 16 bit DLL
+    etVXD,      // virtual device driver
+    etExe64,    // 64 bit executable
+    etDLL64,    // 64 bit DLL
+    etROM       // ROM image (PE format)
+  );

@@ -1,0 +1,7 @@
+﻿function RemoveFileExt(const FileName: string): string;
+begin
+  if SysUtils.AnsiPos('.', FileName) > 0 then
+    Result := SysUtils.ChangeFileExt(FileName, '')
+  else
+    Result := FileName;
+end;

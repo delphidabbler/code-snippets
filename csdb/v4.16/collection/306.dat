@@ -1,0 +1,10 @@
+﻿function GetWordByIndex(const N: Integer; const Str: string;
+  const Delims: TCharSet): string;
+var
+  St, En: Integer;  // start and end of string to find
+begin
+  if GetStartAndEndWord(N, Str, Delims, St, En) then
+    Result := Copy(Str, St, En - St + 1)
+  else
+    Result := '';
+end;

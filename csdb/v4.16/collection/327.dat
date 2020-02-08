@@ -1,0 +1,5 @@
+﻿function HexToIntDef(const HexStr: string; const Default: Integer): Integer;
+begin
+  if not TryHexToInt(HexStr, Result) then
+    Result := Default;
+end;

@@ -1,0 +1,32 @@
+﻿function StringsToMultiSz(const Strings: Classes.TStrings;
+  const MultiSz: PChar; const BufSize: Integer): Integer;
+var
+  ReqSize: Integer; // required buffer size
+  Idx: Integer;     // loops thru Strings
+  P: PChar;         // pointer into MultiSz
+begin
+  Result := 0;
+  if not Assigned(Strings) then
+    Exit;
+  // Get required size of buffer
+  ReqSize := 1;
+  for Idx := 0 to Pred(Strings.Count) do
+    Inc(ReqSize, Length(Strings[Idx]) + 1);
+  if (BufSize >= ReqSize) and Assigned(MultiSz) then
+  begin
+    // BufSize OK and MultiSz not nil: copy string and return zero
+    P := MultiSz;
+    for Idx := 0 to Pred(Strings.Count) do
+    begin
+      // copy current string, #0 terminated
+      SysUtils.StrPCopy(P, Strings[Idx]);
+      // moves to next pos in buffer
+      Inc(P, Length(Strings[Idx]) + 1);
+    end;
+    // add terminating additional #0
+    P^ := #0;
+  end
+  else
+    // BufSize too small or MultiSz is nil: return required size
+    Result := ReqSize;
+end;

@@ -1,0 +1,4 @@
+﻿function LangIDFromLCID(LCID: Windows.LCID): Word;
+begin
+  Result := Word(LCID);
+end;

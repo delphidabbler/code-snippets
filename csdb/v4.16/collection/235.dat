@@ -1,0 +1,4 @@
+﻿function ShortDayName(const ADateTime: TDateTime): string;
+begin
+  Result := SysUtils.ShortDayNames[SysUtils.DayOfWeek(ADateTime)]
+end;

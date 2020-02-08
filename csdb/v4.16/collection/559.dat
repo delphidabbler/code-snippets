@@ -1,0 +1,8 @@
+﻿procedure NormaliseFractionSign(var Num, Denom: Integer);
+begin
+  if Denom < 0 then
+  begin
+    Num := -Num;
+    Denom := -Denom;
+  end;
+end;

@@ -1,0 +1,5 @@
+﻿type
+  TRange = record
+    Lower: Integer;  // lower bound of range
+    Upper: Integer;  // upper bound of range
+  end;

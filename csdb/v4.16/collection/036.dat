@@ -1,0 +1,7 @@
+﻿function HasVerInfo(const FileName: string): Boolean;
+var
+  Dummy: Cardinal;  // dummy variable required by API function
+begin
+  // API function returns size of ver info: 0 if none
+  Result := Windows.GetFileVersionInfoSize(PChar(FileName), Dummy) > 0;
+end;

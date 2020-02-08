@@ -1,0 +1,13 @@
+﻿procedure TrimAppMemorySize;
+var
+  MainHandle: Windows.THandle;  // handle to current process
+begin
+  MainHandle := Windows.OpenProcess(
+    Windows.PROCESS_ALL_ACCESS, False, Windows.GetCurrentProcessID
+  );
+  try
+    Windows.SetProcessWorkingSetSize(MainHandle, $FFFFFFFF, $FFFFFFFF);
+  finally
+    Windows.CloseHandle(MainHandle);
+  end;
+end;

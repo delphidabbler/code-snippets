@@ -1,0 +1,17 @@
+﻿function FileSizeString(const Filename: string): string;
+const
+  OneKB = 1024;         // 1 KB
+  OneMB = OneKB * 1024; // 1 MB
+var
+  Value: Extended;      // size of file
+begin
+  Value := SizeOfFile64(Filename);
+  if Value < 0 then
+    Result := ''
+  else if Value < OneKB then
+    Result := SysUtils.FormatFloat('#,##0 "bytes"', Value)
+  else if Value < OneMB then
+    Result := SysUtils.FormatFloat('#,##0.0 "KB"', Value / OneKB)
+  else
+    Result := SysUtils.FormatFloat('#,##0.0 "MB"', Value / OneMB)
+end;

@@ -1,0 +1,19 @@
+﻿function IsHexStr(const S: string): Boolean;
+  {Returns true if string S contains only valid hex digits, false otherwise}
+const
+  cHexChars = ['0'..'9', 'A'..'F', 'a'..'f']; // set of valid hex digits
+var
+  Idx: Integer; // loops thru all characters in string
+begin
+  Result := True;
+  for Idx := 1 to Length(S) do
+    {$IFDEF UNICODE}
+    if not SysUtils.CharInSet(S[Idx], cHexChars) then
+    {$ELSE}
+    if not (S[Idx] in cHexChars) then
+    {$ENDIF}
+    begin
+      Result := False;
+      Break;
+    end;
+end;

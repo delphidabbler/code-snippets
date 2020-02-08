@@ -1,0 +1,4 @@
+﻿function LongDayNameXE(const ADateTime: TDateTime): string;
+begin
+  Result := SysUtils.FormatSettings.LongDayNames[SysUtils.DayOfWeek(ADateTime)];
+end;

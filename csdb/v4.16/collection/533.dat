@@ -1,0 +1,9 @@
+﻿procedure ArrayToStringList(const Strings: array of string;
+  const SL: Classes.TStrings);
+var
+  Idx: Integer; // loops thru each string in array
+begin
+  SL.Clear;
+  for Idx := 0 to Pred(Length(Strings)) do
+    SL.Add(Strings[Idx]);
+end;

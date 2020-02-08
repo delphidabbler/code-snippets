@@ -1,0 +1,19 @@
+﻿function TitleCase(const S: string): string;
+var
+  Idx: Integer;           // loops through each character in string
+  WantCapital: Boolean;   // flag indicating whether captial letter required
+begin
+  Result := SysUtils.LowerCase(S);
+  WantCapital := True;
+  for Idx := 1 to Length(S) do
+  begin
+    if IsCharInSet(Result[Idx], ['a'..'z']) then
+    begin
+      if WantCapital then
+        Result[Idx] := UpCase(Result[Idx]); // capital letter required
+      WantCapital := False;                 // following chars lower case
+    end
+    else
+      WantCapital := IsWhiteSpace(Result[Idx]); // space: next char is capital
+  end;
+end;

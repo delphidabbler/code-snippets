@@ -1,0 +1,16 @@
+﻿function ReadBigEndianWord(Stm: Classes.TStream): Word;
+type
+  // Record used to hack big endian word
+  TBigEndianWord = packed record
+    case Byte of
+      0: (Value: Word);         // value as word
+      1: (Byte1, Byte2: Byte);  // value as bytes
+  end;
+var
+  BEW: TBigEndianWord;  // record read from stream
+begin
+  FillChar(BEW, SizeOf(BEW), 0);
+  Stm.Read(BEW.Byte2, SizeOf(Byte));
+  Stm.Read(BEW.Byte1, SizeOf(Byte));
+  Result := BEW.Value;
+end;

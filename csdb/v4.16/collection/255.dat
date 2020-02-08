@@ -1,0 +1,13 @@
+﻿function IntToOctal(Value: Integer; const Digits: Byte): string;
+const
+  // Octal digit characters
+  cOctalDigits: array[$0..$7] of Char = '01234567';
+begin
+  Result := '';
+  while Value <> 0 do
+  begin
+    Result := cOctalDigits[Value and 7] + Result;
+    Value := Value shr 3;
+  end;
+  Result := PadRight(Result, '0', Digits);
+end;

@@ -1,0 +1,35 @@
+﻿function ListFiles(const Dir, Wildcard: string;
+  const List: Classes.TStrings): Boolean;
+var
+  FileSpec: string;         // search file specification
+  SR: SysUtils.TSearchRec;  // file search result
+  Success: Integer;         // success code for FindXXX routines
+begin
+  Assert(Assigned(List));
+  // Check if true directory and exit if not
+  Result := IsDirectory(Dir);
+  if not Result then
+    Exit;
+  // Build file spec from directory and wildcard
+  FileSpec := DirToPath(Dir);
+  if Wildcard = '' then
+    FileSpec := FileSpec + '*.*'
+  else
+    FileSpec := FileSpec + Wildcard;
+  // Initialise search for matching files
+  Success := SysUtils.FindFirst(FileSpec, SysUtils.faAnyFile, SR);
+  try
+    // Loop for all files in directory
+    while Success = 0 do
+    begin
+      // only add true files or directories to list
+      if (SR.Name <> '.') and (SR.Name <> '..') then
+        List.Add(SR.Name);
+      // get next file
+      Success := SysUtils.FindNext(SR);
+    end;
+  finally
+    // Tidy up
+    SysUtils.FindClose(SR);
+  end;
+end;

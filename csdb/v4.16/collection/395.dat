@@ -1,0 +1,16 @@
+﻿procedure RegWriteString(const ARootKey: Windows.HKEY;
+  const APath, AValue: string);
+var
+  SubKey: string;     // registry sub-key extracted from APath
+  ValueName: string;  // value name extracted from APath
+begin
+  with Registry.TRegistry.Create do
+    try
+      RootKey := ARootKey;
+      RegParsePath(APath, SubKey, ValueName);
+      if OpenKey(SubKey, True) then
+        WriteString(ValueName, AValue);
+    finally
+      Free;
+    end;
+end;

@@ -1,0 +1,11 @@
+﻿function PadRight(const AString: string; const AChar: Char;
+  const ALen: Integer): string;
+var
+  PadLength: Integer; // number of padding characters required
+begin
+  Result := AString;
+  PadLength := ALen - Length(AString);
+  if PadLength < 1 then
+    Exit;
+  Result := StringOfChar(AChar, PadLength) + AString;
+end;

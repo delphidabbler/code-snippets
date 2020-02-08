@@ -1,0 +1,119 @@
+﻿function IntToNumberText(const Value: Integer): string;
+const
+  grOnes = 0;        // group < 1,000
+  grThousands = 1;   // 1,000 <= group < 1,000,000
+  plOnes = 0;        // "ones" place within group
+  plTens = 1;        // "tens" place within group
+  plHundreds = 2;    // "hnudreds place within group
+{$IFDEF FPC}
+const
+{$ELSE}
+resourcestring
+{$ENDIF}
+  // various number items
+  sHundred = 'hundred';
+  sOneHundred = 'one hundred';
+  sOneThousand = 'one thousand';
+  sMinus = 'minus';
+const
+  // map of number names
+  cNumStrings: array[ 0..27 ] of string = (
+    'zero', 'one', 'two', 'three', 'four',
+    'five', 'six', 'seven', 'eight', 'nine',
+    'ten', 'eleven', 'twelve', 'thirteen', 'fourteen',
+    'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen',
+    'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy',
+    'eighty', 'ninety'
+  );
+  // array of "group" names
+  cGroupStrings: array[ 1..4 ] of string = (
+    'thousand', 'million', 'billion', 'trillion'
+  );
+var
+  NumDigits: Integer;     // number of digits in value
+  Group: Integer;         // index of group of 1000s
+  Place: Integer;         // place of current digit within group
+  Digit: Integer;         // current digit
+  CurPos: Integer;        // position in ValString of current digit
+  SilentGroup: Boolean;   // whether group is rendered
+  ValString: string;      // string representation of Value
+begin
+    // Special case for zero
+  if Value = 0 then
+  begin
+    Result := cNumStrings[0];
+    Exit;
+  end;
+
+  ValString := SysUtils.IntToStr(Abs(Value));
+  NumDigits := Length(ValString);
+  if Value > 0 then
+    Result := ''
+  else
+    Result := sMinus;
+
+  Group := (NumDigits - 1) div 3;
+  Place := (NumDigits + 2) mod 3;
+  CurPos := 1;
+
+  while Group >= grOnes do
+  begin
+    SilentGroup := True;
+
+    while Place >= plOnes do
+    begin
+      Digit := Ord(ValString[CurPos]) - Ord('0');
+      Inc(CurPos);
+      if Digit = 0 then
+      begin
+        Dec(Place);
+        Continue;
+      end;
+
+      case Place of
+        plHundreds:
+        begin
+          if Digit > 1 then
+            Result := Result + ' ' + cNumStrings[Digit] + ' ' + sHundred
+          else
+            Result := Result + ' ' + sOneHundred;
+          SilentGroup := False;
+        end;
+        plTens:
+        begin
+          if Digit = 1 then
+          begin
+            // Special case 10 thru 19
+            Place := plOnes;
+            Digit := Ord(ValString[CurPos]) - Ord('0');
+            Inc(CurPos);
+            Result := Result + ' ' + cNumStrings[10 + Digit];
+          end
+          else
+            Result := Result + ' ' + cNumStrings[20 + Digit - 2];
+          SilentGroup := False;
+        end;
+        plOnes:
+        begin
+          if (Group = grThousands) and (Digit = 1) then
+            Result := Result + ' ' + sOneThousand
+          else
+          begin
+            Result := Result + ' ' + cNumStrings[Digit];
+            SilentGroup := False;
+          end;
+        end;
+      end;
+
+      Dec(Place);
+    end;
+
+    // handle thousands, millions and billions here
+    if (Group > grOnes) and not SilentGroup then
+      Result := Result + ' ' + cGroupStrings[Group];
+    Place := plHundreds;
+    Dec(Group);
+  end;
+  if Result[1] = ' ' then
+    Delete(Result, 1, 1);
+end;

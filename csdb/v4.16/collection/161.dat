@@ -1,0 +1,30 @@
+﻿function EllipsifyText(const AsPath: Boolean; const Text: string;
+  const Canvas: Graphics.TCanvas; const MaxWidth: Integer ): string;
+var
+  TempPChar: PChar; // temp buffer to hold text
+  TempRect: TRect;  // temp rectangle hold max width of text
+  Params: UINT;     // flags passed to DrawTextEx API function
+begin
+  // Alocate mem for PChar
+  GetMem(TempPChar, (Length(Text) + 1) * SizeOf(Char));
+  try
+    // Copy Text into PChar
+    TempPChar := SysUtils.StrPCopy(TempPChar, Text);
+    // Create Rectangle to Store PChar
+    TempRect := Classes.Rect(0, 0, MaxWidth, High(Integer));
+    // Set Params depending wether it's a path or not
+    if AsPath then
+      Params := Windows.DT_PATH_ELLIPSIS
+    else
+      Params := Windows.DT_END_ELLIPSIS;
+    // Tell it to Modify the PChar, and do not draw to the canvas
+    Params := Params + Windows.DT_MODIFYSTRING + Windows.DT_CALCRECT;
+    // Ellipsify the string based on availble space to draw in
+    Windows.DrawTextEx(Canvas.Handle, TempPChar, -1, TempRect, Params, nil);
+    // Copy the modified PChar into the result
+    Result := SysUtils.StrPas(TempPChar);
+  finally
+    // Free Memory from PChar
+    FreeMem(TempPChar, (Length(Text) + 1) * SizeOf(Char));
+  end;
+end;

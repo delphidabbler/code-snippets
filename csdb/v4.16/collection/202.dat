@@ -1,0 +1,15 @@
+﻿function DigitCount(AInteger: Int64): Integer;
+begin
+  if AInteger <> 0 then
+  begin
+    Result := 0;
+    AInteger := Abs(AInteger);
+    while AInteger > 0 do
+    begin
+      AInteger := AInteger div 10;
+      Inc(Result);
+    end;
+  end
+  else
+    Result := 1;
+end;

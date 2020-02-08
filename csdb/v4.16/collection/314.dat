@@ -1,0 +1,4 @@
+﻿function ByteToHex(const B: Byte): string;
+begin
+  Result := SysUtils.IntToHex(B, 2 * SizeOf(B));
+end;

@@ -1,0 +1,54 @@
+﻿function IsAdmin: Boolean;
+const
+  // SID related constants
+  SECURITY_NT_AUTHORITY: TSIDIdentifierAuthority =
+    (Value: (0, 0, 0, 0, 0, 5));
+  SECURITY_BUILTIN_DOMAIN_RID = $00000020;
+  DOMAIN_ALIAS_RID_ADMINS = $00000220;
+var
+  AccessToken: Windows.THandle;       // process access token
+  TokenGroups: Windows.PTokenGroups;  // token groups
+  InfoBufferSize: Windows.DWORD;      // token info buffer size
+  AdmininstratorsSID: Windows.PSID;   // administrators SID
+  I: Integer;                         // loops thru token groups
+  Success: Windows.BOOL;              // API function success results
+begin
+  Result   := False;
+  Success := Windows.OpenThreadToken(
+    Windows.GetCurrentThread, Windows.TOKEN_QUERY, True, AccessToken
+  );
+  if not Success then
+  begin
+    if Windows.GetLastError = Windows.ERROR_NO_TOKEN then
+      Success := Windows.OpenProcessToken(
+        Windows.GetCurrentProcess, Windows.TOKEN_QUERY, AccessToken
+      );
+  end;
+  if Success then
+  begin
+    GetMem(TokenGroups, 1024);
+    Success := Windows.GetTokenInformation(
+      AccessToken, Windows.TokenGroups, TokenGroups, 1024, InfoBufferSize
+    );
+    Windows.CloseHandle(AccessToken);
+    if Success then
+    begin
+      Windows.AllocateAndInitializeSid(
+        SECURITY_NT_AUTHORITY, 2,
+        SECURITY_BUILTIN_DOMAIN_RID, DOMAIN_ALIAS_RID_ADMINS,
+        0, 0, 0, 0, 0, 0,
+        AdmininstratorsSID
+      );
+      {$R-}
+      for I := 0 to TokenGroups.GroupCount - 1 do
+        if Windows.EqualSid(AdmininstratorsSID, TokenGroups.Groups[I].Sid) then
+        begin
+          Result := True;
+          Break;
+        end;
+      {$R+}
+      Windows.FreeSid(AdmininstratorsSID);
+    end;
+    FreeMem(TokenGroups);
+  end;
+end;

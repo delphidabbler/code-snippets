@@ -1,0 +1,7 @@
+﻿function TryHexToInt(const HexStr: string; out Value: Integer): Boolean;
+var
+  E: Integer; // error code
+begin
+  Val(AddHexPrefix(HexStr), Value, E);
+  Result := E = 0;
+end;

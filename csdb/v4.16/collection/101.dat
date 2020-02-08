@@ -1,0 +1,29 @@
+﻿function IsValidCEscapedStr(const S, ValidEscChars: string): Boolean;
+const
+  cEscChar = '\';       // the C escape character
+var
+  Idx: Integer;         // loops thru chars in string
+  EscCharPos: Integer;  // position of esc char in ValidEscChars
+begin
+  // Assume we fail
+  Result := False;
+  // Scan through all string
+  Idx := 1;
+  while Idx <= Length(S) do
+  begin
+    if (S[Idx] = cEscChar) then
+    begin
+      // We have an escape char
+      if Idx = Length(S) then
+        Exit; // error: esc symbol is at end of string
+      // skip over escape symbol and test escape char
+      Inc(Idx);
+      EscCharPos := SysUtils.AnsiPos(S[Idx], ValidEscChars);
+      if EscCharPos = 0 then
+        Exit; // error: esc char is not recognised
+    end;
+    Inc(Idx);
+  end;
+  // Everything is OK
+  Result := True;
+end;

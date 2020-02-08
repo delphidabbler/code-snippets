@@ -1,0 +1,4 @@
+﻿function ZoomRatio(const DestRect, SrcRect: Types.TRect): Double; overload;
+begin
+  Result := ZoomRatio(RectSize(DestRect), RectSize(SrcRect));
+end;

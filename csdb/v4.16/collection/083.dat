@@ -1,0 +1,12 @@
+﻿procedure WideStringToUnicodeFile(const Str: WideString;
+  const FileName: string);
+var
+  FS: Classes.TFileStream;  // Stream onto file being created
+begin
+  FS := Classes.TFileStream.Create(FileName, Classes.fmCreate);
+  try
+    WideStringToUnicodeStream(Str, FS);
+  finally
+    FS.Free;
+  end;
+end;

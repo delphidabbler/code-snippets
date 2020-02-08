@@ -1,0 +1,8 @@
+﻿function DownloadURLToFile(const URL, FileName: string): Boolean;
+begin
+  // URLDownloadFile returns true if URL exists even if file not created
+  // hence we also check file has been created.
+  Result := Windows.Succeeded(
+    UrlMon.URLDownloadToFile(nil, PChar(URL), PChar(FileName), 0, nil)
+  ) and SysUtils.FileExists(FileName);
+end;

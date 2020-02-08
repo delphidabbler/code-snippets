@@ -1,0 +1,20 @@
+﻿function TempFileName(const Stub: string; const Create: Boolean): string;
+begin
+  // Get temporary folder
+  SetLength(Result, Windows.MAX_PATH);
+  Windows.GetTempPath(Windows.MAX_PATH, PChar(Result));
+  // Get unique temporary file name (it is created as side effect of this call)
+  if Windows.GetTempFileName(
+    PChar(Result), PChar(Stub), 0, PChar(Result)
+  ) <> 0 then
+  begin
+    // Succeeded
+    Result := PChar(Result);
+    if not Create then
+      // user doesn't want file creating: so we delete the file
+      SysUtils.DeleteFile(Result);
+  end
+  else
+    // Failed
+    Result := '';
+end;

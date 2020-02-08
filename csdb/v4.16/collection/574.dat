@@ -1,0 +1,5 @@
+﻿procedure WBNavigate(WB: SHDocVw.TWebBrowser; const URL: string); overload;
+begin
+  WB.Navigate(URL);
+  WBWaitForDocToLoad(WB);
+end;

@@ -1,0 +1,9 @@
+﻿function WBInvokeCmd(WB: SHDocVw.TWebbrowser; InvokeIE: Boolean;
+  CmdId, CmdExecOpt: Cardinal): Boolean; overload;
+var
+  DummyInParam, DummyOutParam: OleVariant;
+begin
+  Result := WBInvokeCmd(
+    WB, InvokeIE, CmdId, CmdExecOpt, DummyInParam, DummyOutParam
+  );
+end;

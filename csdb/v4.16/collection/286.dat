@@ -1,0 +1,6 @@
+﻿type
+  THSBColor = record
+    Hue,                // hue (degrees)
+    Saturation,         // saturation (percentage)
+    Brightness: Double; // brightness (percentage)
+  end;

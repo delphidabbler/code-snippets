@@ -1,0 +1,8 @@
+﻿procedure WBWaitForDocToLoad(WB: SHDocVw.TWebbrowser);
+begin
+  while (WB.ReadyState <> SHDocVw.READYSTATE_COMPLETE) do
+  begin
+    ProcessMessages;
+    Windows.Sleep(0);
+  end;
+end;

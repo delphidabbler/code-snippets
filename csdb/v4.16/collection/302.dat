@@ -1,0 +1,6 @@
+﻿function IsRemoteSession: Boolean;
+const
+  SM_REMOTESESSION = $1000; // value to pass to GetSystemMetrics
+begin
+  Result := Windows.GetSystemMetrics(SM_REMOTESESSION) <> 0;
+end;

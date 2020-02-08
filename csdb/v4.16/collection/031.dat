@@ -1,0 +1,15 @@
+﻿function JoinStr(const SL: Classes.TStrings; const Delim: string;
+  const AllowEmpty: Boolean = True): string;
+var
+  Idx: Integer; // loops thru all items in string list
+begin
+  Result := '';
+  for Idx := 0 to Pred(SL.Count) do
+  begin
+    if (SL[Idx] <> '') or AllowEmpty then
+      if Result = '' then
+        Result := SL[Idx]
+      else
+        Result := Result + Delim + SL[Idx];
+  end;
+end;

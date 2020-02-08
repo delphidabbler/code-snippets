@@ -1,0 +1,31 @@
+﻿function PathIsRoot(const APath: string): Boolean;
+var
+  Idx: Integer;     // index of first backslash in path
+  OrgPath: string;  // copy of path being processed
+begin
+  OrgPath := APath;
+  Result := True;
+  if Copy(OrgPath, 1, 2) = '\\' then
+  begin
+    // Path is a UNC path
+    Delete(OrgPath, 1, 2);
+    Idx := SysUtils.AnsiPos('\', OrgPath);
+    if Idx > 0 then
+    begin
+      Delete(OrgPath, 1, Idx);
+      // UNC path has \\server\share only - treat it as root path
+      if SysUtils.AnsiPos('\', OrgPath) = 0 then
+        Exit;
+    end
+    else // UNC path has server name only - treat as root path
+      Exit;
+  end;
+  // We get here if UNC path has a folder under the share,
+  // or it is a path with a drive specifier.
+  OrgPath := DirToPath(APath);
+  // Now we check if going up from the path leaves us with the
+  // same path
+  Result := SysUtils.AnsiSameText(
+    SysUtils.ExpandFileName(OrgPath + '..'), OrgPath
+  );
+end;

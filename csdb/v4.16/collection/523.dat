@@ -1,0 +1,4 @@
+﻿function IsUTF8Stream(const Stm: Classes.TStream): Boolean;
+begin
+  Result := StreamHasWatermark(Stm, [$EF, $BB, $BF]);
+end;

@@ -1,0 +1,12 @@
+﻿function FileHasWatermark(const FileName: string;
+  const Watermark: AnsiString; const Offset: Integer = 0): Boolean;
+  overload;
+var
+  Bytes: array of Byte;
+  I: Integer;
+begin
+  SetLength(Bytes, Length(Watermark));
+  for I := 1 to Length(Watermark) do
+    Bytes[I - 1] := Ord(Watermark[I]);
+  Result := FileHasWatermark(FileName, Bytes, Offset);
+end;

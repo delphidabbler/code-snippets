@@ -1,0 +1,5 @@
+﻿procedure SplitPathList(const PathList: string; const Paths: Classes.TStrings);
+  overload;
+begin
+  ExplodeStr(PathList, ';', Paths, False, True);
+end;

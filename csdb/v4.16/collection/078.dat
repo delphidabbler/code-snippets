@@ -1,0 +1,14 @@
+﻿function StreamToString(const Stm: Classes.TStream): string;
+var
+  SS: Classes.TStringStream;  // used to copy stream to string
+begin
+  // This TStreamStream constructor uses default ANSI encoding in Unicode
+  // versions of Delphi.
+  SS := Classes.TStringStream.Create('');  
+  try
+    SS.CopyFrom(Stm, 0);
+    Result := SS.DataString;
+  finally
+    SS.Free;
+  end;
+end;

@@ -1,0 +1,6 @@
+﻿function IsGDIPlusInstalled: Boolean;
+const
+  cGDIPlus = 'gdiplus.dll'; // GDI+ library (should be found on path)
+begin
+  Result := IsLibraryInstalled(cGDIPlus);
+end;

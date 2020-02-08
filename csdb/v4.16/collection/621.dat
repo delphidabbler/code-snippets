@@ -1,0 +1,9 @@
+﻿procedure SimplifyFraction(var Num, Denom: Int64);
+var
+  CommonFactor: Int64;  // greatest common factor of Num and Denom
+begin
+  Assert(Denom <> 0);
+  CommonFactor := Abs(GCD(Num, Denom));
+  Num := Num div CommonFactor;
+  Denom := Denom div CommonFactor;
+end;

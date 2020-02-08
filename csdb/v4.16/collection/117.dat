@@ -1,0 +1,32 @@
+﻿procedure GetIconXORBitmask(const Icon: Graphics.TIcon;
+  const Mask: Graphics.TBitmap);
+var
+  IconInfo: Windows.TIconInfo;  // receives info about icon
+  Bmp: Graphics.TBitmap;        // temp bitmap to store bitmap from icon
+begin
+  if not Windows.GetIconInfo(Icon.Handle, IconInfo) then
+    raise SysUtils.Exception.Create('Can''t get icon information');
+  Bmp := Graphics.TBitmap.Create;
+  try
+    if IconInfo.hbmColor <> 0 then
+    begin
+      // colour icons have XOR images separate to AND mask
+      Bmp.Handle := IconInfo.hbmColor;
+      Mask.Assign(Bmp);
+    end
+    else
+    begin
+      // monochrome icons have XOR mask in lower half of mask bitmap
+      Bmp.Handle := IconInfo.hbmMask;
+      Mask.Assign(Bmp);                 // sets size, pixel format, etc
+      Mask.Height := Bmp.Height div 2;  // adjust height
+      Mask.Canvas.CopyRect(
+        Classes.Rect(0, 0, Mask.Width, Mask.Height),
+        Bmp.Canvas,
+        Classes.Rect(0, Bmp.Height div 2, Bmp.Width, Bmp.Height)
+      );
+    end
+  finally
+    Bmp.Free;
+  end;
+end;

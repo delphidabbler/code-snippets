@@ -1,0 +1,4 @@
+﻿function IsASCIIDigit(const Ch: Char): Boolean;
+begin
+  Result := Ord(Ch) in [Ord('0')..Ord('9')];
+end;

@@ -1,0 +1,4 @@
+﻿function FractionToStr(Num, Denom: Integer): string;
+begin
+  Result := SysUtils.Format('%d/%d', [Num, Denom]);
+end;

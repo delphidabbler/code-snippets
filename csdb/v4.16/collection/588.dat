@@ -1,0 +1,9 @@
+﻿procedure WBSelectAll(WB: SHDocVw.TWebbrowser);
+begin
+  WBInvokeCmd(
+    WB,
+    False,
+    SHDocVw.OLECMDID_SELECTALL,
+    SHDocVw.OLECMDEXECOPT_DODEFAULT
+  );
+end;

@@ -1,0 +1,8 @@
+﻿function ReverseStrR(const S: string): string;
+begin
+  if SysUtils.AnsiSameText(S, SysUtils.EmptyStr) or (System.Length(S) = 1) then
+    Result := S
+  else
+    Result := StrUtils.RightStr(S, 1)
+      + ReverseStrR(StrUtils.LeftStr(S, System.Length(S) - 1))
+end;

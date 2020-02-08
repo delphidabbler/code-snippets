@@ -1,0 +1,4 @@
+﻿function QuadWordToHex(const QW: UInt64): string;
+begin
+  Result := SysUtils.IntToHex(Int64(QW), 2 * SizeOf(QW));
+end;

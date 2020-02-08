@@ -1,0 +1,8 @@
+﻿function IsCharInSet(const Ch: Char; const Chars: TCharSet): Boolean;
+begin
+  {$IFDEF UNICODE}
+  Result := SysUtils.CharInSet(Ch, Chars);
+  {$ELSE}
+  Result := Ch in Chars;
+  {$ENDIF}
+end;

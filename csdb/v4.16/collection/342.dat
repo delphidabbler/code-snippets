@@ -1,0 +1,12 @@
+﻿function IsTrueTypeFont(const FontName: string): Boolean; overload;
+var
+  Font: Graphics.TFont;
+begin
+  Font := Graphics.TFont.Create;
+  try
+    Font.Name := FontName;
+    Result := IsTrueTypeFont(Font);
+  finally
+    Font.Free;
+  end;
+end;

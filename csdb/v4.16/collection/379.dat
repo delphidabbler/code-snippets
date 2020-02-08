@@ -1,0 +1,30 @@
+﻿procedure HalftoneStretch(DestCvs: Graphics.TCanvas; DestRect: Types.TRect;
+  SrcCvs: Graphics.TCanvas; SrcRect: Types.TRect); overload;
+var
+  OldMode: Integer;  // saves stretch blt mode for later restoration
+begin
+  if not Assigned(DestCvs) then
+    Exit;
+  if not Assigned(SrcCvs) then
+    Exit;
+  OldMode := Windows.GetStretchBltMode(DestCvs.Handle);
+  Windows.SetStretchBltMode(DestCvs.Handle, Windows.HALFTONE);
+  // following is equivalent to DestCvs.CopyRect(DestRect, SrcCvs, SrcRect);
+  try
+    Windows.StretchBlt(
+      DestCvs.Handle,
+      DestRect.Left,
+      DestRect.Top,
+      DestRect.Right - DestRect.Left,
+      DestRect.Bottom - DestRect.Top,
+      SrcCvs.Handle,
+      SrcRect.Left,
+      SrcRect.Top,
+      SrcRect.Right - SrcRect.Left,
+      SrcRect.Bottom - SrcRect.Top,
+      DestCvs.CopyMode
+    );
+  finally
+    Windows.SetStretchBltMode(DestCvs.Handle, OldMode);
+  end;
+end;

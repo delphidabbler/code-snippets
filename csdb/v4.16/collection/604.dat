@@ -1,0 +1,9 @@
+﻿procedure WBShowPrintDlg(WB: SHDocVw.TWebbrowser);
+begin
+  WBInvokeCmd(
+    WB,
+    False,
+    SHDocVw.OLECMDID_PRINT,
+    SHDocVw.OLECMDEXECOPT_DODEFAULT
+  );
+end;

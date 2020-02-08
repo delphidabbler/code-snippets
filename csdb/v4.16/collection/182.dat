@@ -1,0 +1,12 @@
+﻿function CountWords(const Str: string): Integer;
+var
+  Words: Classes.TStringList; // list of words in string
+begin
+  Words := Classes.TStringList.Create;
+  try
+    ExplodeWords(Str, Words);
+    Result := Words.Count;
+  finally
+    Words.Free;
+  end;
+end;

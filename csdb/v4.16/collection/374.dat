@@ -1,0 +1,39 @@
+﻿function RFC2822Date(const LocalDate: TDateTime; const IsDST: Boolean): string;
+const
+  // Days of week and months of year: must be in English for RFC882
+  Days: array[1..7] of string = (
+    'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'
+  );
+  Months: array[1..12] of string = (
+    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+  );
+var
+  Day, Month, Year: Word;             // parts of LocalDate
+  TZ : Windows.TIME_ZONE_INFORMATION; // time zone information
+  Bias: Integer;                      // bias in seconds
+  BiasTime: TDateTime;                // bias in hrs / mins to display
+  GMTOffset: string;                  // bias as offset from GMT
+begin
+  // get year, month and day from date
+  SysUtils.DecodeDate(LocalDate, Year, Month, Day);
+  // compute GMT Offset bias
+  Windows.GetTimeZoneInformation(TZ);
+  Bias := TZ.Bias;
+  if IsDST then
+    Bias := Bias + TZ.DaylightBias
+  else
+    Bias := Bias + TZ.StandardBias;
+  BiasTime := SysUtils.EncodeTime(Abs(Bias div 60), Abs(Bias mod 60), 0, 0);
+  if Bias < 0 then
+    GMTOffset := '-' + SysUtils.FormatDateTime('hhnn', BiasTime)
+  else
+    GMTOffset := '+' + SysUtils.FormatDateTime('hhnn', BiasTime);
+  // build final string
+  Result := Days[DayOfWeek(LocalDate)] + ', '
+    + SysUtils.IntToStr(Day) + ' '
+    + Months[Month] + ' '
+    + SysUtils.IntToStr(Year) + ' '
+    + SysUtils.FormatDateTime('hh:nn:ss', LocalDate) + ' '
+    + GMTOffset;
+end;

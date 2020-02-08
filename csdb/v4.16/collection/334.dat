@@ -1,0 +1,13 @@
+﻿function MemoCursorPos(const Memo: StdCtrls.TCustomMemo): Windows.TPoint;
+var
+  Row, Col: Integer;  // row and column containing cursor
+begin
+  Row := Windows.SendMessage(
+    Memo.Handle, Messages.EM_LINEFROMCHAR, Memo.SelStart, 0
+  );
+  Col := Memo.SelStart - Windows.SendMessage(
+    Memo.Handle, Messages.EM_LINEINDEX, Row, 0
+  );
+  Result.X := Col;
+  Result.Y := Row;
+end;

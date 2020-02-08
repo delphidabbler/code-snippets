@@ -1,0 +1,9 @@
+﻿function GetIconHotspot(const Icon: Graphics.TIcon): Windows.TPoint;
+var
+  IconInfo: Windows.TIconInfo;  // receives info about icon
+begin
+  if not Windows.GetIconInfo(Icon.Handle, IconInfo) then
+    raise SysUtils.Exception.Create('Can''t get icon information');
+  Result.X := IconInfo.xHotspot;
+  Result.Y := IconInfo.yHotspot;
+end;

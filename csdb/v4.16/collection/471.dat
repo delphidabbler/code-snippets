@@ -1,0 +1,15 @@
+﻿function TempFileNameEx(const APath: string; const AStub: string;
+  const ACreate: Boolean): string;
+begin
+  SetLength(Result, Windows.MAX_PATH);
+  if Windows.GetTempFileName(
+    PChar(APath), PChar(AStub), 0, PChar(Result)
+  ) <> 0 then
+  begin
+    if not ACreate then
+      // user doesn't want file creating so delete it
+      SysUtils.DeleteFile(Result);
+  end
+  else
+    Result := '';
+end;

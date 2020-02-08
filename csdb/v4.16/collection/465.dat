@@ -1,0 +1,8 @@
+﻿procedure Exchange(var I1, I2: UInt64); overload;
+var
+  Temp: UInt64;
+begin
+  Temp := I1;
+  I1 := I2;
+  I2 := Temp;
+end;

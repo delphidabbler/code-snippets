@@ -1,0 +1,6 @@
+﻿function CloneByteArray(const B: array of Byte): TBytes;
+begin
+  SetLength(Result, Length(B));
+  if Length(B) > 0 then
+    Move(B[0], Result[0], Length(B));
+end;

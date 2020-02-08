@@ -1,0 +1,4 @@
+﻿function FocusedControl: Controls.TWinControl;
+begin
+  Result := Controls.FindControl(Windows.GetFocus);
+end;

@@ -1,0 +1,4 @@
+﻿function EndianSwap(const Value: Cardinal): Cardinal;
+asm
+  BSWAP EAX
+end;

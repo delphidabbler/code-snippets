@@ -1,0 +1,6 @@
+﻿function BytesToGB(const Bytes: Int64): Extended;
+const
+  cOneGB = 1024 * 1024 * 1024; // a gigabyte in bytes
+begin
+  Result := Bytes / cOneGB;
+end;

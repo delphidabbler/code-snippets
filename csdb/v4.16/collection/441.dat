@@ -1,0 +1,9 @@
+﻿function DateMonthEnd(const DT: TDateTime): TDateTime;
+var
+  Day, Month, Year: Word;
+  LastDay: Byte;
+begin
+  SysUtils.DecodeDate(DT, Year, Month, Day);
+  LastDay := DaysInMonth(DT);
+  Result := SysUtils.EncodeDate(Year, Month, LastDay);
+end;

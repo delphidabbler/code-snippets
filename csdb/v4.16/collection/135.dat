@@ -1,0 +1,5 @@
+﻿function IsKeyPressed(const VirtKeyCode: Integer): Boolean;
+begin
+  // High bit set when key is pressed => GetKeyState returns -ve value
+  Result := Windows.GetKeyState(VirtKeyCode) < 0;
+end;

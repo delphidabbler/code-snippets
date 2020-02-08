@@ -1,0 +1,11 @@
+﻿function HexToInt(const HexStr: string): Integer;
+{$IFDEF FPC}
+const
+{$ELSE}
+resourcestring
+{$ENDIF}
+  sHexConvertError = '''%s'' is not a valid hexadecimal value';
+begin
+  if not TryHexToInt(HexStr, Result) then
+    raise SysUtils.EConvertError.CreateFmt(sHexConvertError, [HexStr]);
+end;

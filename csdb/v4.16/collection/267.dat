@@ -1,0 +1,10 @@
+﻿function IsEqualResID(const R1, R2: PChar): Boolean;
+begin
+  if IsIntResource(R1) then
+    // R1 is ordinal: R2 must also be ordinal with same value in lo word
+    Result := IsIntResource(R2) and
+      (Windows.LoWord(Windows.DWORD(R1)) = Windows.LoWord(Windows.DWORD(R2)))
+  else
+    // R1 is string pointer: R2 must be same string (ignoring case)
+    Result := not IsIntResource(R2) and (SysUtils.StrIComp(R1, R2) = 0);
+end;

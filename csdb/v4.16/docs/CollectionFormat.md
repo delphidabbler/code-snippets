@@ -19,7 +19,7 @@ There are two kinds of meta data files:
 
 ### Format Of `categories.ini`
 
-This file has a simple format. Each section is named after a category ID, i.e. the ID by which the category is uniquely referred to in the collection. Each section of the file has a value containing the description of the category and another that names that category's own `.ini` file. Here is the format of a section:
+Each section in this file defines a category and has the following format:
 
 ```
 [<cat-id>]
@@ -27,22 +27,17 @@ Desc=<category-description>
 Ini=<ini-file-name>
 ```
 
-Where the values are:
+The sections in these files are named with a unique name that identifies a category within the collection. The section names must be alphanumeric characters. The values have the following purpose:
 
 <dl>
   <dt>
-    cat-id
-  </dt>
-  <dd>
-    A unique identifier of the category. This is used to uniquely identify the category within the collection. ASCII letter and numbers only.
-  <dt>
-    category-description
+    Desc
   </dt>
   <dd>
     A human readable, brief, description of the category. Any valid UTF-8 text.
   </dd>
   <dt>
-    ini-file-name
+    Ini
   </dt>
   <dd>
     The name of the <code>.ini</code> file that contains information about each snippet in the category. Must be a valid file name, without path. The files must be stored in the same directory as <code>category.ini</code>.
@@ -181,7 +176,7 @@ The sections in these files are named with a unique name that identifies a snipp
       <li><em>Delphi2005Win32</em> – Win32 personality of Delphi 2005 compiler</li>
       <li><em>Delphi2006Win32</em> – Win32 personality of Delphi 2006 compiler</li>
       <li><em>Delphi2007</em> – Delphi 2007 compiler</li>
-      <li><em>Delphi2009Win32</em> – Win32 personality of Delphi 2009 compiler<li>
+      <li><em>Delphi2009Win32</em> – Win32 personality of Delphi 2009 compiler</li>
       <li><em>Delphi2010</em> – Delphi 2010 compiler</li>
       <li><em>DelphiXE</em> – Delphi XE compiler</li>
       <li><em>DelphiXE2</em> – Delphi XE2 compiler</li>

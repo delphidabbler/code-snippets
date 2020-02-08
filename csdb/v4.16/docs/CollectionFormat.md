@@ -8,7 +8,7 @@ Meta data describing the categories and snippets is stored in a set of `.ini` fi
 
 Finally there are also plain text files containing the source code license and lists of credits.
 
-All the files are plain text, encoded in UTF-8 format with byte order mark (i.e. UTF-8 preamble).
+All the files are plain text, encoded in UTF-8 format with UTF-8 preamble (BOM).
 
 ## Meta Data Files
 
@@ -27,14 +27,14 @@ Desc=<category-description>
 Ini=<ini-file-name>
 ```
 
-The sections in these files are named with a unique name that identifies a category within the collection. The section names must be alphanumeric characters. The values have the following purpose:
+The sections in these files are named with a unique identifier that identifies a category within the collection. The section names must be alphanumeric characters. The values have the following purpose:
 
 <dl>
   <dt>
     Desc
   </dt>
   <dd>
-    A human readable, brief, description of the category. Any valid UTF-8 text.
+    A human readable, brief, description of the category. Any valid UTF-8 text is permitted.
   </dd>
   <dt>
     Ini
@@ -50,7 +50,6 @@ Here is an example (this is a copy of the "Date and Time" category's entry):
 [date]
 Desc=Date and Time
 Ini=date.ini
-Category ini files
 ```
 
 ### Format Of Individual Category `.ini` Files
@@ -95,129 +94,128 @@ Extra=<extra-info-REML>
 StandardFormat=<0|1>
 Kind=<freeform|routine|type|const|class|unit>
 TestInfo=<none|basic|advanced>
-MinVer=<version-number>
 ```
 
-The sections in these files are named with a unique name that identifies a snippet. This must be a valid Unicode Pascal identifier. The values have the following purpose:
+The sections in these files are named with identifiers that uniquely identify a snippet. This must be a valid Unicode Pascal identifier. The keys in a section have the following purpose:
 
 <dl>
   <dt>
     DisplayName
   </dt>
   <dd>
-    Human readable name of snippet. Optional. If not present the name of the section is used as the human readable name. Any valid UTF-8 string.
+    Human readable name of snippet. May be any valid UTF-8 string of up to 64 characters. If not present then the snippet identifier that names the section is used as the human readable name.
   </dd>
   <dt>
     Desc
   </dt>
   <dd>
-    Description of the snippet as plain text. Ignored if the <em>DescEx</em> field is present.
+    Description of the snippet as plain text. Ignored if a non-empty <em>DescEx</em> key is present.
   </dd>
   <dt>
     DescEx
   </dt>
   <dd>
-    Formatted description of the snippet using REML code. May be empty, in which case the <em>Desc</em> field is used. The <em>Desc</em> field is ignored if <em>DescEx</em> has a value.
+    Formatted description of the snippet using REML<sup>1</sup> code. May be empty, in which case the <em>Desc</em> key is used. <em>Desc</em> is ignored if <em>DescEx</em> has a non-empty value.
   </dd>
   <dt>
     Snip
   </dt>
   <dd>
-    Name of file containing source code. Contains no file path information. Source files must be in the same directory as the <code>.ini</code> file.
+    Name of the file containing this snippet's source code. Must be a valid file name and contain no file path information. Source files must be in the same directory as the <code>.ini</code> file.
   </dd>
   <dt>
     Units
   </dt>
   <dd>
-    Comma separated list of units required by the snippet. May be omitted or empty if no units are required. The System unit is assumed and does not need to be specified. Unit names must be valid Pascal identifiers.
+    Comma separated list of units required to compile the snippet. May be omitted or empty if no units are required. The <code>System</code> unit is assumed and does not need to be specified. Unit names must be valid Pascal identifiers.
   </dd>
   <dt>
     Depends
   </dt>
   <dd>
-    Comma separated list of the names (IDs) snippets that are required to compile this snippet. May be omitted or empty if there are no dependencies. Must not cause a circular reference back to this snippet. Snippet names must exist within the collection.
+    Comma separated list of the identifiers of snippets that are required to compile this snippet. May be omitted or empty if there are no such dependencies. Snippet identifiers must exist within the collection and must not cause a circular reference back to this snippet.
   </dd>
   <dt>
     SeeAlso
   </dt>
   <dd>
-    Comma separated list of the names (IDs) of cross-referenced snippets. May be omitted or empty. Snippet names should exist in the collection.
+    Comma separated list of the identifiers of cross-referenced snippets. May be omitted or empty. Snippet identifiers should exist in the collection.
   </dd>
   <dt>
-    Credits
+    Credits<sup>2</sup>
   </dt>
   <dd>
-    Optional. Text string that notes any credits / acknowledgements. May be omitted or empty. Credits may optionally contain one (and only one) section of text delimited by <code>[</code> and <code>]</code> characters that indicate the presence of a hyperlink. The enclosed text is used as the text of a hyperlink whose URL must be specified in the <em>Credits_URL</em> field must contain the URL of the hyperlink. <em>Credits</em> is ignored if the <em>Extra</em> field is present and not empty.
+    Optional. Text string that notes any credits / acknowledgements. May be omitted or empty. <em>Credits</em> may optionally contain one (and only one) section of text delimited by <code>[</code> and <code>]</code> characters that indicate the presence of a hyperlink. The enclosed text is used as the text of a hyperlink whose URL must be specified in the <em>Credits_URL</em> key. <em>Credits</em> is ignored if a non-empty <em>Extra</em> key is present.
   </dd>
   <dt>
-    Credits_URL
+    Credits_URL<sup>2</sup>
   </dt>
   <dd>
-    The URL used in any hyperlink present in the <em>Credits</em> field. Must be present if <em>Credits</em> specifies a hyperlink. Ignored if <em>Credits</em> contains no hyperlink section or if the <em>Extra</em> field is present and not empty.
+    The URL used in any hyperlink present in the <em>Credits</em> key. Must be present if <em>Credits</em> specifies a hyperlink. Ignored if <em>Credits</em> contains no hyperlink section or if a non-empty <em>Extra</em> key is present.
   </dd>
   <dt>
     Comments
   </dt>
   <dd>
-    Text string containing any additional comments about the snippet. Optional. Ignored if the <em>Extra</em> field is present and not empty.
+    Text string containing any additional comments about the snippet. Optional. Ignored if a non-empty <em>Extra</em> key is present.
   </dd>
   <dt>
     DelphiXXX &amp; FPC
   </dt>
   <dd>
-    This related group of values describe compilation results for the snippets on various compilers. Valid value names are:
+    This related group of keys describe compilation results for the snippets on various compilers. Valid key names are:
     <ul>
-      <li><em>Delphi2</em> – Delphi 2 compiler</li>
-      <li><em>Delphi3</em> – Delphi 3 compiler</li>
-      <li><em>Delphi4</em> – Delphi 4 compiler</li>
-      <li><em>Delphi5</em> – Delphi 5 compiler</li>
-      <li><em>Delphi6</em> – Delphi 6 compiler</li>
-      <li><em>Delphi7</em> – Delphi 7 compiler</li>
-      <li><em>Delphi2005Win32</em> – Win32 personality of Delphi 2005 compiler</li>
-      <li><em>Delphi2006Win32</em> – Win32 personality of Delphi 2006 compiler</li>
-      <li><em>Delphi2007</em> – Delphi 2007 compiler</li>
-      <li><em>Delphi2009Win32</em> – Win32 personality of Delphi 2009 compiler</li>
-      <li><em>Delphi2010</em> – Delphi 2010 compiler</li>
-      <li><em>DelphiXE</em> – Delphi XE compiler</li>
-      <li><em>DelphiXE2</em> – Delphi XE2 compiler</li>
-      <li><em>DelphiXE3</em> – Delphi XE3 compiler</li>
-      <li><em>DelphiXE4</em> – Delphi XE4 compiler</li>
-      <li><em>DelphiXE5</em> – Delphi XE5 compiler</li>
-      <li><em>DelphiXE6</em> – Delphi XE6 compiler</li>
-      <li><em>DelphiXE7</em> – Delphi XE7 compiler</li>
-      <li><em>DelphiXE8</em> – Delphi XE8 compiler</li>
-      <li><em>Delphi10S</em> – Delphi 10 Seattle compiler</li>
-      <li><em>Delphi101B</em> – Delphi 10.1 Berlin compiler</li>
-      <li><em>FPC</em> – Free Pascal compiler</li>
+      <li><strong>Delphi2</strong> – Delphi 2 compiler</li>
+      <li><strong>Delphi3</strong> – Delphi 3 compiler</li>
+      <li><strong>Delphi4</strong> – Delphi 4 compiler</li>
+      <li><strong>Delphi5</strong> – Delphi 5 compiler</li>
+      <li><strong>Delphi6</strong> – Delphi 6 compiler</li>
+      <li><strong>Delphi7</strong> – Delphi 7 compiler</li>
+      <li><strong>Delphi2005Win32</strong> – Win32 personality of Delphi 2005 compiler</li>
+      <li><strong>Delphi2006Win32</strong> – Win32 personality of Delphi 2006 compiler</li>
+      <li><strong>Delphi2007</strong> – Delphi 2007 compiler</li>
+      <li><strong>Delphi2009Win32</strong> – Win32 personality of Delphi 2009 compiler</li>
+      <li><strong>Delphi2010</strong> – Delphi 2010 compiler</li>
+      <li><strong>DelphiXE</strong> – Delphi XE compiler</li>
+      <li><strong>DelphiXE2</strong> – Delphi XE2 compiler</li>
+      <li><strong>DelphiXE3</strong> – Delphi XE3 compiler</li>
+      <li><strong>DelphiXE4</strong> – Delphi XE4 compiler</li>
+      <li><strong>DelphiXE5</strong> – Delphi XE5 compiler</li>
+      <li><strong>DelphiXE6</strong> – Delphi XE6 compiler</li>
+      <li><strong>DelphiXE7</strong> – Delphi XE7 compiler</li>
+      <li><strong>DelphiXE8</strong> – Delphi XE8 compiler</li>
+      <li><strong>Delphi10S</strong> – Delphi 10 Seattle compiler</li>
+      <li><strong>Delphi101B</strong> – Delphi 10.1 Berlin compiler</li>
+      <li><strong>FPC</strong> – Free Pascal compiler</li>
     </ul>
-    Valid values for these fields are:
+    Valid values for these keys are:
     <ul>
       <li><code>Y</code> – compiles on the compiler</li>
       <li><code>N</code> – does not compile on the compiler</li>
       <li><code>W</code> – compiles with warnings on the compiler</li>
       <li><code>Q</code> – compilation result unknown</li>
     </ul>
-    If any of the above compilers is not present, the compile result is assumed to be <code>Q</code>. A compile result of <code>W</code> is treated as if it were <code>Y</code>.
+    If any of the above compilers is not present, the compile result is assumed to be <code>Q</code>. A compile result of <code>W</code> is obsolete and treated as if it were <code>Y</code>.
   </dd>
   <dt>
     Extra
   </dt>
   <dd>
-    Provides extra information about the snippet. Optional. When present the value must be a valid string of REML code. If omitted the extra information is generated from any <em>Comments</em> and <em>Credits</em> / <em>Credits_URL</em> values. When present <em>Comments</em> and <em>Credits</em> / <em>Credits_URL</em> are ignored.
+    Provides extra information about the snippet. Optional. When present the value must be a valid string of REML<sup>1</sup> code. If omitted the extra information is generated from the values of any <em>Comments</em>, <em>Credits</em> and <em>Credits_URL</em> keys. When <em>Extra</em> has a non-empty value the <em>Comments</em>, <em>Credits</em> and <em>Credits_URL</em> keys are ignored.
   </dd>
   <dt>
     StandardFormat
   </dt>
   <dd>
-    Flag indicating if a snippet is in "standard format" (i.e. it is a routine as opposed to freeform / plain text). Valid values are <code>0</code> for False or <code>1</code> for True. If omitted then <code>1</code> is assumed. Ignored if the <em>Kind</em> is present. If <em>Kind</em> is not present then <em>StandardFormat</em> = <code>0</code> is interpreted as <em>Kind</em> = <code>freeform</code> and <em>StandardFormat</em> = <code>1</code> is interpreted as <em>Kind</em> = <code>routine</code>.
+    Flag indicating if a snippet is in <em>standard format</em><sup>3</sup> (i.e. it is a routine as opposed to freeform / plain text). Valid values are <code>0</code> for False or <code>1</code> for True. If the key is omitted or empty then <code>1</code> is assumed. Ignored if a non-empty <em>Kind</em> key is present. If <em>Kind</em> is not present or empty then <em>StandardFormat</em> = <code>0</code> is interpreted as <em>Kind</em> = <code>freeform</code> and <em>StandardFormat</em> = <code>1</code> is interpreted as <em>Kind</em> = <code>routine</code>.
   </dd>
   <dt>
     Kind
   </dt>
   <dd>
-    Kind of code snippet this is. Valid values are:
+    The kind (or type) of this code snippet. Valid values are:
     <ul>
-      <li><code>freeform</code> – a freeform snippet that doesn't conform to any type other supported type. This is the default if <em>Kind</em is omitted unless <em>StandardFormat</em> is present (see above).</li>
+      <li><code>freeform</code> – a freeform snippet that doesn't conform to any other other supported type. This is the default if <em>Kind</em> is omitted unless <em>StandardFormat</em><sup>3</sup> is present (see above).</li>
       <li><code>routine</code> – a Pascal routine (function or procedure).</li>
       <li><code>type</code> – a simple Pascal type definition.</li>
       <li><code>const</code> – a Pascal constant definition.</li>
@@ -229,7 +227,7 @@ The sections in these files are named with a unique name that identifies a snipp
     TestInfo
   </dt>
   <dd>
-    Testing information for snippets. Valid values are:
+    Testing information for the snippet. Valid values are:
     <ul>
       <li><code>none</code> – the snippet has not been tested.</li>
       <li><code>basic</code> – the snippet has passed some simple testing.</li>
@@ -240,13 +238,13 @@ The sections in these files are named with a unique name that identifies a snipp
   <dt>
 </dl>
 
-The format is quite messy, with several values having similar or overlapping purposes. This has happened because new features have been added over time while preserving backward compatibility. Where continued use of old values still served the required purpose they were retained in favour of newer features.
+The format is quite messy, with several keys having similar or overlapping purposes. This has happened because new features have been added over time while preserving backward compatibility..
 
-Backwards compatibility with older formats has now been dropped, but to save development time some of the old style values have been retained. However some duplication of values has been removed.
+Backwards compatibility with older formats has now been dropped, but to save development time some of the old style values have been retained. However some duplication of keys has been removed.
 
 ## Source Code Files
 
-There is a separate source code file for each snippet. They are usually numbered from `001` and have a `.dat` extension.
+There is a separate source code file for each snippet. These file names must be named exactly as specified in the related category `.ini` file's <em>Snip</em> key. They are usually numbered from `001` and have a `.dat` extension, but this is not a requirement.
 
 ## Credits Files
 
@@ -254,7 +252,7 @@ There are two credits files, `contrib.txt` and `testers.txt` that list the peopl
 
 Each file is simply a list of names, with each name on a separate line.
 
-The credits files stand alone from the other files in the collection in that they are not referenced by, and do not reference, any of the other files.
+The credits files are not referenced by, and do not reference, any of the other files in the collection.
 
 ## License File
 
@@ -262,4 +260,12 @@ This is a plain UTF-8 text file named `LICENSE` that contains the license that a
 
 The exception is that any source code file may contains license information in comments. Such a license overrides that in the `LICENSE` file.
 
-The `LICENSE` file stand alone from the other files in the collection in that they are not referenced by, and do not reference, any of the other files.
+The `LICENSE` file is not referenced by, and do not reference, any of the other files in the collection.
+
+## Footnotes
+
+<sup>**1**</sup> REML is a text markup language used by the <em>CodeSnip</em>to format text. REML version 4 is supported. The REML format is documented elsewhere.
+
+<sup>**2**</sup> Here is an example of how the <em>Credits</em> and <em>Credits_URL</em> key values in the individual category `.ini` files are used. If <em>Credits</em>="`See [example]`" and <em>Credits_URL</em>="`http://example.com</em>`" and the <em>Extra</em>key is empty or missing then the extra text generated will be `See <a href="example.com">example 1</a>`.
+
+<sup>**3</sup> The <em>StandardFormat</em> key was used when snippets could only be either "standard" Pascal routines or simple plain text files. Later further types of snippets were added and the <em>Kind</em> key was introduced to enable them to be specified in the `.ini` file.

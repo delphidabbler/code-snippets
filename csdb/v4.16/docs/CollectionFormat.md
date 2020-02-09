@@ -91,7 +91,6 @@ Delphi10S=<Y|N|Q|W>
 Delphi101B=<Y|N|Q|W>
 FPC=<Y|N|Q|W>
 Extra=<extra-info-REML>
-StandardFormat=<0|1>
 Kind=<freeform|routine|type|const|class|unit>
 TestInfo=<none|basic|advanced>
 ```
@@ -204,18 +203,12 @@ The sections in these files are named with identifiers that uniquely identify a 
     Provides extra information about the snippet. Optional. When present the value must be a valid string of REML<sup>1</sup> code. If omitted the extra information is generated from the values of any <em>Comments</em>, <em>Credits</em> and <em>Credits_URL</em> keys. When <em>Extra</em> has a non-empty value the <em>Comments</em>, <em>Credits</em> and <em>Credits_URL</em> keys are ignored.
   </dd>
   <dt>
-    StandardFormat
-  </dt>
-  <dd>
-    Flag indicating if a snippet is in <em>standard format</em><sup>3</sup> (i.e. it is a routine as opposed to freeform / plain text). Valid values are <code>0</code> for False or <code>1</code> for True. If the key is omitted or empty then <code>1</code> is assumed. Ignored if a non-empty <em>Kind</em> key is present. If <em>Kind</em> is not present or empty then <em>StandardFormat</em> = <code>0</code> is interpreted as <em>Kind</em> = <code>freeform</code> and <em>StandardFormat</em> = <code>1</code> is interpreted as <em>Kind</em> = <code>routine</code>.
-  </dd>
-  <dt>
     Kind
   </dt>
   <dd>
     The kind (or type) of this code snippet. Valid values are:
     <ul>
-      <li><code>freeform</code> – a freeform snippet that doesn't conform to any other other supported type. This is the default if <em>Kind</em> is omitted unless <em>StandardFormat</em><sup>3</sup> is present (see above).</li>
+      <li><code>freeform</code> – a freeform snippet that doesn't conform to any other other supported type. This is the default if <em>Kind</em> is omitted.</li>
       <li><code>routine</code> – a Pascal routine (function or procedure).</li>
       <li><code>type</code> – a simple Pascal type definition.</li>
       <li><code>const</code> – a Pascal constant definition.</li>
@@ -267,5 +260,3 @@ The `LICENSE` file is not referenced by, and do not reference, any of the other 
 <sup>**1**</sup> REML is a text markup language used by the <em>CodeSnip</em>to format text. REML version 4 is supported. The REML format is documented elsewhere.
 
 <sup>**2**</sup> Here is an example of how the <em>Credits</em> and <em>Credits_URL</em> key values in the individual category `.ini` files are used. If <em>Credits</em>="`See [example]`" and <em>Credits_URL</em>="`http://example.com</em>`" and the <em>Extra</em>key is empty or missing then the extra text generated will be `See <a href="example.com">example 1</a>`.
-
-<sup>**3</sup> The <em>StandardFormat</em> key was used when snippets could only be either "standard" Pascal routines or simple plain text files. Later further types of snippets were added and the <em>Kind</em> key was introduced to enable them to be specified in the `.ini` file.

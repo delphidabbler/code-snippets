@@ -245,6 +245,8 @@ There are two credits files, `CONTRIBUTORS` and `TESTERS` that list the people w
 
 Each file is simply a list of names, in plain UTF-8 text format, with each name on a separate line. No blank lines are permitted.
 
+The files may be empty if there are no contributors and/or testers, but they *must* be present.
+
 The credits files are not referenced by, and do not reference, any of the other files in the collection.
 
 ## License File

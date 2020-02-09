@@ -6,7 +6,7 @@ The collection is organised as a set of categories, each of which contains one o
 
 Meta data describing the categories and snippets is stored in a set of `.ini` files. In addition there are numerous `.dat` files, each of which contains the source code of a snippet.
 
-Finally there are also plain text files containing the source code license and lists of credits.
+Finally there are also plain text files containing the source code license, version information and lists of credits.
 
 All the files are plain text, encoded in UTF-8 format with UTF-8 preamble (BOM).
 
@@ -253,10 +253,20 @@ This is a plain UTF-8 text file named `LICENSE` that contains the license that a
 
 The exception is that any source code file may contains license information in comments. Such a license overrides that in the `LICENSE` file.
 
-The `LICENSE` file is not referenced by, and do not reference, any of the other files in the collection.
+The `LICENSE` file is not referenced by, and does not reference, any of the other files in the collection.
+
+## Version Information File
+
+There is a plain UTF-8 text file named `VERSION` that contains the version number of the database. The current major version is v2.
+
+Databases before v2.0.0 did not have a `VERSION` file<sup>3</sup>.
+
+The `VERSION` file is not referenced by, and does not reference, any of the other files in the collection.
 
 ## Footnotes
 
-<sup>**1**</sup> REML is a text markup language used by the <em>CodeSnip</em>to format text. REML version 4 is supported. The REML format is documented elsewhere.
+<sup>**1**</sup> REML is a text markup language used to format text. REML version 4 is supported. The REML format is documented in [REML.md](REML.md).
 
 <sup>**2**</sup> Here is an example of how the <em>Credits</em> and <em>Credits_URL</em> key values in the individual category `.ini` files are used. If <em>Credits</em>="`See [example]`" and <em>Credits_URL</em>="`http://example.com</em>`" and the <em>Extra</em>key is empty or missing then the extra text generated will be `See <a href="example.com">example 1</a>`.
+
+<sup>**3**</sup> Version tracking was not done before v2.0.0. However it is safe to assume, using semantic versioning, that the current format is the second major release. This is because all previous database versions were backwards compatible and therefore all belonged to the same major version, which, logically, must have been v1. The fact that this version of the database breaks that backward compatibility means the major version must be bumped.

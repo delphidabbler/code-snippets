@@ -1,8 +1,0 @@
-﻿function IsWhiteSpace(const Ch: Char): Boolean;
-begin
-  {$IFDEF UNICODE}
-  Result := SysUtils.CharInSet(Ch, [' ', #9, #10, #11, #12, #13]);
-  {$ELSE}
-  Result := Ch in [' ', #9, #10, #11, #12, #13];
-  {$ENDIF}
-end;

@@ -1,10 +1,10 @@
-# REML Markup Language (v4)
+# REML Markup Language
 
 REML is a little markup language that can be used to style text. It is used in Code Snippets collection meta data for certain properties of a snippet.
 
 The REML language is a SGML language similar to a greatly simplified XHTML. The are a small number of tags and character entities that can be used.
 
-The language described here is REML v4. Earlier versions are obsolete.
+> **Note:** The language described here is REML v4. Earlier versions are obsolete.
 
 ## Tags
 

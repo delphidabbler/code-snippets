@@ -257,6 +257,8 @@ There are two files relating to license (and copyright) information: the full te
 
 This is a plain UTF-8 text file named `LICENSE` that contains the license that applies to the source code in the collection.
 
+This file *must* be present an non-empty.
+
 The `LICENSE` file is not referenced by, and does not reference, any of the other files in the collection.
 
 ### License Meta Information

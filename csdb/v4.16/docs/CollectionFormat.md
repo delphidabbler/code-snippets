@@ -6,7 +6,7 @@ The collection is organised as a set of categories, each of which contains one o
 
 Meta data describing the categories and snippets is stored in a set of `.ini` files. In addition there are numerous `.dat` files, each of which contains the source code of a snippet.
 
-Finally there are also plain text files containing the source code license, version information and lists of credits.
+There are additional files containing the source code license information, version information and lists of credits.
 
 All the files are plain text, encoded in UTF-8 format with UTF-8 preamble (BOM).
 
@@ -249,11 +249,69 @@ The credits files are not referenced by, and do not reference, any of the other 
 
 ## License File
 
+There are two files relating to license (and copyright) information: the full text of the license in human readable format and a file providing machine readable meta data about the license and copyright.
+
+### Full License Text
+
 This is a plain UTF-8 text file named `LICENSE` that contains the license that applies to the source code in the collection.
 
-The exception is that any source code file may contains license information in comments. Such a license overrides that in the `LICENSE` file.
-
 The `LICENSE` file is not referenced by, and does not reference, any of the other files in the collection.
+
+### License Meta Information
+
+A file named `LICENSE-INFO` is provided that contains information about the license in machine readable form. Information is in Key=Value format as follows:
+
+```
+LicenseName=<human-readable-name>
+LicenseSPDX=<code>
+LicenseURL=<url>
+CopyrightDate=<date-range>
+CopyrightHolder=<name>
+CopyrightHolderURL=<url>
+```
+
+The keys have the following meaning:
+
+<dl>
+  <dt>
+    LicenseName
+  </dt>
+  <dd>
+    The name of the license as plain text. E.g. <code>MIT License</code> or <code>Mozilla Public License 2.0</code>.    
+  </dd>
+  <dt>
+    LicenseSPDX
+  </dt>
+  <dd>
+    The Open Source Initiative (OSI) SPDX short identifier of the license, if any. E.g. <const>MIT</const> or <const>MPL-2.0</const>. If the license does not have a SPDX identifier this key <em>must</em> either be omitted or be empty. For a list of OSI licenses with their SPDXs see <a href="https://opensource.org/licenses/alphabetical">https://opensource.org/licenses/alphabetical</a>. 
+  </dd>
+  <dt>
+    LicenseURL
+  </dt>
+  <dd>
+    The URL of an online copy of the license. E.g. <code>https://opensource.org/licenses/MIT</code>. If the license has no URL then this key <em>must</em> be omitted or be empty.
+  </dd>
+  <dt>
+    CopyrightDate
+  </dt>
+  <dd>
+    The date of the copyright or range of copyright dates as plain text. E.g. <code>2020</code> or <code>2005-2020</code>.
+  </dd>
+  <dt>
+    CopyrightHolder
+  </dt>
+  <dd>
+    The name of the copyright holder as plain text. Where there are contributors either list them all or append &quot;and contributors&quot;<sup> 4</sup> to the primary copyright holder's name. E.g. <code>Joe Bloggs</code> or <code>Annie Smith, Joe Bloggs and Jessie Sharp</code> or <code>Annie Smith and Contributors</code>.
+  </dd>
+  <dt>
+    CopyrightHolderURL
+  </dt>
+  <dd>
+    The URL of a web page where details of the copyright holder(s) or primary copyright holder can be found. E.g. <code>https://example.com/joe-blogs-bio</code>. This key is optional.
+  </dd>
+</dl>
+
+The `LICENSE-INFO` file is not referenced by, and does not reference, any of the other files in the collection.
 
 ## Version Information File
 
@@ -270,3 +328,5 @@ The `VERSION` file is not referenced by, and does not reference, any of the othe
 <sup>**2**</sup> Here is an example of how the <em>Credits</em> and <em>Credits_URL</em> key values in the individual category `.ini` files are used. If <em>Credits</em>="`See [example]`" and <em>Credits_URL</em>="`http://example.com</em>`" and the <em>Extra</em>key is empty or missing then the extra text generated will be `See <a href="example.com">example 1</a>`.
 
 <sup>**3**</sup> Version tracking was not done before v2.0.0. However it is safe to assume, using semantic versioning, that the current format is the second major release. This is because all previous database versions were backwards compatible and therefore all belonged to the same major version, which, logically, must have been v1. The fact that this version of the database breaks that backward compatibility means the major version must be bumped.
+
+<sup>**4**</sup> If "contributors" is specified as part of the *CopyrightHolder* key value in `LICENSE-INFO` then the `CONTRIBUTORS` file *must* contain a list of all the contributors.

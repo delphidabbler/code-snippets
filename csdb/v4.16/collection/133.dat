@@ -1,0 +1,4 @@
+﻿function IsWhiteSpace(const Ch: Char): Boolean;
+begin
+  Result := IsCharInSet(Ch, [' ', #9, #10, #11, #12, #13]);
+end;

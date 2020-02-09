@@ -1,0 +1,14 @@
+﻿procedure InvertBitmap(const ABitmap: Graphics.TBitmap); overload;
+var
+  Y: Integer;                     // loops through bitmap's scanlines
+  X: Integer;                     // loops through triples in each scanline
+  ByteArray: SysUtils.PByteArray; // pointer to each RGB triple
+begin
+  ABitmap.PixelFormat := Graphics.pf24Bit;
+  for Y := 0 to ABitmap.Height - 1 do
+  begin
+    ByteArray := ABitmap.ScanLine[Y];
+    for X := 0 to ABitmap.Width * 3 - 1 do
+      ByteArray[X] := 255 - ByteArray[X];
+  end;
+end;

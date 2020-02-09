@@ -1,0 +1,62 @@
+﻿function ShortToLongFilePath(const FilePath: string): string;
+var
+  PrevPath: string;         // path before last file/dir in FilePath
+  ExpandedName: string;     // long form of file name
+  SR: SysUtils.TSearchRec;  // record used by file find functions
+  Success: Integer;         // indicates success in finding a file
+  // ---------------------------------------------------------------------------
+  function CountPathDelims(const Name: string): Integer;
+    {Counts path separators in given name}
+  var
+    Idx: Integer; // loops thru name string
+  begin
+    Result := 0;
+    for Idx := 1 to Length(Name) do
+      if SysUtils.IsPathDelimiter(Name, Idx) then
+        Inc(Result);
+  end;
+
+  function IsServerName(const Name: string): Boolean;
+    {Returns true if Names is in form \\Server\Share}
+  begin
+    Result := (SysUtils.AnsiPos('\\', Name) = 1)
+      and (CountPathDelims(Name) = 3);
+  end;
+  // ---------------------------------------------------------------------------
+begin
+  // Check if we have a drive, server/share or root path, and exit if so
+  // (we can't apply file search to any of these, so we return them unchanged
+  if (FilePath = '')
+    or (FilePath = '\')
+    or ((Length(FilePath) = 2) and (FilePath[2] = ':'))
+    or ((Length(FilePath) = 3) and (FilePath[2] = ':') and (FilePath[3] = '\'))
+    or IsServerName(FilePath) then
+  begin
+    Result := FilePath;
+    Exit;
+  end;
+  // Do a file search on file: this is used to expand name
+  Success := SysUtils.FindFirst(FilePath, SysUtils.faAnyFile, SR);
+  try
+    if Success = 0 then
+      ExpandedName := SR.FindData.cFileName
+    else
+      ExpandedName := '';
+  finally
+    SysUtils.FindClose(SR);
+  end;
+  // Check if there's any part of path we've not handled, and convert it if so
+  PrevPath := SysUtils.ExtractFileDir(FilePath);
+  if PrevPath <> '' then
+  begin
+    // We have unprocessed part of path: expand that
+    Result := ShortToLongFilePath(PrevPath);
+    // Appended currently expanded name to path
+    if (Result <> '') and (Result[Length(Result)] <> '\') then
+      Result := Result + '\';
+    Result := Result + ExpandedName;
+  end
+  else
+    // No earlier parts of path: just record expanded name
+    Result := ExpandedName;
+end;

@@ -1,0 +1,7 @@
+﻿function DefaultFileExt(const FileName, Ext: string): string;
+begin
+  if HasFileExt(FileName) then
+    Result := FileName
+  else
+    Result := ForceFileExt(FileName, Ext);
+end;

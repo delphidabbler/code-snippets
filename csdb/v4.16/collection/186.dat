@@ -1,0 +1,15 @@
+﻿function GetFileType(const FilePath: string): string;
+var
+  Info: ShellAPI.TSHFileInfo;
+begin
+  if ShellAPI.SHGetFileInfo(
+      PChar(FilePath),
+      0,
+      Info,
+      SizeOf(Info),
+      ShellAPI.SHGFI_TYPENAME
+    ) <> 0 then
+    Result := Info.szTypeName
+  else
+    Result := ''; // result if file or folder does not exist
+end;

@@ -1,0 +1,4 @@
+﻿procedure AddToRecentDocs(const FileName: string);
+begin
+  ShlObj.SHAddToRecentDocs(ShlObj.SHARD_PATH, PChar(FileName));
+end;

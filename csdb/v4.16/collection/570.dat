@@ -1,0 +1,15 @@
+﻿function IsPrime2(Val: Integer): Boolean;
+var
+  X: Integer; // index
+begin
+  Result := (Val > 1);
+  if Result then
+  begin
+    for X := (Val div 2) downto 2 do
+    begin
+      Result := Result and ((Val mod X) <> 0);
+      if not Result then
+    	Break;
+    end;
+  end;
+end;

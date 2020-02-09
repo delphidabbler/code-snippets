@@ -1,0 +1,17 @@
+﻿function ChopByteArray(const B: array of Byte; Start, Len: Integer):
+  TBytes;
+var
+  First, Last: TBytes;
+begin
+  if Start < 0 then
+    Start := 0;
+  if Len < 0 then
+    Len := 0
+  else if Start >= Length(B) then
+    Len := 0
+  else if Start + Len > Length(B) then
+    Len := Length(B) - Start;
+  First := SliceByteArray(B, 0, Start);
+  Last := SliceByteArray(B, Start + Len, Length(B));
+  Result := ConcatByteArrays(First, Last);
+end;

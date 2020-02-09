@@ -1,0 +1,9 @@
+﻿function IsCursorIcon(const Icon: Graphics.TIcon): Boolean;
+var
+  IconInfo: Windows.TIconInfo;  // receives info about icon
+begin
+  if not Windows.GetIconInfo(Icon.Handle, IconInfo) then
+    raise SysUtils.Exception.Create('Can''t get icon information');
+  // fIcon flag set to indicate a true icon, unset for cursor
+  Result := not IconInfo.fIcon;
+end;

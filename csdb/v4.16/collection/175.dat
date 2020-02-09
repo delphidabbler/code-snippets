@@ -1,0 +1,6 @@
+﻿function TimeHour(const Time: TDateTime): Word;
+var
+  Min, Sec, Sec100: Word; // unused dummy values required by DecodeTime
+begin
+  SysUtils.DecodeTime(Time, Result, Min, Sec, Sec100);
+end;

@@ -1,0 +1,9 @@
+﻿procedure WBBlankDocument(WB: SHDocVw.TWebbrowser);
+begin
+  WBNavigate(
+    WB,
+    'about:blank',
+    SHDocVw.navNoHistory or SHDocVw.navNoReadFromCache
+      or SHDocVw.navNoWriteToCache
+  );
+end;

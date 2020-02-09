@@ -1,0 +1,18 @@
+﻿function SizeOfFile64(const FileName: string): Int64;
+var
+  FH: THandle;  // file handle
+begin
+  FH := SysUtils.FileOpen(
+    FileName, SysUtils.fmOpenRead or SysUtils.fmShareDenyNone
+  );
+  try
+    SysUtils.Int64Rec(Result).Lo := Windows.GetFileSize(
+      FH, @SysUtils.Int64Rec(Result).Hi
+    );
+    if (SysUtils.Int64Rec(Result).Lo = $FFFFFFFF) and
+      (Windows.GetLastError <> Windows.NO_ERROR) then
+      Result := -1;
+  finally
+    SysUtils.FileClose(FH);
+  end;
+end;

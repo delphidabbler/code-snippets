@@ -1,0 +1,10 @@
+﻿procedure RegParsePath(const APath: string; out ASubKey, AValueName: string);
+begin
+  ASubKey := APath;
+  AValueName := '';
+  while (Length(ASubKey) > 0) and (LastChar(ASubKey) <> '\') do
+  begin
+    AValueName := LastChar(ASubKey) + AValueName;
+    StripLastChar(ASubKey);
+  end;
+end;

@@ -1,0 +1,73 @@
+﻿function GetGIFSize(const FileName: string): Types.TSize;
+type
+  // GIF header record
+  TGIFHeader = packed record
+    Sig: array[0..5] of AnsiChar;     // signature bytes
+    ScreenWidth, ScreenHeight: Word;  // logical screen width and height
+    Flags: Byte;                      // various flags
+    Background: Byte;                 // background colour index
+    Aspect: Byte;                     // pixel aspect ratio
+  end;
+  // GIF image block header record
+  TGIFImageBlock = packed record
+    Left, Top: Word;      // image top left
+    Width, Height: Word;  // image dimensions
+    Flags: Byte;          // flags and local colour table size
+  end;
+const
+  cSignature: PAnsiChar = 'GIF';  // gif image signature
+  cImageSep = $2C;                // image separator byte
+var
+  FS: Classes.TFileStream;      // stream onto gif file
+  Header: TGIFHeader;           // gif header record
+  ImageBlock: TGIFImageBlock;   // gif image block record
+  BytesRead: Integer;           // bytes read in a block read
+  Offset: Integer;              // file offset to seek to
+  B: Byte;                      // a byte read from gif file
+  DimensionsFound: Boolean;     // flag true if gif dimensions have been read
+begin
+  Result.cx := 0;
+  Result.cy := 0;
+  if (FileName = '') or not SysUtils.FileExists(FileName) then
+    Exit;
+  FS := Classes.TFileStream.Create(
+    FileName, SysUtils.fmOpenRead or SysUtils.fmShareDenyNone
+  );
+  try
+    // Check signature
+    BytesRead := FS.Read(Header, SizeOf(Header));
+    if (BytesRead <> SizeOf(TGIFHeader)) or
+      (SysUtils.StrLComp(cSignature, Header.Sig, 3) <> 0) then
+      // Invalid file format
+      Exit;
+    // Skip colour map, if there is one
+    if (Header.Flags and $80) > 0 then
+    begin
+      Offset := 3 * (1 shl ((Header.Flags and 7) + 1));
+      if Offset >= FS.Size then
+        Exit;
+      FS.Seek(Offset, Classes.soFromBeginning);
+    end;
+    DimensionsFound := False;
+    FillChar(ImageBlock, SizeOf(TGIFImageBlock), #0);
+    // Step through blocks
+    FS.Read(B, SizeOf(B));
+    while (FS.Position < FS.Size) and (not DimensionsFound) do
+    begin
+      if B = cImageSep then
+      begin
+        // We have an image block: read dimensions from it
+        BytesRead := FS.Read(ImageBlock, SizeOf(ImageBlock));
+        if BytesRead <> SizeOf(TGIFImageBlock) then
+          // Invalid image block encountered
+          Exit;
+        Result.cx := ImageBlock.Width;
+        Result.cy := ImageBlock.Height;
+        DimensionsFound := True;
+      end;
+      FS.Read(B, SizeOf(B));
+    end;
+  finally
+    FS.Free;
+  end;
+end;

@@ -1,0 +1,23 @@
+﻿function IsPrime(N: Integer): Boolean;
+var
+  Max: Integer;     // max divisor
+  Divisor: Integer; // different divisors to try
+begin
+  Result := False;
+  if N < 2 then
+    Exit; // not a prime
+  Result := True;
+  if N = 2 then
+    Exit; // 2 is prime
+  if N mod 2 = 0 then
+    Result := False; // even numbers > 2 are not prime
+  Max := Trunc(Sqrt(N)) + 1;
+  Divisor := 3;
+  // test odd numbers
+  while (Max > Divisor) and Result do
+  begin
+    if (N mod Divisor) = 0 then
+      Result := False;
+    Inc(Divisor, 2); // next odd number
+  end;
+end;

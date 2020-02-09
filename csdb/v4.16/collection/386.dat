@@ -1,0 +1,6 @@
+﻿type
+  TAIBrightness = -100..100;  // range of valid brightness values
+  TAIContrast = -100..100;    // range of valid constrast values
+  TAITint = -100..100;        // range of valid tint values
+  TAISaturation = -100..100;  // range of valid saturation values
+  TAIGamma = 2500..65000;     // range of valid gamma values

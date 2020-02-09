@@ -1,0 +1,4 @@
+﻿function IsSunday(const DT: TDateTime): Boolean;
+begin
+  Result := SysUtils.DayOfWeek(DT) = 1;
+end;

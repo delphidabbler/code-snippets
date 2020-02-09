@@ -1,0 +1,11 @@
+﻿function CutWordByIndex(const N: Integer; var Str: string;
+  const Delims: TCharSet): string;
+var
+  St, En: Integer;  // start and end of string to cut
+begin
+  if GetStartAndEndWord(N, Str, Delims, St, En) then
+  begin
+    Result := Copy(Str, St, En - St + 1);
+    Delete(Str, St, En - St + 1);
+  end;
+end;

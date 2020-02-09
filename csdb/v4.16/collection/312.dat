@@ -1,0 +1,22 @@
+﻿function BufToHex(const Buf; const Size: Cardinal): string;
+const
+  // maps nibbles to hex digits
+  cHexDigits: array[$0..$F] of Char = (
+    '0', '1', '2', '3', '4', '5', '6', '7',
+    '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
+  );
+var
+  I: Cardinal;  // loops thru output string
+  PB: ^Byte;    // addresses each byte in buffer
+begin
+  PB := @Buf;
+  SetLength(Result, 2 * Size);
+  I := 1;
+  while I <= 2 * Size do
+  begin
+    Result[I] := cHexDigits[PB^ shr 4];
+    Result[I + 1] := cHexDigits[PB^ and $0F];
+    Inc(PB);
+    Inc(I, 2);
+  end;
+end;

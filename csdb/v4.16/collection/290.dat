@@ -1,0 +1,25 @@
+﻿function AdjustColorBrightness(Color: Graphics.TColor;
+  Delta: Integer): Graphics.TColor;
+  // ---------------------------------------------------------------------------
+  function ApplyDelta(ColorPart: Integer): Byte;
+    {Adjusts a colour component part by given delta, truncating at limits}
+  begin
+    ColorPart := ColorPart + Delta;
+    if ColorPart > 255 then
+      Result := 255
+    else if ColorPart < 0 then
+      Result := 0
+    else
+      Result := Byte(ColorPart);
+  end;
+  // ---------------------------------------------------------------------------
+var
+  R, G, B: Integer;       // red, green and blue colour components
+  RGB: Windows.TColorRef; // RGB equivalent of Color
+begin
+  RGB := Graphics.ColorToRGB(Color);  // ensures system Colours are converted
+  R := ApplyDelta(Windows.GetRValue(RGB));
+  G := ApplyDelta(Windows.GetGValue(RGB));
+  B := ApplyDelta(Windows.GetBValue(RGB));
+  Result := Windows.RGB(R, G, B);
+end;

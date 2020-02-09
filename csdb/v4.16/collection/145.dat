@@ -1,0 +1,9 @@
+﻿function RemainingBatteryPercent: Integer;
+var
+  Stat: Windows.TSystemPowerStatus;
+begin
+  Windows.GetSystemPowerStatus(Stat);
+  Result := Stat.BatteryLifePercent;
+  if (Result < 0) or (Result > 100) then
+    Result := -1;
+end;

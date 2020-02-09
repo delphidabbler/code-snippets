@@ -1,0 +1,6 @@
+﻿procedure PlaySound(const AFilename: string);
+begin
+  MMSystem.SndPlaySound(
+    PChar(AFilename), MMSystem.SND_ASYNC or MMSystem.SND_NODEFAULT
+  );
+end;

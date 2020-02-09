@@ -1,0 +1,16 @@
+﻿function GetFirstWord(var S: string; const Delim: Char = ' '): string;
+var
+  AWordCount: Integer;      // number of words in string
+  Words: Classes.TStrings;  // list of words in string
+begin
+  Words := Classes.TStringList.Create;
+  try
+    AWordCount := ExplodeStr(CompressWhiteSpace(S), Delim, Words, False, True);
+    if AWordCount > 0 then
+      Result := Words[0]
+    else
+      Result := '';
+  finally
+    Words.Free;
+  end;
+end;

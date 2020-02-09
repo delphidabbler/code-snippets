@@ -1,0 +1,9 @@
+﻿function IsColorIcon(const Icon: Graphics.TIcon): Boolean;
+var
+  IconInfo: Windows.TIconInfo;  // receives info about icon
+begin
+  if not Windows.GetIconInfo(Icon.Handle, IconInfo) then
+    raise SysUtils.Exception.Create('Can''t get icon information');
+  // colour icons have separate colour bitmap
+  Result := IconInfo.hbmColor <> 0;
+end;

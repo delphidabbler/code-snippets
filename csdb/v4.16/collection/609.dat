@@ -1,0 +1,21 @@
+﻿function WBSetOpticalZoom(WB: SHDocVw.TWebbrowser; ZoomPercent: Cardinal):
+  Integer;
+const
+  OLECMDID_OPTICAL_ZOOM = $0000003F;
+var
+  InParam, OutParam: OleVariant;
+begin
+  InParam := ZoomPercent;
+  OutParam := Variants.Null;
+  if WBInvokeCmd(
+    WB,
+    False,
+    OLECMDID_OPTICAL_ZOOM,
+    SHDocVw.OLECMDEXECOPT_DODEFAULT,
+    InParam,
+    OutParam
+  ) and (Variants.VarType(OutParam) = varInteger) then
+    Result := OutParam
+  else
+    Result := -1;
+end;

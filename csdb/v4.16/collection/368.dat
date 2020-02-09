@@ -1,0 +1,5 @@
+﻿function ConcatByteArrays(const B1, B2: array of Byte): TBytes;
+begin
+  Result := CloneByteArray(B1);
+  AppendByteArray(Result, B2);
+end;

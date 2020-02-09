@@ -1,0 +1,17 @@
+﻿function DeleteFileWithUndo(const FileName: string): Boolean;
+var
+  FOS: ShellAPI.TSHFileOpStruct;  // contains info about required file operation
+begin
+  // Set up structure that determines file operation
+  FillChar(FOS, SizeOf(FOS), 0);
+  with FOS do
+  begin
+    wFunc := ShellAPI.FO_DELETE;      // we're deleting
+    pFrom := PChar(FileName + #0);    // this file (#0#0 terminated)
+    fFlags := ShellAPI.FOF_ALLOWUNDO  // with facility to undo op
+      or ShellAPI.FOF_NOCONFIRMATION  // and we don't want any dialogs
+      or ShellAPI.FOF_SILENT;
+  end;
+  // Perform the operation
+  Result := ShellAPI.SHFileOperation(FOS) = 0;
+end;

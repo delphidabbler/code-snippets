@@ -1,0 +1,25 @@
+﻿procedure EnsureFolders(Path: string);
+var
+  SlashPos: Integer;    // position of last backslash in path
+  SubPath: string;      // immediate parent folder of given path
+begin
+  // Check there's a path to create
+  if Length(Path) = 0 then
+    Exit;
+  // Remove any trailing '\'
+  Path := PathToDir(Path);
+  // Check if folder exists and quit if it does - we're done
+  if IsDirectory(Path) then
+    Exit;
+  // Recursively call routine on immediate parent folder
+  // remove bottomost folder from path - ie move up to parent folder
+  SubPath := Path;
+  SlashPos := Length(SubPath);
+  while (SlashPos > 2) and (SubPath[SlashPos] <> '\') do
+    Dec(SlashPos);
+  Delete(SubPath, SlashPos, Length(Path) - SlashPos + 1);
+  // do recursive call - ensures that parent folder of current path exist
+  EnsureFolders(SubPath);
+  // Create this current folder now we know parent folder exists
+  SysUtils.CreateDir(Path);
+end;

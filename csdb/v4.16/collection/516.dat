@@ -1,0 +1,23 @@
+﻿function StreamHasWatermark(const Stm: Classes.TStream;
+  const Watermark: array of Byte): Boolean;
+var
+  StmPos: Int64;
+  Buf: array of Byte;
+  I: Integer;
+begin
+  Assert(Length(Watermark) > 0, 'No "watermark" specified');
+  Result := False;
+  StmPos := Stm.Position;
+  try
+    if Stm.Size - StmPos < Length(Watermark) then
+      Exit;
+    SetLength(Buf, Length(Watermark));
+    Stm.ReadBuffer(Pointer(Buf)^, Length(Buf));
+    for I := Low(Buf) to High(Buf) do
+      if Buf[I] <> Watermark[I] then
+        Exit;
+    Result := True;
+  finally
+    Stm.Position := StmPos;
+  end;
+end;

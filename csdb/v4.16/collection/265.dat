@@ -1,0 +1,13 @@
+﻿procedure Delay(ADelay: Integer);
+var
+  StartTC: Windows.DWORD;   // tick count when routine called
+  CurrentTC: Int64;         // tick count at each loop iteration
+begin
+  StartTC := Windows.GetTickCount;
+  repeat
+    CurrentTC := Windows.GetTickCount;
+    if CurrentTC < StartTC then
+      // tick count has wrapped around: adjust it
+      CurrentTC := CurrentTC + High(Windows.DWORD);
+  until CurrentTC - StartTC >= ADelay;
+end;

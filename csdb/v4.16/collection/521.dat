@@ -1,0 +1,5 @@
+﻿function IsUTF16Stream(const Stm: Classes.TStream): Boolean;
+begin
+  Result := StreamHasWatermark(Stm, [$FF, $FE])  // UTF-16 LE
+    or StreamHasWatermark(Stm, [$FE, $FF])       // UTF-16 BE
+end;

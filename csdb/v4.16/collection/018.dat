@@ -1,0 +1,11 @@
+﻿function ExecAssociatedApp(const FileName: string): Boolean;
+begin
+  Result := ShellAPI.ShellExecute(
+    0,
+    nil,
+    PChar(FileName),
+    nil,
+    nil,
+    Windows.SW_SHOW
+  ) > 32;
+end;

@@ -1,0 +1,4 @@
+﻿function RectArea(const R: Windows.TRect): Int64;
+begin
+  Result := Abs((R.Right - R.Left) * (R.Bottom - R.Top));
+end;

@@ -1,0 +1,17 @@
+﻿procedure ParseStr(const StrToParse: string; const Delimiter: Char; 
+  const Words: Classes.TStringList);
+var
+  TmpInStr: string;
+begin
+  TmpInStr := StrToParse;
+  Words.Clear;
+  if Length(TmpInStr) > 0 then
+  begin
+    while Pos(Delimiter, TmpInStr) > 0 do
+    begin
+      Words.Append(Copy(TmpInStr, 1, Pos(Delimiter, TmpInStr) - 1));
+      Delete(TmpInStr, 1, Pos(Delimiter, TmpInStr));
+    end;
+    Words.Append(TmpInStr);
+  end;
+end;

@@ -1,0 +1,8 @@
+﻿procedure Exchange(var I1, I2: Word); overload;
+var
+  Temp: Word;
+begin
+  Temp := I1;
+  I1 := I2;
+  I2 := Temp;
+end;

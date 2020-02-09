@@ -1,0 +1,8 @@
+﻿procedure EmptyKeyQueue;
+var
+  Msg: Windows.TMsg;  // dummy value to receive each message from queue
+begin
+  while Windows.PeekMessage(
+    Msg, 0, Messages.WM_KEYFIRST, Messages.WM_KEYLAST, Windows.PM_REMOVE
+  ) do {nothing};
+end;

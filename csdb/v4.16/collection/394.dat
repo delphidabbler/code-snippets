@@ -1,0 +1,29 @@
+﻿function RegReadString(const ARootKey: Windows.HKEY;
+  const APath, ADefault: string): string;
+var
+  SubKey: string;     // registry sub-key extracted from APath
+  ValueName: string;  // value name extracted from APath
+begin
+  with Registry.TRegistry.Create do
+    try
+      try
+        begin
+          RootKey := ARootKey;
+          RegParsePath(APath, SubKey, ValueName);
+          if OpenKeyReadOnly(SubKey) then
+          begin
+            if ValueExists(ValueName) then
+              Result := ReadString(ValueName)
+            else
+              Result := ADefault;
+          end
+          else
+            Result := ADefault;
+        end
+      except
+        Result := ADefault;
+      end;
+    finally
+      Free;
+    end;
+end;

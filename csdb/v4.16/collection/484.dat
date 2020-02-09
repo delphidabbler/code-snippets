@@ -1,0 +1,6 @@
+﻿function PopByteArray(var A: TBytes): Byte;
+begin
+  Assert(Length(A) > 0, 'A must be a non-empty array');
+  Result := A[Pred(Length(A))];
+  SetLength(A, Length(A) - 1);
+end;

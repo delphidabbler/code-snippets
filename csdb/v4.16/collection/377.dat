@@ -1,0 +1,4 @@
+﻿function ZoomRatio(const DestSize, SrcSize: Types.TSize): Double; overload;
+begin
+  Result := ZoomRatio(DestSize.cx, DestSize.cy, SrcSize.cx, SrcSize.cy);
+end;

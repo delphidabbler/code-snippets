@@ -1,0 +1,8 @@
+﻿function TryStrToByte(const S: string; out B: Byte): Boolean;
+var
+  Value: Word;  // receives word value of conversion
+begin
+  Result := TryStrToWord(S, Value) and (SysUtils.WordRec(Value).Hi = 0);
+  if Result then
+    B := SysUtils.WordRec(Value).Lo;
+end;

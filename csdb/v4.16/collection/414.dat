@@ -1,0 +1,12 @@
+﻿function DateQuarterEnd(const D: TDateTime): TDateTime;
+var
+  Year, Month, Day, Quarter: Word;
+begin
+  SysUtils.DecodeDate(D, Year, Month, Day);
+  Quarter := 4 - ((12 - Month) div 3);
+  // get 1st day of following quarter
+  Month := 0;
+  SysUtils.IncAMonth(Year, Month, Day, Quarter * 3 + 1);
+  // required date is day before 1st day of following quarter
+  Result := SysUtils.EncodeDate(Year, Month, 1) - 1.0;
+end;

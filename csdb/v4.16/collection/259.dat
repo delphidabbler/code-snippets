@@ -1,0 +1,12 @@
+﻿function IsHugeFile(const FileName: string): Boolean;
+var
+  Size64: Int64; // file size
+const
+  c2Gb: Int64 = 2147483648; // 2Gb in bytes
+begin
+  Size64 := SizeOfFile64(FileName);
+  if Size64 = -1 then
+    Result := False
+  else
+    Result := Size64 >= c2Gb;
+end;

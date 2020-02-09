@@ -1,0 +1,4 @@
+﻿function ProgramFilesFolder: string;
+begin
+  Result := GetCurrentVersionRegStr('ProgramFilesDir');
+end;

@@ -1,0 +1,4 @@
+﻿function IsWednesday(const DT: TDateTime): Boolean;
+begin
+  Result := SysUtils.DayOfWeek(DT) = 4;
+end;

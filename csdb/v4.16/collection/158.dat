@@ -1,0 +1,16 @@
+﻿function GetWindowProcessID(const Wnd: Windows.HWND): Windows.DWORD;
+var
+  GetWindowThreadProcessId: function(Wnd: Windows.HWND; // API fn prototype
+    lpdwProcessId: Windows.PDWORD): Windows.DWORD; stdcall;
+begin
+  // We load the API function explicitly to make the routine compatible with as
+  // many compilers as possible: the definition of GetWindowThreadProcessId in
+  // Delphi and FreePascal Windows units varies across compilers
+  GetWindowThreadProcessId := GetProcAddress(
+    GetModuleHandle('user32.dll'), 'GetWindowThreadProcessId'
+  );
+  if Assigned(GetWindowThreadProcessId) and Windows.IsWindow(Wnd) then
+    GetWindowThreadProcessId(Wnd, @Result)
+  else
+    Result := Windows.DWORD(-1);
+end;

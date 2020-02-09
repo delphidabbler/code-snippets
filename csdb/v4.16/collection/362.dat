@@ -1,0 +1,12 @@
+﻿function CodePageSupportsString(const S: UnicodeString;
+  const CodePage: Word): Boolean;
+var
+  Encoding: SysUtils.TEncoding;  // Encoding for required code page
+begin
+  Encoding := SysUtils.TMBCSEncoding.Create(CodePage);
+  try
+    Result := EncodingSupportsString(S, Encoding);
+  finally
+    Encoding.Free;
+  end;
+end;

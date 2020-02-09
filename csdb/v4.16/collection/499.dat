@@ -1,0 +1,15 @@
+﻿function AllDigitsSame(N: Int64): Boolean;
+var
+  D: 0..9;  // sample digit from N
+begin
+  N := Abs(N);
+  D := N mod 10;
+  Result := False;
+  while N > 0 do
+  begin
+    if N mod 10 <> D then
+      Exit;
+    N := N div 10;
+  end;
+  Result := True;
+end;

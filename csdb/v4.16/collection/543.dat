@@ -1,0 +1,4 @@
+﻿function IsThursday(const DT: TDateTime): Boolean;
+begin
+  Result := SysUtils.DayOfWeek(DT) = 5;
+end;

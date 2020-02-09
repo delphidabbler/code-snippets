@@ -1,0 +1,7 @@
+﻿function IsRunningOnBattery: Boolean;
+var
+  Stat: Windows.TSystemPowerStatus;
+begin
+  Windows.GetSystemPowerStatus(Stat);
+  Result := Stat.ACLineStatus = 0;
+end;

@@ -1,0 +1,14 @@
+﻿function StripDuplicateStrings(const SA: array of string):
+  Types.TStringDynArray;
+var
+  SL: Classes.TStringList;
+begin
+  SL := Classes.TStringList.Create;
+  try
+    ArrayToStringList(SA, SL);
+    RemoveDuplicateStrings(SL);
+    Result := StringListToArray(SL);
+  finally
+    SL.Free;
+  end;
+end;

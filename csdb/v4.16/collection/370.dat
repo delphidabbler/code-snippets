@@ -1,0 +1,10 @@
+﻿function CheckInternetConnection(AHost: PAnsiChar): Boolean;
+var
+  PHE: PHostEnt;
+  GInitData: TWSAData;
+begin
+  WinSock.WSAStartup($101, GInitData);
+  PHE := WinSock.GetHostByName(AHost);
+  WinSock.WSACleanup;
+  Result := (PHE <> nil);
+end;

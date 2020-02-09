@@ -1,0 +1,74 @@
+﻿function URIDecode(S: string; const IsQueryString: Boolean): string;
+const
+  cPercent = '%';
+
+  // Counts number of '%' characters in a UTF8 string
+  function CountPercent(const S: UTF8String): Integer;
+  var
+    Idx: Integer; // loops thru all octets of S
+  begin
+    Result := 0;
+    for Idx := 1 to Length(S) do
+      if S[Idx] = cPercent then
+        Inc(Result);
+  end;
+
+{$IFDEF FPC}
+const
+{$ELSE}
+resourcestring
+{$ENDIF}
+  // Error messages
+  rsEscapeError = 'String to be decoded contains invalid % escape sequence';
+var
+  SrcUTF8: UTF8String;  // input string as UTF-8
+  SrcIdx: Integer;      // index into source UTF-8 and WideString strings
+  ResUTF8: UTF8String;  // output string as UTF-8
+  ResIdx: Integer;      // index into result UTF-8 string
+  Hex: string;          // hex component of % encoding
+  ChValue: Integer;     // character ordinal value from a % encoding
+begin
+  // If data from query string then replace '+' with ' '. We should really
+  // replace with %20 since string is still URI encoded and space is not one of
+  // the reserved characters and so should be percent encoded. However this
+  // routine accepts strings that break the rules and this works here.
+  if IsQueryString then
+    for SrcIdx := 1 to Length(S) do
+      if S[SrcIdx] = '+' then
+        S[SrcIdx] := ' ';
+  // Convert input string to UTF-8
+  SrcUTF8 := UTF8Encode(S);
+  // Size the decoded UTF-8 string: each 3 byte sequence starting with '%' is
+  // replaced by a single byte. All other bytes are copied unchanged.
+  SetLength(ResUTF8, Length(SrcUTF8) - 2 * CountPercent(SrcUTF8));
+  SrcIdx := 1;
+  ResIdx := 1;
+  while SrcIdx <= Length(SrcUTF8) do
+  begin
+    if SrcUTF8[SrcIdx] = cPercent then
+    begin
+      // % encoding: decode following two hex chars into required code point
+      if Length(SrcUTF8) < SrcIdx + 2 then
+        raise EConvertError.Create(rsEscapeError);  // malformed: too short
+      Hex := '$' + string(SrcUTF8[SrcIdx + 1] + SrcUTF8[SrcIdx + 2]);
+      if not TryStrToInt(Hex, ChValue) then
+        raise EConvertError.Create(rsEscapeError);  // malformed: not valid hex
+      ResUTF8[ResIdx] := AnsiChar(ChValue);
+      Inc(ResIdx);
+      Inc(SrcIdx, 3);
+    end
+    else
+    begin
+      // plain char or UTF-8 continuation character: copy unchanged
+      ResUTF8[ResIdx] := SrcUTF8[SrcIdx];
+      Inc(ResIdx);
+      Inc(SrcIdx);
+    end;
+  end;
+  // Convert back to wide / Unicode string type for result
+  {$IFDEF UNICODE}
+  Result := UTF8ToString(ResUTF8);
+  {$ELSE}
+  Result := UTF8Decode(ResUTF8);
+  {$ENDIF}
+end;

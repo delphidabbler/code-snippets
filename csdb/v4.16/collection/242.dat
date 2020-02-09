@@ -1,0 +1,36 @@
+﻿function IsAppResponding(const Wnd: Windows.HWND): Boolean;
+type
+  TIsHungThread = function(ThreadId: Windows.DWORD): Windows.BOOL;
+    stdcall;  // prototype of win9x API IsHungThread function
+  TIsHungAppWindow = function(Wnd: Windows.HWND): Windows.BOOL;
+    stdcall;  // prototype of winNT API IsHungAppWindow function
+var
+  User32: Windows.THandle;            // handle to User32.dll
+  IsHungThread: TIsHungThread;        // win 9x API function reference
+  IsHungAppWindow: TIsHungAppWindow;  // win NT API function reference
+resourcestring
+  // Exception messages
+  sNotWindow = 'Invalid window handle';
+  sCantLoadUser32 = 'Can''t reference User32.dll';
+  sCantLoadFunction = 'Can''t load required API routine';
+begin
+  if not Windows.IsWindow(Wnd) then
+    raise SysUtils.Exception.Create(sNotWindow);
+  User32 := Windows.GetModuleHandle('user32.dll');
+  if User32 = 0 then
+    raise SysUtils.Exception.Create(sCantLoadUser32);
+  if IsWinNT then
+  begin
+    @IsHungAppWindow := Windows.GetProcAddress(User32, 'IsHungAppWindow');
+    if not Assigned(IsHungAppWindow) then
+      raise SysUtils.Exception.Create(sCantLoadFunction);
+    Result := not IsHungAppWindow(Wnd);
+  end
+  else
+  begin
+    @IsHungThread := Windows.GetProcAddress(User32, 'IsHungThread');
+    if not Assigned(IsHungThread) then
+      raise SysUtils.Exception.Create(sCantLoadFunction);
+    Result := not IsHungThread(GetWindowThreadID(Wnd));
+  end;
+end;

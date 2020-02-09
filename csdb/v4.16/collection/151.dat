@@ -1,0 +1,10 @@
+﻿function IsVista: Boolean;
+var
+  PFunction: Pointer; // pointer to GetProductInfo function if exists
+begin
+  // Try to load GetProductInfo from Kernel32: present if Vista
+  PFunction := Windows.GetProcAddress(
+    Windows.GetModuleHandle('kernel32.dll'), 'GetProductInfo'
+  );
+  Result := Assigned(PFunction);
+end;

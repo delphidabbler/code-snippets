@@ -1,0 +1,13 @@
+﻿function IntToBinary(Value: Integer; const Digits: Byte): string; overload;
+const
+  // Binary digit characters
+  BinaryDigits: array[0..1] of Char = '01';
+begin
+  Result := '';
+  while Value <> 0 do
+  begin
+    Result := BinaryDigits[Value and 1] + Result;
+    Value := Value shr 1;
+  end;
+  Result := PadRight(Result, '0', Digits);
+end;

@@ -1,0 +1,9 @@
+﻿function ReverseNumberR(AValue: Int64): Int64;
+begin
+  Assert(AValue >= 0);
+  if AValue mod 10 = AValue then
+    Result := AValue
+  else
+    Result := ((AValue mod 10) * Trunc(IntPower(10, Trunc(Log10(AValue)))))
+      + ReverseNumberR(AValue div 10)
+end;

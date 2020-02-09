@@ -1,0 +1,4 @@
+﻿function SQLDate(const Date: TDateTime): string;
+begin
+  Result := SysUtils.FormatDateTime('yyyy"-"mm"-"dd', Date);
+end;

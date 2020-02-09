@@ -1,0 +1,5 @@
+﻿procedure StripLastChar(var S: string);
+begin
+  if Length(S) > 0 then
+    Delete(S, Length(S), 1);
+end;

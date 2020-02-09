@@ -1,0 +1,5 @@
+﻿function CloneJPEGAsBitmap(const Jpg: JPEG.TJPEGImage): Graphics.TBitmap;
+begin
+  Result := Graphics.TBitmap.Create;
+  Result.Assign(Jpg);
+end;

@@ -1,0 +1,4 @@
+﻿function GetParentDirectory(const APath: string): string;
+begin
+  Result := SysUtils.ExpandFileName(DirToPath(APath) + '..');
+end;

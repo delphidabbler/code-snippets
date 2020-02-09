@@ -1,0 +1,10 @@
+﻿function ContainsFocus(Control: Controls.TWinControl): Boolean;
+var
+  FC: Controls.TWinControl;
+begin
+  FC := FocusedControl;
+  if Assigned(FC) then
+    Result := Control.ContainsControl(FocusedControl)
+  else
+    Result := False
+end;

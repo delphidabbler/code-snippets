@@ -1,0 +1,4 @@
+﻿function BytesToHex(const Bytes: array of Byte): string;
+begin
+  Result := BufToHex(Bytes, Length(Bytes));
+end;

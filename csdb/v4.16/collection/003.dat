@@ -1,0 +1,4 @@
+﻿function WinFileTimeToStr(FT: Windows.TFileTime): string;
+begin
+  Result := SysUtils.DateTimeToStr(WinFileTimeToDateTime(FT));
+end;

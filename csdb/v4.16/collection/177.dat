@@ -1,0 +1,6 @@
+﻿function TimeSec(const Time: TDateTime): Word;
+var
+  Hour, Min, Sec100: Word; // unused dummy values required by DecodeTime
+begin
+  SysUtils.DecodeTime(Time, Hour, Min, Result, Sec100);
+end;

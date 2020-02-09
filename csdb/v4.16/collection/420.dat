@@ -1,0 +1,5 @@
+﻿function ResizeRect(const R: Types.TRect; const NewSize: Types.TSize):
+  Types.TRect; overload;
+begin
+  Result := ResizeRect(R, NewSize.CX, NewSize.CY);
+end;

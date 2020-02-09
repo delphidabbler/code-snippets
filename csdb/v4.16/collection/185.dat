@@ -1,0 +1,15 @@
+﻿function GetGenericFileType(const FileNameOrExt: string): string;
+var
+  Info: ShellAPI.TSHFileInfo;
+begin
+  if ShellAPI.SHGetFileInfo(
+      PChar(FileNameOrExt),
+      Windows.FILE_ATTRIBUTE_NORMAL,
+      Info,
+      SizeOf(Info),
+      ShellAPI.SHGFI_TYPENAME or ShellAPI.SHGFI_USEFILEATTRIBUTES
+    ) <> 0 then
+    Result := Info.szTypeName
+  else
+    Result := ''; // should never be reached
+end;

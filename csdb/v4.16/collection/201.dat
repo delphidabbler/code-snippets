@@ -1,0 +1,12 @@
+﻿function GCD(A, B: Integer): Integer;
+var
+  Temp: Integer; // used in swapping A & B
+begin
+  while B <> 0 do
+  begin
+    Temp := B;
+    B := A mod Temp;
+    A := Temp;
+  end;
+  Result := Abs(A);
+end;

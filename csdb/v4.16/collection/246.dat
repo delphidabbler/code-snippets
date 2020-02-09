@@ -1,0 +1,19 @@
+﻿function PadCenter(const AString: string; const AChar: Char;
+  const AWidth: Integer): string;
+var
+  NumPadChars: Integer; // number of padding chars required
+  LPad: Integer;        // number of padding chars to left
+  RPad: Integer;        // number of padding chars to right
+begin
+  if Length(AString) < AWidth then
+  begin
+    NumPadChars := AWidth - Length(AString);
+    LPad := NumPadChars div 2;
+    RPad := LPad;
+    if Odd(NumPadChars) then
+      Inc(RPad);
+    Result := StringOfChar(AChar, LPad) + AString + StringOfChar(AChar, RPad);
+  end
+  else
+    Result := AString;
+end;

@@ -1,0 +1,11 @@
+﻿function ChangeChar(const AString: string; ASearch, AReplace: Char): string;
+var
+  I: integer; // loops thru all chars of string
+begin
+  Result := AString;
+  if Result = '' then
+    Exit;
+  for I := 1 to Length(Result) do
+    if Result[I] = ASearch then
+      Result[I] := AReplace;
+end;

@@ -1,0 +1,10 @@
+﻿function EncodingSupportsString(const S: UnicodeString;
+  const Encoding: SysUtils.TEncoding): Boolean;
+var
+  ConvertedStr: UnicodeString;   // string converted using Encoding
+begin
+  // Convert S to bytes and back to unicode string using Encoding
+  ConvertedStr := Encoding.GetString(Encoding.GetBytes(S));
+  // If text is valid for given encoding, text and converted text must be same
+  Result := S = ConvertedStr;
+end;

@@ -1,0 +1,22 @@
+﻿function WBGetOpticalZoomRange(WB: SHDocVw.TWebbrowser): TRange;
+const
+  OLECMDID_OPTICAL_GETZOOMRANGE = $00000040;
+var
+  InParam, OutParam: OleVariant;
+begin
+  OutParam := Variants.Null;
+  if WBInvokeCmd(
+    WB,
+    False,
+    OLECMDID_OPTICAL_GETZOOMRANGE,
+    SHDocVw.OLECMDEXECOPT_DODEFAULT,
+    InParam,
+    OutParam
+  ) then
+    Result := Range(
+      SysUtils.LongRec(Cardinal(OutParam)).Lo,
+      SysUtils.LongRec(Cardinal(OutParam)).Hi
+    )
+  else
+    Result := Range(0, 0);
+end;

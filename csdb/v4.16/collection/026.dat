@@ -1,0 +1,20 @@
+﻿function URLEncode(const S: string; const InQueryString: Boolean): string;
+var
+  Idx: Integer; // loops thru characters in string
+begin
+  Result := '';
+  for Idx := 1 to Length(S) do
+  begin
+    case S[Idx] of
+      'A'..'Z', 'a'..'z', '0'..'9', '-', '_', '.':
+        Result := Result + S[Idx];
+      ' ':
+        if InQueryString then
+          Result := Result + '+'
+        else
+          Result := Result + '%20';
+      else
+        Result := Result + '%' + SysUtils.IntToHex(Ord(S[Idx]), 2);
+    end;
+  end;
+end;

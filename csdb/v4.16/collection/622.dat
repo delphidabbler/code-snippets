@@ -1,0 +1,5 @@
+﻿function VariantIsObject(const V: Variant): Boolean;
+begin
+  Result := Variants.VarIsType(V, varDispatch)
+    or Variants.VarIsType(V, varUnknown);
+end;

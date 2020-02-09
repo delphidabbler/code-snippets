@@ -1,0 +1,8 @@
+﻿function TimeZoneBias: Integer;
+var
+  TZI: Windows.TTimeZoneInformation; // info about time zone
+begin
+  if Windows.GetTimeZoneInformation(TZI) = Windows.TIME_ZONE_ID_INVALID then
+    SysUtils.RaiseLastOSError;
+  Result := TZI.Bias
+end;

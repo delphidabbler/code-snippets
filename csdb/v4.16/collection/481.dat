@@ -1,0 +1,14 @@
+﻿function ByteArraysSameStart(const B1, B2: array of Byte; const Count: Integer):
+  Boolean;
+var
+  I: Integer;
+begin
+  Assert(Count > 0, 'Count must be >= 1');
+  Result := False;
+  if (Length(B1) < Count) or (Length(B2) < Count) then
+    Exit;
+  for I := 0 to Pred(Count) do
+    if B1[I] <> B2[I] then
+      Exit;
+  Result := True;
+end;

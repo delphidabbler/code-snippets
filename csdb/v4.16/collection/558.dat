@@ -1,0 +1,6 @@
+﻿function FractionToStrEx(Num, Denom: Integer; Normalise: Boolean = False): string;
+begin
+  if Normalise then
+    NormaliseFractionSign(Num, Denom);
+  Result := SysUtils.Format('%d/%d', [Num, Denom]);
+end;

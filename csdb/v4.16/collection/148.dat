@@ -1,0 +1,20 @@
+﻿function StringExtent(const S: string;
+  const Font: Graphics.TFont): Windows.TSize;
+var
+  Canvas: Graphics.TCanvas; // canvas used to measure text extent
+begin
+  Assert(Assigned(Font));
+  Canvas := Graphics.TCanvas.Create;
+  try
+    Canvas.Handle := CreateDisplayDC;
+    try
+      Canvas.Font := Font;
+      Result := Canvas.TextExtent(S);
+    finally
+      Windows.DeleteDC(Canvas.Handle);
+      Canvas.Handle := 0;
+    end;
+  finally
+    Canvas.Free;
+  end;
+end;

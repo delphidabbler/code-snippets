@@ -1,0 +1,9 @@
+﻿function ExplodeUnquotedWords(const S: string; const List: Classes.TStrings;
+  const AQuote: Char = '"'): Integer;
+begin
+  List.Clear;
+  List.QuoteChar := AQuote;
+  List.Delimiter := ' ';
+  List.DelimitedText := S;
+  Result := List.Count;
+end;

@@ -1,0 +1,32 @@
+﻿function GetStartAndEndWord(const N: Integer; const Str: string;
+  const Delims: TCharSet; out StartIdx, EndIdx: Integer): Boolean;
+var
+  I, J: Integer;  // loops thru string finding start and end of word
+  Count: Integer; // index of found word in string
+  SLen: Integer;  // length of string
+begin
+  Result := False;
+  Count := 0;
+  I := 1;
+  StartIdx := 0;
+  EndIdx := 0;
+  SLen := Length(Str);
+  while I <= SLen do
+  begin
+    while (I <= SLen) and (IsCharInSet(Str[I], Delims)) do
+      Inc(I);
+    if I <= SLen then
+      Inc(Count);
+    J := I;
+    while (J <= SLen) and not (IsCharInSet(Str[J], Delims)) do
+      Inc( J );
+    if Count = N then
+    begin
+      StartIdx := I;
+      EndIdx := J - 1;
+      Result := StartIdx > 0;
+      Exit;
+    end;
+    I := J;
+  end;
+end;

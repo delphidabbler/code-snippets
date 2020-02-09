@@ -1,0 +1,9 @@
+﻿function InString(Haystack, Needle: string; IgnoreCase: Boolean): Boolean;
+begin
+  if IgnoreCase then
+  begin
+    Needle := SysUtils.AnsiLowerCase(Needle);
+    Haystack := SysUtils.AnsiLowerCase(Haystack);
+  end;
+  Result := SysUtils.AnsiPos(Needle, Haystack) > 0;
+end;

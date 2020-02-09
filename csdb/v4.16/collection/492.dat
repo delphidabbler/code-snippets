@@ -1,0 +1,7 @@
+﻿function RectF(const ALeft, ATop, ARight, ABottom: Double): TRectF;
+begin
+  Result.Left := ALeft;
+  Result.Top := ATop;
+  Result.Right := ARight;
+  Result.Bottom := ABottom;
+end;

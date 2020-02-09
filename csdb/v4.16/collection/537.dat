@@ -1,0 +1,16 @@
+﻿function StrToken(var S: string; Separator: Char): string;
+var
+  Idx: Cardinal;  // index of Separator in S
+begin
+  Idx := SysUtils.AnsiPos(Separator, S);
+  if Idx > 0 then
+  begin
+    Result := System.Copy(S, 1, Idx - 1);
+    System.Delete(S, 1, Idx);
+  end
+  else
+  begin
+    Result := S;
+    S := '';
+  end;
+end;

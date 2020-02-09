@@ -1,0 +1,20 @@
+﻿procedure GetIconANDBitmask(const Icon: Graphics.TIcon;
+  const Mask: Graphics.TBitmap);
+var
+  IconInfo: Windows.TIconInfo;  // receives info about icon
+  Bmp: Graphics.TBitmap;        // temp bitmap to store bitmap from icon
+begin
+  if not Windows.GetIconInfo(Icon.Handle, IconInfo) then
+    raise SysUtils.Exception.Create('Can''t get icon information');
+  // create bitmap to hold AND mask
+  Bmp := Graphics.TBitmap.Create;
+  try
+    Bmp.Handle := IconInfo.hbmMask;
+    Mask.Assign(Bmp);
+    if IconInfo.hbmColor = 0 then
+      // monochrome icons have AND mask in top half of mask bitmap
+      Mask.Height := Mask.Height div 2;
+  finally
+    Bmp.Free;
+  end;
+end;

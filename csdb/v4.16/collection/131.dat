@@ -1,0 +1,27 @@
+﻿procedure TrimStringList(const List: Classes.TStrings; const Prefix: string);
+var
+  I: Integer;   // loops thru each line of string list
+  Line: string; // contains a line of the string list
+begin
+  if not Assigned(List) then
+    Exit;
+  I := 0;
+  while I < List.Count do
+  begin
+    Line := SysUtils.Trim(List[I]);
+    if Line = '' then
+    begin
+      List.Delete(I);
+      Continue;
+    end
+    else if Prefix <> '' then
+    begin
+      if SysUtils.AnsiPos(Prefix, Line) = 1 then
+      begin
+        List.Delete(I);
+        Continue;
+      end;
+    end;
+    Inc(I);
+  end;
+end;

@@ -1,0 +1,9 @@
+﻿procedure WBShowPrintPreviewDlg(WB: SHDocVw.TWebbrowser);
+begin
+  WBInvokeCmd(
+    WB,
+    False,
+    SHDocVw.OLECMDID_PRINTPREVIEW,
+    SHDocVw.OLECMDEXECOPT_DODEFAULT
+  );
+end;

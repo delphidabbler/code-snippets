@@ -1,0 +1,27 @@
+﻿function DeleteFilesWithUndo(const FileList: Classes.TStrings): Boolean;
+var
+  FOS: ShellAPI.TSHFileOpStruct;  // contains info about required file operation
+  FilesBufSize: Integer;          // size of buffer to store file names
+  FilesBuf: PChar;                // buffer to store file names
+begin
+  FilesBuf := nil;
+  FilesBufSize := StringsToMultiSz(FileList, nil, 0);
+  try
+    GetMem(FilesBuf, FilesBufSize);
+    StringsToMultiSz(FileList, FilesBuf, FilesBufSize);
+    // set up structure that determines file operation
+    FillChar(FOS, SizeOf(FOS), 0);
+    with FOS do
+    begin
+      wFunc := ShellAPI.FO_DELETE;      // we're deleting
+      pFrom := PChar(FilesBuf);         // file list (#0#0 terminated)
+      fFlags := ShellAPI.FOF_ALLOWUNDO  // with facility to undo op
+        or ShellAPI.FOF_NOCONFIRMATION  // and we don't want any dialogs
+        or ShellAPI.FOF_SILENT;
+    end;
+    // perform the operation
+    Result := ShellAPI.SHFileOperation(FOS) = 0;
+  finally
+    FreeMem(FilesBuf, FilesBufSize);
+  end;
+end;

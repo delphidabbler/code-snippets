@@ -1,0 +1,23 @@
+﻿function SysImageListHandleEx(Flag: Cardinal): CommCtrl.HIMAGELIST;
+type
+  TSHGetImageList = function(iImageList: Integer; const riid: TGUID;
+    var ppv: Pointer): HRESULT; stdcall;
+const
+  // IImageList IID
+  IID_IImageList: TGUID = '{46EB5926-582E-4017-9FDF-E8998DAA0950}';
+var
+  Handle: THandle;                 // handle to Shell32 DLL
+  SHGetImageList: TSHGetImageList; // API function to get shell image list
+begin
+  Result := 0;
+  Handle := Windows.LoadLibrary('Shell32.dll');
+  if Handle <> S_OK then
+    try
+      SHGetImageList := Windows.GetProcAddress(Handle, PChar(727));
+      if Assigned(SHGetImageList) and
+        (SysUtils.Win32Platform = Windows.VER_PLATFORM_WIN32_NT) then
+        SHGetImageList(Flag, IID_IImageList, Pointer(Result));
+    finally
+      Windows.FreeLibrary(Handle);
+    end;
+end;

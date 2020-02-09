@@ -1,0 +1,7 @@
+﻿function DateQuarter(const D: TDateTime): Byte;
+var
+  Year, Month, Day: Word; // year, month and date components of D
+begin
+  SysUtils.DecodeDate(D, Year, Month, Day);
+  Result := 4 - ((12 - Month) div 3);
+end;

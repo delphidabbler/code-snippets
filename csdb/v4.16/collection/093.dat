@@ -1,0 +1,6 @@
+﻿function IsTabletOS: Boolean;
+const
+  SM_TABLETPC = 86; // metrics flag not defined in Windows unit
+begin
+  Result := Windows.GetSystemMetrics(SM_TABLETPC) <> 0;
+end;

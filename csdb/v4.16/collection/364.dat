@@ -1,0 +1,10 @@
+﻿procedure AppendByteArray(var B1: TBytes; const B2: array of Byte);
+var
+  OldB1Len: Integer;
+begin
+  if Length(B2) = 0 then
+    Exit;
+  OldB1Len := Length(B1);
+  SetLength(B1, OldB1Len + Length(B2));
+  Move(B2[0], B1[OldB1Len], Length(B2));
+end;

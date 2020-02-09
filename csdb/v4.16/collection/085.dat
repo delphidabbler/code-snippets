@@ -1,0 +1,27 @@
+﻿function IsWow64: Boolean;
+type
+  TIsWow64Process = function( // Type of IsWow64Process API fn
+    Handle: Windows.THandle; var Res: Windows.BOOL
+  ): Windows.BOOL; stdcall;
+var
+  IsWow64Result: Windows.BOOL;      // Result from IsWow64Process
+  IsWow64Process: TIsWow64Process;  // IsWow64Process fn reference
+begin
+  // Try to load required function from kernel32
+  IsWow64Process := Windows.GetProcAddress(
+    Windows.GetModuleHandle('kernel32.dll'), 'IsWow64Process'
+  );
+  if Assigned(IsWow64Process) then
+  begin
+    // Function is implemented: call it
+    if not IsWow64Process(
+      Windows.GetCurrentProcess, IsWow64Result
+    ) then
+      raise SysUtils.Exception.Create('IsWow64: bad process handle');
+    // Return result of function
+    Result := IsWow64Result;
+  end
+  else
+    // Function not implemented: can't be running on Wow64
+    Result := False;
+end;

@@ -1,0 +1,5 @@
+﻿function HexByteSize(HexStr: string): Cardinal;
+begin
+  HexStr := StripHexPrefix(HexStr);
+  Result := (Length(HexStr) div 2) + (Length(HexStr) mod 2);
+end;

@@ -1,0 +1,9 @@
+﻿function EnglishColorName(AColor: Graphics.TColor;
+  const AConvertSysColors: Boolean = False): string;
+begin
+  if AConvertSysColors then
+    AColor := ColorToRGB(AColor);
+  Result := Graphics.ColorToString(AColor);
+  if StrUtils.AnsiStartsText('cl', Result) then
+    Delete(Result, 1, 2);
+end;

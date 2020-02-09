@@ -1,0 +1,7 @@
+﻿function SafeFreeEncoding(const Enc: SysUtils.TEncoding): Boolean;
+begin
+  if SysUtils.TEncoding.IsStandardEncoding(Enc) then
+    Exit(False);
+  Enc.Free;
+  Result := True;
+end;

@@ -1,0 +1,7 @@
+﻿function BoundsF(ALeft, ATop, AWidth, AHeight: Double): TRectF;
+begin
+  Result.Left := ALeft;
+  Result.Top := ATop;
+  Result.Right := ALeft + AWidth;
+  Result.Bottom :=  ATop + AHeight;
+end;

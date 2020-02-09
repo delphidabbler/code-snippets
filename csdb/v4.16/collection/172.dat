@@ -1,0 +1,4 @@
+﻿function IsTopLevelWindow(const Wnd: Windows.HWND): Boolean;
+begin
+  Result := Windows.IsWindow(Wnd) and (Windows.GetParent(Wnd) = 0);
+end;

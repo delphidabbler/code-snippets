@@ -1,0 +1,4 @@
+﻿function HasFileExt(const FileName: string): Boolean;
+begin
+  Result := SysUtils.ExtractFileExt(FileName) <> '';
+end;

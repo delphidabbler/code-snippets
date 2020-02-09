@@ -1,0 +1,11 @@
+﻿function GetKnownFolderPath(const FolderID: System.TGUID): UnicodeString;
+var
+  Buffer: PWideChar; // path returned by SHGetKnownFolderPath
+begin
+  Result := '';
+  if ActiveX.Succeeded(ShlObj.SHGetKnownFolderPath(FolderID, 0, 0, Buffer)) then
+    Result := Buffer;
+  // According to MSDN, we must use CoTaskMemFree to free the string
+  // allocated by this function and pointed to by ppszPath.
+  ActiveX.CoTaskMemFree(Buffer);
+end;

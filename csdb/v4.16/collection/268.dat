@@ -1,0 +1,42 @@
+﻿function REWordAtPos(RE: ComCtrls.TCustomRichEdit; X, Y: Integer): string;
+var
+  Ci,                 // character index
+  Lix,                // line index
+  Co,                 // character Offset
+  K, J: Integer;      // start and end of word
+  Pt: Windows.TPoint; // x, y point in control
+  S: string;          // line of text under cursor
+begin
+  // Create the x,y point in richedit control
+  Pt := Classes.Point(X, Y);
+  // Get the character index
+  Ci := RE.Perform(Messages.EM_CHARFROMPOS, 0, Integer(@Pt)) ;
+  if Ci < 0 then
+    Exit; // before start of line
+  // Get the line index
+  Lix := RE.Perform(RichEdit.EM_EXLINEFROMCHAR, 0, Ci);
+  if RE.Lines.Count - 1 < Lix then
+    Exit; // beyond last line
+  // Get the first character index (character offset) of the line
+  Co := Ci - RE.Perform(Messages.EM_LINEINDEX, Lix, 0);
+  // Get the line as a string
+  S := RE.Lines[Lix];
+  // Change to 1-based index
+  Inc(Co);
+  // Find start of word
+  K := Co;
+  if K > Length(S) then
+    Exit; // before start of line
+  while (K > 0) and not IsWhiteSpace(S[K]) do
+    K := K - 1;
+  Inc(K);
+  // Find end of word, starting after char offset
+  J := Co + 1;
+  while (J <= Length(S)) and not IsWhiteSpace(S[J]) do
+    Inc(J);
+  // Return the word
+  if K < J then
+    Result := SysUtils.Trim(Copy(S, K, J - K))
+  else
+    Result := '';
+end;

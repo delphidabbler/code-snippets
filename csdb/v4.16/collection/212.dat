@@ -1,0 +1,4 @@
+﻿function IsFlagSet(const Flags, Mask: Integer): Boolean;
+begin
+  Result := Mask = (Flags and Mask);
+end;

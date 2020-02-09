@@ -1,0 +1,9 @@
+﻿procedure WideStringToUnicodeStream(const Str: WideString;
+  const Stm: Classes.TStream);
+var
+  BOM: Word;  // Unicode byte order mark
+begin
+  BOM := $FEFF;
+  Stm.WriteBuffer(BOM, SizeOf(BOM));
+  Stm.WriteBuffer(Pointer(Str)^, SizeOf(WideChar) * Length(Str));
+end;

@@ -1,0 +1,7 @@
+﻿function ResourceIDToStr(const ResID: PChar): string;
+begin
+  if IsIntResource(ResID) then
+    Result := '#' + SysUtils.IntToStr(Integer(ResID))
+  else
+    Result := string(ResID);
+end;

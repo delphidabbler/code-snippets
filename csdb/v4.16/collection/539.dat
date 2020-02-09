@@ -1,0 +1,4 @@
+﻿function IsFriday(const DT: TDateTime): Boolean;
+begin
+  Result := SysUtils.DayOfWeek(DT) = 6;
+end;

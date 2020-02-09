@@ -1,0 +1,6 @@
+﻿function IsValidSingle(const S: string): Boolean;
+var
+  Dummy: Single;
+begin
+  Result := SysUtils.TryStrToFloat(S, Dummy);
+end;

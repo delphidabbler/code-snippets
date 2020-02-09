@@ -1,0 +1,38 @@
+﻿procedure AdjustBitmapBrightness(Bmp: Graphics.TBitmap; Delta: Integer);
+var
+  NewBmp: Graphics.TBitmap;     // brightness adjusted bitmap
+  I: Integer;                   // loops thru pixels in a scanline
+  J: Integer;                   // loops thru scanlines
+  NewValue: Integer;            // new R, G or B colour value for a pixel
+  RowIn: SysUtils.PByteArray;   // scanline from Bmp
+  RowOut: SysUtils.PByteArray;  // scanline from NewBmp
+begin
+  Assert(Bmp.PixelFormat = Graphics.pf24bit);
+  // Create temporary bitmap to contain brightness adjusted bitmap
+  NewBmp := Graphics.TBitmap.Create;
+  try
+    NewBmp.Width  := Bmp.Width;
+    NewBmp.Height := Bmp.Height;
+    NewBmp.PixelFormat := Graphics.pf24bit;
+    for J := 0 to Bmp.Height - 1 do
+    begin
+      RowIn  := Bmp.Scanline[J];
+      RowOut := NewBmp.Scanline[J];
+      for I := 0 to 3 * Bmp.Width-1 do
+      begin
+        // adjust intensity of color component
+        // (treat all components the same way)
+        NewValue := RowIn[i] + Delta;
+        // force "ceiling" and "floor" values of 255 and 0
+        if NewValue > 255 then
+          NewValue := 255
+        else if NewValue < 0 then
+          NewValue := 0;
+        RowOut[i] := Byte(NewValue);
+      end;
+    end;
+    Bmp.Assign(NewBmp);
+  finally
+    NewBmp.Free
+  end;
+end;

@@ -1,0 +1,10 @@
+﻿function GetPercentMemoryUsed: Byte;
+var
+  MemoryEx: Windows.TMemoryStatusEx;
+begin
+  begin
+    MemoryEx.dwLength := SizeOf(Windows.TMemoryStatusEx);
+    Windows.GlobalMemoryStatusEx(MemoryEx);
+    Result := Byte(MemoryEx.dwMemoryLoad);
+  end;
+end;

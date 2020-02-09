@@ -1,0 +1,4 @@
+﻿function DistanceBetweenPoints(const P1, P2: TPointF): Extended; overload;
+begin
+  Result := Math.Hypot(P1.X - P2.X, P1.Y - P2.Y);
+end;

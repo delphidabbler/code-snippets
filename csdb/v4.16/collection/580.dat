@@ -1,0 +1,13 @@
+﻿function Range(const A, B: Integer): TRange;
+begin
+  if A <= B then
+  begin
+    Result.Lower := A;
+    Result.Upper := B;
+  end
+  else
+  begin
+    Result.Lower := B;
+    Result.Upper := A;
+  end;
+end;

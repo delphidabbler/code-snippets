@@ -1,0 +1,5 @@
+﻿function ResourceExists(const Module: Windows.HMODULE;
+  const ResName, ResType: PChar): Boolean;
+begin
+  Result := Windows.FindResource(Module, ResName, ResType) <> 0;
+end;

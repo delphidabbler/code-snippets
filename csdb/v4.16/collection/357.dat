@@ -1,0 +1,6 @@
+﻿function SecondsToTime(const ASeconds: Cardinal): TDateTime;
+const
+  MSecsPerSec = 1000;  // ms per day: not defined in Delphi 6 and earlier
+begin
+  Result := ASeconds / SysUtils.MSecsPerDay * MSecsPerSec;
+end;

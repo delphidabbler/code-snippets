@@ -1,0 +1,13 @@
+﻿function IsUnicodeFile(const FileName: string): Boolean;
+var
+  FS: Classes.TFileStream;  // stream onto file being tested
+begin
+  FS := Classes.TFileStream.Create(
+    FileName, SysUtils.fmOpenRead or SysUtils.fmShareDenyNone
+  );
+  try
+    Result := IsUnicodeStream(FS);
+  finally
+    FS.Free;
+  end;
+end;

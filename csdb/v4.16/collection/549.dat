@@ -1,0 +1,4 @@
+﻿function DiffDays(const DT1, DT2: TDateTime): Integer;
+begin
+  Result := Trunc(DT1 - DT2);
+end;

@@ -1,0 +1,6 @@
+﻿const
+  AINulBrightness = 0;        // "no change" brightness value
+  AINulContrast = 0;          // "no change" contrast value
+  AINulTint = 0;              // "no change" tint value
+  AINulSaturation = 0;        // "no change" saturation value
+  AINulGamma = 10000;         // "no change" gamma value

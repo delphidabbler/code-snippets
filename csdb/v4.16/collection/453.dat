@@ -1,0 +1,17 @@
+﻿function ContrastingColor(const BackgroundColor: Graphics.TColor):
+  Graphics.TColor;
+const
+  HalfBrightness = ((0.3 * 255.0) + (0.59 * 255.0) + (0.11 * 255.0)) / 2.0;
+var
+  Brightness: Double;       // brightness value of colour
+  RGB: Windows.TRGBTriple;  // RGB value of colour
+begin
+  RGB := ColorToRGBTriple(BackgroundColor); // converts system colours
+  Brightness := (0.3 * RGB.rgbtRed)
+    + (0.59 * RGB.rgbtGreen)
+    + (0.11 * RGB.rgbtBlue);
+  if Brightness > HalfBrightness then
+    Result := Graphics.clblack
+  else
+    Result := Graphics.clwhite;
+end;

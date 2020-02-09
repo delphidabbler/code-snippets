@@ -1,0 +1,5 @@
+﻿function PointF(const AX, AY: Double): TPointF;
+begin
+  Result.X := AX;
+  Result.Y := AY;
+end;

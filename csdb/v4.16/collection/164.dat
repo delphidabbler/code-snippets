@@ -1,0 +1,12 @@
+﻿function GetDriveNumber(const Drive: string): Integer;
+var
+  DriveLetter: Char;  // drive letter
+begin
+  Result := -1;
+  if Drive <> '' then
+  begin
+    DriveLetter := UpCase(Drive[1]);
+    if IsCharInSet(DriveLetter, ['A'..'Z']) then
+      Result := Ord(DriveLetter) - Ord('A');
+  end;
+end;

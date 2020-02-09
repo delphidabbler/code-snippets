@@ -1,0 +1,23 @@
+﻿function CountFiles(const APath, AWildCard: string): Int64;
+var
+  ReturnCode: Integer;            // result of FindFirst and FindNext routines
+  SearchRec: SysUtils.TSearchRec; // carries info about file search
+begin
+  Result := 0;
+  ReturnCode := SysUtils.FindFirst(
+    DirToPath(APath) + AWildCard, SysUtils.faAnyFile, SearchRec
+  );
+  try
+    while ReturnCode = 0 do
+    begin
+      if not IsFlagSet(SearchRec.Attr, SysUtils.faDirectory) and
+        (SearchRec.Name <> '.') and
+        (SearchRec.Name <> '..') then
+        Inc(Result);
+      ReturnCode := SysUtils.FindNext(SearchRec);
+      ProcessMessages;
+    end;
+  finally
+    SysUtils.FindClose(SearchRec);
+  end;
+end;

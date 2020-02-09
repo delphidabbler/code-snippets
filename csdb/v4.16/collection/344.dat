@@ -1,0 +1,10 @@
+﻿procedure SetDesktopIconFont(const AFont: Graphics.TFont);
+var
+  LogFont: Windows.TLogFont;  // structure containing desktop icon font info
+begin
+  if Windows.SystemParametersInfo(
+    Windows.SPI_GETICONTITLELOGFONT, SizeOf(LogFont), @LogFont, 0) then
+    AFont.Handle := Windows.CreateFontIndirect(LogFont)
+  else
+    SetDefaultFont(AFont);
+end;

@@ -1,0 +1,22 @@
+﻿function URIEncode(const S: string; const InQueryString: Boolean): string;
+var
+  Idx: Integer;        // loops thru characters in string
+  UTF8Str: UTF8String; // UTF8 encoded version of S
+begin
+  Result := '';
+  UTF8Str := UTF8Encode(S);
+  for Idx := 1 to Length(UTF8Str) do
+  begin
+    case UTF8Str[Idx] of
+      'A'..'Z', 'a'..'z', '0'..'9', '-', '_', '.', '~':
+        Result := Result + {$IFDEF UNICODE}string{$ENDIF}(UTF8Str[Idx]);
+      ' ':
+        if InQueryString then
+          Result := Result + '+'
+        else
+          Result := Result + '%20';
+      else
+        Result := Result + '%' + SysUtils.IntToHex(Ord(UTF8Str[Idx]), 2);
+    end;
+  end;
+end;

@@ -1,0 +1,5 @@
+﻿function ZoomRatio(const DestWidth, DestHeight, SrcWidth, SrcHeight: Integer):
+  Double; overload;
+begin
+  Result := Math.Min(DestWidth / SrcWidth, DestHeight / SrcHeight);
+end;

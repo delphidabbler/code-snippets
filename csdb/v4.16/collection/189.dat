@@ -1,0 +1,4 @@
+﻿function MakeLCID(LanguageID, SortID: Word): Windows.LCID;
+begin
+  Result := (Windows.DWORD(SortID) shl 16) or Windows.DWORD(LanguageID);
+end;

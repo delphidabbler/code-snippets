@@ -1,0 +1,12 @@
+﻿function SizeOfFile2(const AFilename: string): Integer;
+var
+  SRec: SysUtils.TSearchRec;
+begin
+  Result := 0;
+  if SysUtils.FindFirst(
+    AFilename, SysUtils.faAnyFile and not SysUtils.faDirectory, SRec) = 0 then
+  begin
+    Result := SRec.Size;
+    SysUtils.FindClose(SRec);
+  end;
+end;

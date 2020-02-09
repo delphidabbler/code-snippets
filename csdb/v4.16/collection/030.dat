@@ -1,0 +1,7 @@
+﻿function DirToPath(const Dir: string): string;
+begin
+  if (Dir <> '') and (Dir[Length(Dir)] <> '\') then
+    Result := Dir + '\'
+  else
+    Result := Dir;
+end;

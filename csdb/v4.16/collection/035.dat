@@ -1,0 +1,39 @@
+﻿function CompressWhiteSpace(const S: string): string;
+var
+  Idx: Integer;      // loops thru all characters in string
+  ResCount: Integer; // counts number of characters in result string
+  PRes: PChar;       // pointer to characters in result string
+begin
+  // Set length of result to length of source string and set pointer to it
+  SetLength(Result, Length(S));
+  PRes := PChar(Result);
+  // Reset count of characters in result string
+  ResCount := 0;
+  // Loop thru characters of source string
+  Idx := 1;
+  while Idx <= Length(S) do
+  begin
+    if IsWhiteSpace(S[Idx]) then
+    begin
+      // Current char is white space: replace by space char and count it
+      PRes^ := ' ';
+      Inc(PRes);
+      Inc(ResCount);
+      // Skip past any following white space
+      Inc(Idx);
+      while IsWhiteSpace(S[Idx]) do
+        Inc(Idx);
+    end
+    else
+    begin
+      // Current char is not white space: copy it literally and count it
+      PRes^ := S[Idx];
+      Inc(PRes);
+      Inc(ResCount);
+      Inc(Idx);
+    end;
+  end;
+  // Reduce length of result string if it is shorter than source string
+  if ResCount < Length(S) then
+    SetLength(Result, ResCount);
+end;

@@ -1,0 +1,10 @@
+﻿function BytesToAnsiString(const Bytes: SysUtils.TBytes; const CodePage: Word):
+  RawByteString;
+begin
+  SetLength(Result, Length(Bytes));
+  if Length(Bytes) > 0 then
+  begin
+    Move(Bytes[0], Result[1], Length(Bytes));
+    SetCodePage(Result, CodePage, False);
+  end;
+end;

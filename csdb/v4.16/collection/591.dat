@@ -1,0 +1,10 @@
+﻿function GetTotalPhysMemory: Int64;
+var
+  MemoryEx: Windows.TMemoryStatusEx;
+begin
+  begin
+    MemoryEx.dwLength := SizeOf(TMemoryStatusEx);
+    Windows.GlobalMemoryStatusEx(MemoryEx);
+    Result := MemoryEx.ullTotalPhys;
+  end;
+end;

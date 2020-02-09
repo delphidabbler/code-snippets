@@ -1,0 +1,17 @@
+﻿procedure CreateURLShortcut(const ShortcutFile, URL: string);
+var
+  F: TextFile;  // text file
+begin
+  {$I+} // ensure file i/o raises exception on error
+  // Open new file for writing (overwrites any existing file)
+  AssignFile(F, ShortcutFile);
+  Rewrite(F);
+  try
+    // Write file contents: this is simplest basic format of shortcut file
+    WriteLn(F, '[InternetShortcut]');
+    WriteLn(F, 'URL=', URL);
+  finally
+    // Close file
+    CloseFile(F);
+  end;
+end;

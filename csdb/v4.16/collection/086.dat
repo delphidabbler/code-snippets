@@ -1,0 +1,25 @@
+﻿function LoadShellLink(const LinkFileName: string): ShlObj.IShellLink;
+var
+  PF: ActiveX.IPersistFile; // persistent file interface to shell link object
+begin
+  // Create shell link object
+  if ActiveX.Succeeded(
+    ActiveX.CoCreateInstance(
+      ShlObj.CLSID_ShellLink,
+      nil,
+      ActiveX.CLSCTX_INPROC_SERVER,
+      ShlObj.IShellLink,
+      Result
+    )
+  ) then
+  begin
+    // Try to load the shell link: succeeds only of file is shell link
+    PF := Result as ActiveX.IPersistFile;
+    if ActiveX.Failed(
+      PF.Load(PWideChar(WideString(LinkFileName)), ActiveX.STGM_READ)
+    ) then
+      Result := nil;  // this frees the shell link object
+  end
+  else
+    Result := nil;
+end;

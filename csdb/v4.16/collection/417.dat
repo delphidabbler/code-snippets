@@ -1,0 +1,7 @@
+﻿function DigitCountR(AValue: Int64): Integer;
+begin
+  if AValue mod 10 = AValue then
+    Result := 1
+  else
+    Result := 1 + DigitCountR(AValue div 10)
+end;

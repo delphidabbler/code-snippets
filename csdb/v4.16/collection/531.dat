@@ -1,0 +1,4 @@
+﻿function IsASCIIChar(const Ch: Char): Boolean;
+begin
+  Result := Ord(Ch) <= $7F;
+end;

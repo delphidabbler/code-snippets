@@ -1,0 +1,23 @@
+﻿function WesternEaster(const Year: Word): TDateTime;
+var
+  A, B, C, D, E, F, G, H, I, K, L, M, P : Integer;
+  Day, Month: Word;
+begin
+  Assert(Year >= 1583);
+  A := Year mod 19;
+  B := Year div 100;
+  C := Year mod 100;
+  D := B div 4;
+  E := B mod 4;
+  F := (B + 8) div 25;
+  G := (B - F + 1) div 3;
+  H := (19 * A + B - D - G + 15) mod 30;
+  I := C div 4;
+  K := C mod 4;
+  L := (32 + 2 * E + 2 * I - H - K) mod 7;
+  M := (A + 11 * H + 22 * L) div 451;
+  P := (H + L - 7 * M + 114);
+  Month := P div 31;
+  Day := (P mod 31) + 1;
+  Result := SysUtils.EncodeDate(Year, Month, Day);
+end;

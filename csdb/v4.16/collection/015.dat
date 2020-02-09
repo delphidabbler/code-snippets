@@ -1,0 +1,39 @@
+﻿function CreateShellLink(const LinkFileName, AssocFileName, Desc, WorkDir,
+  Args, IconFileName: string; const IconIdx: Integer): Boolean;
+var
+  SL: ShlObj.IShellLink;    // shell link object
+  PF: ActiveX.IPersistFile; // persistant file interface to shell link object
+begin
+  // Assume failure
+  Result := False;
+  // Ensure COM is initialised
+  ActiveX.CoInitialize(nil);
+  try
+    // Create shell link object
+    if ActiveX.Succeeded(
+      ActiveX.CoCreateInstance(
+        ShlObj.CLSID_ShellLink,
+        nil,
+        ActiveX.CLSCTX_INPROC_SERVER,
+        ShlObj.IShellLink, SL
+      )
+    ) then
+    begin
+      // Store required properties of shell link
+      SL.SetPath(PChar(AssocFileName));
+      SL.SetDescription(PChar(Desc));
+      SL.SetWorkingDirectory(PChar(WorkDir));
+      SL.SetArguments(PChar(Args));
+      if (IconFileName <> '') and (IconIdx >= 0) then
+        SL.SetIconLocation(PChar(IconFileName), IconIdx);
+      // Create persistant file interface to shell link to save link file
+      PF := SL as ActiveX.IPersistFile;
+      Result := ActiveX.Succeeded(
+        PF.Save(PWideChar(WideString(LinkFileName)), True)
+      );
+    end;
+  finally
+    // Finalize COM
+    ActiveX.CoUninitialize;
+  end;
+end;

@@ -1,0 +1,11 @@
+﻿function HexToInt64(const HexStr: string): Int64;
+{$IFDEF FPC}
+const
+{$ELSE}
+resourcestring
+{$ENDIF}
+  sHexConvertError = '''%s'' is not a valid hexadecimal value';
+begin
+  if not TryHexToInt64(HexStr, Result) then
+    raise SysUtils.EConvertError.CreateFmt(sHexConvertError, [HexStr]);
+end;

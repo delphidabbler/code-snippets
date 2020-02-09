@@ -1,0 +1,6 @@
+﻿type
+  {$IFDEF UNICODE}
+  TCharSet = SysUtils.TSysCharSet;
+  {$ELSE}
+  TCharSet = set of Char;
+  {$ENDIF}

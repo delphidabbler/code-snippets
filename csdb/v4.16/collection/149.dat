@@ -1,0 +1,23 @@
+﻿function DrawDisabledText(const Canvas: Graphics.TCanvas; const X, Y: Integer;
+  const Text: string; const AllowAccelChars: Boolean): Boolean;
+var
+  Flags: Windows.UINT;  // image type and state flags
+begin
+  // Determine required flags
+  if AllowAccelChars then
+    Flags := Windows.DST_PREFIXTEXT
+  else
+    Flags := Windows.DST_TEXT;
+  Flags := Flags or Windows.DSS_DISABLED;
+  // Draw text
+  Result := Windows.DrawState(
+    Canvas.Handle,          // device context to draw on
+    0,                      // brush (not required)
+    nil,                    // output function (not required)
+    Integer(PChar(Text)),   // text to be rendered
+    Length(Text),           // length of text to be rendered
+    X, Y,                   // co-ords of top left of text
+    0, 0,                   // size of text (not required)
+    Flags                   // indicates text type and state
+  );
+end;

@@ -1,0 +1,5 @@
+﻿function BytesToMBStr(const Bytes: Int64; const DecimalPlaces: Byte;
+  const SeparateThousands: Boolean): string;
+begin
+  Result := FloatToFixed(BytesToMB(Bytes), DecimalPlaces, SeparateThousands);
+end;

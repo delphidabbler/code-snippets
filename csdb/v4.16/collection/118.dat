@@ -1,0 +1,15 @@
+﻿function IsLibraryInstalled(const LibFileName: string): Boolean;
+var
+  DLLHandle: Windows.THandle; // handle to DLL
+begin
+  // Try to load DLL
+  try
+    DLLHandle := SysUtils.SafeLoadLibrary(LibFileName);
+  except
+    DLLHandle := 0;
+  end;
+  // Check if DLL has been loaded
+  Result := DLLHandle <> 0;
+  if Result then
+    Windows.FreeLibrary(DLLHandle);
+end;

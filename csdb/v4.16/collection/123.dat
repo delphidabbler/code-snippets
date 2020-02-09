@@ -1,0 +1,8 @@
+﻿procedure ExchangeInt(var I1, I2: Integer);
+var
+  Temp: Integer;  // temporary value used when exchanging values
+begin
+  Temp := I1;
+  I1 := I2;
+  I2 := Temp;
+end;

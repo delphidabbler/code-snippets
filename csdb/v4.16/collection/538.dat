@@ -1,0 +1,9 @@
+﻿function StrTokenCount(S: string; Seperator: Char): Integer;
+begin
+  Result := 0;
+  while S <> '' do
+  begin
+    StrToken(S, Seperator);
+    Inc(Result);
+  end;
+end;

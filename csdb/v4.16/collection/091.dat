@@ -1,0 +1,4 @@
+﻿function IsWin9x: Boolean;
+begin
+  Result := SysUtils.Win32Platform = Windows.VER_PLATFORM_WIN32_WINDOWS;
+end;

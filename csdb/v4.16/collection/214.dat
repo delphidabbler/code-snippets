@@ -1,0 +1,5 @@
+﻿function WinControlScrollbars(const Ctrl: Controls.TWinControl):
+  StdCtrls.TScrollStyle;
+begin
+  Result := WindowScrollbars(Ctrl.Handle);
+end;

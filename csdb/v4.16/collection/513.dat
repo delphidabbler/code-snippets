@@ -1,0 +1,18 @@
+﻿function GetProcessorName: string;
+var
+  Reg: Registry.TRegistry;
+begin
+  Result := '';
+  Reg := Registry.TRegistry.Create(Windows.KEY_READ);
+  try
+    Reg.RootKey := Windows.HKEY_LOCAL_MACHINE;
+    if not Reg.OpenKey(
+      'HARDWARE\DESCRIPTION\System\CentralProcessor\0\', False
+    ) then
+      Exit;
+    Result := Reg.ReadString('ProcessorNameString');
+    Reg.CloseKey;
+  finally
+    Reg.Free;
+  end;
+end;

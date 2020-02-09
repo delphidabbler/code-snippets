@@ -1,0 +1,8 @@
+﻿function HScrollbarHeight(const Ctrl: Controls.TWinControl): Integer;
+begin
+  if WinControlScrollbars(Ctrl)
+    in [StdCtrls.ssHorizontal, StdCtrls.ssBoth] then
+    Result := Windows.GetSystemMetrics(Windows.SM_CXHSCROLL)
+  else
+    Result := 0;
+end;

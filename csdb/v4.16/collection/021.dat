@@ -1,0 +1,6 @@
+﻿function ShowFindFilesDlg(const Folder: string): Boolean;
+begin
+  Result := ShellAPI.ShellExecute(
+    0, 'find', PChar(Folder), '', '', Windows.SW_SHOW
+  ) > 32;
+end;

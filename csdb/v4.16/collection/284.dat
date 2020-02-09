@@ -1,0 +1,11 @@
+﻿function EnableLayersSupport(const HWnd: Windows.HWND): Boolean;
+const
+  WS_EX_LAYERED = $00080000;  // layered window style
+begin
+  Windows.SetWindowLong(
+    HWnd,
+    Windows.GWL_EXSTYLE,
+    Windows.GetWindowLong(HWnd, Windows.GWL_EXSTYLE) or WS_EX_LAYERED
+  );
+  Result := WindowSupportsLayers(HWnd);
+end;

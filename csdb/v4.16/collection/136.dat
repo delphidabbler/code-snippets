@@ -1,0 +1,16 @@
+﻿function DebuggerPresent: Boolean;
+type
+  TDebugProc = function: Boolean; stdcall; // type of IsDebuggerPresent API fn
+var
+  Kernel32: Windows.HMODULE;  // handle to kernel32 module
+  DebugProc: TDebugProc;      // pointer to IsDebuggerPresent API function
+begin
+  Result := False;
+  Kernel32 := Windows.GetModuleHandle('kernel32');
+  if Kernel32 <> 0 then
+  begin
+    @DebugProc := Windows.GetProcAddress(Kernel32, 'IsDebuggerPresent');
+    if Assigned(DebugProc) then
+      Result := DebugProc
+  end;
+end;

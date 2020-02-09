@@ -1,0 +1,13 @@
+﻿function WindowScrollbars(const Wnd: Windows.HWND): StdCtrls.TScrollStyle;
+var
+  StyleFlags: Windows.DWORD;
+begin
+  StyleFlags:= Windows.GetWindowLong(Wnd, Windows.GWL_STYLE) and
+    (Windows.WS_VSCROLL or Windows.WS_HSCROLL);
+  case StyleFlags of
+    0: Result := StdCtrls.ssNone;
+    Windows.WS_VSCROLL: Result := StdCtrls.ssVertical;
+    Windows.WS_HSCROLL: Result := StdCtrls.ssHorizontal;
+    else Result := StdCtrls.ssBoth;
+  end;
+end;

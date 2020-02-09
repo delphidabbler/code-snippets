@@ -1,0 +1,4 @@
+﻿function WBIsDOMLoaded(WB: SHDocVw.TWebBrowser): Boolean;
+begin
+  Result := SysUtils.Supports(WB.Document, MSHTML.IHTMLDocument2);
+end;

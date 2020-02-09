@@ -1,0 +1,12 @@
+﻿function DOSCommandRedirect(const CommandLine, OutFile: string): Boolean;
+  overload;
+var
+  FileStream: Classes.TFileStream;
+begin
+  FileStream := Classes.TFileStream.Create(OutFile, Classes.fmCreate);
+  try
+    Result := DOSCommandRedirect(CommandLine, FileStream);
+  finally
+    FileStream.Free;
+  end;
+end;

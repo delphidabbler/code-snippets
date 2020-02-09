@@ -1,0 +1,6 @@
+﻿function IsValidExtended(const S: string): Boolean;
+var
+  Dummy: Extended;
+begin
+  Result := SysUtils.TryStrToFloat(S, Dummy);
+end;

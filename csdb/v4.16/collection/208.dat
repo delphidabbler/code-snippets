@@ -1,0 +1,7 @@
+﻿function IsFile(const FileSpec: string): Boolean;
+var
+  Attr: Integer;  // file's attributes
+begin
+  Attr := SysUtils.FileGetAttr(FileSpec);
+  Result := (Attr <> -1) and not IsFlagSet(Attr, SysUtils.faDirectory);
+end;

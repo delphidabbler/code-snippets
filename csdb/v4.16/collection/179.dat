@@ -1,0 +1,11 @@
+﻿procedure ShowShellPropertiesDlg(const APath: string);
+var
+  AExecInfo: ShellAPI.TShellExecuteinfo;  // info passed to ShellExecuteEx
+begin
+  FillChar(AExecInfo, SizeOf(AExecInfo), 0);
+  AExecInfo.cbSize := SizeOf(AExecInfo);
+  AExecInfo.lpFile := PChar(APath);
+  AExecInfo.lpVerb := 'properties';
+  AExecInfo.fMask := ShellAPI.SEE_MASK_INVOKEIDLIST;
+  ShellAPI.ShellExecuteEx(@AExecInfo);
+end;

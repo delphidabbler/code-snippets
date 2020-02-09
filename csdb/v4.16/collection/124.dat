@@ -1,0 +1,4 @@
+﻿function IsRectNormal(const R: Windows.TRect): Boolean;
+begin
+  Result := (R.Left <= R.Right) and (R.Top <= R.Bottom);
+end;

@@ -1,0 +1,4 @@
+﻿function PrimaryLangID(LangID: Word): Word;
+begin
+  Result := LangID and $3FF;
+end;

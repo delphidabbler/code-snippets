@@ -1,0 +1,7 @@
+﻿function DateYearEnd(const DT: TDateTime): TDateTime;
+var
+  Year, Month, Day: Word;
+begin
+  SysUtils.DecodeDate(DT, Year, Month, Day);
+  Result := SysUtils.EncodeDate(Year, 12, 31);
+end;

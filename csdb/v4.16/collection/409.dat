@@ -1,0 +1,12 @@
+﻿function SubDirectoryCount(const Path: string; const Recurse: Boolean): Cardinal;
+var
+  StrArray: Types.TStringDynArray;      // array of subdirectories
+  SearchOption: IOUtils.TSearchOption;  // directory search option
+begin
+  if Recurse then
+    SearchOption := IOUtils.TSearchOption.soAllDirectories
+  else
+    SearchOption := IOUtils.TSearchOption.soTopDirectoryOnly;
+  StrArray := IOUtils.TDirectory.GetDirectories(Path, '*', SearchOption);
+  Result := Length(StrArray);
+end;

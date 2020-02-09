@@ -1,0 +1,5 @@
+﻿procedure InvertBitmap(const SrcBmp, DestBmp: Graphics.TBitmap); overload;
+begin
+  DestBmp.Assign(SrcBmp);
+  InvertBitmap(DestBmp);
+end;

@@ -1,0 +1,13 @@
+﻿function IsUTF16BEFile(const FileName: string): Boolean;
+var
+  Stm: Classes.TStream;
+begin
+  Stm := Classes.TFileStream.Create(
+    FileName, SysUtils.fmOpenRead or SysUtils.fmShareDenyNone
+  );
+  try
+    Result := IsUTF16BEStream(Stm);
+  finally
+    Stm.Free;
+  end;
+end;

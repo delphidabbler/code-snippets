@@ -1,0 +1,24 @@
+﻿function MakeSafeHTMLText(TheText: string): string;
+var
+  Idx: Integer; // loops thru characters of TheText
+  Ch: Char;     // each charactor in TheText
+begin
+  Result := '';
+  for Idx := 1 to Length(TheText) do
+  begin
+    Ch := TheText[Idx];
+    case Ch of
+      '<': Result := Result + '&lt;';
+      '>': Result := Result + '&gt;';
+      '&': Result := Result + '&amp;';
+      '"': Result := Result + '&quot;';
+      else
+      begin
+        if (Ch < #32) or (Ch >= #127) then
+          Result := Result + '&#' + IntToStr(Ord(Ch)) + ';'
+        else
+          Result := Result + Ch;
+      end;
+    end;
+  end;
+end;

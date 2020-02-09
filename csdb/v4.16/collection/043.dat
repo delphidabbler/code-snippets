@@ -1,0 +1,7 @@
+﻿function TempFolder: string;
+begin
+  SetLength(Result, Windows.MAX_PATH);
+  SetLength(
+    Result, Windows.GetTempPath(Windows.MAX_PATH, PChar(Result))
+  );
+end;

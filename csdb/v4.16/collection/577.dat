@@ -1,0 +1,14 @@
+﻿procedure WBAppendHTML(WB: SHDocVw.TWebbrowser; const HTML: string);
+var
+  Doc: MSHTML.IHTMLDocument2;
+  BodyElem: MSHTML.IHTMLBodyElement;
+  Range: MSHTML.IHTMLTxtRange;
+begin
+  if not SysUtils.Supports(WB.Document, MSHTML.IHTMLDocument2, Doc) then
+    Exit;
+  if not SysUtils.Supports(Doc.body, MSHTML.IHTMLBodyElement, BodyElem) then
+    Exit;
+  Range := BodyElem.createTextRange;
+  Range.collapse(False);
+  Range.pasteHTML(HTML);
+end;

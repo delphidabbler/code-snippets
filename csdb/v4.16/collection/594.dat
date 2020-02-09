@@ -1,0 +1,7 @@
+﻿function GetErrorMessageWithId(const OSErrorCode: Cardinal): string;
+begin
+  if OSErrorCode <> 0 then
+    Result := SysUserErrorMessage(OSErrorCode)
+  else
+    Result := '';
+end;

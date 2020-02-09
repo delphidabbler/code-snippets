@@ -1,0 +1,38 @@
+﻿function GetFixedFileVerInfo(const FileName: string;
+  out FFI: Windows.TVSFixedFileInfo): Boolean;
+var
+  VerInfoBuf: Pointer;    // points to memory storing version info
+  VerInfoSize: Integer;   // size of version info memory
+  Dummy: Cardinal;        // unused parameter required by API function
+  PFFI: Pointer;          // points to fixed file info
+  FFISize: Windows.UINT;  // size of file file info returned from API (unused)
+begin
+  // Assume failure: sets zero result
+  FillChar(FFI, SizeOf(FFI), 0);
+  Result := False;
+  // Get size of version info: there is none if this is zero
+  VerInfoSize := Windows.GetFileVersionInfoSize(PChar(FileName), Dummy);
+  if VerInfoSize > 0 then
+  begin
+    // Allocate memory to store ver info
+    GetMem(VerInfoBuf, VerInfoSize);
+    try
+      // Get the version info, filling buffer
+      if Windows.GetFileVersionInfo(
+        PChar(FileName), Dummy, VerInfoSize, VerInfoBuf
+      ) then
+      begin
+        // Get a pointer to fixed file info
+        if Windows.VerQueryValue(VerInfoBuf, '\', PFFI, FFISize) then
+        begin
+          // Got pointer OK: record file version
+          FFI := Windows.PVSFixedFileInfo(PFFI)^;
+          Result := True;
+        end;
+      end;
+    finally
+      // Dispose of ver info storage
+      FreeMem(VerInfoBuf, VerInfoSize);
+    end;
+  end;
+end;

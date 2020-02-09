@@ -1,0 +1,12 @@
+﻿procedure SetVistaFont(const AFont: Graphics.TFont);
+const
+  VistaFont = 'Segoe UI'; // name of main Vista font
+begin
+  if (SysUtils.Win32MajorVersion >= 6)
+    and not SysUtils.SameText(AFont.Name, VistaFont)
+    and FontExists(VistaFont) then
+  begin
+    AFont.Size := AFont.Size + 1;
+    AFont.Name := VistaFont;
+  end;
+end;

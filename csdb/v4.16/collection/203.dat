@@ -1,0 +1,21 @@
+﻿function GetCharFromVirtualKey(AKey: Word): string;
+var
+  KeyboardState: Windows.TKeyboardState; // keyboard state codes
+const
+  MAPVK_VK_TO_VSC = 0;  // parameter passed to MapVirtualKey
+begin
+  Windows.GetKeyboardState(KeyboardState);
+  SetLength(Result, 2); // max number of returned chars
+  case Windows.ToAscii(
+    AKey,
+    Windows.MapVirtualKey(AKey, MAPVK_VK_TO_VSC),
+    KeyboardState,
+    @Result[1],
+    0
+  ) of
+    0: Result := '';         // no translation available
+    1: SetLength(Result, 1); // single char returned
+    2: {Do nothing};         // two chars returned: leave Length(Result) = 2
+    else Result := '';       // probably dead key
+  end;
+end;

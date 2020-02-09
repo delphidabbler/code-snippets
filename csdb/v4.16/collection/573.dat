@@ -1,0 +1,8 @@
+﻿procedure WBWaitForDOMToLoad(WB: SHDocVw.TWebBrowser);
+resourcestring
+  sNoDOMError = 'No DOM available in the browser control';
+begin
+  WBWaitForDocToLoad(WB);
+  if not WBIsDOMLoaded(WB) then
+    raise SysUtils.Exception.Create(sNoDOMError);
+end;

@@ -1,0 +1,52 @@
+﻿function GetBMPSize(const FileName: string): Types.TSize;
+type
+  // Union of two different versions of windows bitmap info records
+  TBitmapInfo = packed record
+    case Byte of
+      0: (Core: Windows.TBitmapCoreHeader); // early version
+      1: (Ext: Windows.TBitmapInfoHeader);  // later version
+  end;
+const
+  cSignature = $4D42; // bitmap file signature
+var
+  FileHeader: Windows.TBitmapFileHeader;  // bmp file header record
+  BmpInfo: TBitmapInfo;                   // bmp info record union
+  FS: Classes.TFileStream;                // stream onto bmp file
+  BytesRead: Integer;                     // bytes read from stream
+begin
+  Result.cx := 0;
+  Result.cy := 0;
+  if (FileName = '') or not SysUtils.FileExists(FileName) then
+    Exit;
+  FS := Classes.TFileStream.Create(
+    FileName, SysUtils.fmOpenRead or SysUtils.fmShareDenyNone
+  );
+  try
+    // Read file header and check signature
+    BytesRead := FS.Read(FileHeader, SizeOf(FileHeader));
+    if BytesRead <> SizeOf(FileHeader) then
+      Exit;
+    if FileHeader.bfType <> cSignature then
+      Exit;
+    // Read bitmap info record (varies according to bmp type)
+    BytesRead := FS.Read(BmpInfo, SizeOf(BmpInfo));
+    if BytesRead < SizeOf(DWORD) then
+      Exit; // couldn't read length field
+    if BytesRead < Integer(BmpInfo.Ext.biSize) then
+      Exit; // couldn't read whole info header record
+    if BmpInfo.Ext.biSize = SizeOf(BmpInfo.Ext) then
+    begin
+      // later version
+      Result.cx := BmpInfo.Ext.biWidth;
+      Result.cy := BmpInfo.Ext.biHeight;
+    end
+    else
+    begin
+      // early version
+      Result.cx := BmpInfo.Core.bcWidth;
+      Result.cy := BmpInfo.Core.bcHeight;
+    end;
+  finally
+    FS.Free;
+  end;
+end;

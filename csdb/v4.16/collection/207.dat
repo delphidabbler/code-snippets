@@ -1,0 +1,7 @@
+﻿function IsArchiveFile(const FileSpec: string): Boolean;
+var
+  Attr: Integer;  // file's attributes
+begin
+  Attr := SysUtils.FileGetAttr(FileSpec);
+  Result := (Attr <> -1) and IsFlagSet(Attr, SysUtils.faArchive);
+end;

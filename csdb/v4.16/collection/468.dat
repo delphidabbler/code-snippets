@@ -1,0 +1,51 @@
+﻿procedure DecimalToFraction(Decimal: Extended; out FractionNumerator: Extended;
+  out FractionDenominator: Extended; const AccuracyFactor: Extended);
+var
+  DecimalSign: Extended;
+  Z: Extended;
+  PreviousDenominator: Extended;
+  ScratchValue: Extended;
+{$IFDEF FPC}
+const
+{$ELSE}
+resourcestring
+{$ENDIF}
+  sTooSmall = 'Decimal too small to convert to fraction';
+  sTooLarge = 'Decimal too large to convert to fraction';
+const
+  LargestDecimal: Extended = 1.0E+19;
+  SmallestDecimal: Extended = 1.0E-19;
+begin
+  if Decimal < 0.0 then
+    DecimalSign := -1.0
+  else
+    DecimalSign := 1.0;
+  Decimal := Abs(Decimal);
+  if Math.SameValue(Decimal, Int(Decimal)) then
+  begin
+    FractionNumerator := Decimal * DecimalSign;
+    FractionDenominator := 1.0;
+    Exit;
+  end;
+  if (Decimal < SmallestDecimal) then // X = 0 already taken care of
+    raise SysUtils.EConvertError.Create(sTooSmall);
+  if (Decimal > LargestDecimal) then
+    raise SysUtils.EConvertError.Create(sTooLarge);
+  Z := Decimal;
+  PreviousDenominator := 0.0;
+  FractionDenominator := 1.0;
+  repeat
+    Z := 1.0 / (Z - Int(Z));
+    ScratchValue := FractionDenominator;
+    FractionDenominator := FractionDenominator * Int(Z) + PreviousDenominator;
+    PreviousDenominator := ScratchValue;
+    FractionNumerator := Int(Decimal * FractionDenominator + 0.5) // Rounding
+  until
+    (
+      Abs(
+        Decimal - (FractionNumerator / FractionDenominator)
+      ) < AccuracyFactor
+    )
+    or (Z = Int(Z));
+  FractionNumerator := DecimalSign * FractionNumerator;
+end;

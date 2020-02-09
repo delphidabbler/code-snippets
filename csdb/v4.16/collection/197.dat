@@ -1,0 +1,12 @@
+﻿function TrimRightChar(const S: string; const C: Char): string;
+var
+  Idx: Integer; // index into string
+begin
+  Idx := Length(S);
+  while (Idx >= 1) and (S[Idx] = C) do
+    Dec(Idx);
+  if Idx < Length(S) then
+    Result := Copy(S, 1, Idx)
+  else
+    Result := S;
+end;

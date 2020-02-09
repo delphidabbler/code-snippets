@@ -1,0 +1,7 @@
+﻿function DateMonthStart(const DT: TDateTime): TDateTime;
+var
+  Day, Month, Year: Word; 
+begin
+  SysUtils.DecodeDate(DT, Year, Month, Day);
+  Result := SysUtils.EncodeDate(Year, Month, 1);
+end;

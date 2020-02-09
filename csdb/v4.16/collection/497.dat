@@ -1,0 +1,14 @@
+﻿function RepeatedDigits(N: Int64): Boolean;
+begin
+  N := Abs(N);
+  if N > 0 then
+    Result :=
+      N = SysUtils.StrToInt64(
+        StringOfChar(
+          Char(48 + N mod 10),
+          Succ(Math.Floor(Math.Log10(N)))
+        )
+      )
+  else
+    Result := True;
+end;

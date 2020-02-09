@@ -1,0 +1,35 @@
+﻿type
+  TRangeEx = record
+    // Minimum and maximum bounds of range.
+    Min, Max: Integer;
+    // Constructs record with given minimum and maximum bounds.
+    constructor Create(AMin, AMax: Integer);
+    // Checks if the given value is contained within the range.
+    function Contains(const Value: Integer): Boolean;
+    // Adjusts the given value to lie within the range, and returns it. If the
+    // value is less than Min, Min is returned. If the value is greater than Max
+    // then max is returned. If the value is in the range it is returned
+    // unchanged.
+    function Constrain(const Value: Integer): Integer;
+  end;
+
+function TRangeEx.Constrain(const Value: Integer): Integer;
+begin
+  if Value < Min then
+    Result := Min
+  else if Value > Max then
+    Result := Max
+  else
+    Result := Value;
+end;
+
+function TRangeEx.Contains(const Value: Integer): Boolean;
+begin
+  Result := Math.InRange(Value, Min, Max);
+end;
+
+constructor TRangeEx.Create(AMin, AMax: Integer);
+begin
+  Min := AMin;
+  Max := AMax;
+end;

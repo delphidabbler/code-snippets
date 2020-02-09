@@ -1,0 +1,21 @@
+﻿function IsUnicodeStream(const Stm: Classes.TStream): Boolean;
+var
+  StmPos: LongInt;      // current position in stream
+  BOM: Word;            // Unicode byte order mark
+begin
+  // Record current location in stream
+  StmPos := Stm.Position;
+  // Check if stream large enough to contain BOM (empty text file contains only
+  // the BOM)
+  if StmPos <= Stm.Size - SizeOf(BOM) then
+  begin
+    // Read first word and check if it is the unicode marker
+    Stm.ReadBuffer(BOM, SizeOf(BOM));
+    Result := (BOM = $FEFF);
+    // Restore stream positions
+    Stm.Position := StmPos;
+  end
+  else
+    // Stream too small: can't be unicode
+    Result := False;
+end;

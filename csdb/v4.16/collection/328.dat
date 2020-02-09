@@ -1,0 +1,5 @@
+﻿function HexToInt64Def(const HexStr: string; const Default: Int64): Int64;
+begin
+  if not TryHexToInt64(HexStr, Result) then
+    Result := Default;
+end;

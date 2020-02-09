@@ -1,0 +1,4 @@
+﻿procedure SetDefaultFont(const AFont: Graphics.TFont);
+begin
+  AFont.Handle := Windows.GetStockObject(Windows.DEFAULT_GUI_FONT);
+end;

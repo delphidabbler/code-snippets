@@ -1,0 +1,28 @@
+﻿function HostIPAddress: string;
+var
+  WSData: WinSock.TWSAData;             // details of WinSock implementation
+  HostName: array [0..14] of AnsiChar;  // standard host name of local machine
+  HostEnt: WinSock.PHostEnt;            // info about host
+  Addr: PAnsiChar;                      // pointer to list of addresses
+begin
+  Result := '0.0.0.0';
+  if WinSock.WSAStartup(Windows.MakeWord(1, 1), WSData) <> 0 then
+    Exit;
+  try
+    WinSock.GetHostName(HostName, SizeOf(HostName));
+    HostEnt := WinSock.GetHostByName(HostName);
+    if Assigned(HostEnt) and Assigned(HostEnt^.h_addr_list) then
+    begin
+      Addr := HostEnt^.h_addr_list^;
+      if Assigned(Addr) and (HostEnt^.h_length >= 4) then
+      begin
+        Result := SysUtils.Format(
+          '%d.%d.%d.%d',
+          [Ord(Addr[0]), Ord(Addr[1]), Ord(Addr[2]), Ord(Addr[3])]
+        );
+      end;
+    end;
+  finally
+    WSACleanup;
+  end;
+end;

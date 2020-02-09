@@ -1,0 +1,7 @@
+﻿function DriveTypeFromPath(const Path: string): Integer;
+var
+  Drive: string;  // the drive name
+begin
+  Drive := SysUtils.ExtractFileDrive(Path) + '\';
+  Result := Integer(Windows.GetDriveType(PChar(Drive)));
+end;

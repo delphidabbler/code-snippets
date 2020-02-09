@@ -1,0 +1,4 @@
+﻿function TrayHandle: Windows.THandle;
+begin
+  Result := Windows.FindWindowEx(TaskbarHandle, 0, 'TrayNotifyWnd', nil);
+end;

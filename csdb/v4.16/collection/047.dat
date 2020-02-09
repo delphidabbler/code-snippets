@@ -1,0 +1,48 @@
+﻿function EmptyRecycleBin: Boolean;
+const
+  // Flags passed to SHEmptyRecycleBin
+  SHERB_NOCONFIRMATION = $00000001;
+  SHERB_NOPROGRESSUI = $00000002;
+  SHERB_NOSOUND = $00000004;
+  // DLL containing function
+  cDLLName = 'Shell32.dll';
+  // Function name
+  {$IFDEF UNICODE}
+  cFnName = 'SHEmptyRecycleBinW';
+  {$ELSE}
+  cFnName = 'SHEmptyRecycleBinA';
+  {$ENDIF}
+type
+  // Prototype of API function
+  TSHEmptyRecycleBin = function(
+    Wnd: Windows.HWND;
+    pszRootPath: PChar;
+    dwFlags: Windows.DWORD
+  ): HRESULT; stdcall;
+var
+  SHEmptyRecycleBin: TSHEmptyRecycleBin;  // API function address
+  DLLHandle: Windows.THandle;             // Handle of required DLL
+begin
+  // Assume failure
+  Result := False;
+  // Load required DLL
+  DLLHandle := SysUtils.SafeLoadLibrary(cDLLName);
+  if DLLHandle <> 0 then
+  begin
+    try
+      // Get reference of API function from DLL
+      @SHEmptyRecycleBin := Windows.GetProcAddress(DLLHandle, cFnName);
+      if Assigned(@SHEmptyRecycleBin) then
+      begin
+        // Try to empty recycle bin
+        Result := Windows.Succeeded(
+          SHEmptyRecycleBin(
+            0, nil, SHERB_NOCONFIRMATION or SHERB_NOSOUND or SHERB_NOPROGRESSUI
+          )
+        );
+      end;
+    finally
+      Windows.FreeLibrary(DLLHandle);
+    end;
+  end;
+end;

@@ -1,0 +1,5 @@
+﻿function FileInProgramDir(FileName: string): string;
+begin
+  Assert(FileName <> '', 'FileName must be provided');
+  Result := ProgramPath + SysUtils.ExtractFileName(FileName);
+end;

@@ -1,0 +1,14 @@
+﻿procedure HalftoneStretch(DestBmp, SrcBmp: Graphics.TBitmap); overload;
+begin
+  if not Assigned(DestBmp) or not Assigned(SrcBmp) then
+    Exit;
+  if (DestBmp.Width <= 0) or (DestBmp.Height <= 0) or
+    (SrcBmp.Width <= 0) or (SrcBmp.Height <= 0) then
+    Exit;
+  HalftoneStretch(
+    DestBmp.Canvas,
+    Types.Rect(0, 0, DestBmp.Width, DestBmp.Height),
+    SrcBmp.Canvas,
+    Types.Rect(0, 0, SrcBmp.Width, SrcBmp.Height)
+  );
+end;

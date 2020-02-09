@@ -317,9 +317,11 @@ The `LICENSE-INFO` file is not referenced by, and does not reference, any of the
 
 ## Version Information File
 
-There is a plain UTF-8 text file named `VERSION` that contains the version number of the database. The current major version is v2.
+There is a plain UTF-8 text file named `VERSION` that contains the version number of the database in the form vX.X.X. where X represents a non-negative integer. The file is required and must be non-empty.
 
-Databases before v2.0.0 did not have a `VERSION` file<sup>3</sup>.
+Version numbers must be incremented according to to the principles of [semantic versioning](https://semver.org/).
+
+The current major version is v2. Databases before v2.0.0 did not have a `VERSION` file<sup>3</sup>.
 
 The `VERSION` file is not referenced by, and does not reference, any of the other files in the collection.
 
@@ -329,6 +331,6 @@ The `VERSION` file is not referenced by, and does not reference, any of the othe
 
 <sup>**2**</sup> Here is an example of how the <em>Credits</em> and <em>Credits_URL</em> key values in the individual category `.ini` files are used. If <em>Credits</em>="`See [example]`" and <em>Credits_URL</em>="`http://example.com</em>`" and the <em>Extra</em>key is empty or missing then the extra text generated will be `See <a href="example.com">example 1</a>`.
 
-<sup>**3**</sup> Version tracking was not done before v2.0.0. However it is safe to assume, using semantic versioning, that the current format is the second major release. This is because all previous database versions were backwards compatible and therefore all belonged to the same major version, which, logically, must have been v1. The fact that this version of the database breaks that backward compatibility means the major version must be bumped.
+<sup>**3**</sup> Version tracking was not done before v2.0.0. However it is safe to assume, using [semantic versioning](https://semver.org/), that the current format is the second major release. This is because all previous database versions were backwards compatible and therefore all belonged to the same major version, which, logically, must have been v1. The fact that this version of the database breaks that backward compatibility means the major version must be bumped.
 
 <sup>**4**</sup> If "contributors" is specified as part of the *CopyrightHolder* key value in `LICENSE-INFO` then the `CONTRIBUTORS` file *must* contain a list of all the contributors.

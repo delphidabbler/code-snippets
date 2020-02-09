@@ -241,9 +241,9 @@ There is a separate source code file for each snippet. These file names must be 
 
 ## Credits Files
 
-There are two credits files, `contrib.txt` and `testers.txt` that list the people who have contributed code to the collection or helped to test the code, respectively.
+There are two credits files, `CONTRIBUTORS` and `TESTERS` that list the people who have contributed code to the collection or helped to test the code, respectively.
 
-Each file is simply a list of names, with each name on a separate line.
+Each file is simply a list of names, in plain UTF-8 text format, with each name on a separate line. No blank lines are permitted.
 
 The credits files are not referenced by, and do not reference, any of the other files in the collection.
 

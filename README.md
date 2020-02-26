@@ -18,7 +18,7 @@ So far there is just one collection, the DelphiDabbler Code Snippets Database. T
 
 > The collection is not compatible with versions of _CodeSnip_ up to v4.15.1.
 
-The collection can be found in the `csdb/v4.16` directory. The actual collection is contained in the `collection` sub-directory and it is documented in the `docs` sub-directory - see [`CollectionFormat.md`](csdb/docs/CollectionFormat.md) for further information.
+The collection can be found in the `csdb/v4.16` directory. The actual collection is contained in the `collection` sub-directory and it is documented in the `docs` sub-directory - see `collection-format.html` for further information.
 
 ## Development
 

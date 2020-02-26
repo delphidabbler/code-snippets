@@ -1,0 +1,595 @@
+<!DOCTYPE HTML>
+
+<!--
+ * This file copyright (C) 2020, Peter Johnson (gravatar.com/delphidabbler) and
+ * is licensed under the MIT License: https://opensource.org/licenses/MIT
+ *
+ * DelphiDabbler Code Snippets Database Documentation: Collection file format 
+ * documentation.
+-->
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8" />
+<meta http-equiv=X-UA-Compatible content="IE=edge">
+<meta name=viewport content="width=device-width,initial-scale=1">
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+<meta name="author" content="Peter Johnson - https://en.gravatar.com/delphidabbler">
+<meta name="description" content="DelphiDabbler Code Snippets collection documentation - collection file format">
+<link rel="stylesheet" href="main.css">
+
+<title>
+  DelphiDabbler Code Snippets Database Docs - Collection Files
+</title>
+
+</head>
+
+<body>
+
+<header>
+
+  <div id="title">
+    <div>
+      DelphiDabbler Code Snippets Database v2
+    </div>
+    <div class="subtitle">
+      Collection File Format
+    </div>
+  </div>
+
+  <nav id="contents">
+    <ul>
+      <li>
+        <a href="#intro">Introduction</a>
+      </li>
+      <li>
+        <a href="#meta">Meta Data Files</a>
+      </li>
+      <li>
+        <a href="#source-code">Source Code Files</a>
+      </li>
+      <li>
+        <a href="#credits">Credits Files</a>
+      </li>
+      <li>
+        <a href="#license">License File</a>
+      </li>
+      <li>
+        <a href="#version">Version Information File</a>
+      </li>
+    </ul>
+  </nav>
+    
+</header>
+
+<section id="intro">
+
+  <h1>
+    Introduction
+  </h1>
+
+  <p>
+    The collection is organised as a set of categories, each of which contains one or more code snippets.
+  </p>
+  <p>
+    Meta data describing the categories and snippets is stored in a set of <code>.ini</code> files. In addition there are numerous <code>.dat</code> files, each of which contains the source code of a snippet.
+  </p>
+  <p>
+    There are additional files containing the source code license information, version information and lists of credits.
+  </p>
+  <p>
+    All the files are plain text, encoded in UTF-8 format with UTF-8 preamble (BOM).
+  </p>
+  
+</section>
+
+<section id="meta">
+  
+  <h1>
+    Meta Data Files
+  </h1>
+
+  <p>
+    There are two kinds of meta data files:
+  </p>
+  <ol>
+    <li>
+      <code>categories.ini</code> lists the categories contained in the collection.
+    </li>
+    <li>
+      A set of further <code>.ini</code> files, one for each category specified in <code>categories.ini</code>. Each of these files contains numerous details of each snippet along with the name of the file containing the source code.
+    </li>
+  </ol>
+  
+  <h2>
+    Format Of <code>categories.ini</code>
+  </h2>
+
+  <p>
+    Each section in this file defines a category and has the following format:
+  </p>
+  <pre class="sample">[&lt;cat-id&gt;]
+Desc=&lt;category-description&gt;
+Ini=&lt;ini-file-name&gt;</pre>
+
+  <p>
+    The sections in these files are named with a unique identifier that identifies a category within the collection. The section names <span class="very-strong">must</span> be alphanumeric characters. The values have the following purpose:
+  </p>
+  <dl>
+    <dt>
+      <code class="key">Desc</code>
+    </dt>
+    <dd>
+      <p>
+        A brief, human readable, description of the category. Any valid UTF-8 text is permitted.
+      </p>
+    </dd>
+    <dt>
+      <code class="key">Ini</code>
+    </dt>
+    <dd>
+      <p>
+        The name of the <code>.ini</code> file that contains information about each snippet in the category. <span class="very-strong">Must</span> be a valid file name, without path. The files <span class="very-strong">must</span> be stored in the same directory as <code>category.ini</code>.
+      </p>
+    </dd>
+  </dl>
+  <p>
+    Here is an example (this is a copy of the &quot;Date and Time&quot; category's entry):
+  </p>
+  <pre class="sample">[date]
+Desc=Date and Time
+Ini=date.ini</pre>
+
+  <h2>
+    Format Of Individual Category <code>.ini</code> Files
+  </h3>
+
+  <p>
+    Each section in these files defines a snippet and has the following content:
+  </p>
+  <pre class="sample">[snippet-name]
+DisplayName=&lt;snippet-display-name&gt;
+Desc=&lt;description-text&gt;
+DescEx=&lt;description-REML&gt;
+Snip=&lt;snippet-file-name&gt;
+Units=&lt;required-units&gt;
+Depends=&lt;required-snippets&gt;
+SeeAlso=&lt;cross-referenced-snippets&gt;
+Credits=&lt;credits-text&gt;
+Credits_URL=&lt;url-used-in-credits&gt;
+Comments=&lt;comments-text&gt;
+Delphi2=&lt;Y|N|Q|W&gt;
+Delphi3=&lt;Y|N|Q|W&gt;
+Delphi4=&lt;Y|N|Q|W&gt;
+Delphi5=&lt;Y|N|Q|W&gt;
+Delphi6=&lt;Y|N|Q|W&gt;
+Delphi7=&lt;Y|N|Q|W&gt;
+Delphi2005Win32=&lt;Y|N|Q|W&gt;
+Delphi2006Win32=&lt;Y|N|Q|W&gt;
+Delphi2007=&lt;Y|N|Q|W&gt;
+Delphi2009Win32=&lt;Y|N|Q|W&gt;
+Delphi2010=&lt;Y|N|Q|W&gt;
+DelphiXE=&lt;Y|N|Q|W&gt;
+DelphiXE2=&lt;Y|N|Q|W&gt;
+DelphiXE3=&lt;Y|N|Q|W&gt;
+DelphiXE4=&lt;Y|N|Q|W&gt;
+DelphiXE5=&lt;Y|N|Q|W&gt;
+DelphiXE6=&lt;Y|N|Q|W&gt;
+DelphiXE7=&lt;Y|N|Q|W&gt;
+DelphiXE8=&lt;Y|N|Q|W&gt;
+Delphi10S=&lt;Y|N|Q|W&gt;
+Delphi101B=&lt;Y|N|Q|W&gt;
+FPC=&lt;Y|N|Q|W&gt;
+Extra=&lt;extra-info-REML&gt;
+Kind=&lt;freeform|routine|type|const|class|unit&gt;
+TestInfo=&lt;none|basic|advanced&gt;</pre>
+  <p>The sections in these files are named with identifiers that uniquely identify a snippet. This <span class="very-strong">must</span> be a valid Unicode Pascal identifier. The keys in a section have the following purpose:</p>
+  <dl>
+    <dt>
+      <code class="key">DisplayName</code>
+    </dt>
+    <dd>
+      <p>
+        Human readable name of snippet. May be any valid UTF-8 string of up to 64 characters. If not present then the snippet identifier that names the section is used as the human readable name.
+      </p>
+    </dd>
+    <dt>
+      <code class="key">Desc</code>
+    </dt>
+    <dd>
+      <p>
+        Description of the snippet as plain text. Ignored if a non-empty <code class="key">DescEx</code> key is present.
+      </p>
+    </dd>
+    <dt>
+      <code class="key">DescEx</code>
+    </dt>
+    <dd>
+      <p>
+        Formatted description of the snippet using REML<sup><a href="#footnote-1">1</a></sup> code. May be empty, in which case the <code class="key">Desc</code> key is used. <code class="key">Desc</code> is ignored if <code class="key">DescEx</code> has a non-empty value.
+      </p>
+    </dd>
+    <dt>
+      <code class="key">Snip</code>
+    </dt>
+    <dd>
+      <p>
+        Name of the file containing this snippet's source code. The file name <span class="very-strong">must</span>:
+      </p>
+      <ul class="unspaced">
+        <li>
+          be a valid file name;
+        </li>
+        <li>
+          contain no path information;
+        </li>
+        <li>
+          exist in the same directory as the <code>.ini</code> file;
+        </li>
+        <li>
+          be unique within the whole collection.
+        </li>
+      </ul>
+    </dd>
+    <dt>
+      <code class="key">Units</code>
+    </dt>
+    <dd>
+      <p>
+        Comma separated list of units required to compile the snippet. May be omitted or empty if no units are required. The <code>System</code> unit is assumed and does not need to be specified. Unit names <span class="very-strong">must</span> be valid Pascal identifiers.
+      </p>
+    </dd>
+    <dt>
+      <code class="key">Depends</code>
+    </dt>
+    <dd>
+      <p>
+        Comma separated list of the identifiers of snippets that are required to compile this snippet. May be omitted or empty if there are no such dependencies. Snippet identifiers <span class="very-strong">must</span> exist within the collection and <span class="very-strong">must not</span> cause a circular reference back to this snippet.
+      </p>
+    </dd>
+    <dt>
+      <code class="key">SeeAlso</code>
+    </dt>
+    <dd>
+      <p>
+        Comma separated list of the identifiers of cross-referenced snippets. May be omitted or empty. Snippet identifiers should exist in the collection.
+      </p>
+    </dd>
+    <dt>
+      <code class="key">Credits</code><sup><a href="#footnote-2">2</a></sup>
+    </dt>
+    <dd>
+      <p>
+        Text string that notes any credits / acknowledgements. May be omitted or empty. <code class="key">Credits</code> may optionally contain one (and only one) section of text delimited by <code>[</code> and <code>]</code> characters that indicate the presence of a hyperlink. The enclosed text is used as the text of a hyperlink whose URL <span class="very-strong">must</span> be specified in the <code class="key">Credits_URL</code> key.
+      </p>
+      <p>
+        <code class="key">Credits</code> is ignored if a non-empty <code class="key">Extra</code> key is present.
+      </p>
+    </dd>
+    <dt>
+      <code class="key">Credits_URL</code><sup><a href="#footnote-2">2</a></sup>
+    </dt>
+    <dd>
+      <p>
+        The URL used in any hyperlink present in the <code class="key">Credits</code> key. <span class="very-strong">Must</span> be present if <code class="key">Credits</code> specifies a hyperlink.
+      </p>
+      <p>
+        Ignored if <code class="key">Credits</code> contains no hyperlink section or if a non-empty <code class="key">Extra</code> key is present.
+      <p>
+    </dd>
+    <dt>
+      <code class="key">Comments</code>
+    </dt>
+    <dd>
+      <p>
+        Text string containing any additional comments about the snippet. Optional. Ignored if a non-empty <code class="key">Extra</code> key is present.
+      </p>
+    </dd>
+    <dt>
+      <code class="key">DelphiXXX</code> &amp; <code class="key">FPC</code>
+    </dt>
+    <dd>
+      <p>
+        This related group of keys describe compilation results for the snippets on various compilers. Valid key names are:
+      </p>
+      <ul class="unspaced">
+        <li><code class="key">Delphi2</code> – Delphi 2 compiler</li>
+        <li><code class="key">Delphi3</code> – Delphi 3 compiler</li>
+        <li><code class="key">Delphi4</code> – Delphi 4 compiler</li>
+        <li><code class="key">Delphi5</code> – Delphi 5 compiler</li>
+        <li><code class="key">Delphi6</code> – Delphi 6 compiler</li>
+        <li><code class="key">Delphi7</code> – Delphi 7 compiler</li>
+        <li><code class="key">Delphi2005Win32</code> – Win32 personality of Delphi 2005 compiler</li>
+        <li><code class="key">Delphi2006Win32</code> – Win32 personality of Delphi 2006 compiler</li>
+        <li><code class="key">Delphi2007</code> – Delphi 2007 compiler</li>
+        <li><code class="key">Delphi2009Win32</code> – Win32 personality of Delphi 2009 compiler</li>
+        <li><code class="key">Delphi2010</code> – Delphi 2010 compiler</li>
+        <li><code class="key">DelphiXE</code> – Delphi XE compiler</li>
+        <li><code class="key">DelphiXE2</code> – Delphi XE2 compiler</li>
+        <li><code class="key">DelphiXE3</code> – Delphi XE3 compiler</li>
+        <li><code class="key">DelphiXE4</code> – Delphi XE4 compiler</li>
+        <li><code class="key">DelphiXE5</code> – Delphi XE5 compiler</li>
+        <li><code class="key">DelphiXE6</code> – Delphi XE6 compiler</li>
+        <li><code class="key">DelphiXE7</code> – Delphi XE7 compiler</li>
+        <li><code class="key">DelphiXE8</code> – Delphi XE8 compiler</li>
+        <li><code class="key">Delphi10S</code> – Delphi 10 Seattle compiler</li>
+        <li><code class="key">Delphi101B</code> – Delphi 10.1 Berlin compiler</li>
+        <li><code class="key">FPC</code> – Free Pascal compiler</li>
+      </ul>
+      <p>
+        Valid values for these keys are:
+      </p>
+      <ul class="unspaced">
+        <li><code class="value">Y</code> – compiles on the compiler</li>
+        <li><code class="value">N</code> – does not compile on the compiler</li>
+        <li><code class="value">W</code> – compiles with warnings on the compiler</li>
+        <li><code class="value">Q</code> – compilation result unknown</li>
+      </ul>
+      <p>
+        If any of the above compilers is not present, the compile result is assumed to be <code class="value">Q</code>. A compile result of <code class="value">W</code> is obsolete and treated as if it were <code class="value">Y</code>.
+      </p>
+    </dd>
+    <dt>
+      <code class="key">Extra</code>
+    </dt>
+    <dd>
+      <p>
+        Optional. Provides extra information about the snippet. When present the value <span class="very-strong">must</span> be a valid string of REML<sup><a href="#footnote-1">1</a></sup> code.
+      </p>
+      <p>
+        If omitted the extra information is generated from the values of any <code class="key">Comments</code>, <code class="key">Credits</code> and <code class="key">Credits_URL</code> keys.
+      </p>
+      <p>
+        When <code class="key">Extra</code> has a non-empty value the <code class="key">Comments</code>, <code class="key">Credits</code> and <code class="key">Credits_URL</code> keys are ignored.
+      </p>
+    </dd>
+    <dt>
+      <code class="key">Kind</code>
+    </dt>
+    <dd>
+      <p>
+        The kind (or type) of this code snippet. Valid values are:
+      </p>
+      <ul class="unspaced">
+        <li><code class="value">freeform</code> – a freeform snippet that doesn't conform to any other other supported type.</li>
+        <li><code class="value">routine</code> – a Pascal routine (function or procedure).</li>
+        <li><code class="value">type</code> – a simple Pascal type definition.</li>
+        <li><code class="value">const</code> – a Pascal constant definition.</li>
+        <li><code class="value">class</code> – a Pascal class or advanced record definition and implementation.</li>
+        <li><code class="value">unit</code> – a complete Pascal unit.</li>
+      </ul>
+      <p>
+        If <code class="key">kind</code> is not present then its value defaults to <code class="value">freeform</code>.
+      </p>
+    </dd>
+    <dt>
+      <code class="key">TestInfo</code>
+    </dt>
+    <dd>
+      <p>
+        Testing information for the snippet. Valid values are:
+      </p>
+      <ul class="unspaced">
+        <li><code class="value">none</code> – the snippet has not been tested.</li>
+        <li><code class="value">basic</code> – the snippet has passed some simple testing.</li>
+        <li><code class="value">advanced</code> – the snippet has passed more advanced testing, usually unit tests.</li>
+      </ul>
+      <p>
+        If <code class="key">TestInfo</code> is not present then its value defaults to <code class="value">basic</code>.
+      </p>
+    </dd>
+    <dt>
+  </dl>
+  <p>
+    The format is quite messy, with several keys having similar or overlapping purposes. This has happened because new features have been added over time while preserving backward compatibility.
+  </p>
+  <p>
+    Backwards compatibility with older formats has now been dropped, but to save development time some of the old style values have been retained. However some duplication of keys has been removed.
+  </p>
+
+  
+</section>
+
+<section id="source-code">
+
+  <h1>
+    Source Code Files
+  </h1>
+  
+  <p>
+    There is a separate source code file for each snippet. These file names <span class="very-strong">must</span> be named exactly as specified in the related category <code>.ini</code> file's <code class="key">Snip</code> key. They are usually numbered from <code>001</code> and have a <code>.dat</code> extension, but this is not a requirement.
+  </p>
+  
+</section>
+
+<section id="credits">
+
+  <h1>
+    Credits Files
+  </h1>
+
+  <p>
+    There are two credits files, <code>CONTRIBUTORS</code> and <code>TESTERS</code> that list the people who have contributed code to the collection or helped to test the code, respectively.
+  </p>
+
+  <p>
+    Each file is simply a list of names, in plain UTF-8 text format, with each name on a separate line. No blank lines are permitted.
+  </p>
+
+  <p>
+    The files may be empty if there are no contributors and/or testers, but they <span class="very-strong">must</span> be present.
+  </p>
+  
+  <p>
+    The credits files are not referenced by, and do not reference, any of the other files in the collection.
+  </p>
+  
+</section>
+
+<section id="license">
+
+  <h1>
+    License File
+  </h1>
+  
+  <p>
+    There are two files relating to license (and copyright) information: the full text of the license in human readable format and a file providing machine readable meta data about the license and copyright.
+  </p>
+
+  <h2>
+    Full License Text
+  </h2>
+  
+  <p>
+    This is a plain UTF-8 text file named <code>LICENSE</code> that contains the license that applies to the source code in the collection.
+  </p>
+  <p>
+    This file <span class="very-strong">must</span> be present and non-empty.
+  </p>
+  <p>
+    The <code>LICENSE</code> file is not referenced by, and does not reference, any of the other files in the collection.
+  </p>
+
+  <h2>
+    License Meta Information
+  </h2>
+
+  <p>
+    A file named <code>LICENSE-INFO</code> is provided that contains information about the license in machine readable form. Information is in <code>Key=Value </code> format as follows:
+  </p>
+
+  <pre class="sample">LicenseName=&lt;human-readable-name&gt;
+LicenseSPDX=&lt;code&gt;
+LicenseURL=&lt;url&gt;
+CopyrightDate=&lt;date-range&gt;
+CopyrightHolder=&lt;name&gt;
+CopyrightHolderURL=&lt;url&gt;</pre>
+
+  <p>
+    The keys have the following meaning:
+  </p>
+
+  <dl>
+    <dt>
+      <code class="key">LicenseName</code>
+    </dt>
+    <dd>
+      <p>
+        The name of the license as plain text. E.g. <code>MIT License</code> or <code>Mozilla Public License 2.0</code>. 
+      </p>
+    </dd>
+    <dt>
+      <code class="key">LicenseSPDX</code>
+    </dt>
+    <dd>
+      <p>
+        The Open Source Initiative (OSI) SPDX short identifier of the license, if any. E.g. <code class="value">MIT</code> or <code class="value">MPL-2.0</code>. If the license does not have a SPDX identifier this key <span class="very-strong">must</span> either be omitted or be empty. 
+      </p>
+      <p>
+        For a list of OSI licenses with their SPDXs see <a href="https://opensource.org/licenses/alphabetical"
+        >https://opensource.org/licenses/alphabetical</a>. 
+      </p>
+    </dd>
+    <dt>
+      <code class="key">LicenseURL</code>
+    </dt>
+    <dd>
+      <p>
+        The URL of an online copy of the license. E.g. <code class="value">https://opensource.org/licenses/MIT</code>. If the license has no URL then this key <span class="very-strong">must</span> be omitted or be empty.
+      </p>
+    </dd>
+    <dt>
+      <code class="key">CopyrightDate</code>
+    </dt>
+    <dd>
+      <p>
+        The date of the copyright or range of copyright dates as plain text. E.g. <code class="value">2020</code> or <code class="value">2005-2020</code>.
+      </p>
+    </dd>
+    <dt>
+      <code class="key">CopyrightHolder</code>
+    </dt>
+    <dd>
+      <p>
+        The name of the copyright holder as plain text. Where there are contributors either list them all or append <code class="value">and contributors</code><sup><a href="#footnote-3">3</a></sup> to the primary copyright holder's name. E.g. <code class="value">Joe Bloggs</code> or <code class="value">Annie Smith, Joe Bloggs and Jessie Sharp</code> or <code class="value">Annie Smith and Contributors</code>.
+      </p>
+    </dd>
+    <dt>
+      <code class="key">CopyrightHolderURL</code>
+    </dt>
+    <dd>
+      <p>
+        The URL of a web page where details of the copyright holder(s) or primary copyright holder can be found. E.g. <code class="value">https://example.com/joe-blogs-bio</code>. This key is optional.
+      </p>
+    </dd>
+  </dl>
+
+  <p>
+    The <code>LICENSE-INFO</code> file is not referenced by, and does not reference, any of the other files in the collection.
+  </p>
+
+</section>
+
+<section id="version">
+
+  <h1>
+    Version Information File
+  </h1>
+  
+  <p>
+    There is a plain UTF-8 text file named <code>VERSION</code> that contains the version number of the database in the form <code class="value">vX.X.X</code>. where <code class="value">X</code> represents a non-negative integer. The file is <span class="very-strong">required</span> and <span class="very-strong">must</span> be non-empty.
+  </p>
+
+  <p>
+    Version numbers <span class="very-strong">must</span> be incremented according to to the principles of <a href="https://semver.org/">semantic versioning</a>.
+  </p>
+
+  </p>
+    The current major version is v2. Databases before v2.0.0 did not have a <code>VERSION</code> file<sup><a href="#footnote-4">4</a></sup>.
+  </p>
+
+  <p>
+    The <code>VERSION</code> file is not referenced by, and does not reference, any of the other files in the collection.
+  </p>
+  
+</section>
+
+<footer>
+
+  <h1>
+    Footnotes
+  </h2>
+  <ol>
+    <li id="footnote-1">
+      <p>
+        REML is a text markup language used to format text. REML version 4 is supported. The REML format is documented in <a href="REML.html">REML.html</a>.
+       </p>
+    </li>
+    <li id="footnote-2">
+      <p>
+        Here is an example of how the <code class="key">Credits</code> and <code  class="key">Credits_URL</code> key work together.
+      </p>
+      <p>
+      If <code class="key">Credits</code>=<code class="value">&quot;See [example]&quot;</code> and <code class="key">Credits_URL</code>=<code class="value">&quot;http://example.com&quot;</code> and the <code class="key">Extra</code> key is empty or missing then the extra text generated will be <samp>See &lt;a href=&quot;example.com&quot;&gt;example 1&lt;/a&gt;</samp>.
+      </p>
+    </li>
+    <li id="footnote-3">
+      <p>
+        If &quot;contributors&quot; is specified as part of the <code class="key">CopyrightHolder</code> key value in <code>LICENSE-INFO</code> then the <code>CONTRIBUTORS</code> file <span class="very-strong">must</span> contain a list of all the contributors.
+      </p>
+    </li>
+    <li id="footnote-4">
+      <p>
+        Version tracking was not done before v2.0.0. However it is safe to assume, using <a href="https://semver.org/">semantic versioning</a>, that the current format is the second major release. This is because all previous database versions were backwards compatible and therefore all belonged to the same major version, which, logically, must have been v1. The fact that this version of the database breaks that backward compatibility means the major version must be bumped.
+      </p>
+    </li>
+  </ol>
+</footer>
+
+</body>
+
+</html>

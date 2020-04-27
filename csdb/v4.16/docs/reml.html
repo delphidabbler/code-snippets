@@ -54,7 +54,7 @@
       </li>
     </ul>
   </nav>
-    
+
 </header>
 
 <section id="intro">
@@ -76,15 +76,15 @@
 </section>
 
 <section id="tags">
-  
+
   <h1>
     Tags
   </h1>
-  
+
   <p>
     There are two types of tags: block level and in-line.
   </p>
-  
+
   <p>
     If an unrecognised tag is encountered an REML code the interpreter <em>should</em> report an error. However, providing start and end tags are matched, the interpreter <em>may</em> choose to simply ignore the tags.
   </p>
@@ -92,7 +92,7 @@
   <h2>
     Block Level Tags
   </h2>
-  
+
   <p>
     Block level tags separate the enclosed text into paragraphs of some description. The supported tags are:
   </p>
@@ -136,7 +136,7 @@
   </p>
   <pre class="sample">&lt;p&gt;wrong &lt;/p&gt;&lt;heading&gt;blah&lt;/heading&gt;&lt;p&gt;wrong &lt;/p&gt;&lt;p&gt;blah&lt;/p&gt;&lt;p&gt;wrong&lt;/p&gt;</pre>
   <aside>
-    <strong>Note:</strong> Code Snippets Database collections <em>may</em> contain such non-conforming REML. Therefore interpreters of REML that need to accept such collections <span class="very-strong">must</span> be able to handle text without enclosing block tags. 
+    <strong>Note:</strong> Code Snippets Database collections <em>may</em> contain such non-conforming REML. Therefore interpreters of REML that need to accept such collections <span class="very-strong">must</span> be able to handle text without enclosing block tags.
   </aside>
 
   <h2>
@@ -199,7 +199,7 @@
   <h1>
     Character Entities
   </h1>
-    
+
   <p>
     A few symbolic character entities are supported in REML. Here is the complete list:
   </p>
@@ -225,9 +225,13 @@
     <strong>Note:</strong> the '&lt;' and '&amp;' characters are special within the markup and cannot be used literally, even when you are just entering plain text. You <span class="very-strong">must</span> use the <code class="value">&amp;lt;</code> character entity in place of <code class="value">&lt;</code> and <code class="value">&amp;amp;</code> instead of <code class="value">&amp;</code>. For example to write <code class="value">x&lt;y</code> in REML use <code class="value">x&amp;lt;y</code> and to write <code class="value">you &amp; me</code> use <code class="value">you &amp;amp; me</code>.
   </aside>
 
-To express other special symbols for which there is no symbolic character entity, numeric character entities can be used. For example to display the '¶' character (Unicode <em>pilcrow sign</em>) use <code class="value">&amp;#182;</code>.
+  <p>
+    To express other special symbols for which there is no symbolic character entity, numeric character entities can be used. For example to display the '¶' character (Unicode <em>pilcrow sign</em>) use <code class="value">&amp;#182;</code>.
+  </p>
 
-> **Note:** Numeric entities should be used with caution because the characters they represent may vary across different text encodings, whereas symbolic entities are safe across encodings.
+  <aside>
+    <strong>Note:</strong> Numeric entities should be used with caution because the characters they represent may vary across different text encodings, whereas symbolic entities are safe across encodings.
+  </aside>
 
 </section>
 

@@ -24,6 +24,15 @@ Anyone is welcome to write applications or web pages that access the snippets in
 
 The collection data format is fully documented in the file `collection-format.html` in the `docs` directory.
 
+## Releases
+
+Releases can be found on the `releases` tab on the GitHub project page.
+
+Each release comprises two zip files, as follows (replace `X.Y.X` in the file names with the release version number):
+
+  * `csdb-vX.Y.Z-data.zip` - contains all the data in the collection required by applications that access that collection.
+  * `csdb-vX.Y.Z-docs.zip` - contains the documentation developers need to understand the structure of the data.
+
 ## Change Log
 
 The project's change log can be found in `CHANGELOG.md` in the collection's base directory.

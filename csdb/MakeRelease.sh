@@ -23,9 +23,10 @@
 
 VERSION=$1
 RELEASE_DIR="./_release"
-RELEASE_FILE_PREFIX="csdb-v"
-COLLECTION_ZIP_FILE="${RELEASE_DIR}/${RELEASE_FILE_PREFIX}${VERSION}.zip"
-DOCS_ZIP_FILE="${RELEASE_DIR}/${RELEASE_FILE_PREFIX}${VERSION}-docs.zip"
+RELEASE_FILE_STUB="${RELEASE_DIR}/csdb-v${VERSION}"
+
+COLLECTION_ZIP_FILE="${RELEASE_FILE_STUB}-data.zip"
+DOCS_ZIP_FILE="${RELEASE_FILE_STUB}-docs.zip"
 
 echo Creating CSDB release $1
 echo
@@ -33,10 +34,10 @@ echo
 rm -rf $RELEASE_DIR || true
 mkdir $RELEASE_DIR
 
-echo Zipping collection
+echo Zipping data only release
 zip -j -q $COLLECTION_ZIP_FILE ./collection/*
 
-echo Zipping documentation
+echo Zipping documentation release
 zip -j -q $DOCS_ZIP_FILE ./docs/*
 
 echo Done

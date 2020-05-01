@@ -10,4 +10,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 
 ## v2.0.0 of 2020/xx/xx
 
-* Initial release of v2 of the collection.
+Initial release of v2 of the collection.
+
+### Main changes since v1
+
+* Removed backwards compatibility with CodeSnip v4.15.1 and earlier.
+* Condensed the two string management categories into one.
+* Removed conditionally included code and CodeSnip program version dependent code.
+* Collection is now usable by applications other than CodeSnip.
+* Added documentation:
+    * of file format;
+    * read-me file;
+    * change log.

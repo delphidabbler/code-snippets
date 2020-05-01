@@ -39,10 +39,10 @@ echo
 rm -rf $RELEASE_DIR || true
 mkdir $RELEASE_DIR
 
-echo Zipping data only release
+echo Zipping data
 zip -j -q $COLLECTION_ZIP_FILE ./collection/*
 
-echo Zipping documentation release
+echo Zipping documentation
 zip -j -q $DOCS_ZIP_FILE ./docs/*
 
 echo Done

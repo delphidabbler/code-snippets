@@ -211,7 +211,7 @@ footer h1 {
 footer ol {
   margin: 0.5em 0 0.5em 2em;
 }
-footer ol li, footer ol li p {
+footer ol li, footer ol li p, footer p{
   font-size: 90%;
   margin: 0.25em 0;
 }

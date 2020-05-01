@@ -1,14 +1,19 @@
 #!/bin/bash
 
 # --------------------------------------------------------------------------
+# DelphiDabbler Code Snippets Database v2
 #
 # Build tool for Windows to package up files ready for release.
+#
+# This file is licensed under the MIT license, copyright © 2020 Peter Johnson,
+# https://gravatar.com/delphidabbler
+#
 #
 # Two packages are made, each in a zip file: one containing the collection and
 # the other containing documentation. Both zip files are written to the
 # _release sub-folder in the collection's home directory.
 #
-# Any pre-existing _release sub-folder is deleted before the zip files are
+# Any pre-existing _release sub-folder is cleared before the zip files are
 # created.
 #
 # Requirements:

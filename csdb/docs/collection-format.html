@@ -358,12 +358,12 @@ TestInfo=&lt;&quot;none&quot;|&quot;basic&quot;|&quot;advanced&quot;&gt;</pre>
         The kind (or type) of this code snippet. Valid values are:
       </p>
       <ul class="unspaced">
-        <li><code class="value">freeform</code> – a freeform snippet that doesn't conform to any other other supported type.</li>
+        <li><code class="value">freeform</code><sup><a href="#footnote-3">3</a></sup> – a freeform snippet that doesn't conform to any other other supported type.</li>
         <li><code class="value">routine</code> – a Pascal routine (function or procedure).</li>
         <li><code class="value">type</code> – a simple Pascal type definition.</li>
         <li><code class="value">const</code> – a Pascal constant definition.</li>
         <li><code class="value">class</code> – a Pascal class or advanced record definition and implementation.</li>
-        <li><code class="value">unit</code> – a complete Pascal unit.</li>
+        <li><code class="value">unit</code><sup><a href="#footnote-2">3</a></sup> – a complete Pascal unit.</li>
       </ul>
       <p>
         If <code class="key">Kind</code> is not present then its value defaults to <code class="value">freeform</code>.
@@ -518,7 +518,7 @@ CopyrightHolderURL=&lt;url&gt;</pre>
     </dt>
     <dd>
       <p>
-        The name of the copyright holder as plain text. Where there are contributors either list them all or append <code class="value">and contributors</code><sup><a href="#footnote-3">3</a></sup> to the primary copyright holder's name. E.g.:
+        The name of the copyright holder as plain text. Where there are contributors either list them all or append <code class="value">and contributors</code><sup><a href="#footnote-4">4</a></sup> to the primary copyright holder's name. E.g.:
       </p>
       <ul class="unspaced">
         <li>
@@ -563,7 +563,7 @@ CopyrightHolderURL=&lt;url&gt;</pre>
   </p>
 
   </p>
-    The current major version is v2. Databases before v2.0.0 did not have a <code>VERSION</code> file<sup><a href="#footnote-4">4</a></sup>.
+    The current major version is v2. Databases before v2.0.0 did not have a <code>VERSION</code> file<sup><a href="#footnote-5">5</a></sup>.
   </p>
 
   <p>
@@ -593,10 +593,15 @@ CopyrightHolderURL=&lt;url&gt;</pre>
     </li>
     <li id="footnote-3">
       <p>
-        If &quot;contributors&quot; is specified as part of the <code class="key">CopyrightHolder</code> key value in <code>LICENSE-INFO</code> then the <code>CONTRIBUTORS</code> file <span class="very-strong">must</span> contain a list of all the contributors.
+        Although permitted in the file format, the <code class="value">unit</code> and <code class="value">freeform</code> values of the <code class="key">Kind</code> key are not currently used in the collection.
       </p>
     </li>
     <li id="footnote-4">
+      <p>
+        If &quot;contributors&quot; is specified as part of the <code class="key">CopyrightHolder</code> key value in <code>LICENSE-INFO</code> then the <code>CONTRIBUTORS</code> file <span class="very-strong">must</span> contain a list of all the contributors.
+      </p>
+    </li>
+    <li id="footnote-5">
       <p>
         Version tracking was not done before v2.0.0. However it is safe to assume, using <a href="https://semver.org/">semantic versioning</a>, that the current format is the second major release. This is because all previous database versions were backwards compatible and therefore all belonged to the same major version, which, logically, must have been v1. The fact that this version of the database breaks that backward compatibility means the major version must be bumped.
       </p>

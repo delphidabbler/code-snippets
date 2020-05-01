@@ -12,13 +12,34 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 
 Initial release of v2 of the collection.
 
-### Main changes since v1
+### Changes since last v1 release
 
-* Removed backwards compatibility with CodeSnip v4.15.1 and earlier.
-* Condensed the two string management categories into one.
-* Removed conditionally included code and CodeSnip program version dependent code.
-* Collection is now usable by applications other than CodeSnip.
+* Removed any code that restricted use of collection to _[DelphiDabbler CodeSnip](https://github.com/delphidabbler/codesnip)_. The collection can now be used by 3rd party applications.
+    * Removed backwards compatibility with _CodeSnip_ v4.15.1 and earlier.
+    * Removed conditionally included code and _CodeSnip_ program version dependent code.
+    * Merged multiple versions of category .ini files down into a single category .ini file. (These multiple file were used to hide some categories from earlier versions of _CodeSnip_).
+    * Removed duplicated, _CodeSnip_ version dependent soure code files and used copy of latest version and removed version specifiers from file names.
+* Rationalised and corrected errors in category .ini files:
+    * Condensed the two string management categories into one.
+    * Removed `Desc` keys where they duplicate `DescEx` keys.
+    * Removed some duplicated `Credits` and `Comments` keys.
+    * Removed some empty keys.
+    * Fixed or removed some broken web links.
+    * Rephrased some descriptive text.
+* Changed layout of category .ini files and `categories.ini`:
+    * Re-order sections of `categories.ini`.
+    * Removed all explanatory comments due to inconsistencies.
+    * Added header comments, including copyright and licensing information, to all .ini files.
+* File format changes:
+    * Removed `StandardFormat` key from specification for category .ini files.
+    * Added requirement for `LICENSE`, `LICENSE_INFO` and `VERSION` files and added the files.
+    * Changed required name for contributors and testers files to `CONTRIBUTORS` and `TESTERS` respectively. Renamed existing `contrib.txt` and `testers.txt` accordingly.
+    * Made support for REML v4 official.
 * Added documentation:
     * of file format;
     * read-me file;
     * change log.
+* Remove comments from .ini files.
+* Ensured all files use the UTF-8 preamble (aka byte order mark).
+* Added shell script to create releases.
+* Officially adopted MIT license for source code files.

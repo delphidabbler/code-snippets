@@ -1,0 +1,294 @@
+<!DOCTYPE HTML>
+
+<!--
+ * This file copyright (C) 2020, Peter Johnson (gravatar.com/delphidabbler) and
+ * is licensed under the MIT License: https://opensource.org/licenses/MIT
+ *
+ * DelphiDabbler Code Snippets Database Documentation: Collection file format
+ * documentation.
+-->
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8" />
+<meta http-equiv=X-UA-Compatible content="IE=edge">
+<meta name=viewport content="width=device-width,initial-scale=1">
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+<meta name="author" content="Peter Johnson - https://en.gravatar.com/delphidabbler">
+<meta name="description" content="DelphiDabbler Code Snippets collection documentation - collection file format">
+<link rel="stylesheet" href="main.css">
+
+<title>
+  DelphiDabbler Code Snippets Database Docs - Source Code Files
+</title>
+
+</head>
+
+<body>
+
+<header>
+
+  <div id="title">
+    <div>
+      DelphiDabbler Code Snippets Database v2
+    </div>
+    <div class="subtitle">
+      Source Code File Format
+    </div>
+  </div>
+
+  <nav id="contents">
+    <ul>
+      <li>
+        <a href="#intro">Introduction</a>
+      </li>
+      <li>
+        <a href="#routine">Routine Snippets</a>
+      </li>
+      <li>
+        <a href="#type">Simple Type Snippets</a>
+      </li>
+      <li>
+        <a href="#const">Constant Snippets</a>
+      </li>
+      <li>
+        <a href="#class">Class &amp; Advanced Record Snippets</a>
+      </li>
+    </ul>
+  </nav>
+
+</header>
+
+<section id="intro">
+
+  <h1>
+    Introduction
+  </h1>
+
+  <p>
+    The format of the collection's source code files is not straightforward. The format depends on the <em>kind</em> of snippet as defined in the relevant category .ini file. (For details see the description of the <code class="key">Kind</code> key in the <a href="./collection-format.html#category-ini">Format Of Individual Category <code>.ini</code> Files</a> section of <code>collection-format.html</code>).
+  </p>
+
+  <p>
+    The collection currently contains snippets of the following kinds:
+  </p>
+
+  <ul class="unspaced">
+    <li>
+      <code class="value"><a href="#routine">routine</a></code> – a Pascal routine (function or procedure).
+    </li>
+    <li>
+      <code class="value"><a href="#type">type</a></code> – a simple Pascal type definition.
+    </li>
+    <li>
+      <code class="value"><a href="#const">const</a></code> – a Pascal constant definition.
+    </li>
+    <li>
+      <code class="value"><a href="#class">class</a></code> – a Pascal class or advanced record definition and implementation.
+    </li>
+  </ul>
+
+  <p>
+    The format of the source code for each supported snippet kind is described below.
+  </p>
+
+</section>
+
+<section id="routine">
+
+  <h1>
+    Routine Snippets
+  </h1>
+
+  <p>
+    A routine snippet defines a single Pascal procedure or function. (Methods are <strong class="very-strong">not</strong> permitted - the <a href="#class">class &amp; advanced record</a> kind <strong class="very-strong">must</strong> be used for methods.)
+  </p>
+  <p>
+    Source code files <strong class="very-strong">must</strong> begin with either the <strong>function</strong> or <strong>procedure</strong> keyword, followed by a space or a new line and then a valid Pascal routine prototype. The following directives may be included in the prototype:
+  </p>
+  <ul class="unspaced">
+    <li>
+      <strong>register</strong>
+    </li>
+    <li>
+      <strong>pascal</strong>
+    </li>
+    <li>
+      <strong>cdecl</strong>
+    </li>
+    <li>
+      <strong>stdcall</strong>
+    </li>
+    <li>
+      <strong>safecall</strong>
+    </li>
+    <li>
+      <strong>overload</strong>
+    </li>
+  </ul>
+  <p>
+    After the routine prototype there <strong class="very-strong">must</strong> be at least one space or a new line followed by the routine's implementation. Local functions, procedures, simple type definitions, variables and constants are permitted within the implementation.
+  </p>
+  <p>
+    A routine <strong class="very-strong">must</strong> be fully implemented in Pascal &ndash; it can't be simply a DLL import. Therefore the <strong>external</strong> and <strong>varargs</strong> directives are not supported.
+  </p>
+  <p>
+    Here's an example of a valid routine snippet:
+  </p>
+<pre class="sample">function MyFunc(const Param1, Param2: string): string; stdcall;
+begin
+  Result := Param1 + ' - ' + Param2;
+end;</pre>
+  <p>
+    Routine snippets may refer to other routine, <a href="#type">simple type</a>, <a href="#class">class &amp; advanced record</a> or <a href="#const">constant</a> snippets.<sup><a href="#footnote">&dagger;</a></sup>
+  </p>
+  <p>
+    Routines may be marked as overloaded by using the <strong>overload</strong> directive. However, it is necessary to ensure there is at least one other routine in the collection with the same name.
+  </p>
+
+</section>
+
+<section id="type">
+
+  <h1>
+    Simple Type Snippets
+  </h1>
+
+  <p>
+    A simple type definition snippet, unsurprisingly, defines one or more Pascal types. Only simple types are supported. Classes, objects and records that contain methods are not supported: use  <a href="#class">class &amp; advanced record</a> snippet kinds for those. If you're not sure, the only types supported are those that can be completely defined in the interface section of a Pascal unit.
+  </p>
+  <p>
+    Source code files <strong class="very-strong">must</strong> begin with the <strong>type</strong> keyword, followed by at least one space or a new line and then one or more type definitions.
+  </p>
+  <p>
+    Here's an example of a valid type definition:
+  </p>
+<pre class="sample">type
+  TMyType = 1..20;
+  TMySecondType = array[TMyType] of Integer;</pre>
+  <p>
+    Simple type definitions may refer to other simple type definitions, <a href="#class">class &amp; advanced record</a> type definitions or <a href="#const">constants</a>.<sup><a href="#footnote">&dagger;</a></sup>
+  </p>
+
+</section>
+
+<section id="const">
+
+  <h1>
+    Constant Snippets
+  </h1>
+
+  <p>
+    A constant snippet defines one or more Pascal constants. They can either be true constants or typed constants.
+  </p>
+  <p>
+    Source code files <strong class="very-strong">must</strong> begin with the <strong>const</strong> keyword, followed by at least one space or a new line and then one or more constant definitions.
+  </p>
+  <p>
+    Here's an example of a valid constant snippet:
+  </p>
+<pre class="sample">const
+  cRangeMax = 3;
+  cRangeMin = 1;
+  cIntArray: array[cRangeMin..cRangeMax] of Integer = (42, 56, 99);</pre>
+  <p>
+    Constant snippets may refer to other constant, <a href="#type">type</a> or <a href="#class">class &amp; advanced record</a> snippets.<sup><a href="#footnote">&dagger;</a></sup>
+  </p>
+
+</section>
+
+<section id="class">
+
+  <h1>
+    Class &amp; Advanced Record Snippets
+  </h1>
+
+  <p>
+    A snippet of the class &amp; advanced record kind defines one or more Pascal classes or advanced records (i.e. records with methods).
+  </p>
+  <p>
+    Source code files <strong class="very-strong">must</strong> begin with the <strong>type</strong> keyword, followed by at least one space or a new line. Next follows the class or advanced record declaration(s). Additional <strong>type</strong> keywords may be used between type declarations, but are not required. Method implementations follow once <em class="very-strong">all</em> the class / record types have been declared. An implementation <strong class="very-strong">must</strong> be provided for all classes and record types.
+  </p>
+  <p>
+    Unlike in a Pascal unit, the <strong>implementation</strong> keyword <strong class="very-strong">must not</strong> be used to separate the declaration and the implementation.
+  </p>
+  <p>
+    It is an error to use this snippet kind for records or classes that have no method implementations (for example pure abstract classes) &ndash; use a <a href="#type">simple type definition</a> snippet instead.
+  </p>
+  <p>
+    Here are examples of valid class &amp; advanced record snippets:
+  </p>
+  <p>
+    <strong>Example 1</strong>
+  </p>
+<pre class="sample">type
+  TMyClass = class(TObject)
+  private
+    fField: string;
+  public
+    constructor Create(AFoo: string);
+    function Foo: string;
+  end;
+
+constructor TMyClass.Create(AFoo: string);
+begin
+  inherited Create;
+  fField := AFoo;
+end;
+
+function TMyClass.Foo: string;
+begin
+  Result := fField;
+end;</pre>
+  <p>
+    <strong>Example 2</strong>
+  </p>
+<pre class="sample">
+type
+  TPointEx = record
+    X, Y: Integer;
+    constructor Create(AX, AY: Integer);
+  end;
+
+type // optional type keyword
+  TRectEx = record
+    Top, Left, Width, Height: Integer;
+    constructor Create(ATop, ALeft, AWidth, AHeight: Integer);
+  end;
+
+constructor TPointEx.Create(AX, AY: Integer);
+begin
+  X := AX;
+  Y := AY;
+end;
+
+constructor TRectEx.Create(ATop, ALeft, AWidth, AHeight: Integer);
+begin
+  Top := ATop;
+  Left := ALeft;
+  Width := AWidth;
+  Height := AHeight;
+end;</pre>
+  <p>
+    Class &amp; advanced record snippets may refer to other class &amp advanced record snippets, <a href="#routine">routines</a>, <a href="#type">simple type definitions</a> and <a href="#const">constants</a>.<sup><a href="#footnote">&dagger;</a></sup>
+  </p>
+
+</section>
+
+<footer>
+
+  <h1>
+    Footnote
+  </h2>
+  <p id="footnote">
+    &dagger; Every referenced snippet <strong class="very-strong">must <em>either</em></strong> have its name included in the value of the <code class="key">Depends</code> key in the related <a href="./collection-format.html#category-ini">category <code>ini</code> file</a> <strong class="very-strong"><em>or</em></strong> be contained in a unit whose name is included in the value of the <code class="key">Units</code> key in the same file. It is up to implementors to ensure the referenced units can be found.
+  </p>
+</footer>
+
+</body>
+
+</html>

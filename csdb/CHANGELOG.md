@@ -1,12 +1,12 @@
 # Changelog
 
-This is the change log for the _DelphiDabbler Code Snippets Database_ collection starting with version 2.
+This is the change log for the _DelphiDabbler Code Snippets Database_ collection.
 
-All notable changes to this project will be documented in this file.
-
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+From v2.0.0 all notable changes to this project will be documented in this file.
 
 > No change log was kept for version 1 of the collection.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## v2.0.0 of 2020/xx/xx
 
@@ -14,32 +14,32 @@ Initial release of v2 of the collection.
 
 ### Changes since last v1 release
 
-* Removed any code that restricted use of collection to _[DelphiDabbler CodeSnip](https://github.com/delphidabbler/codesnip)_. The collection can now be used by 3rd party applications.
+* Removed any code that restricted use of the collection to _[DelphiDabbler CodeSnip](https://github.com/delphidabbler/codesnip)_. The collection can now be used by 3rd party applications.
     * Removed backwards compatibility with _CodeSnip_ v4.15.1 and earlier.
-    * Removed conditionally included code and _CodeSnip_ program version dependent code.
-    * Merged multiple versions of category .ini files down into a single category .ini file. (These multiple file were used to hide some categories from earlier versions of _CodeSnip_).
-    * Removed duplicated, _CodeSnip_ version dependent soure code files and used copy of latest version and removed version specifiers from file names.
+    * Removed conditionally included code and _CodeSnip_ version dependent code from category .ini files.
+    * Merged multiple versions of category .ini files down into a single file. (These multiple file were used to hide some categories from earlier versions of _CodeSnip_).
+    * Removed duplicated, _CodeSnip_ version dependent, source code files: used a copy of the most recent version and removed version specifiers from the file names.
 * Rationalised and corrected errors in category .ini files:
-    * Condensed the two string management categories into one.
+    * Condensed two string management categories into one.
     * Removed `Desc` keys where they duplicate `DescEx` keys.
     * Removed some duplicated `Credits` and `Comments` keys.
     * Removed some empty keys.
     * Fixed or removed some broken web links.
     * Rephrased some descriptive text.
 * Changed layout of category .ini files and `categories.ini`:
-    * Re-order sections of `categories.ini`.
-    * Removed all explanatory comments due to inconsistencies.
+    * Re-ordered sections of `categories.ini` in alphabetic order.
+    * Removed all explanatory comments: there were inconsistencies.
     * Added header comments, including copyright and licensing information, to all .ini files.
 * File format changes:
-    * Removed `StandardFormat` key from specification for category .ini files.
-    * Added requirement for `LICENSE`, `LICENSE_INFO` and `VERSION` files and added the files.
-    * Changed required name for contributors and testers files to `CONTRIBUTORS` and `TESTERS` respectively. Renamed existing `contrib.txt` and `testers.txt` accordingly.
-    * Made support for REML v4 official.
+    * Removed the `StandardFormat` key from the specification of category .ini files.
+    * Added requirements for `LICENSE`, `LICENSE_INFO` and `VERSION` files and added suitable files to the collection.
+    * Changed the required name for the contributors and testers files to `CONTRIBUTORS` and `TESTERS` respectively. Renamed the existing `contrib.txt` and `testers.txt` files accordingly.
+    * Made support for REML v4 an official requirement.
+    * Dropped support for conditional inclusion of code in .ini files.
 * Added documentation:
-    * of file format;
-    * read-me file;
-    * change log.
-* Remove comments from .ini files.
-* Ensured all files use the UTF-8 preamble (aka byte order mark).
-* Added shell script to create releases.
-* Officially adopted MIT license for source code files.
+    * Of the collection file format.
+    * A read-me file.
+    * This change log.
+* Ensured that all files in the collection use the UTF-8 text file preamble (aka byte order mark).
+* Added a shell script to create releases.
+* Officially adopted the MIT license for source code files.

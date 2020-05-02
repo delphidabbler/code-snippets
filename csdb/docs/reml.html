@@ -64,7 +64,7 @@
   </h1>
 
   <p>
-    REML is a little markup language that can be used to style text. It is used in Code Snippets collection meta data for certain properties of a snippet.
+    REML is a little markup language that can be used to style text. It is used in the Code Snippets collection's meta data for certain properties of a snippet.
   </p>
   <p>
     The REML language is a SGML language similar to a greatly simplified XHTML. The are a small number of tags and character entities that can be used.
@@ -118,14 +118,13 @@
       All text <em>should</em> be embedded within block level tags, e.g. <code class="value">&lt;heading&gt;heading&lt;/heading&gt;&lt;p&gt;text&lt;/p&gt;</code> or simply <code class="value">&lt;p&gt;text&lt;/p&gt;</code>.
     </li>
     <li>
-      White space between blocks <span class="very-strong">must</span> be ignored.
+      White space between blocks is permitted but <span class="very-strong">must</span> be ignored.
     </li>
   </ul>
   <p>
     Here is a valid example:
   </p>
-  <pre class="sample">&lt;p&gt;Hello World&lt;/p&gt;
-&lt;heading&gt;Hello&lt;/heading&gt;
+  <pre class="sample">&lt;heading&gt;Hello&lt;/heading&gt;
 &lt;p&gt;Hello World&lt;/p&gt;</pre>
   <p>
     Strictly speaking, the following example is invalid code &ndash; all occurrences of <code class="value">wrong</code> are in error because they are not contained within block tags.
@@ -136,7 +135,7 @@
   </p>
   <pre class="sample">&lt;p&gt;wrong &lt;/p&gt;&lt;heading&gt;blah&lt;/heading&gt;&lt;p&gt;wrong &lt;/p&gt;&lt;p&gt;blah&lt;/p&gt;&lt;p&gt;wrong&lt;/p&gt;</pre>
   <aside>
-    <strong>Note:</strong> Code Snippets Database collections <em>may</em> contain such non-conforming REML. Therefore interpreters of REML that need to accept such collections <span class="very-strong">must</span> be able to handle text without enclosing block tags.
+    <strong>Note:</strong> The Code Snippets Database collection <em>may</em> contain such non-conforming REML. Therefore REML interpreters designed for use with the collection <span class="very-strong">must</span> be able to handle text without enclosing block tags.
   </aside>
 
   <h2>
@@ -174,7 +173,7 @@
   </p>
   <ul class="unspaced">
     <li>
-      In-line tags <span class="very-strong">must</span> be embedded inside a block level tag. E.g. <code class="value">&lt;p&gt;one&lt;strong&gt;two&lt;/strong&gt;three&lt;/p&gt;</code>.
+      In-line tags <span class="very-strong">must</span> be embedded inside a block level tag. E.g. <code class="value">&lt;p&gt;one&lt;strong&gt;two&lt;/strong&gt;three&lt;/p&gt;</code>. However those REML interpreters that allow for the omission of some block level tags relax this restriction (see above).
     </li>
     <li>
       Tags <span class="very-strong">must</span> match. E.g. <code class="value">&lt;em&gt;</code> must be matched with <code class="value">&lt;/em&gt;</code>.
@@ -222,7 +221,7 @@
   </ul>
 
   <aside>
-    <strong>Note:</strong> the '&lt;' and '&amp;' characters are special within the markup and cannot be used literally, even when you are just entering plain text. You <span class="very-strong">must</span> use the <code class="value">&amp;lt;</code> character entity in place of <code class="value">&lt;</code> and <code class="value">&amp;amp;</code> instead of <code class="value">&amp;</code>. For example to write <code class="value">x&lt;y</code> in REML use <code class="value">x&amp;lt;y</code> and to write <code class="value">you &amp; me</code> use <code class="value">you &amp;amp; me</code>.
+    <strong>Note:</strong> the '&lt;' and '&amp;' characters are special within the markup and cannot be used literally. You <span class="very-strong">must</span> use the <code class="value">&amp;lt;</code> character entity in place of <code class="value">&lt;</code> and <code class="value">&amp;amp;</code> instead of <code class="value">&amp;</code>. For example to write <code class="value">x&lt;y</code> in REML use <code class="value">x&amp;lt;y</code> and to write <code class="value">you &amp; me</code> use <code class="value">you &amp;amp; me</code>.
   </aside>
 
   <p>

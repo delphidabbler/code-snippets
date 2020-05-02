@@ -144,7 +144,7 @@ begin
   Result := Param1 + ' - ' + Param2;
 end;</pre>
   <p>
-    Routine snippets may refer to other routine, <a href="#type">simple type</a>, <a href="#class">class &amp; advanced record</a> or <a href="#const">constant</a> snippets.<sup><a href="#footnote">&dagger;</a></sup>
+    Routine snippets may refer to other routine, <a href="#type">simple type</a>, <a href="#class">class &amp; advanced record</a> or <a href="#const">constant</a> snippets.<sup><a href="#footnote-1">&dagger;</a></sup>
   </p>
   <p>
     Routines may be marked as overloaded by using the <strong>overload</strong> directive. However, it is necessary to ensure there is at least one other routine in the collection with the same name.
@@ -171,7 +171,7 @@ end;</pre>
   TMyType = 1..20;
   TMySecondType = array[TMyType] of Integer;</pre>
   <p>
-    Simple type definitions may refer to other simple type definitions, <a href="#class">class &amp; advanced record</a> type definitions or <a href="#const">constants</a>.<sup><a href="#footnote">&dagger;</a></sup>
+    Simple type definitions may refer to other simple type definitions, <a href="#class">class &amp; advanced record</a> type definitions or <a href="#const">constants</a>.<sup><a href="#footnote-1">&dagger;</a></sup>
   </p>
 
 </section>
@@ -196,7 +196,7 @@ end;</pre>
   cRangeMin = 1;
   cIntArray: array[cRangeMin..cRangeMax] of Integer = (42, 56, 99);</pre>
   <p>
-    Constant snippets may refer to other constant, <a href="#type">type</a> or <a href="#class">class &amp; advanced record</a> snippets.<sup><a href="#footnote">&dagger;</a></sup>
+    Constant snippets may refer to other constant, <a href="#type">type</a> or <a href="#class">class &amp; advanced record</a> snippets.<sup><a href="#footnote-1">&dagger;</a></sup>
   </p>
 
 </section>
@@ -214,7 +214,7 @@ end;</pre>
     Source code files <strong class="very-strong">must</strong> begin with the <strong>type</strong> keyword, followed by at least one space or a new line. Next follows the class or advanced record declaration(s). Additional <strong>type</strong> keywords may be used between type declarations, but are not required. Method implementations follow once <em class="very-strong">all</em> the class / record types have been declared. An implementation <strong class="very-strong">must</strong> be provided for all classes and record types.
   </p>
   <p>
-    Unlike in a Pascal unit, the <strong>implementation</strong> keyword <strong class="very-strong">must not</strong> be used to separate the declaration and the implementation.
+    Unlike in a Pascal unit, the <strong>implementation</strong> keyword <strong class="very-strong">must not</strong> be used to separate the declaration and the implementation<sup><a href="#footnote-2">&Dagger;</a></sup>.
   </p>
   <p>
     It is an error to use this snippet kind for records or classes that have no method implementations (for example pure abstract classes) &ndash; use a <a href="#type">simple type definition</a> snippet instead.
@@ -282,11 +282,15 @@ end;</pre>
 <footer>
 
   <h1>
-    Footnote
+    Footnotes
   </h2>
-  <p id="footnote">
+  <p id="footnote-1">
     &dagger; Every referenced snippet <strong class="very-strong">must <em>either</em></strong> have its name included in the value of the <code class="key">Depends</code> key in the related <a href="./collection-format.html#category-ini">category <code>ini</code> file</a> <strong class="very-strong"><em>or</em></strong> be contained in a unit whose name is included in the value of the <code class="key">Units</code> key in the same file. It is up to implementors to ensure the referenced units can be found.
   </p>
+  <p id="footnote-2">
+    &Dagger; The reason the <strong>implementation</strong> keyword is not used for class &amp; advanced records is that class and advanced defintions can be made private by placing both declaration and definition in the implementation section of the unit. It is up to implementors to decide whether to make some classes and advanced records private in this way.
+  </p>
+
 </footer>
 
 </body>

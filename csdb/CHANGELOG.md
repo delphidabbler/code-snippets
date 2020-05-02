@@ -21,8 +21,8 @@ Initial release of v2 of the collection.
     * Removed duplicated, _CodeSnip_ version dependent, source code files: used a copy of the most recent version and removed version specifiers from the file names.
 * Rationalised and corrected errors in category .ini files:
     * Condensed two string management categories into one.
-    * Removed `Desc` keys where they duplicate `DescEx` keys.
-    * Removed some duplicated `Credits` and `Comments` keys.
+    * Removed `Desc` keys where they duplicated `DescEx` keys.
+    * Removed some duplicate `Credits` and `Comments` keys.
     * Removed some empty keys.
     * Fixed or removed some broken web links.
     * Rephrased some descriptive text.

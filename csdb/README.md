@@ -8,21 +8,28 @@ All of the snippets have been tested: some received basic testing while others h
 
 ## History
 
-Version 1 was designed exclusively for use with _DelphiDabbler [CodeSnip](https://github.com/delphidabbler/codesnip)_ and was downloaded by the program directly from a web service on DelphiDabbler.com.
+Version 1 was designed exclusively for use with _DelphiDabbler [CodeSnip](https://github.com/delphidabbler/codesnip)_ (v4.15.1 and earlier) and was downloaded by the program directly from a web service on DelphiDabbler.com.
 
-Version 2 is designed to be able to be used by other applications in addition to _CodeSnip_. This version is **not** backwards compatible with version 1.
+Version 2 is designed to be able to be used by other applications in addition to _CodeSnip_ (v4.16.0 or later). This version is **not** backwards compatible with version 1.
 
 ## Using the Collection
 
-When used with _CodeSnip_, v4.16.0 or later is required.
+Anyone is welcome to write applications or web pages that access the snippets in the collection, subject to the terms of the license (see below). You should read the collection's documentation which explains the file format in detail.
 
-Anyone is welcome to write applications or web pages that access the snippets in the collection. You should read the collection's documentation which explains the file format in detail.
-
-> **WARNING:** Implementors must not read the collection data directly from this GitHub repository - that could generate more than the permitted amount of traffic. Instead you must download a release from the _Releases_ tab and either distribute the collection with the application or host it on a web server.
+> **WARNING:** Implementors **must not** read the collection data directly from this GitHub repository - that could generate more than the permitted amount of traffic. Instead you must download a release from the _Releases_ tab and either distribute the collection with the application or host it on a web server.
 
 ## Documentation
 
 The collection data format is fully documented in the file `collection-format.html` in the `docs` directory.
+
+## Releases
+
+Releases can be found on the `releases` tab on the GitHub project page.
+
+Each release comprises two zip files, as follows (replace `X.Y.X` in the file names with the release version number):
+
+  * `csdb-vX.Y.Z-data.zip` - Contains all the data in the collection. Required by applications that access the collection.
+  * `csdb-vX.Y.Z-docs.zip` - Contains the documentation developers need to understand the structure of the data.
 
 ## Change Log
 
@@ -30,6 +37,6 @@ The project's change log can be found in `CHANGELOG.md` in the collection's base
 
 ## License
 
-All snippets in this collection are licensed under the MIT license **unless** the snippet contains contrary licensing information in its source code file, in which case that license applies to that snippet only.
+All snippets in this collection (stored in `.dat` files in the `collections` directory) are licensed under the MIT license and are copyright © 2005-2020, [Peter Johnson](https://gravatar.com/delphidabbler) and Contributors. The full license and a list of contributors can be found in the `LICENSE` and `CONTRIBUTORS` files in the `collection` sub-directory.
 
-Full details can be found in the `LICENSE` file in the `collection` sub-directory.
+All other files in this project are licensed under the MIT license and are copyright © 2020, [Peter Johnson](https://gravatar.com/delphidabbler).

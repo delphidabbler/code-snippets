@@ -2,7 +2,7 @@
  * This file copyright (C) 2020, Peter Johnson (gravatar.com/delphidabbler) and
  * is licensed under the MIT License: https://opensource.org/licenses/MIT
  *
- * DelphiDabbler Code Snippets Database Documentation: CSS used by all 
+ * DelphiDabbler Code Snippets Database Documentation: CSS used by all
  * documentation HTML files.
  */
 
@@ -36,7 +36,6 @@ header {
   color: #336;
   font-size: 125%
 }
-
 header nav {
   display: block;
   margin: 1em;
@@ -93,7 +92,6 @@ h5 {
 }
 aside {
   display: block;
-  xfont-size: 100%;
   font-style: italic;
   padding: 0.25em 0.5em;
   margin: 0.75em 2em;
@@ -106,6 +104,9 @@ aside {
 }
 aside code.value {
   background-color: #ddd;
+}
+aside em {
+  font-style: normal;
 }
 p {
   font-size: 100%;
@@ -155,7 +156,7 @@ li {
 li li, li div {
   margin: 0.25em 0;
 }
-ul.half-spaced li, 
+ul.half-spaced li,
 ol.half-spaced li {
     margin: 0.4em 0;
 }
@@ -163,7 +164,6 @@ ul.unspaced li,
 ol.unspaced li {
   margin: 0;
 }
-
 div.license-name {
   font-style: italic;
 }
@@ -211,7 +211,7 @@ footer h1 {
 footer ol {
   margin: 0.5em 0 0.5em 2em;
 }
-footer ol li, footer ol li p {
+footer ol li, footer ol li p, footer p{
   font-size: 90%;
   margin: 0.25em 0;
 }

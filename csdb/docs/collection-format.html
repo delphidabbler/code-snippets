@@ -56,7 +56,7 @@
         <a href="#credits">Credits Files</a>
       </li>
       <li>
-        <a href="#license">License File</a>
+        <a href="#license">License Files</a>
       </li>
       <li>
         <a href="#version">Version Information File</a>
@@ -82,7 +82,7 @@
     There are additional files containing the source code license information, version information and lists of credits.
   </p>
   <p>
-    All the files are plain text, encoded in UTF-8 format with UTF-8 preamble (BOM).
+    All the files are plain text, encoded in UTF-8 format with UTF-8 preamble (BOM). Line breaks are denoted by <code>CR+LF</code> pairs.
   </p>
   <p>
     All files are located in the same directory.
@@ -128,7 +128,7 @@ Ini=&lt;ini-file-name&gt;</pre>
     </dt>
     <dd>
       <p>
-        A brief, human readable, description of the category. Any valid UTF-8 text is permitted.
+        A brief, human readable, description of the category. Any text is permitted.
       </p>
     </dd>
     <dt>
@@ -147,9 +147,9 @@ Ini=&lt;ini-file-name&gt;</pre>
 Desc=Date and Time
 Ini=date.ini</pre>
 
-  <h2>
+  <h2 id="category-ini">
     Format Of Individual Category <code>.ini</code> Files
-  </h3>
+  </h2>
 
   <p>
     Each section in these files defines a snippet and has the following content:
@@ -162,6 +162,7 @@ Snip=&lt;snippet-file-name&gt;
 Units=&lt;required-units&gt;
 Depends=&lt;required-snippets&gt;
 SeeAlso=&lt;cross-referenced-snippets&gt;
+Extra=&lt;extra-info-REML&gt;
 Credits=&lt;credits-text&gt;
 Credits_URL=&lt;url-used-in-credits&gt;
 Comments=&lt;comments-text&gt;
@@ -187,7 +188,6 @@ DelphiXE8=&lt;&quot;Y&quot;|&quot;N&quot;|&quot;Q&quot;|&quot;W&quot;&gt;
 Delphi10S=&lt;&quot;Y&quot;|&quot;N&quot;|&quot;Q&quot;|&quot;W&quot;&gt;
 Delphi101B=&lt;&quot;Y&quot;|&quot;N&quot;|&quot;Q&quot;|&quot;W&quot;&gt;
 FPC=&lt;&quot;Y&quot;|&quot;N&quot;|&quot;Q&quot;|&quot;W&quot;&gt;
-Extra=&lt;extra-info-REML&gt;
 Kind=&lt;&quot;freeform&quot;|&quot;routine&quot;|&quot;type&quot;|&quot;const&quot;|&quot;class&quot;|&quot;unit&quot;&gt;
 TestInfo=&lt;&quot;none&quot;|&quot;basic&quot;|&quot;advanced&quot;&gt;</pre>
   <p>The sections in these files are named with identifiers that uniquely identify a snippet. This <span class="very-strong">must</span> be a valid Unicode Pascal identifier. The keys in a section have the following purpose:</p>
@@ -197,7 +197,10 @@ TestInfo=&lt;&quot;none&quot;|&quot;basic&quot;|&quot;advanced&quot;&gt;</pre>
     </dt>
     <dd>
       <p>
-        Human readable name of snippet. May be any valid UTF-8 string of up to 64 characters. If not present then the snippet identifier that names the section is used as the human readable name.
+        The human readable name of the snippet. May be any text of up to 64 characters.
+      </p>
+      <p>
+        May be omitted. If not present then the snippet identifier that names the section is used as the human readable name.
       </p>
     </dd>
     <dt>
@@ -205,7 +208,10 @@ TestInfo=&lt;&quot;none&quot;|&quot;basic&quot;|&quot;advanced&quot;&gt;</pre>
     </dt>
     <dd>
       <p>
-        Description of the snippet as plain text. Ignored if a non-empty <code class="key">DescEx</code> key is present.
+        Description of the snippet as plain text.
+      </p>
+      <p>
+        <code class="key">Desc</code> is ignored if a non-empty <code class="key">DescEx</code> key is present. At least one of the <code class="key">Desc</code> or <code class="key">DescEx</code> keys are <span class="very-strong">required</span> to be present and non-empty.
       </p>
     </dd>
     <dt>
@@ -213,7 +219,10 @@ TestInfo=&lt;&quot;none&quot;|&quot;basic&quot;|&quot;advanced&quot;&gt;</pre>
     </dt>
     <dd>
       <p>
-        Formatted description of the snippet using REML<sup><a href="#footnote-1">1</a></sup> code. May be empty, in which case the <code class="key">Desc</code> key is used. <code class="key">Desc</code> is ignored if <code class="key">DescEx</code> has a non-empty value.
+        Formatted description of the snippet using REML<sup><a href="#footnote-1">1</a></sup> code.
+      </p>
+      <p>
+        May be empty, in which case the <code class="key">Desc</code> key is used. <code class="key">Desc</code> is ignored if <code class="key">DescEx</code> has a non-empty value. At least one of the <code class="key">Desc</code> or <code class="key">DescEx</code> keys are <span class="very-strong">required</span> to be present and non-empty.
       </p>
     </dd>
     <dt>
@@ -221,7 +230,7 @@ TestInfo=&lt;&quot;none&quot;|&quot;basic&quot;|&quot;advanced&quot;&gt;</pre>
     </dt>
     <dd>
       <p>
-        Name of the file containing this snippet's source code. The file name <span class="very-strong">must</span>:
+        The name of the file containing this snippet's source code. The file name <span class="very-strong">must</span>:
       </p>
       <ul class="unspaced">
         <li>
@@ -237,13 +246,19 @@ TestInfo=&lt;&quot;none&quot;|&quot;basic&quot;|&quot;advanced&quot;&gt;</pre>
           be unique within the whole collection.
         </li>
       </ul>
+      <p>
+        This key is <span class="very-strong">required</span> to be present and non-empty.
+      </p>
     </dd>
     <dt>
       <code class="key">Units</code>
     </dt>
     <dd>
       <p>
-        Comma separated list of units required to compile the snippet. May be omitted or empty if no units are required. The <code>System</code> unit is assumed and does not need to be specified. Unit names <span class="very-strong">must</span> be valid Pascal identifiers.
+        Comma separated list of units required to compile the snippet. The <code>System</code> unit is assumed and does not need to be specified. Unit names <span class="very-strong">must</span> be valid Pascal identifiers.
+      </p>
+      <p>
+        May be omitted or empty if no units are required.
       </p>
     </dd>
     <dt>
@@ -251,7 +266,10 @@ TestInfo=&lt;&quot;none&quot;|&quot;basic&quot;|&quot;advanced&quot;&gt;</pre>
     </dt>
     <dd>
       <p>
-        Comma separated list of the identifiers of snippets that are required to compile this snippet. May be omitted or empty if there are no such dependencies. Snippet identifiers <span class="very-strong">must</span> exist within the collection and <span class="very-strong">must not</span> cause a circular reference back to this snippet.
+        Comma separated list of the identifiers of snippets that are required to compile this snippet. Snippet identifiers <span class="very-strong">must</span> exist within the collection and <span class="very-strong">must not</span> cause a circular reference back to this snippet.
+      </p>
+      <p>
+        May be omitted or empty if there are no such dependencies.
       </p>
     </dd>
     <dt>
@@ -259,37 +277,10 @@ TestInfo=&lt;&quot;none&quot;|&quot;basic&quot;|&quot;advanced&quot;&gt;</pre>
     </dt>
     <dd>
       <p>
-        Comma separated list of the identifiers of cross-referenced snippets. May be omitted or empty. Snippet identifiers should exist in the collection.
-      </p>
-    </dd>
-    <dt>
-      <code class="key">Credits</code><sup><a href="#footnote-2">2</a></sup>
-    </dt>
-    <dd>
-      <p>
-        Text string that notes any credits / acknowledgements. May be omitted or empty. <code class="key">Credits</code> may optionally contain one (and only one) section of text delimited by <code>[</code> and <code>]</code> characters that indicate the presence of a hyperlink. The enclosed text is used as the text of a hyperlink whose URL <span class="very-strong">must</span> be specified in the <code class="key">Credits_URL</code> key.
+        Comma separated list of the identifiers of cross-referenced snippets. Snippet identifiers should exist in the collection.
       </p>
       <p>
-        <code class="key">Credits</code> is ignored if a non-empty <code class="key">Extra</code> key is present.
-      </p>
-    </dd>
-    <dt>
-      <code class="key">Credits_URL</code><sup><a href="#footnote-2">2</a></sup>
-    </dt>
-    <dd>
-      <p>
-        The URL used in any hyperlink present in the <code class="key">Credits</code> key. <span class="very-strong">Must</span> be present if <code class="key">Credits</code> specifies a hyperlink.
-      </p>
-      <p>
-        Ignored if <code class="key">Credits</code> contains no hyperlink section or if a non-empty <code class="key">Extra</code> key is present.
-      <p>
-    </dd>
-    <dt>
-      <code class="key">Comments</code>
-    </dt>
-    <dd>
-      <p>
-        Text string containing any additional comments about the snippet. Optional. Ignored if a non-empty <code class="key">Extra</code> key is present.
+        May be omitted or empty.
       </p>
     </dd>
     <dt>
@@ -297,13 +288,46 @@ TestInfo=&lt;&quot;none&quot;|&quot;basic&quot;|&quot;advanced&quot;&gt;</pre>
     </dt>
     <dd>
       <p>
-        Optional. Provides extra information about the snippet. When present the value <span class="very-strong">must</span> be a valid string of REML<sup><a href="#footnote-1">1</a></sup> code.
+        Provides extra information about the snippet. When present the value <span class="very-strong">must</span> be a valid string of REML<sup><a href="#footnote-1">1</a></sup> code.
       </p>
       <p>
-        If omitted the extra information is generated from the values of any <code class="key">Comments</code>, <code class="key">Credits</code> and <code class="key">Credits_URL</code> keys.
+        May be omitted or empty. In this case any extra information is generated from the values of any <code class="key">Comments</code>, <code class="key">Credits</code> and <code class="key">Credits_URL</code> keys, if present.
       </p>
       <p>
         When <code class="key">Extra</code> has a non-empty value the <code class="key">Comments</code>, <code class="key">Credits</code> and <code class="key">Credits_URL</code> keys are ignored.
+      </p>
+    </dd>
+    <dt>
+      <code class="key">Credits</code><sup><a href="#footnote-2">2</a></sup>
+    </dt>
+    <dd>
+      <p>
+        Text that notes any credits / acknowledgements. <code class="key">Credits</code> may optionally contain one (and only one) section of text delimited by <code>[</code> and <code>]</code> characters that indicate the presence of a hyperlink. The enclosed text is used as the text of a hyperlink whose URL <span class="very-strong">must</span> be specified in the <code class="key">Credits_URL</code> key.
+      </p>
+      <p>
+        May be omitted or empty. <code class="key">Credits</code> is ignored if a non-empty <code class="key">Extra</code> key is present.
+      </p>
+    </dd>
+    <dt>
+      <code class="key">Credits_URL</code><sup><a href="#footnote-2">2</a></sup>
+    </dt>
+    <dd>
+      <p>
+        The URL used in any hyperlink present in the <code class="key">Credits</code> key.
+      </p>
+      <p>
+        <span class="very-strong">Must</span> be present if <code class="key">Credits</code> specifies a hyperlink. Ignored if <code class="key">Credits</code> contains no hyperlink section or if a non-empty <code class="key">Extra</code> key is present.
+      <p>
+    </dd>
+    <dt>
+      <code class="key">Comments</code>
+    </dt>
+    <dd>
+      <p>
+        Text string containing any additional comments about the snippet.
+      </p>
+      <p>
+        Optional. Ignored if a non-empty <code class="key">Extra</code> key is present.
       </p>
     </dd>
     <dt>
@@ -347,7 +371,7 @@ TestInfo=&lt;&quot;none&quot;|&quot;basic&quot;|&quot;advanced&quot;&gt;</pre>
         <li><code class="value">Q</code> – compilation result unknown</li>
       </ul>
       <p>
-        If any of the above compiler keys is not present, the compile result for the associated compiler is assumed to be <code class="value">Q</code>.
+        All keys are optional. If any of the above compiler keys is not present, or is empty, the compile result for the associated compiler is assumed to be <code class="value">Q</code>.
       </p>
     </dd>
     <dt>
@@ -358,15 +382,15 @@ TestInfo=&lt;&quot;none&quot;|&quot;basic&quot;|&quot;advanced&quot;&gt;</pre>
         The kind (or type) of this code snippet. Valid values are:
       </p>
       <ul class="unspaced">
-        <li><code class="value">freeform</code> – a freeform snippet that doesn't conform to any other other supported type.</li>
+        <li><code class="value">freeform</code><sup><a href="#footnote-3">3</a></sup> – a freeform snippet that doesn't conform to any other other supported type.</li>
         <li><code class="value">routine</code> – a Pascal routine (function or procedure).</li>
         <li><code class="value">type</code> – a simple Pascal type definition.</li>
         <li><code class="value">const</code> – a Pascal constant definition.</li>
         <li><code class="value">class</code> – a Pascal class or advanced record definition and implementation.</li>
-        <li><code class="value">unit</code> – a complete Pascal unit.</li>
+        <li><code class="value">unit</code><sup><a href="#footnote-2">3</a></sup> – a complete Pascal unit.</li>
       </ul>
       <p>
-        If <code class="key">Kind</code> is not present then its value defaults to <code class="value">freeform</code>.
+        <code class="key">Kind</code> is optional. If the key is not present then its value defaults to <code class="value">routine</code>.
       </p>
     </dd>
     <dt>
@@ -382,7 +406,7 @@ TestInfo=&lt;&quot;none&quot;|&quot;basic&quot;|&quot;advanced&quot;&gt;</pre>
         <li><code class="value">advanced</code> – the snippet has passed more advanced testing, usually unit tests.</li>
       </ul>
       <p>
-        If <code class="key">TestInfo</code> is not present then its value defaults to <code class="value">basic</code>.
+        <code class="key">TestInfo</code> is optional. If it is not present then its value defaults to <code class="value">basic</code>.
       </p>
     </dd>
     <dt>
@@ -391,9 +415,8 @@ TestInfo=&lt;&quot;none&quot;|&quot;basic&quot;|&quot;advanced&quot;&gt;</pre>
     The format is quite messy, with several keys having similar or overlapping purposes. This has happened because new keys have been added over time while preserving backward compatibility.
   </p>
   <p>
-    Backwards compatibility with older file formats has now been dropped, but to save development time some of the old style values have been retained. However some duplication of keys has been removed from the collection.
+    Backwards compatibility with older file formats has now been dropped, but to save development time, some of the old style values have been retained. However some duplication of keys has been removed from the collection. Over time some redundant keys may be removed.
   </p>
-
 
 </section>
 
@@ -405,6 +428,10 @@ TestInfo=&lt;&quot;none&quot;|&quot;basic&quot;|&quot;advanced&quot;&gt;</pre>
 
   <p>
     There is a separate source code file for each snippet. These file names <span class="very-strong">must</span> be named exactly as specified in the related category <code>.ini</code> file's <code class="key">Snip</code> key. They are usually numbered from <code>001</code> and have a <code>.dat</code> extension, but this is not a requirement.
+  </p>
+
+  <p>
+    Source code files <span class="very-strong">must</span> be structured in a way that is suitable for the <em>kind</em> of snippet the source code represents. The layout of source code required by each snippet <em>kind</em> is explained in detail in <a href="source-code-format.html">source-code-format.html</a>.
   </p>
 
 </section>
@@ -420,7 +447,7 @@ TestInfo=&lt;&quot;none&quot;|&quot;basic&quot;|&quot;advanced&quot;&gt;</pre>
   </p>
 
   <p>
-    Each file is simply a list of names, in plain UTF-8 text format, with each name on a separate line. No blank lines are permitted.
+    Each file is simply a list of names, with each name on a separate line. No blank lines are permitted.
   </p>
 
   <p>
@@ -436,7 +463,7 @@ TestInfo=&lt;&quot;none&quot;|&quot;basic&quot;|&quot;advanced&quot;&gt;</pre>
 <section id="license">
 
   <h1>
-    License File
+    License Files
   </h1>
 
   <p>
@@ -448,7 +475,7 @@ TestInfo=&lt;&quot;none&quot;|&quot;basic&quot;|&quot;advanced&quot;&gt;</pre>
   </h2>
 
   <p>
-    This is a plain UTF-8 text file named <code>LICENSE</code> that contains the license that applies to the source code in the collection.
+    This file is named <code>LICENSE</code> and contains the full text of the license that applies to the source code in the collection.
   </p>
   <p>
     This file <span class="very-strong">must</span> be present and non-empty.
@@ -482,7 +509,18 @@ CopyrightHolderURL=&lt;url&gt;</pre>
     </dt>
     <dd>
       <p>
-        The name of the license as plain text. E.g. <code class="value">MIT License</code> or <code class="value">Mozilla Public License 2.0</code>.
+        The name of the license as plain text. <span class="very-strong">Required</span>.
+      </p>
+      <p>
+        Examples:
+      </p>
+      <ul class="unspaced">
+        <li>
+          <code class="value">MIT License</code>
+        </li>
+        <li>
+          <code class="value">Mozilla Public License 2.0</code>
+        </li>
       </p>
     </dd>
     <dt>
@@ -490,8 +528,19 @@ CopyrightHolderURL=&lt;url&gt;</pre>
     </dt>
     <dd>
       <p>
-        The Open Source Initiative (OSI) SPDX short identifier of the license, if any. E.g. <code class="value">MIT</code> or <code class="value">MPL-2.0</code>. If the license does not have a SPDX identifier this key <span class="very-strong">must</span> either be omitted or be empty.
+        The Open Source Initiative (OSI) SPDX short identifier of the license, if any. If the license does not have a SPDX identifier this key <span class="very-strong">must</span> either be omitted or be empty.
       </p>
+      <p>
+        Examples:
+      </p>
+      <ul class="unspaced">
+        <li>
+          <code class="value">MIT</code>
+        </li>
+        <li>
+          <code class="value">MPL-2.0</code>
+        </li>
+      </ul>
       <p>
         For a list of OSI licenses with their SPDXs see <a href="https://opensource.org/licenses/alphabetical"
         >https://opensource.org/licenses/alphabetical</a>.
@@ -502,7 +551,10 @@ CopyrightHolderURL=&lt;url&gt;</pre>
     </dt>
     <dd>
       <p>
-        The URL of an online copy of the license. E.g. <code class="value">https://opensource.org/licenses/MIT</code>. If the license has no URL then this key <span class="very-strong">must</span> be omitted or be empty.
+        The URL of an online copy of the license. If the license has no URL then this key <span class="very-strong">must</span> be omitted or be empty.
+      </p>
+      <p>
+        Example: <code class="value">https://opensource.org/licenses/MIT</code>.
       </p>
     </dd>
     <dt>
@@ -510,7 +562,18 @@ CopyrightHolderURL=&lt;url&gt;</pre>
     </dt>
     <dd>
       <p>
-        The year of the copyright or range of years as plain text. E.g. <code class="value">2020</code> or <code class="value">2005-2020</code>.
+        The year of the copyright or range of years as plain text. <span class="very-strong">Required</span>.
+      </p>
+      <p>
+        Examples:
+      </p>
+      <ul class="unspaced">
+        <li>
+          <code class="value">2020</code>
+        </li>
+        <li>
+          <code class="value">2005-2020</code>
+        </li>
       </p>
     </dd>
     <dt>
@@ -518,17 +581,20 @@ CopyrightHolderURL=&lt;url&gt;</pre>
     </dt>
     <dd>
       <p>
-        The name of the copyright holder as plain text. Where there are contributors either list them all or append <code class="value">and contributors</code><sup><a href="#footnote-3">3</a></sup> to the primary copyright holder's name. E.g.:
+        The name of the copyright holder as plain text. <span class="very-strong">Required</span>. Where there are contributors either list them all or append <code class="value">and contributors</code><sup><a href="#footnote-4">4</a></sup> to the primary copyright holder's name.
+      </p>
+      <p>
+        Examples:
       </p>
       <ul class="unspaced">
         <li>
-          <code class="value">Joe Bloggs</code>;
+          <code class="value">Joe Bloggs</code>
         </li>
         <li>
-          <code class="value">Annie Smith, Joe Bloggs and Jessie Sharp</code>;
+          <code class="value">Annie Smith, Joe Bloggs and Jessie Sharp</code>
         </li>
         <li>
-          <code class="value">Annie Smith and Contributors</code>.
+          <code class="value">Annie Smith and Contributors</code>
         </li>
       </p>
     </dd>
@@ -537,7 +603,10 @@ CopyrightHolderURL=&lt;url&gt;</pre>
     </dt>
     <dd>
       <p>
-        The URL of a web page where details of the copyright holder(s) or primary copyright holder can be found. E.g. <code class="value">https://example.com/joe-blogs-bio</code>. This key is optional.
+        The URL of a web page where details of the copyright holder(s) or primary copyright holder can be found. This key is optional.
+      </p>
+      <p>
+        Example: <code class="value">https://example.com/joe-blogs-bio</code>.
       </p>
     </dd>
   </dl>
@@ -555,7 +624,7 @@ CopyrightHolderURL=&lt;url&gt;</pre>
   </h1>
 
   <p>
-    There is a plain UTF-8 text file named <code>VERSION</code> that contains the version number of the database in the form <code class="value">vX.X.X</code>. where <code class="value">X</code> represents a non-negative integer. The file is <span class="very-strong">required</span> and <span class="very-strong">must</span> be non-empty.
+    This is a file named <code>VERSION</code> that contains the version number of the collection, terminated by <code>CR+LF</code>. The version number <span class="very-strong">must</span> be of the form <code class="value">9.9.9</code>, where each <code class="value">9</code> represents a non-negative integer. The file is <span class="very-strong">required</span> and <span class="very-strong">must</span> be non-empty.
   </p>
 
   <p>
@@ -563,7 +632,7 @@ CopyrightHolderURL=&lt;url&gt;</pre>
   </p>
 
   </p>
-    The current major version is v2. Databases before v2.0.0 did not have a <code>VERSION</code> file<sup><a href="#footnote-4">4</a></sup>.
+    The current major version is v2<sup><a href="#footnote-5">5</a></sup>.
   </p>
 
   <p>
@@ -576,27 +645,35 @@ CopyrightHolderURL=&lt;url&gt;</pre>
 
   <h1>
     Footnotes
-  </h2>
+  </h1>
   <ol>
     <li id="footnote-1">
       <p>
-        REML is a text markup language used to format text. REML version 4 is supported. The REML format is documented in <a href="REML.html">REML.html</a>.
+        REML is a text markup language used to format text. REML version 4 is supported. The REML format is documented in <a href="reml.html">reml.html</a>.
        </p>
     </li>
     <li id="footnote-2">
       <p>
-        Here is an example of how the <code class="key">Credits</code> and <code  class="key">Credits_URL</code> key work together.
+        Here is an example of how the <code class="key">Credits</code> and <code  class="key">Credits_URL</code> keys work together.
       </p>
       <p>
-      If <code class="key">Credits</code>=<code class="value">&quot;See [example]&quot;</code> and <code class="key">Credits_URL</code>=<code class="value">&quot;http://example.com&quot;</code> and the <code class="key">Extra</code> key is empty or missing then the extra text generated will be <samp>See &lt;a href=&quot;example.com&quot;&gt;example 1&lt;/a&gt;</samp>.
+      If <code class="key">Credits</code>=<code class="value">&quot;See [example 1]&quot;</code> and <code class="key">Credits_URL</code>=<code class="value">&quot;http://example.com&quot;</code> and the <code class="key">Extra</code> key is empty or missing then the extra REML code generated will be <samp>See &lt;a href=&quot;example.com&quot;&gt;example 1&lt;/a&gt;</samp>.
       </p>
     </li>
     <li id="footnote-3">
       <p>
-        If &quot;contributors&quot; is specified as part of the <code class="key">CopyrightHolder</code> key value in <code>LICENSE-INFO</code> then the <code>CONTRIBUTORS</code> file <span class="very-strong">must</span> contain a list of all the contributors.
+        Although permitted in the file format, the <code class="value">unit</code> and <code class="value">freeform</code> values of the <code class="key">Kind</code> key are not currently used in the collection.
+      </p>
+      <p>
+        Furthermore this collection <span class="very-strong">must never</span> include the <code class="value">freeform</code> snippet kind because it must always contains compilable Pascal snippets and it can't be guaranteed that <code class="value">freeform</code> snippets will compile.
       </p>
     </li>
     <li id="footnote-4">
+      <p>
+        If &quot;contributors&quot; is specified as part of the <code class="key">CopyrightHolder</code> key value in <code>LICENSE-INFO</code> then the <code>CONTRIBUTORS</code> file <span class="very-strong">must</span> contain a non-empty list of all the contributors.
+      </p>
+    </li>
+    <li id="footnote-5">
       <p>
         Version tracking was not done before v2.0.0. However it is safe to assume, using <a href="https://semver.org/">semantic versioning</a>, that the current format is the second major release. This is because all previous database versions were backwards compatible and therefore all belonged to the same major version, which, logically, must have been v1. The fact that this version of the database breaks that backward compatibility means the major version must be bumped.
       </p>

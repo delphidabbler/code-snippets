@@ -1,0 +1,12 @@
+﻿function DelAllStr(const Needle, Haystack: string): string;
+var
+  StartIdx: Integer;
+begin
+  Result := Haystack;
+  StartIdx := SysUtils.AnsiPos(Needle, Result);
+  while StartIdx > 0 do
+  begin
+    Delete(Result, StartIdx, Length(Needle));
+    StartIdx := SysUtils.AnsiPos(Needle, Result);
+  end;
+end;

@@ -1,0 +1,5 @@
+﻿function BytesToKBStr(const Bytes: Int64; const DecimalPlaces: Byte;
+  const SeparateThousands: Boolean): string;
+begin
+  Result := FloatToFixed(BytesToKB(Bytes), DecimalPlaces, SeparateThousands);
+end;

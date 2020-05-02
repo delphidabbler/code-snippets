@@ -1,0 +1,14 @@
+﻿procedure RegKeyList(const ARootKey: Windows.HKEY; const ASubKey: string;
+  const AKeyList: Classes.TStrings);
+begin
+  with Registry.TRegistry.Create do
+    try
+      RootKey := ARootKey;
+      if OpenKeyReadOnly(ASubKey) then
+        GetKeyNames(AKeyList)
+      else
+        AKeyList.Clear;
+    finally
+      Free;
+    end;
+end;

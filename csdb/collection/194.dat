@@ -1,0 +1,14 @@
+﻿function LastPos(const SubStr, Str: string): Integer;
+var
+  Idx: Integer; // an index of SubStr in Str
+begin
+  Result := 0;
+  Idx := StrUtils.PosEx(SubStr, Str);
+  if Idx = 0 then
+    Exit;
+  while Idx > 0 do
+  begin
+    Result := Idx;
+    Idx := StrUtils.PosEx(SubStr, Str, Idx + 1);
+  end;
+end;

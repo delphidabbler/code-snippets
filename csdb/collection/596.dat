@@ -1,0 +1,16 @@
+﻿procedure GetAllEnvVars(const Vars: Classes.TStrings);
+var
+  PEnvVars: PChar;    // pointer to start of environment block
+begin
+  Assert(Assigned(Vars));
+  Vars.Clear;
+  // Get reference to environment block for this process
+  PEnvVars := Windows.GetEnvironmentStrings;
+  if PEnvVars = nil then
+    Exit;
+  try
+    MultiSzToStrings(PEnvVars, Vars);
+  finally
+    Windows.FreeEnvironmentStrings(PEnvVars);
+  end;
+end;

@@ -1,0 +1,4 @@
+﻿function ShortMonthNameXE(const ADateTime: TDateTime): string;
+begin
+  Result := SysUtils.FormatSettings.ShortMonthNames[DateMonth(ADateTime)]
+end;

@@ -1,0 +1,12 @@
+﻿procedure DrawTextOutline(const Canvas: Graphics.TCanvas; const X, Y: Integer;
+  const Text: string);
+var
+  OldBkMode: Integer;  // stores previous background mode
+begin
+  OldBkMode := Windows.SetBkMode(Canvas.Handle, Windows.TRANSPARENT);
+  Windows.BeginPath(Canvas.Handle);
+  Canvas.TextOut(X, Y, Text);
+  Windows.EndPath(Canvas.Handle);
+  Windows.StrokeAndFillPath(Canvas.Handle);
+  Windows.SetBkMode(Canvas.Handle, OldBkMode);
+end;

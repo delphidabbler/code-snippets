@@ -1,0 +1,5 @@
+﻿function MoveRectToOrigin(const R: Types.TRect): Types.TRect;
+begin
+  Result := R;
+  Types.OffsetRect(Result, -R.Left, -R.Top);
+end;

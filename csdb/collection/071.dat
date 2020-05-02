@@ -1,0 +1,14 @@
+﻿function WindowsProductID: string;
+const
+  // Registry keys for Win 9x/NT
+  cRegKey: array[Boolean] of string = (
+    'Software\Microsoft\Windows\CurrentVersion',
+    'Software\Microsoft\Windows NT\CurrentVersion'
+  );
+  // Registry key name
+  cName = 'ProductID';
+begin
+  Result := GetRegistryString(
+    Windows.HKEY_LOCAL_MACHINE, cRegKey[IsWinNT], cName
+  );
+end;

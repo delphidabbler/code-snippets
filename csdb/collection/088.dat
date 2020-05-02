@@ -1,0 +1,28 @@
+﻿function FileFromShellLink(const LinkFileName: string): string;
+var
+  SL: ShlObj.IShellLink;            // shell link object
+  ResolvedFileBuf: array[0..Windows.MAX_PATH] of Char;
+                                    // buffer to receive linked file name
+  FindData: Windows.TWin32FindData; // dummy required for IShellLink.GetPath()
+begin
+  // Assume can't get name of file
+  Result := '';
+  // Ensure COM is initialized
+  ActiveX.CoInitialize(nil);
+  try
+    // Try to get interface to shell link: fails if file is not shell link
+    SL := LoadShellLink(LinkFileName);
+    if not Assigned(SL) then
+      Exit;
+    // Get file path from link object and exit if this fails
+    if ActiveX.Failed(
+      SL.GetPath(ResolvedFileBuf, Windows.MAX_PATH, FindData, 0)
+    ) then
+      Exit;
+    // Return file name
+    Result := ResolvedFileBuf;
+  finally
+    // Finalize COM
+    ActiveX.CoUninitialize;
+  end;
+end;

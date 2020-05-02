@@ -1,0 +1,4 @@
+﻿function PercentageStr(A, B: Integer): string;
+begin
+  Result := SysUtils.IntToStr(Percentage(A, B)) + '%';
+end;

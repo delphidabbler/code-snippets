@@ -1,0 +1,15 @@
+﻿function SplitString(const AText, ADelimiter: string): Classes.TStringList;
+var
+  LTxt, LTmp: string;
+begin
+  Result := TStringList.Create;
+  LTxt := AText;
+  while Pos(ADelimiter, LTxt) > 0 do
+  begin
+    LTmp := Copy(LTxt, 1, Pos(ADelimiter, LTxt) - 1);
+    Result.Add(LTmp);
+    LTxt := SysUtils.StringReplace(LTxt, LTmp + ADelimiter, '', []);
+  end;
+  if (LTxt <> '') then
+    Result.Add(LTxt);
+end;

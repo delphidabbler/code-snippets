@@ -1,0 +1,9 @@
+﻿function SignOfInt(const Value: Int64): Integer;
+begin
+  if Value < 0 then
+    Result := -1
+  else if Value = 0 then
+    Result := 0
+  else
+    Result := 1;
+end;

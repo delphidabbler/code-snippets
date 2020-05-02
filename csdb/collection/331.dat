@@ -1,0 +1,10 @@
+﻿function ProgIDInstalled(const PID: string): Boolean;
+var
+  WPID: WideString;  // PID as wide string
+  Dummy: TGUID;      // unused out value from CLSIDFromProgID function
+begin
+  WPID := PID;
+  Result := ActiveX.Succeeded(
+    ActiveX.CLSIDFromProgID(PWideChar(WPID), Dummy)
+  );
+end;

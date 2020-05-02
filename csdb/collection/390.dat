@@ -1,0 +1,12 @@
+﻿function AdjustImage(const Bmp: Graphics.TBitmap;
+  const Brightness: TAIBrightness = AINulBrightness;
+  const Contrast: TAIContrast = AINulContrast; const Tint: TAITint = AINulTint;
+  const Saturation: TAISaturation = AINulSaturation;
+  const Gamma: TAIGamma = AINulGamma; const Invert: Boolean = False): Boolean;
+  overload;
+begin
+  Result := AdjustImage(
+    Bmp.Canvas, Bmp.Canvas, Bmp.Canvas.ClipRect,
+    Brightness, Contrast, Tint, Saturation, Gamma, Invert
+  );
+end;

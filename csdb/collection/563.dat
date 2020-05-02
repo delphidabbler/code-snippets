@@ -1,0 +1,32 @@
+﻿procedure DirPurge(DirName: string);
+var
+  SR: SysUtils.TSearchRec;
+  SearchResult: Longint;
+begin
+  // Make sure directory exists
+  if not SysUtils.DirectoryExists(DirName) then
+    Exit;
+  // Process the files in the directory
+  SearchResult := SysUtils.FindFirst(
+    SysUtils.IncludeTrailingPathDelimiter(DirName) + '*.*', faAnyFile, SR
+  );
+  try
+    while SearchResult = 0 do
+    begin
+      if ((SR.Attr and SysUtils.faDirectory) = SysUtils.faDirectory) then
+      begin
+        if (SR.Name <> '.') and (SR.Name <> '..') then
+          DirPurge(SysUtils.IncludeTrailingPathDelimiter(DirName) + SR.Name);
+      end
+      else
+        SysUtils.DeleteFile(
+          SysUtils.IncludeTrailingPathDelimiter(DirName) + SR.Name
+        );
+      SearchResult := Sysutils.FindNext(SR);
+    end;
+  finally
+    SysUtils.FindClose(SR);
+  end;
+  // Remove the directory
+  RmDir(SysUtils.ExcludeTrailingPathDelimiter(DirName));
+end;

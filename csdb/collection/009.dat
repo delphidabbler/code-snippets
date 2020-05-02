@@ -1,0 +1,16 @@
+﻿function GetFileDate(const FName: string): Integer;
+var
+  FileH: Integer;   // file handle
+begin
+  // Open file
+  FileH := SysUtils.FileOpen(FName, SysUtils.fmOpenRead);
+  if FileH = -1 then
+    // Couldn't open file - return -1 to indicate can't get date
+    Result := -1
+  else
+  begin
+    // File opened OK - record date and close file
+    Result := SysUtils.FileGetDate(FileH);
+    SysUtils.FileClose(FileH);
+  end;
+end;

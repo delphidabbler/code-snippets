@@ -1,0 +1,9 @@
+﻿function DeleteWordByIndex(const N: Integer; var Str: string;
+  const Delims: TCharSet): Boolean;
+var
+  St, En: Integer; // start and end of string to delete
+begin
+  Result := GetStartAndEndWord(N, Str, Delims, St, En);
+  if Result then
+    Delete(Str, St, En - St + 1);
+end;

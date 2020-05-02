@@ -1,0 +1,14 @@
+﻿function TaskbarBounds: Windows.TRect;
+var
+  Data: ShellAPI.TAppBarData; // structure receive task bar info
+begin
+  // set up data structure
+  Data.cbSize := SizeOf(Data);
+  Data.hWnd := TaskbarHandle;
+  // get bounding rectangle
+  if ShellAPI.SHAppBarMessage(ShellAPI.ABM_GETTASKBARPOS, Data) <> 0 then
+    Result := Data.rc
+  else
+    // can't get task bar info: return empty rectangle
+    FillChar(Result, SizeOf(Result), 0);
+end;

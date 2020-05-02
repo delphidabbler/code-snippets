@@ -1,0 +1,13 @@
+﻿function SysImageListHandle(const Path: string;
+  const WantLargeIcons: Boolean): Windows.THandle;
+var
+  FI: ShellAPI.TSHFileInfo; // required file info structure
+  Flags: Windows.UINT;      // flags used to request image list
+begin
+  Flags := ShellAPI.SHGFI_SYSICONINDEX or ShellAPI.SHGFI_ICON;
+  if WantLargeIcons then
+    Flags := Flags or ShellAPI.SHGFI_LARGEICON
+  else
+    Flags := Flags or ShellAPI.SHGFI_SMALLICON;
+  Result := ShellAPI.SHGetFileInfo(PChar(Path), 0, FI, SizeOf(FI), Flags);
+end;

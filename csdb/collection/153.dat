@@ -1,0 +1,9 @@
+﻿function TryStrToWord(const S: string; out W: Word): Boolean;
+var
+  Value: Integer; // receives integer value of conversion
+begin
+  Result := SysUtils.TryStrToInt(S, Value)
+    and (SysUtils.LongRec(Value).Hi = 0);
+  if Result then
+    W := SysUtils.LongRec(Value).Lo;
+end;

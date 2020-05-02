@@ -1,0 +1,19 @@
+﻿type
+  TColorRec = packed record
+    case Integer of
+      0:
+        // TColor as Cardinal value
+        (Color: Cardinal);
+      1:
+        // Array access to the 4 bytes of the TColor
+        (Bytes: array[0..3] of Byte);
+      2:
+        // Red, Green, Blue and Alpha transparency values of the TColor
+        (R, G, B, Alpha: Byte);
+      3:
+        // When SysFlag = $FF the TColor could be a system colour, in which case
+        // SysColor identifies the system colour concerned.
+        // WARNING: A colour with alpha transparency of $FF will also appear to
+        // be a system colour, so use with care.
+        (SysColor: Word; UnUsed, SysFlag: Byte);
+  end;

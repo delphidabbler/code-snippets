@@ -1,0 +1,15 @@
+﻿function SliceByteArray(const B: array of Byte; Start, Len: Integer):
+  TBytes;
+begin
+  if Start < 0 then
+    Start := 0;
+  if Len < 0 then
+    Len := 0
+  else if Start >= Length(B) then
+    Len := 0
+  else if Start + Len > Length(B) then
+    Len := Length(B) - Start;
+  SetLength(Result, Len);
+  if Len > 0 then
+    Move(B[Start], Result[0], Len);
+end;

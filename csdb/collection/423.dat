@@ -1,0 +1,9 @@
+﻿function Mid(const A, B, C: Double): Double; overload;
+begin
+  Result := Math.Min(
+    Math.Min(
+      Math.Max(A, B), Math.Max(B, C)
+    ),
+    Math.Max(A, C)
+  );
+end;

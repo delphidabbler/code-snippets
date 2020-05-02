@@ -1,0 +1,7 @@
+﻿function TryHexToInt64(const HexStr: string; out Value: Int64): Boolean;
+var
+  E: Integer; // error code
+begin
+  Val(AddHexPrefix(HexStr), Value, E);
+  Result := E = 0;
+end;

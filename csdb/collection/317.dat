@@ -1,0 +1,4 @@
+﻿function WordToHex(const W: Word): string;
+begin
+  Result := SysUtils.IntToHex(W, 2 * SizeOf(W));
+end;

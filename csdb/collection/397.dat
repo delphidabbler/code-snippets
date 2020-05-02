@@ -1,0 +1,18 @@
+﻿function RegValueExists(const ARootKey: Windows.HKEY; const APath: string):
+  Boolean;
+var
+  SubKey: string;     // registry sub-key extracted from APath
+  ValueName: string;  // value name extracted from APath
+begin
+  with Registry.TRegistry.Create do
+    try
+      RootKey := ARootKey;
+      RegParsePath(APath, SubKey, ValueName);
+      if OpenKeyReadOnly(SubKey) then
+        Result := ValueExists(ValueName)
+      else
+        Result := False;
+    finally
+      Free;
+    end;
+end;

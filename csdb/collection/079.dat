@@ -1,0 +1,11 @@
+﻿procedure StringToFile(const Str, FileName: string);
+var
+  FS: Classes.TFileStream;  // stream used to write file
+begin
+  FS := Classes.TFileStream.Create(FileName, Classes.fmCreate);
+  try
+    StringToStream(Str, FS);  // uses default ANSI encoding for output
+  finally
+    FS.Free;
+  end;
+end;

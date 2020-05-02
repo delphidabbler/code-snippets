@@ -1,0 +1,15 @@
+﻿procedure ProcessMessages;
+var
+  Msg: Windows.TMsg;  // stores message peeked from message loop
+begin
+  while Windows.PeekMessage(Msg, 0, 0, 0, Windows.PM_REMOVE) do
+  begin
+    if Msg.Message <> Messages.WM_QUIT then
+    begin
+      Windows.TranslateMessage(Msg);
+      Windows.DispatchMessage(Msg);
+    end
+    else
+      Exit;
+  end;
+end;

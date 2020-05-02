@@ -1,0 +1,4 @@
+﻿function SetVolumeName(const ADrive, AName: string): Boolean;
+begin
+  Result := Windows.SetVolumeLabel(PChar(ADrive), PChar(AName));
+end;

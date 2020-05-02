@@ -1,0 +1,8 @@
+﻿function AnsiStringToCharSet(const S: RawByteString): TCharSet;
+var
+  Idx: Integer;  // indexes characters of S
+begin
+  Result := [];
+  for Idx := 1 to Length(S) do
+    Include(Result, S[Idx]);
+end;

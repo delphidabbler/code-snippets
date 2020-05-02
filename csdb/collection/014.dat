@@ -1,0 +1,4 @@
+﻿procedure ClearRecentDocs;
+begin
+  ShlObj.SHAddToRecentDocs(ShlObj.SHARD_PATH, nil);
+end;

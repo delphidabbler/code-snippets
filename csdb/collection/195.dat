@@ -1,0 +1,4 @@
+﻿function TrimChar(const S: string; const C: Char): string;
+begin
+  Result := TrimLeftChar(TrimRightChar(S, C), C);
+end;

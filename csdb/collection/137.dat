@@ -1,0 +1,22 @@
+﻿function VolumeName(const Drive: string): string;
+var
+  Unused: Cardinal;                             // unused parameters
+  PrevErrorMode: Windows.UINT;                  // stores Windows error mode
+  VolName: array[0..Windows.MAX_PATH] of Char;  // receives volume name
+begin
+  // Inhibit system dialog appearing on error
+  PrevErrorMode := Windows.SetErrorMode(
+    Windows.SEM_FAILCRITICALERRORS
+  );
+  try
+    // Get volume information
+    Result := '';
+    if Windows.GetVolumeInformation(
+      PChar(Drive), VolName, Windows.MAX_PATH, @Unused, Unused, Unused, nil, 0
+    ) then
+    Result := VolName;
+  finally
+    // Restore old error mode
+    Windows.SetErrorMode(PrevErrorMode);
+  end;
+end;

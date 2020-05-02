@@ -1,0 +1,4 @@
+﻿function AddDays(const DateTime: TDateTime; const Days: Integer): TDateTime;
+begin
+  Result := DateTime + Days;
+end;

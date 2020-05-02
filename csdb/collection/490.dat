@@ -1,0 +1,6 @@
+﻿type
+  TRectF = record
+    case Integer of
+      0: (Left, Top, Right, Bottom: Double);
+      1: (TopLeft, BottomRight: TPointF);
+  end;

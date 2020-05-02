@@ -1,0 +1,6 @@
+﻿function IsEqualRGBTriple(const T1, T2: Windows.TRGBTriple): Boolean;
+begin
+  Result := (T1.rgbtBlue = T2.rgbtBlue) and
+    (T1.rgbtGreen = T2.rgbtGreen) and
+    (T1.rgbtRed = T2.rgbtRed);
+end;

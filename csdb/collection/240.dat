@@ -1,0 +1,31 @@
+﻿function GetParentProcessID(const PID: Windows.DWORD): Windows.DWORD;
+var
+  Snapshot: Windows.THandle;    // snapshot of process
+  PE: TlHelp32.TProcessEntry32; // structure holding info about a process
+  EndOfList: Boolean;           // indicates end of process list reached
+begin
+  // Assume failure
+  Result := Windows.DWORD(-1);
+  // Get snapshot containing process list
+  Snapshot := TlHelp32.CreateToolHelp32SnapShot(TlHelp32.TH32CS_SNAPPROCESS, 0);
+  if Snapshot = Windows.THandle(-1) then
+    Exit;
+  try
+    // Look up process in process list
+    PE.dwSize := SizeOf(PE);
+    EndOfList := not TlHelp32.Process32First(Snapshot, PE);
+    while not EndOfList do
+    begin
+      if PE.th32ProcessID = PID then
+      begin
+        // Found process: record parent process ID
+        Result := PE.th32ParentProcessID;
+        Break;
+      end;
+      EndOfList := not TlHelp32.Process32Next(Snapshot, PE);
+    end;
+  finally
+    // Free the snapshot
+    Windows.CloseHandle(Snapshot);
+  end;
+end;

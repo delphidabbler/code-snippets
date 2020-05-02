@@ -1,0 +1,24 @@
+﻿function UnicodeStreamToWideString(const Stm: Classes.TStream): WideString;
+var
+  DataSize: LongInt;  // size of Unicode text in stream in bytes
+begin
+  if IsUnicodeStream(Stm) then
+  begin
+    // Data on stream is Unicode with BOM
+    // Check remaining stream, less BOM, contains whole number of wide chars
+    DataSize := Stm.Size - Stm.Position - SizeOf(Word);
+    if DataSize mod SizeOf(WideChar) <> 0 then
+      Classes.EStreamError.CreateFmt(
+        'Remaining data in stream must be a mulitple of %d bytes',
+        [SizeOf(WideChar)]
+      );
+    // Skip over BOM
+    Stm.Position := Stm.Position + SizeOf(Word);
+    // Read stream into result
+    SetLength(Result, DataSize div SizeOf(WideChar));
+    Stm.ReadBuffer(Windows.PByte(PWideChar(Result))^, DataSize);
+  end
+  else
+    // Data on stream is assumed to be ANSI
+    Result := StreamToString(Stm);  // automatically cast to WideString
+end;

@@ -1,0 +1,14 @@
+﻿function IsNumeric(Value: string; const AllowFloat: Boolean;
+  const TrimWhiteSpace: Boolean = True): Boolean;
+var
+  ValueInt: Int64;      // dummy integer value
+  ValueFloat: Extended; // dummy float value
+begin
+  if TrimWhiteSpace then
+    Value := SysUtils.Trim(Value);
+  // Check for valid integer
+  Result := SysUtils.TryStrToInt64(Value, ValueInt);
+  if not Result and AllowFloat then
+    // Wasn't valid as integer, try float
+    Result := SysUtils.TryStrToFloat(Value, ValueFloat);
+end;

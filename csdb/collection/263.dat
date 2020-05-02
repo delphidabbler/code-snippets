@@ -1,0 +1,6 @@
+﻿function CtrlBoundsToScreen(const Ctrl: Controls.TControl): Windows.TRect;
+begin
+  Result := ClientRectToScreen(
+    Ctrl, Classes.Rect(0, 0, Ctrl.Width, Ctrl.Height)
+  );
+end;

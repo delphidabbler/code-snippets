@@ -1,0 +1,4 @@
+﻿function AddHexPrefix(const HexStr: string): string;
+begin
+  Result := SysUtils.HexDisplayPrefix + StripHexPrefix(HexStr);
+end;

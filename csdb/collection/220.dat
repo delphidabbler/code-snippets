@@ -1,0 +1,64 @@
+﻿function GetJPGSize(const FileName: string): Types.TSize;
+const
+  // JPEG file signature
+  cValidSig: array[0..1] of Byte = ($FF, $D8);
+  // IDs of JPEG parameterless segments (contain no size info)
+  cParameterless = [$01, $D0, $D1, $D2, $D3, $D4, $D5, $D6, $D7];
+  // Start of frame segment ids (contain size of JPEG)
+  cSOFs = [$C0, $C1, $C2, $C3, $C5, $C6, $C7, $C9, $CA, $CB, $CD, $CE, $CF];
+var
+  FS: Classes.TFileStream;      // stream onto JPEG file
+  Sig: array[0..1] of Byte;     // receives jpeg file signature
+  X: Integer;                   // loops thru bytes in signature
+  Seg: Byte;                    // segment identifier
+  Dummy: array[0..15] of Byte;  // receives bytes we discard
+  SegLen: Word;                 // length of a segment
+  BytesRead: Integer;           // number of bytes read from stream
+begin
+  Result.cx := 0;
+  Result.cy := 0;
+  if (FileName = '') or not SysUtils.FileExists(FileName) then
+    Exit;
+  FS := Classes.TFileStream.Create(
+    FileName, SysUtils.fmOpenRead or SysUtils.fmShareDenyNone
+  );
+  try
+    // Check signature
+    FillChar(Sig, SizeOf(Sig), #0);
+    FS.Read(Sig[0], SizeOf(Sig));
+    for X := Low(Sig) to High(Sig) do
+      if Sig[X] <> cValidSig[X] then
+        Exit;
+    // Scan segments, looking for a start of frame segment
+    BytesRead := FS.Read(Seg, SizeOf(Seg));
+    while (Seg = $FF) and (BytesRead > 0) do
+    begin
+      BytesRead := FS.Read(Seg, SizeOf(Seg));
+      if Seg <> $FF then
+      begin
+        if Seg in cSOFs then
+        begin
+          // Start of frame segment found: get size
+          BytesRead := FS.Read(Dummy[0], 3); // don't need these 3 bytes
+          Result.cy := ReadBigEndianWord(FS);
+          Result.cx := ReadBigEndianWord(FS);
+        end
+        else
+        begin
+          if not (Seg in cParameterless) then
+          begin
+            // Other frame found: skip over it
+            SegLen := ReadBigEndianWord(FS);
+            FS.Seek(SegLen - 2, Classes.soFromCurrent);
+            FS.Read(Seg, SizeOf(Seg));
+          end
+          else
+            // Parameterless segment found: skip it
+            Seg := $FF; // Fake it to keep looping
+        end;
+      end;
+    end;
+  finally;
+    FS.Free;
+  end;
+end;

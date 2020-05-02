@@ -1,0 +1,7 @@
+﻿function DeleteEnvVar(const VarName: string): Integer;
+begin
+  if Windows.SetEnvironmentVariable(PChar(VarName), nil) then
+    Result := 0
+  else
+    Result := Windows.GetLastError;
+end;

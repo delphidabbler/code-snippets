@@ -1,0 +1,29 @@
+﻿procedure SendKeysToWindow(const HWnd: Windows.HWND; const Text: string);
+var
+  Idx: Integer;     // current position in input string
+  Ch: Char;         // current character in input string
+  WParam: LongInt;  // WParam to WM_KEYxxx and WM_CHAR messages
+  LParam: LongInt;  // LParam to WM_KEYxxx and WM_CHAR messages
+  ScanCode: Byte;   // scan code of virtual key code
+  OEMScan: Word;    // OEM scan code equivalent of virtual key code
+begin
+  for Idx := 1 to Length(Text) do
+  begin
+    // Record current char and its ordinal value
+    Ch := Text[Idx];
+    WParam := Ord(Ch);
+    // Send WM_KEYDOWN message
+    ScanCode := Windows.MapVirtualKey(WParam, 0);
+    LParam := 1 or (ScanCode shl 16) or $40000001; // sets bits 1 & 30
+    Windows.SendMessage(HWnd, Messages.WM_KEYDOWN, WParam, LParam);
+    // Send WM_CHAR message
+    OEMScan := Windows.LoByte(Windows.VkKeyScan(Ch));
+    ScanCode := Windows.MapVirtualKey(OEMScan, 0);
+    LParam := 1 + (ScanCode shl 16) or $00000001;   // sets bit 1
+    Windows.SendMessage(HWnd, Messages.WM_CHAR, WParam, LParam);
+    // Send WM_KEYUP message
+    ScanCode := Windows.MapVirtualKey(WParam, 0);
+    LParam := 1 or (ScanCode shl 16) or $C0000001;  // sets bits 1, 30 & 31
+    Windows.SendMessage(HWnd, Messages.WM_KEYUP, WParam, LParam);
+  end;
+end;

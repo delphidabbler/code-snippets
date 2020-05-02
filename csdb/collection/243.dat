@@ -1,0 +1,47 @@
+﻿procedure PostKeyEx32(const Key: Word; const Shift: Classes.TShiftState;
+  const SpecialKey: Boolean = False);
+type
+  TShiftKeyInfo = record  // information about a shoft key
+    Shift: Byte;          // shift key
+    VKey: Byte;           // virtual key code
+  end;
+  ByteSet = set of 0..7;  // byte sized bitset
+const
+  // map of shift state values to virtual keys
+  ShiftKeys: array[ 1..3 ] of TShiftKeyInfo = (
+    (Shift: Ord(Classes.ssCtrl);  VKey: Windows.VK_CONTROL),
+    (Shift: Ord(Classes.ssShift); VKey: Windows.VK_SHIFT),
+    (Shift: Ord(Classes.ssAlt);   VKey: Windows.VK_MENU)
+  );
+var
+  Flag: DWORD;                      // flag passed to keybd_event
+  ShiftSet: ByteSet absolute Shift; // shift state as bit set
+  I: Integer;                       // loop variable
+begin
+  // generate any shift key down events
+  for I := 1 to 3 do
+    if ShiftKeys[I].Shift in ShiftSet then
+      Windows.keybd_event(
+        ShiftKeys[I].VKey,
+        Windows.MapVirtualKey(ShiftKeys[I].VKey, 0),
+        0,
+        0
+      );
+  // generate key down then key up event for key
+  if SpecialKey then
+    Flag := Windows.KEYEVENTF_EXTENDEDKEY
+  else
+    Flag := 0;
+  Windows.keybd_event(Key, Windows.MapVirtualKey(Key, 0), Flag, 0);
+  Flag := Flag or Windows.KEYEVENTF_KEYUP;
+  Windows.keybd_event(Key, Windows.MapVirtualKey(Key, 0), Flag, 0);
+  // generate any shift key up events in reverse order of key down events
+  for I := 3 downto 1 do
+    if ShiftKeys[I].Shift in ShiftSet then
+      Windows.keybd_event(
+        ShiftKeys[I].VKey,
+        Windows.MapVirtualKey(ShiftKeys[I].VKey, 0),
+        Windows.KEYEVENTF_KEYUP,
+        0
+      );
+end;

@@ -1,0 +1,7 @@
+﻿function IsUTF7Stream(const Stm: Classes.TStream): Boolean;
+begin
+  Result := StreamHasWatermark(Stm, [$2B, $2F, $76, $38])
+    or StreamHasWatermark(Stm, [$2B, $2F, $76, $39])
+    or StreamHasWatermark(Stm, [$2B, $2F, $76, $2B])
+    or StreamHasWatermark(Stm, [$2B, $2F, $76, $2F]);
+end;

@@ -1,0 +1,7 @@
+﻿function PosByIndex(const N: Integer; const Str: string;
+  const Delims: TCharSet): Integer;
+var
+  En: integer; // index of end of word in AString: not used
+begin
+  GetStartAndEndWord(N, Str, Delims, Result, En);
+end;

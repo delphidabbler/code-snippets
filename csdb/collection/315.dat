@@ -1,0 +1,4 @@
+﻿function LongWordToHex(const LW: LongWord): string;
+begin
+  Result := SysUtils.IntToHex(Integer(LW), 2 * SizeOf(LW));
+end;

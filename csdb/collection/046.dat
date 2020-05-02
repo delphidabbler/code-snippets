@@ -1,0 +1,4 @@
+﻿function TaskbarHandle: Windows.THandle;
+begin
+  Result := Windows.FindWindow('Shell_TrayWnd', nil);
+end;

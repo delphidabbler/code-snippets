@@ -1,0 +1,67 @@
+﻿function GetMacAddress: string;
+type
+  // This type is defined in MSDN sample code, but tests have found this is
+  // not needed (on XP Pro) and Adapter can be of type TAdapterStatus. This
+  // method use the type in case other OSs require it
+  TAStat = packed record
+    Adapt: Nb30.TAdapterStatus;
+    NameBuff: array[0..29] of Nb30.TNameBuffer;
+  end;
+var
+  Adapter: TAStat;              // info about a network adapter
+  AdapterList: Nb30.TLanaEnum;  // numbers for current LAN adapters
+  Ncb: Nb30.TNCB;               // network control block descriptor
+  I: Integer;                   // loops thru all adapters in list
+  // ---------------------------------------------------------------------------
+  function NetBiosSucceeded(const RetCode: AnsiChar): Boolean;
+  begin
+    // Check RetCode is good NetBios function return value
+    Result := Windows.UCHAR(RetCode) = Nb30.NRC_GOODRET;
+  end;
+  // ---------------------------------------------------------------------------
+begin
+  // Assume not adapter
+  Result := '';
+  // Get list of adapters
+  FillChar(Ncb, SizeOf(Ncb), 0);
+  Ncb.ncb_command := AnsiChar(Nb30.NCBENUM);
+  Ncb.ncb_buffer := PAnsiChar(@AdapterList);
+  Ncb.ncb_length := SizeOf(AdapterList);
+  if not NetBiosSucceeded(Nb30.Netbios(@Ncb)) then
+    Exit;
+  // Get status of each adapter, exiting when first valid one reached
+  // MSDN cautions us not to assume lana[0] is valid
+  for I := 0 to Pred(Integer(AdapterList.length)) do
+  begin
+    // reset the adapter
+    FillChar(Ncb, SizeOf(Ncb), 0);
+    Ncb.ncb_command := AnsiChar(Nb30.NCBRESET);
+    Ncb.ncb_lana_num := AdapterList.lana[I];
+    if not NetBiosSucceeded(Nb30.Netbios(@Ncb)) then
+      Exit;
+    // get status of adapter
+    FillChar(Ncb, SizeOf(Ncb), 0);
+    Ncb.ncb_command := AnsiChar(Nb30.NCBASTAT);
+    Ncb.ncb_lana_num := AdapterList.lana[I];
+    Ncb.ncb_callname := '*               ';
+    Ncb.ncb_buffer := PAnsiChar(@Adapter);
+    Ncb.ncb_length := SizeOf(Adapter);
+    if NetBiosSucceeded(Nb30.Netbios(@Ncb)) then
+    begin
+      // we have a MAC address: return it
+      with Adapter.Adapt do
+        Result := SysUtils.Format(
+          '%.2x-%.2x-%.2x-%.2x-%.2x-%.2x',
+          [
+            Ord(adapter_address[0]),
+            Ord(adapter_address[1]),
+            Ord(adapter_address[2]),
+            Ord(adapter_address[3]),
+            Ord(adapter_address[4]),
+            Ord(adapter_address[5])
+          ]
+        );
+      Exit;
+    end;
+  end;
+end;

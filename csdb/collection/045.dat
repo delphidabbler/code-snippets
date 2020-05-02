@@ -1,0 +1,17 @@
+﻿function URLFromShortcut(const Shortcut: string): string;
+var
+  Ini: IniFiles.TIniFile; // object used to read shortcut file
+begin
+  // Return URL item from [InternetShortcut] section of shortcut file
+  Ini := IniFiles.TIniFile.Create(Shortcut);
+  try
+    try
+      Result := Ini.ReadString('InternetShortcut', 'URL', '');
+    except;
+      // We return '' on error
+      Result := '';
+    end;
+  finally
+    Ini.Free;
+  end;
+end;

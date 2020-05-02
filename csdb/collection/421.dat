@@ -1,0 +1,18 @@
+﻿function StretchRect(const R: Types.TRect; const ScalingX, ScalingY: Double):
+  Types.TRect; overload;
+{$IFDEF FPC}
+const
+{$ELSE}
+resourcestring
+{$ENDIF}
+  sErrorMsg = 'StretchRect(): Rectangle bottom or right out of bounds.';
+var
+  NewW, NewH: Double;  // stretched width and height of rectangle
+begin
+  NewW := (R.Right - R.Left) * ScalingX;
+  NewH := (R.Bottom - R.Top) * ScalingY;
+  if (Abs(NewW + R.Left) > High(LongInt))
+    or (Abs(NewH + R.Top) > High(LongInt)) then
+    raise SysUtils.EOverflow.Create(sErrorMsg);
+  Result := Types.Bounds(R.Left, R.Top, System.Round(NewW), System.Round(NewH));
+end;

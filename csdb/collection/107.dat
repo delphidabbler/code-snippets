@@ -1,0 +1,4 @@
+﻿function ProgramName: string;
+begin
+  Result := RemoveFileExt(ProgramFileName);
+end;

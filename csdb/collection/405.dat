@@ -1,0 +1,9 @@
+﻿function ReverseNumber(AValue: Int64): Int64;
+begin
+  Result := 0;
+  while AValue > 0 do
+  begin
+    Result := (Result * 10) + (AValue mod 10);
+    AValue := AValue div 10;
+  end;
+end;

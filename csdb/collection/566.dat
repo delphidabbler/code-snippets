@@ -1,0 +1,4 @@
+﻿function IsIEInstalled: Boolean;
+begin
+  Result := ProgIDInstalled('InternetExplorer.Application');
+end;

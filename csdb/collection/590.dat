@@ -1,0 +1,9 @@
+﻿procedure WBUndo(WB: SHDocVw.TWebbrowser);
+begin
+  WBInvokeCmd(
+    WB,
+    False,
+    SHDocVw.OLECMDID_UNDO,
+    SHDocVw.OLECMDEXECOPT_DODEFAULT
+  );
+end;

@@ -1,0 +1,4 @@
+﻿function SubLangID(LangID: Word): Word;
+begin
+  Result := LangID shr 10;
+end;

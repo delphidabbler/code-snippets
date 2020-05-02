@@ -1,0 +1,13 @@
+﻿procedure ScaleBitmap(ABitmap: Graphics.TBitmap; AScaling: Double); overload;
+var
+  TempBmp: Graphics.TBitmap;
+begin
+  TempBmp := Graphics.TBitmap.Create;
+  try
+    TempBmp.PixelFormat := Graphics.pf24Bit;
+    ScaleBitmap(TempBmp, ABitmap, AScaling);
+    ABitmap.Assign(TempBmp);
+  finally
+    TempBmp.Free;
+  end;
+end;

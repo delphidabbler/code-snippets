@@ -1,0 +1,13 @@
+﻿function CloneGraphicAsBitmap(const Src: Graphics.TGraphic;
+  const PixelFmt: Graphics.TPixelFormat;
+  const TransparentColor: Graphics.TColor): Graphics.TBitmap;
+begin
+  // Create bitmap with required pixel format
+  Result := Graphics.TBitmap.Create;
+  if PixelFmt <> Graphics.pfCustom then
+    Result.PixelFormat := PixelFmt
+  else if Src is Graphics.TBitmap then
+    Result.PixelFormat := (Src as Graphics.TBitmap).PixelFormat;
+  // Copy the graphic object
+  GraphicToBitmap(Src, Result, TransparentColor);
+end;

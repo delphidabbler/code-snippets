@@ -1,0 +1,25 @@
+﻿procedure RichEditToCanvas(ARichEdit: ComCtrls.TRichEdit;
+  ACanvas: Graphics.TCanvas; APixelsPerInch: Integer);
+var
+  Fmt: RichEdit.TFormatRange; // used by rich edit to format output
+begin
+  with Fmt do
+  begin
+    hdc:= ACanvas.Handle;
+    hdcTarget:= hdc;
+    // rect needs to be specified in twips (1/1440 inch) as unit
+    rc := Classes.Rect(
+      0,
+      0,
+      ACanvas.ClipRect.Right * 1440 div APixelsPerInch,
+      ACanvas.ClipRect.Bottom * 1440 div APixelsPerInch
+    );
+    rcPage:= rc;
+    chrg.cpMin := 0;
+    chrg.cpMax := ARichEdit.GetTextLen;
+  end;
+  Windows.SetBkMode(ACanvas.Handle, Windows.TRANSPARENT);
+  ARichEdit.Perform(RichEdit.EM_FORMATRANGE, 1, Integer(@Fmt));
+  // next call frees some cached data
+  ARichEdit.Perform(RichEdit.EM_FORMATRANGE, 0, 0);
+end;

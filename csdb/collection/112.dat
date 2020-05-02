@@ -1,0 +1,9 @@
+﻿procedure ExtractRGB(const Color: Graphics.TColor; out Red, Green, Blue: Byte);
+var
+  RGB: Windows.TColorRef; // RGB equivalent of given Colour
+begin
+  RGB := Graphics.ColorToRGB(Color);  // ensures system Colours are converted
+  Red := Windows.GetRValue(RGB);
+  Green := Windows.GetGValue(RGB);
+  Blue := Windows.GetBValue(RGB);
+end;

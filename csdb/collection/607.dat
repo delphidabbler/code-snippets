@@ -1,0 +1,6 @@
+﻿procedure WBShowFindDlg(WB: SHDocVw.TWebbrowser);
+const
+  HTMLID_FIND = 1;
+begin
+  WBInvokeCmd(WB, True, HTMLID_FIND, 0);
+end;

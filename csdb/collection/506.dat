@@ -1,0 +1,16 @@
+﻿function RemoveURIQueryString(const URI: string): string;
+var
+  QueryStart: Integer;
+  FragStart: Integer;
+begin
+  QueryStart := SysUtils.AnsiPos('?', URI);
+  if QueryStart = 0 then
+  begin
+    Result := URI;
+    Exit;
+  end;
+  Result := Copy(URI, 1, QueryStart - 1);
+  FragStart := SysUtils.AnsiPos('#', URI);
+  if FragStart > 0 then
+    Result := Result + Copy(URI, FragStart, Length(URI) - FragStart + 1);
+end;

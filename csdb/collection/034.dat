@@ -1,0 +1,34 @@
+﻿function ExplodeStr(S, Delim: string; const List: Classes.TStrings;
+  const AllowEmpty: Boolean = True; const Trim: Boolean = False): Integer;
+var
+  Item: string;       // current delimited text
+  Remainder: string;  // remaining un-consumed part of string
+
+  // ---------------------------------------------------------------------------
+  procedure AddItem;
+  begin
+    // Adds optionally trimmed item to list if required
+    if (Trim) then
+      Item := SysUtils.Trim(Item);
+    if (Item <> '') or AllowEmpty then
+      List.Add(Item);
+  end;
+  // ---------------------------------------------------------------------------
+
+begin
+  // Clear the list
+  List.Clear;
+  // Check we have some entries in the string
+  if S <> '' then
+  begin
+    // Repeatedly split string until we have no more entries
+    while SplitStr(S, Delim, Item, Remainder) do
+    begin
+      AddItem;
+      S := Remainder;
+    end;
+    // Add any remaining item
+    AddItem;
+  end;
+  Result := List.Count;
+end;

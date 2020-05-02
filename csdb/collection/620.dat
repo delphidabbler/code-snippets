@@ -1,0 +1,12 @@
+﻿function JPEGPixelFormatToPixelFormat(APixelFormat: JPEG.TJPEGPixelFormat):
+  Graphics.TPixelFormat;
+begin
+  case APixelFormat of
+    JPEG.jf8bit:
+      Result := Graphics.pf8bit;
+    JPEG.jf24bit:
+      Result := Graphics.pf24bit;
+  else
+    raise SysUtils.Exception.Create('Unexpected TJPEGPixelFormat value');
+  end;
+end;

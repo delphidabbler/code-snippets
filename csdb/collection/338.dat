@@ -1,0 +1,8 @@
+﻿function FormInstanceCount(AFormClass: Forms.TFormClass): Integer; overload;
+var
+  I: Integer;  // loops through all forms
+begin
+  Result := 0;
+  for I := 0 to Forms.Screen.FormCount - 1 do
+    Inc(Result, Ord(Forms.Screen.Forms[I] is AFormClass));
+end;

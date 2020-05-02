@@ -1,0 +1,21 @@
+﻿function GetDefaultPrinterName: string;
+var
+  CurrentPrinter: Integer; // index of current printer
+begin
+  // store current printer
+  CurrentPrinter := Printer.PrinterIndex;
+  try
+    try
+      // setting PrinterIndex to -1 selects default printer
+      // this raises exception if there is no default printer
+      Printer.PrinterIndex := -1;
+      Result := Printer.Printers.Strings[Printer.PrinterIndex];
+    except
+      on E: EPrinter do
+        Result := '';
+    end;
+  finally
+    // restore current printer
+    Printer.PrinterIndex := CurrentPrinter;
+  end;
+end;

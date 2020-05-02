@@ -1,0 +1,7 @@
+﻿function DriveRootPath(const DriveNum: Byte): string;
+begin
+  if DriveNum in [0..25] then
+    Result := Char(DriveNum + Ord('A')) + ':\'
+  else
+    Result := '';
+end;

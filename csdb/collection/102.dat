@@ -1,0 +1,41 @@
+﻿function CEscapeStr(const S, EscapeChars, EscapableChars: string): string;
+const
+  cEscChar = '\';       // the C escape character
+var
+  EscCount: Integer;    // count of escaped characters in string
+  Idx: Integer;         // loops thru string
+  PRes: PChar;          // points to chars in result string
+  EscCharPos: Integer;  // position of esc chars in EscapeChars & EscapableChars
+begin
+  // Check for empty string and treat specially
+  // (empty string crashes main code)
+  if S = '' then
+  begin
+    Result := '';
+    Exit;
+  end;
+  // Count escapable characters in string
+  EscCount := 0;
+  for Idx := 1 to Length(S) do
+  begin
+    if SysUtils.AnsiPos(S[Idx], EscapableChars) > 0 then
+      Inc(EscCount);
+  end;
+  // Set size of result string and get pointer to it
+  SetLength(Result, Length(S) + EscCount);
+  PRes := PChar(Result);
+  // Replace escapable chars with the escaped version
+  for Idx := 1 to Length(S) do
+  begin
+    EscCharPos := SysUtils.AnsiPos(S[Idx], EscapableChars);
+    if EscCharPos > 0 then
+    begin
+      PRes^ := cEscChar;
+      Inc(PRes);
+      PRes^ := EscapeChars[EscCharPos];
+    end
+    else
+      PRes^ := S[Idx];
+    Inc(PRes);
+  end;
+end;

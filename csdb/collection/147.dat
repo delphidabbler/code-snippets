@@ -1,0 +1,4 @@
+﻿function CreateDisplayDC: Windows.HDC;
+begin
+  Result := Windows.CreateDC('DISPLAY', nil, nil, nil);
+end;

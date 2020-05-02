@@ -1,0 +1,15 @@
+﻿procedure RegDeleteValue(const ARootKey: Windows.HKEY; const APath: string);
+var
+  SubKey: string;     // registry sub-key extracted from APath
+  ValueName: string;  // value name extracted from APath
+begin
+  with Registry.TRegistry.Create do
+    try
+      RootKey := ARootKey;
+      RegParsePath(APath, SubKey, ValueName);
+      if OpenKey(SubKey, True) then
+        DeleteValue(ValueName);
+    finally
+      Free;
+    end;
+end;

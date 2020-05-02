@@ -1,0 +1,12 @@
+﻿function ScreenResolution: Types.TSize;
+var
+  DC: Windows.HDC;
+begin
+  DC := Windows.GetDC(Windows.HWND_DESKTOP);
+  try
+    Result.cx := Windows.GetDeviceCaps(DC, Windows.HORZRES);
+    Result.cy := Windows.GetDeviceCaps(DC, Windows.VERTRES);
+  finally
+    Windows.ReleaseDC(0, DC);
+  end;
+end;

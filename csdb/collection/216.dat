@@ -1,0 +1,8 @@
+﻿function VScrollbarWidth(const Ctrl: Controls.TWinControl): Integer;
+begin
+  if WinControlScrollbars(Ctrl)
+    in [StdCtrls.ssVertical, StdCtrls.ssBoth] then
+    Result := Windows.GetSystemMetrics(Windows.SM_CYVSCROLL)
+  else
+    Result := 0;
+end;

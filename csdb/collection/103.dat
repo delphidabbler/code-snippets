@@ -1,0 +1,46 @@
+﻿function CUnEscapeStr(const S, EscapeChars, EscapableChars: string): string;
+const
+  cEscChar = '\';       // the C escape character
+var
+  EscCount: Integer;    // counts escaped characters in string
+  Idx: Integer;         // loops thru source string
+  PRes: PChar;          // points to chars in result string
+  EscCharPos: Integer;  // position of esc chars in EscapeChars & EscapableChars
+begin
+  // Count escape sequences
+  EscCount := 0;
+  Idx := 1;
+  while Idx < Length(S) do  // don't count '\' if last character
+  begin
+    if S[Idx] = cEscChar then
+    begin
+      Inc(EscCount);
+      Inc(Idx);
+    end;
+    Inc(Idx);
+  end;
+  // Set length of result string and get pointer to it
+  SetLength(Result, Length(S) - EscCount);
+  PRes := PChar(Result);
+  // Replace escaped chars with literal ones
+  Idx := 1;
+  while Idx <= Length(S) do
+  begin
+    // check for escape char (unless last char when treat literally)
+    if (S[Idx] = cEscChar) and (Idx <> Length(S)) then
+    begin
+      // we have an escape char
+      Inc(Idx); // skip over '\'
+      // get index of escaped char (0 if not valid)
+      EscCharPos := SysUtils.AnsiPos(S[Idx], EscapeChars);
+      if EscCharPos > 0 then
+        PRes^ := EscapableChars[EscCharPos]
+      else
+        PRes^ := S[Idx];  // invalid escape char: copy literally
+    end
+    else
+      PRes^ := S[Idx];
+    Inc(Idx);
+    Inc(PRes);
+  end;
+end;

@@ -1,0 +1,6 @@
+﻿function RFC1123DateGMT(const DT: TDateTime): string;
+const
+  RFC1123Pattern = 'ddd, dd mmm yyyy HH'':''nn'':''ss ''GMT''';
+begin
+  Result := SysUtils.FormatDateTime(RFC1123Pattern, DT);
+end;

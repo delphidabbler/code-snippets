@@ -1,0 +1,9 @@
+﻿function WinFileTimeToDateTime(FT: Windows.TFileTime): TDateTime;
+var
+  SysTime: Windows.TSystemTime; // stores date/time in system time format
+begin
+  // Convert file time to system time, raising exception on error
+  SysUtils.Win32Check(Windows.FileTimeToSystemTime(FT, SysTime));
+  // Convert system time to Delphi date time, raising excpetion on error
+  Result := SysUtils.SystemTimeToDateTime(SysTime);
+end;

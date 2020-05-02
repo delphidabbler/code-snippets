@@ -1,0 +1,18 @@
+﻿function MinsToStr(AMinutes: Cardinal): string;
+{$IFNDEF FPC}
+resourcestring
+{$ELSE}
+const
+{$ENDIF}
+  sFmt = '%d Days %d Hours %d Minutes';
+const
+  HoursPerDay = 24;
+var
+  Days, Hours, Minutes: Cardinal;
+begin
+  Hours := AMinutes div 60;
+  Minutes := AMinutes mod 60;
+  Days := Hours div HoursPerDay;
+  Hours := Hours mod HoursPerDay;
+  Result := SysUtils.Format(sFmt, [Days, Hours, Minutes]);
+end;

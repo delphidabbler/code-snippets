@@ -1,0 +1,9 @@
+﻿function CountDelims(const S, Delims: string): Integer;
+var
+  Idx: Integer; //loops thru all characters in string
+begin
+  Result := 0;
+  for Idx := 1 to Length(S) do
+    if SysUtils.IsDelimiter(Delims, S, Idx) then
+      Inc(Result);
+end;

@@ -1,0 +1,7 @@
+﻿function DateTimeToWinFileTime(DT: TDateTime): Windows.TFileTime;
+var
+  ST: Windows.TSystemTime;
+begin
+  SysUtils.DateTimeToSystemTime(DT, ST);
+  SysUtils.Win32Check(Windows.SystemTimeToFileTime(ST, Result));
+end;

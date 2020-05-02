@@ -1,0 +1,4 @@
+﻿function IsASCIIText(const Text: UnicodeString): Boolean;
+begin
+  Result := EncodingSupportsString(Text, SysUtils.TEncoding.ASCII);
+end;

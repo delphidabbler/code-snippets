@@ -1,0 +1,6 @@
+﻿function BrowseURL(const URL: string): Boolean;
+begin
+  if not IsValidURLProtocol(URL) then
+    raise SysUtils.Exception.CreateFmt('"%s" is not a valid URL', [URL]);
+  Result := ExecAssociatedApp(URL);
+end;

@@ -1,0 +1,19 @@
+﻿function SysUserErrorMessage(const OSErrorCode: Cardinal): string;
+var
+  MessageBuffer: PChar;
+begin
+  Windows.FormatMessage(
+    Windows.FORMAT_MESSAGE_ALLOCATE_BUFFER or Windows.FORMAT_MESSAGE_FROM_SYSTEM,
+    nil,
+    OSErrorCode,
+    Windows.LANG_USER_DEFAULT,
+    @MessageBuffer,
+    0,
+    nil
+  );
+  try
+    Result := SysUtils.Trim(MessageBuffer);
+  finally
+    Windows.LocalFree(Windows.HLOCAL(MessageBuffer));
+  end;
+end;

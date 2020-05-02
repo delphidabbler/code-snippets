@@ -1,0 +1,10 @@
+﻿function Factorial(N: Byte): Int64;
+var
+  K: Integer; // loop control
+begin
+  Result := 1;
+  if (N = 0) or (N = 1) then
+    Exit;
+  for K := 2 to N do
+    Result := Result * K;
+end;

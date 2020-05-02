@@ -1,0 +1,10 @@
+﻿function MaxOfArray(const A: array of Int64): Int64; overload;
+var
+  Idx: Integer;
+begin
+  Assert(Length(A) > 0);
+  Result := A[Low(A)];
+  for Idx := Succ(Low(A)) to High(A) do
+    if A[Idx] > Result then
+      Result := A[Idx];
+end;

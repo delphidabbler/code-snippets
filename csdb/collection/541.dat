@@ -1,0 +1,4 @@
+﻿function IsSaturday(const DT: TDateTime): Boolean;
+begin
+  Result := SysUtils.DayOfWeek(DT) = 7;
+end;

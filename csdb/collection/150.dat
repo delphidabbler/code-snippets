@@ -1,0 +1,26 @@
+﻿procedure DrawAngledText(const ACanvas: Graphics.TCanvas; const X, Y: Integer;
+  const Angle: Double; const Text: string);
+var
+  AngledFontH: Windows.HFONT; // handle to rotated font
+  OrigFontH: Windows.HFONT;   // handle to original font
+  FontInfo: Windows.TLogFont; // font definition structure
+begin
+  // Configure logical font structure
+  if Windows.GetObject(
+    ACanvas.Font.Handle, SizeOf(FontInfo), @FontInfo
+  ) = 0 then
+    Exit;
+  FontInfo.lfEscapement := Round(Angle * 10);
+  FontInfo.lfOrientation := FontInfo.lfEscapement;
+  // Create angled font
+  AngledFontH := Windows.CreateFontIndirect(FontInfo);
+  if AngledFontH = 0 then
+    Exit;
+  // Use angled font to write text
+  OrigFontH := Windows.SelectObject(ACanvas.Handle, AngledFontH);
+  ACanvas.TextOut(X, Y, Text);
+  // Restore old unrotated font
+  Windows.SelectObject(ACanvas.Handle, OrigFontH);
+  // Dispose of angled font
+  Windows.DeleteObject(AngledFontH);
+end;

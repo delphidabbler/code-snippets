@@ -1,0 +1,22 @@
+﻿function FileSystemName(const Drive: string): string;
+var
+  Unused: Cardinal;                             // unused parameters
+  PrevErrorMode: Windows.UINT;                  // stores Windows error mode
+  FileSys: array[0..Windows.MAX_PATH] of Char;  // receives name of file system
+begin
+  // Inhibit system dialog appearing on error
+  PrevErrorMode := Windows.SetErrorMode(
+    Windows.SEM_FAILCRITICALERRORS
+  );
+  try
+    // Get volume information
+    Result := '';
+    if Windows.GetVolumeInformation(
+      PChar(Drive), nil, 0, @Unused, Unused, Unused, FileSys, Windows.MAX_PATH
+    ) then
+    Result := FileSys;
+  finally
+    // Restore old error mode
+    Windows.SetErrorMode(PrevErrorMode);
+  end;
+end;

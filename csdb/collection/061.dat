@@ -1,0 +1,12 @@
+﻿function TaskAllocWideString(const S: string): Windows.PWChar;
+var
+  StrLen: Integer;  // length of string in bytes
+begin
+  // Store length of string allowing for terminal #0
+  StrLen := Length(S) + 1;
+  // Alloc buffer for wide string using task allocator
+  Result := ActiveX.CoTaskMemAlloc(StrLen * SizeOf(WideChar));
+  if Assigned(Result) then
+    // Convert string to wide string and store in buffer
+    StringToWideChar(S, Result, StrLen);
+end;

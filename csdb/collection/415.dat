@@ -1,0 +1,10 @@
+﻿function DateQuarterStart(const D: TDateTime): TDateTime;
+var
+  Year, Month, Day, Quarter: Word;
+begin
+  SysUtils.DecodeDate(D, Year, Month, Day);
+  Quarter := 4 - ((12 - Month) div 3);
+  Month := 0;
+  SysUtils.IncAMonth(Year, Month, Day, (Quarter * 3) - 2);
+  Result := SysUtils.EncodeDate(Year, Month, 1);
+end;

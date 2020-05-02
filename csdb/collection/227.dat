@@ -1,0 +1,4 @@
+﻿function IsLeapYear(const ADateTime: TDateTime): Boolean;
+begin
+  Result := SysUtils.IsLeapYear(DateYear(ADateTime));
+end;

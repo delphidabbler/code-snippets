@@ -1,0 +1,4 @@
+﻿function IsMonday(const DT: TDateTime): Boolean;
+begin
+  Result := SysUtils.DayOfWeek(DT) = 2;
+end;

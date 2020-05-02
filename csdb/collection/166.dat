@@ -1,0 +1,15 @@
+﻿function DiskSpaceInfo(const Drive: string; out AvailBytes, TotalBytes,
+  FreeBytes: Int64): Boolean;
+begin
+  // We use GetDiskFreeSpaceEx from SysUtils since it deals with OSs that do not
+  // support the Windows GetDiskFreeSpaceEx API call
+  Result := SysUtils.GetDiskFreeSpaceEx(
+    PChar(Drive), AvailBytes, TotalBytes, @FreeBytes
+  );
+  if not Result then
+  begin
+    AvailBytes := 0;
+    TotalBytes := 0;
+    FreeBytes := 0;
+  end;
+end;

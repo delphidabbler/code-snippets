@@ -1,0 +1,6 @@
+﻿function BytesToMB(const Bytes: Int64): Extended;
+const
+  cOneMB = 1024 * 1024;  // a megabyte in bytes
+begin
+  Result := Bytes / cOneMB;
+end;

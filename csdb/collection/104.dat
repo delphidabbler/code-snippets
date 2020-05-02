@@ -1,0 +1,4 @@
+﻿function ProgramFileSpec: string;
+begin
+  Result := ParamStr(0);
+end;

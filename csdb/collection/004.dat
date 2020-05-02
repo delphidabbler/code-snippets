@@ -1,0 +1,18 @@
+﻿function ParseDelims(const TextLine: string; var StartPos: Integer;
+  const Delims: string): string;
+var
+  StringEnd: Integer;     // tracks end of current string being parsed out
+begin
+  // Find next non-delimiter char - this is where token starts
+  while (StartPos <= Length(TextLine))
+    and SysUtils.IsDelimiter(Delims, TextLine, StartPos) do
+    Inc(StartPos);
+  // Now find next delimiter - this is where token ends
+  StringEnd := StartPos;
+  while (StringEnd <= Length(TextLine))
+    and not SysUtils.IsDelimiter(Delims, TextLine, StringEnd) do
+    Inc(StringEnd);
+  // Copy result out of string
+  Result := Copy(TextLine, StartPos, StringEnd - StartPos);
+  StartPos := StringEnd + 1;
+end;

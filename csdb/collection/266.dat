@@ -1,0 +1,17 @@
+﻿function GetIEVersionStr: string;
+var
+  Reg: Registry.TRegistry; // registry access object
+begin
+  Result := '';
+  Reg := Registry.TRegistry.Create;
+  try
+    Reg.RootKey := Windows.HKEY_LOCAL_MACHINE;
+    if Reg.OpenKeyReadOnly('Software\Microsoft\Internet Explorer') then
+    begin
+      if Reg.ValueExists('Version') then
+        Result := Reg.ReadString('Version');
+    end;
+  finally
+    Reg.Free;
+  end;
+end;

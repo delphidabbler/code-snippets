@@ -1,0 +1,12 @@
+﻿function ContainsDelims(const S, Delimiters: string): Boolean;
+var
+  DelimIdx: Integer;  // loops thru delimiters
+begin
+  Result := False;
+  for DelimIdx := 1 to Length(Delimiters) do
+    if SysUtils.AnsiPos(Delimiters[DelimIdx], S) > 0 then
+    begin
+      Result := True;
+      Break;
+    end;
+end;

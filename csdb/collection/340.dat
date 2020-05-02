@@ -1,0 +1,4 @@
+﻿function FontExists(const FontName: string): Boolean;
+begin
+  Result := Forms.Screen.Fonts.IndexOf(FontName) >= 0;
+end;

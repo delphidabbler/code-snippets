@@ -1,0 +1,20 @@
+﻿function IsDriveReady(const Drive: string): Boolean;
+var
+  ErrorMode: Word;    // current error mode
+  DriveNum: Integer;  // zero based number of drive
+begin
+  Result := False;
+  // Get zero based drive number
+  DriveNum := GetDriveNumber(Drive);
+  if DriveNum = -1 then
+    Exit;
+  ErrorMode := Windows.SetErrorMode(Windows.SEM_FAILCRITICALERRORS);
+  try
+    // DiskSize requires 1 based drive numbers
+    // returns -1 for invalid drives
+    if SysUtils.DiskSize(DriveNum + 1) <> -1 then
+      Result := True;
+  finally
+    Windows.SetErrorMode(ErrorMode);
+  end;
+end;

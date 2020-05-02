@@ -1,0 +1,33 @@
+﻿function AdjustImage(const DestCvs, SrcCvs: Graphics.TCanvas;
+  const Rect: Types.TRect; const Brightness: TAIBrightness = AINulBrightness;
+  const Contrast: TAIContrast = AINulContrast; const Tint: TAITint = AINulTint;
+  const Saturation: TAISaturation = AINulSaturation;
+  const Gamma: TAIGamma = AINulGamma; const Invert: Boolean = False): Boolean;
+  overload;
+var
+  CA: Windows.TColorAdjustment; // colour adjustment info for API call
+  OldMode: Integer;             // saves stretch blt mode for later restoration
+begin
+  OldMode := Windows.SetStretchBltMode(DestCvs.Handle, Windows.HALFTONE);
+  try
+    Windows.GetColorAdjustment(DestCvs.Handle, CA);
+    with CA do
+    begin
+      caBrightness := Brightness;     // -100..100
+      caContrast := Contrast;         // -100..100
+      caRedGreenTint := Tint;         // -100..100
+      caColorfulness := Saturation;   // -100..100
+      caRedGamma := Gamma;            // 2500..65000
+      caGreenGamma := Gamma;          // 2500..65000
+      caBlueGamma := Gamma;           // 2500..65000
+      if Invert then
+        caFlags := caFlags or Windows.CA_NEGATIVE
+      else
+        caFlags := caFlags and not Windows.CA_NEGATIVE;
+    end;
+    Result:= Windows.SetColorAdjustment(DestCvs.Handle, CA);
+    DestCvs.CopyRect(Rect, SrcCvs, Rect);
+  finally
+    Windows.SetStretchBltMode(DestCvs.Handle, OldMode);
+  end;
+end;

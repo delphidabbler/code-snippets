@@ -1,0 +1,6 @@
+﻿function PathToDir(const Path: string): string;
+begin
+  Result := Path;
+  if (Path <> '') and (Path[Length(Path)] = '\') then
+    Delete(Result, Length(Result), 1);
+end;

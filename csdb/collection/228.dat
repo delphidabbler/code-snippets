@@ -1,0 +1,14 @@
+﻿function DaysInMonth(const ADateTime: TDateTime): Byte;
+const
+  cDaysPerMonth: array[1..12] of Byte =  // array of days in months
+    (31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
+  cMonthFeb = 2;            // month number of February
+  cDaysInLeapYearFeb = 29;  // number of days in February in leap year
+var
+  Month: Word;  // month component of specified date
+begin
+  Month := DateMonth(ADateTime);
+  Result := cDaysPerMonth[Month];
+  if (Month = cMonthFeb) and IsLeapYear(ADateTime) then
+    Result := cDaysInLeapYearFeb;
+end;

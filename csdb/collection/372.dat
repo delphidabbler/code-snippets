@@ -1,0 +1,10 @@
+﻿function IsSubClassOf(AnInstance: TObject; AClass: TClass): boolean;
+var
+  ClassRef: TClass;
+begin
+  ClassRef := AnInstance.ClassType;
+  repeat
+    Result := (ClassRef = AClass);
+    ClassRef := ClassRef.ClassParent;
+  until Result or not Assigned(ClassRef);
+end;

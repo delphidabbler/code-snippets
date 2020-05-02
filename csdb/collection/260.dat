@@ -1,0 +1,25 @@
+﻿function IsValidFileName(const FileName: string): Boolean;
+const
+  // Invalid file name characters
+  cInvalidCharacters = [#0..#31,'<','>',':','"','/','\','|','?','*'];
+var
+  I: Integer; // loops thru characters in file name
+begin
+  Result := False;
+  // empty file names are not valid
+  if (FileName = '') then
+    Exit;
+  // file names must not end in space or full stops (periods)
+  if (FileName[Length(FileName)] = ' ')
+    or (FileName[Length(FileName)] = '.') then
+    Exit;
+  // check for invalid characters
+  for I := 1 to Length(FileName) do
+    {$IFDEF UNICODE}
+    if SysUtils.CharInSet(FileName[I], cInvalidCharacters) then
+    {$ELSE}
+    if FileName[I] in cInvalidCharacters then
+    {$ENDIF}
+      Exit;
+  Result := True;
+end;

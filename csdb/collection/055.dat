@@ -1,0 +1,12 @@
+﻿function IsSpecialFolderSupported(CSIDL: Integer): Boolean;
+var
+  PIDL: ShlObj.PItemIDList; // PIDL of the special folder
+begin
+  // Try to get PIDL for folder: fails if not supported
+  Result := Windows.Succeeded(
+    ShlObj.SHGetSpecialFolderLocation(0, CSIDL, PIDL)
+  );
+  if Result then
+    // Free the PIDL using shell allocator
+    FreePIDL(PIDL);
+end;

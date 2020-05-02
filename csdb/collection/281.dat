@@ -1,0 +1,8 @@
+﻿function CloneCursorAsBitmap(const Cursor: Controls.TCursor;
+  const PixelFmt: Graphics.TPixelFormat;
+  const TransparentColor: Graphics.TColor): Graphics.TBitmap;
+begin
+  Result := CloneCursorHandleAsBitmap(
+    Forms.Screen.Cursors[Cursor], PixelFmt, TransparentColor
+  );
+end;

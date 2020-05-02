@@ -1,0 +1,12 @@
+﻿function ColorToHTML(const Color: Graphics.TColor): string;
+var
+  ColorRGB: Integer;
+begin
+  ColorRGB := Graphics.ColorToRGB(Color);
+  Result := SysUtils.Format(
+    '#%0.2X%0.2X%0.2X',
+    [Windows.GetRValue(ColorRGB),
+    Windows.GetGValue(ColorRGB),
+    Windows.GetBValue(ColorRGB)]
+  );
+end;

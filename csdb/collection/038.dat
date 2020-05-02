@@ -1,0 +1,10 @@
+﻿function GetCurrentVersionRegStr(const ValName: string): string;
+const
+  cWdwCurrentVer = '\Software\Microsoft\Windows\CurrentVersion';
+begin
+  Result := GetRegistryString(
+    Windows.HKEY_LOCAL_MACHINE,
+    cWdwCurrentVer,
+    ValName
+  );
+end;

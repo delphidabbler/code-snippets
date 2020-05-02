@@ -1,0 +1,12 @@
+﻿function IsShellLink(const LinkFileName: string): Boolean;
+begin
+  // Ensure COM is initialized
+  ActiveX.CoInitialize(nil);
+  try
+    // Valid shell link if we can load it
+    Result := Assigned(LoadShellLink(LinkFileName));
+  finally
+    // Finalize COM
+    ActiveX.CoUninitialize;
+  end;
+end;

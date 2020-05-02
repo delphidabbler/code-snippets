@@ -1,0 +1,12 @@
+﻿function AddThousandSeparator(const S: string; const C: Char): string;
+var
+  I: Integer; // loops through separator position
+begin
+  Result := S;
+  I := Length(S) - 2;
+  while I > 1 do
+  begin
+    Insert(C, Result, I);
+    I := I - 3;
+  end;
+end;

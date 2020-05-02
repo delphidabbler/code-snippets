@@ -1,0 +1,14 @@
+﻿procedure BitmapToMetafile(const Bmp: Graphics.TBitmap;
+  const EMF: Graphics.TMetafile);
+var
+  MetaCanvas: Graphics.TMetafileCanvas; // canvas for drawing on metafile
+begin
+  EMF.Height := Bmp.Height;
+  EMF.Width := Bmp.Width;
+  MetaCanvas := Graphics.TMetafileCanvas.Create(EMF, 0);
+  try
+    MetaCanvas.Draw(0, 0, Bmp);
+  finally
+    MetaCanvas.Free;
+  end;
+end;

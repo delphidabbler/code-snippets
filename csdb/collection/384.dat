@@ -1,0 +1,15 @@
+﻿procedure ScaleBitmap(ADestBmp, ASrcBmp: Graphics.TBitmap; AScaling: Double);
+  overload;
+var
+  OutRect: Types.TRect; // rectangle defining resized image
+begin
+  OutRect := ScaleRect(ASrcBmp.Canvas.ClipRect, AScaling);
+  ADestBmp.Width := RectWidth(OutRect);
+  ADestBmp.Height := RectHeight(OutRect);
+  HalftoneStretch(
+    ADestBmp.Canvas,
+    ADestBmp.Canvas.ClipRect,
+    ASrcBmp.Canvas,
+    ASrcBmp.Canvas.ClipRect
+  );
+end;

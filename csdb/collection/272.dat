@@ -1,0 +1,25 @@
+﻿function IsFolderEmpty(const AFolder: string): Boolean;
+var
+  SearchRec: SysUtils.TSearchRec; // info about files in folder
+resourcestring
+  // Error messages
+  sNoFolder = 'No folder has been specified';
+  sBadFolder = '"%s" is not a folder';
+begin
+  if AFolder = '' then
+    raise SysUtils.Exception.Create(sNoFolder);
+  if not IsDirectory(PathToDir(AFolder)) then
+    raise SysUtils.Exception.CreateFmt(sBadFolder, [AFolder]);
+  try
+    Result :=
+      (
+        SysUtils.FindFirst(
+          DirToPath(AFolder) + '*.*', SysUtils.faAnyFile, SearchRec
+        ) = 0     // . directory
+      ) and
+      (SysUtils.FindNext(SearchRec) = 0) and  // .. directory
+      (SysUtils.FindNext(SearchRec) <> 0);
+  finally
+    SysUtils.FindClose(SearchRec);
+  end;
+end;

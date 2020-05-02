@@ -1,0 +1,4 @@
+﻿function ReduceStr(const Str: string; ReduceBy: Integer): string;
+begin
+  Result := Copy(Str, 1, Length(Str) - ReduceBy);
+end;

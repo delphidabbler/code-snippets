@@ -1,0 +1,27 @@
+﻿function SetTransparencyLevel(const HWnd: Windows.HWND;
+  const Level: Byte): Boolean;
+const
+  LWA_ALPHA = $00000002;  // flag for API call
+type
+  // prototype for Windows SetLayeredWindowAttributes API function
+  TSetLayeredWindowAttributes = function(HWnd: Windows.HWND;
+    crKey: Windows.COLORREF; bAlpha: Byte; dwFlags: Windows.DWORD
+  ): Boolean; stdcall;
+var
+  SetLayeredWindowAttributes:
+    TSetLayeredWindowAttributes;  // reference to function in user32.dll
+  User32: Windows.HMODULE;        // handle of user32.dll
+begin
+  Result := False;
+  if (HWnd = 0) or not WindowSupportsLayers(HWnd) then
+    Exit;
+  User32 := Windows.GetModuleHandle('User32.dll');
+  if User32 <> 0 then
+  begin
+    @SetLayeredWindowAttributes := GetProcAddress(
+      User32, 'SetLayeredWindowAttributes'
+    );
+    if Assigned(SetLayeredWindowAttributes) then
+      Result := SetLayeredWindowAttributes(HWnd, 0, Level, LWA_ALPHA);
+  end;
+end;

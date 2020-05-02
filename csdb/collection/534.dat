@@ -1,0 +1,12 @@
+﻿procedure FreeStringsObjects(const Strings: Classes.TStrings);
+var
+  Idx: Integer;
+  Temp: TObject;
+begin
+  for Idx := 0 to Pred(Strings.Count) do
+  begin
+    Temp := Strings.Objects[Idx];
+    Strings.Objects[Idx] := nil;
+    Temp.Free;
+  end;
+end;

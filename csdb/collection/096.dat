@@ -1,0 +1,4 @@
+﻿function RGBTripleToColor(const C: Windows.TRGBTriple): Graphics.TColor;
+begin
+  Result := Windows.RGB(C.rgbtRed, C.rgbtGreen, C.rgbtBlue);
+end;

@@ -1,0 +1,50 @@
+﻿procedure GreyScale(const Bmp: Graphics.TBitmap;
+  const Method: TGreyScaleMethod); overload;
+type
+  // 24 bit bitmap scanline and pointer
+  TRGBArray = array[0..MaxInt div SizeOf(Windows.TRGBTriple) - 1]
+    of Windows.TRGBTriple;
+  PRGBArray = ^TRGBArray;
+var
+  J: Integer;                 // loops scanlines of bitmap
+  I: Integer;                 // loops through pixels in scanline
+  GreyColour: Byte;           // grey equivalent of a pixel
+  ScanLine: PRGBArray;        // references scanline in a bitmap
+  RGB: Windows.TRGBTriple;    // RGB value of each pixel in scan line
+  GreyBmp: Graphics.TBitmap;  // used to build grey bitmap
+begin
+  GreyColour := 0;  // keep compiler happy!
+  // Create 24 bit copy of given bitmap
+  GreyBmp := CloneGraphicAsBitmap(Bmp, Graphics.pf24bit, Graphics.clNone);
+  try
+    // Convert bitmap to greyscale by processing scanlines
+    for J := 0 to Pred(GreyBmp.Height) do
+    begin
+      ScanLine := GreyBmp.ScanLine[j];
+      for I := 0 to Pred(GreyBmp.Width) do
+      begin
+        RGB := Scanline[I];
+        case Method of
+          gsmLightness:
+            GreyColour := (
+              Math.Max(RGB.rgbtRed, Math.Max(RGB.rgbtGreen, RGB.rgbtBlue))
+              + Math.Min(RGB.rgbtRed, Math.Min(RGB.rgbtGreen, RGB.rgbtBlue))
+            ) div 2;
+          gsmAverage:
+            GreyColour := (RGB.rgbtRed + RGB.rgbtGreen + RGB.rgbtBlue) div 3;
+          gsmLuminosity:
+            GreyColour := System.Round(
+              0.21 * RGB.rgbtRed + 0.71 * RGB.rgbtGreen + 0.07 * RGB.rgbtBlue
+            );
+        end;
+        ScanLine[i].rgbtRed := GreyColour;
+        ScanLine[i].rgbtGreen := GreyColour;
+        ScanLine[i].rgbtBlue := GreyColour;
+      end;
+    end;
+    // Overwrite given bitmap with greyscale version
+    Bmp.Assign(GreyBmp);
+  finally
+    GreyBmp.Free;
+  end;
+end;

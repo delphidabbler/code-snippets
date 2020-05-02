@@ -1,0 +1,11 @@
+﻿procedure HexToBuf(HexStr: string; var Buf);
+{$IFDEF FPC}
+const
+{$ELSE}
+resourcestring
+{$ENDIF}
+  sHexConvertError = '''%s'' is not a valid hexadecimal string';
+begin
+  if not TryHexToBuf(HexStr, Buf) then
+    raise SysUtils.EConvertError.CreateFmt(sHexConvertError, [HexStr]);
+end;

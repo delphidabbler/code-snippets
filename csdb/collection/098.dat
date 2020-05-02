@@ -1,0 +1,50 @@
+﻿procedure MakeGreyScale(const SrcBmp: Graphics.TBitmap;
+  const Advanced: Boolean);
+type
+  // 24 bit bitmap scanline and pointer
+  TRGBArray = array[0..MaxInt div SizeOf(Windows.TRGBTriple) - 1]
+    of Windows.TRGBTriple;
+  PRGBArray = ^TRGBArray;
+var
+  J: Integer;                // loops scanlines of bitmap
+  I: Integer;                // loops through pixels in scanline
+  GreyColour: Byte;          // grey equivalent of a pixel
+  ScanLine: PRGBArray;       // references scanline in a bitmap
+  GreyBmp: Graphics.TBitmap; // used to build grey bitmap
+begin
+  // Create 24 bit copy of source bitmap
+  GreyBmp := CloneGraphicAsBitmap(SrcBmp, Graphics.pf24bit, Graphics.clNone);
+  try
+    // Convert bitmap to greyscale by processing scanlines
+    for J := 0 to Pred(GreyBmp.Height) do
+    begin
+      ScanLine := GreyBmp.ScanLine[j];
+      for I := 0 to Pred(GreyBmp.Width) do
+      begin
+        if Advanced then
+          // Advanced greyscale conversion:
+          // we use weighting of red, green and blue
+          GreyColour := Windows.HiByte(
+            ScanLine[i].rgbtRed * 77
+            + ScanLine[i].rgbtGreen * 151
+            + ScanLine[i].rgbtBlue * 28
+          )
+        else
+          // Basic conversion:
+          // we use average of colour values
+          GreyColour := (
+            ScanLine[i].rgbtRed
+            + ScanLine[i].rgbtGreen
+            + ScanLine[i].rgbtBlue
+          ) div 3;
+        ScanLine[i].rgbtRed := GreyColour;
+        ScanLine[i].rgbtGreen := GreyColour;
+        ScanLine[i].rgbtBlue := GreyColour;
+      end;
+    end;
+    // Copy greyscale bitmap to source
+    SrcBmp.Assign(GreyBmp);
+  finally
+    GreyBmp.Free;
+  end;
+end;

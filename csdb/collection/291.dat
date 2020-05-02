@@ -1,0 +1,7 @@
+﻿function IsInternetConnected: Boolean;
+var
+  Flags: Windows.DWORD; // flags to pass to API function
+begin
+  Flags := 0;
+  Result := WinInet.InternetGetConnectedState(@Flags, 0);
+end;

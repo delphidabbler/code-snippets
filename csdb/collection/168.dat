@@ -1,0 +1,4 @@
+﻿function MakeLangID(P, S: Word): Word;
+begin
+  Result := (S shl 10) or P;
+end;

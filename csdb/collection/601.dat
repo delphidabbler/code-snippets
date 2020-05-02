@@ -1,0 +1,7 @@
+﻿function SetEnvVarValue(const VarName, VarValue: string): string;
+begin
+  if Windows.SetEnvironmentVariable(PChar(VarName), PChar(VarValue)) then
+    Result := ''
+  else
+    Result := GetErrorMessageWithId(GetLastError);
+end;

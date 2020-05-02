@@ -1,0 +1,9 @@
+﻿procedure WBShowPageSetupDlg(WB: SHDocVw.TWebbrowser);
+begin
+  WBInvokeCmd(
+    WB,
+    False,
+    SHDocVw.OLECMDID_PAGESETUP,
+    SHDocVw.OLECMDEXECOPT_DODEFAULT
+  );
+end;

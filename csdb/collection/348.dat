@@ -1,0 +1,14 @@
+﻿function ExplodeStrArray(const S, Delim: string;
+  const AllowEmpty: Boolean = True;
+  const Trim: Boolean = False): Types.TStringDynArray;
+var
+  Strings: Classes.TStringList; // intermediate string list for ExplodeStr
+begin
+  Strings := Classes.TStringList.Create;
+  try
+    ExplodeStr(S, Delim, Strings, AllowEmpty, Trim);
+    Result := StringListToArray(Strings);
+  finally
+    Strings.Free;
+  end;
+end;

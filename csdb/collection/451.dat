@@ -1,0 +1,3 @@
+﻿type
+  TRGBQuadArray = packed array[Byte] of Windows.TRGBQuad;
+  PRGBQuadArray = ^TRGBQuadArray;

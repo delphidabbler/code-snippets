@@ -1,0 +1,7 @@
+﻿function SystemFolder: string;
+begin
+  SetLength(Result, Windows.MAX_PATH);
+  SetLength(
+    Result, Windows.GetSystemDirectory(PChar(Result), Windows.MAX_PATH)
+  );
+end;

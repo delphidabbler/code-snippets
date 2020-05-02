@@ -1,0 +1,6 @@
+﻿procedure WBShowSourceCode(WB: SHDocVw.TWebBrowser);
+const
+  HTMLID_VIEWSOURCE = 2;
+begin
+  WBInvokeCmd(WB, True, HTMLID_VIEWSOURCE, 0);
+end;

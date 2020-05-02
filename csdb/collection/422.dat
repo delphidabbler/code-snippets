@@ -1,0 +1,5 @@
+﻿function StretchRect(const R: Types.TRect; const Scaling: Double):
+  Types.TRect; overload;
+begin
+  Result := StretchRect(R, Scaling, Scaling);
+end;

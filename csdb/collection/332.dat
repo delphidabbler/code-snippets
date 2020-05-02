@@ -1,0 +1,10 @@
+﻿const
+  SHIL_LARGE = $00;       // Image size 32x32px unless user specifies large
+                          // icons when size is 48x48 px.
+  SHIL_SMALL = $01;       // Image size 16x16px, but can be customized by user.
+  SHIL_EXTRALARGE = $02;  // Shell standard extra-large icon size. Typically
+                          // 48x48, but can be customized by the user.
+  SHIL_SYSSMALL = $03;    // Image size as returned from GetSystemMetrics called
+                          // with SM_CXSMICON and SM_CYSMICON.
+  SHIL_JUMBO = $04;       // Windows Vista and later. Image size normally
+                          // 256x256px.

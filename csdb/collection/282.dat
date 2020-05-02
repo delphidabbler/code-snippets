@@ -1,0 +1,8 @@
+﻿function WindowSupportsLayers(const HWnd: Windows.HWND): Boolean;
+const
+  WS_EX_LAYERED = $00080000;  // layered window style
+begin
+  Result := IsFlagSet(
+    Windows.GetWindowLong(HWnd, Windows.GWL_EXSTYLE), WS_EX_LAYERED
+  );
+end;

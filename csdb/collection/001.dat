@@ -1,0 +1,8 @@
+﻿function WinFileTimeToDOSFileTime(FT: Windows.TFileTime): Integer;
+begin
+  SysUtils.Win32Check(
+    Windows.FileTimeToDosDateTime(
+      FT, SysUtils.LongRec(Result).Hi, SysUtils.LongRec(Result).Lo
+    )
+  );
+end;

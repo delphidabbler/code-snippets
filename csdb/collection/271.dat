@@ -1,0 +1,11 @@
+﻿function TimeZoneName: string;
+var
+  TZI: Windows.TTimeZoneInformation;  // info about time zone
+begin
+  case GetTimeZoneInformation(TZI) of
+    Windows.TIME_ZONE_ID_INVALID: SysUtils.RaiseLastOSError;
+    Windows.TIME_ZONE_ID_STANDARD: Result := TZI.StandardName;
+    Windows.TIME_ZONE_ID_DAYLIGHT: Result := TZI.DaylightName;
+    Windows.TIME_ZONE_ID_UNKNOWN: Result := '';
+  end;
+end;

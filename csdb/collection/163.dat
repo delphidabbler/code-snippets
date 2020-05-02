@@ -1,0 +1,4 @@
+﻿function AddDefThousandSeparator(const S: string): string;
+begin
+  Result := AddThousandSeparator(S, SysUtils.ThousandSeparator);
+end;

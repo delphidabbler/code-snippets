@@ -1,0 +1,5 @@
+﻿procedure PushByteArray(const B: Byte; var A: TBytes);
+begin
+  SetLength(A, Length(A) + 1);
+  A[Pred(Length(A))] := B;
+end;

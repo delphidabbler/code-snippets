@@ -1,0 +1,6 @@
+﻿function ContainsWhiteSpace(const S: string): Boolean;
+const
+  cWhiteSpace = ' '#9#10#11#12#13;  // white space characters
+begin
+  Result := ContainsDelims(S, cWhiteSpace);
+end;

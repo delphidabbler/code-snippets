@@ -1,0 +1,4 @@
+﻿type
+  TPointF = record
+    X, Y: Double;  // x and y coordinates
+  end;

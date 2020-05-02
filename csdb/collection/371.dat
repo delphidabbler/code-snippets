@@ -1,0 +1,13 @@
+﻿function GetIdleTime: Cardinal;
+var
+  LastInput: Windows.TLastInputInfo;  // details of last user input
+  TickCount: Int64;                   // ticks since system start
+begin
+  LastInput.cbSize := SizeOf(Windows.TLastInputInfo);
+  Windows.GetLastInputInfo(LastInput);
+  TickCount := Windows.GetTickCount;
+  if TickCount < LastInput.dwTime then
+    // tick count has wrapped round: adjust it
+    TickCount := TickCount + High(Windows.DWORD);
+  Result := TickCount - LastInput.dwTime;
+end;

@@ -1,0 +1,4 @@
+﻿function IsIntResource(const ResID: PChar): Boolean;
+begin
+  Result := (Windows.HiWord(Windows.DWORD(ResID)) = 0);
+end;

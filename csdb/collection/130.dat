@@ -1,0 +1,13 @@
+﻿function UserName: string;
+const
+  UNLEN = 256;  // max size of user name buffer (per MS SDK docs)
+var
+  Buf: array[0..UNLEN] of Char;  // buffer for user name
+  BufSize: Windows.DWORD;        // size of name buffer
+begin
+  BufSize := SizeOf(Buf);
+  if Windows.GetUserName(Buf, BufSize) then
+    Result := Buf
+  else
+    Result := '';
+end;

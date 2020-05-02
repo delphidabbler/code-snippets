@@ -1,0 +1,11 @@
+﻿function IsWindows7: Boolean;
+var
+  PFunction: Pointer; // points to PowerCreateRequest function if exists
+begin
+  // Try to load PowerCreateRequest from Kernel32:
+  // present if Windows 7 or Server 2008 R2
+  PFunction := Windows.GetProcAddress(
+    Windows.GetModuleHandle('kernel32.dll'), 'PowerCreateRequest'
+  );
+  Result := Assigned(PFunction);
+end;

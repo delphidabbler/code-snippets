@@ -1,0 +1,5 @@
+﻿procedure CursorToBitmap(const Cursor: Controls.TCursor;
+  const Bmp: Graphics.TBitmap; const TransparentColor: Graphics.TColor);
+begin
+  CursorHandleToBitmap(Forms.Screen.Cursors[Cursor], Bmp, TransparentColor);
+end;

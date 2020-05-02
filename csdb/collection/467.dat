@@ -1,0 +1,4 @@
+﻿function LCD(A, B: Integer): Integer;
+begin
+  Result := Abs((A * B)) div GCD(A, B);
+end;

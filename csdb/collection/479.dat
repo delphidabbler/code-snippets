@@ -1,0 +1,9 @@
+﻿function DelStr(const Needle, Haystack: string): string;
+var
+  StartIdx: Integer;
+begin
+  Result := Haystack;
+  StartIdx := SysUtils.AnsiPos(Needle, Result);
+  if StartIdx > 0 then
+    Delete(Result, StartIdx, Length(Needle));
+end;

@@ -1,0 +1,4 @@
+﻿function GetWindowProcessName(const Wnd: Windows.HWND): string;
+begin
+  Result := GetProcessName(GetWindowProcessID(Wnd));
+end;

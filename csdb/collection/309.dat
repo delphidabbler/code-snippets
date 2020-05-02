@@ -1,0 +1,6 @@
+﻿type
+  {$IFDEF UNICODE}
+  TBytes = SysUtils.TBytes;
+  {$ELSE}
+  TBytes = array of Byte;
+  {$ENDIF}

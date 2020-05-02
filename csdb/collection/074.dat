@@ -1,0 +1,10 @@
+﻿function LongToShortFilePath(const LongName: string): string;
+begin
+  SetLength(Result, Windows.MAX_PATH);
+  SetLength(
+    Result,
+    Windows.GetShortPathName(
+      PChar(LongName), PChar(Result), Windows.MAX_PATH
+    )
+  );
+end;

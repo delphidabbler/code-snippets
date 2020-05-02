@@ -1,0 +1,4 @@
+﻿function IsWeekend(const DT: TDateTime): Boolean;
+begin
+  Result := SysUtils.DayOfWeek(DT) in [1, 7];
+end;

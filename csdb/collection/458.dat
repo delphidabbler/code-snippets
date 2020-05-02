@@ -1,0 +1,4 @@
+﻿function MSecToDateTime(const MSecs: Int64): TDateTime;
+begin
+  Result := MSecs / SysUtils.MSecsPerDay;
+end;

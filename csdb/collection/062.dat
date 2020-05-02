@@ -1,0 +1,18 @@
+﻿procedure MultiSzToStrings(const MultiSz: PChar;
+  const Strings: Classes.TStrings);
+var
+  P: PChar;   // pointer to strings in buffer
+begin
+  // Do nothing in MultiSz is nil
+  if not Assigned(MultiSz) then
+    Exit;
+  // Scan thru #0 delimited strings until #0#0 found
+  P := MultiSz;
+  while P^ <> #0 do
+  begin
+    // add string to list
+    Strings.Add(P);
+    // move pointer to start of next string if any
+    Inc(P, SysUtils.StrLen(P) + 1);
+  end;
+end;

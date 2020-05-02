@@ -1,0 +1,10 @@
+﻿function PIDLToFolderPath(PIDL: ShlObj.PItemIDList): string;
+begin
+  // Set max length of return string
+  SetLength(Result, Windows.MAX_PATH);
+  // Get the path
+  if ShlObj.SHGetPathFromIDList(PIDL, PChar(Result)) then
+    Result := PChar(Result)
+  else
+    Result := '';
+end;

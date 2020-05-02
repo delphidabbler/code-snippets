@@ -1,0 +1,15 @@
+﻿function SetFileDate(const FName: string; const ADate: Integer): Boolean;
+var
+  FileH: Integer;   // file handle
+begin
+  // Open file (assume failure)
+  Result := False;
+  FileH := SysUtils.FileOpen(FName, SysUtils.fmOpenWrite);
+  if FileH <> -1 then
+  begin
+    // File opened OK - set date and close file
+    SysUtils.FileSetDate(FileH, ADate);
+    SysUtils.FileClose(FileH);
+    Result := True;
+  end;
+end;

@@ -1,0 +1,36 @@
+﻿function RGBToHSB(const RGB: Windows.TRGBTriple): THSBColor;
+var
+  MinRGB, MaxRGB: Double; // min and max RGB values
+  Delta: Double;          // difference between min and max RGB values
+  H, S, B: Double;        // hue, saturation and brightness interim values
+begin
+  H := 0.0;
+  MinRGB := Math.Min(Math.Min(RGB.rgbtRed, RGB.rgbtGreen), RGB.rgbtBlue);
+  MaxRGB := Math.Max(Math.Max(RGB.rgbtRed, RGB.rgbtGreen), RGB.rgbtBlue);
+  Delta := (MaxRGB - MinRGB);
+  B := MaxRGB;
+  if (MaxRGB <> 0.0) then
+    S := 255.0 * Delta / MaxRGB
+  else
+    S := 0.0;
+  if (S <> 0.0) then
+  begin
+    if RGB.rgbtRed = MaxRGB then
+      H := (RGB.rgbtGreen - RGB.rgbtBlue) / Delta
+    else if RGB.rgbtGreen = MaxRGB then
+      H := 2.0 + (RGB.rgbtBlue - RGB.rgbtRed) / Delta
+    else if RGB.rgbtBlue = MaxRGB then
+      H := 4.0 + (RGB.rgbtRed - RGB.rgbtGreen) / Delta
+  end
+  else
+    H := -1.0;
+  H := H * 60 ;
+  if H < 0.0 then
+    H := H + 360.0;
+  with Result do
+  begin
+    Hue := H;
+    Saturation := S * 100 / 255;
+    Brightness := B * 100 / 255;
+  end;
+end;

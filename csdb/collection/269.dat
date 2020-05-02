@@ -1,0 +1,12 @@
+﻿function AdjustedTimeZoneBias: Integer;
+var
+  TZI: Windows.TTimeZoneInformation;  // info about time zone
+begin
+  Result := 0;  // keeps compiler quiet
+  case Windows.GetTimeZoneInformation(TZI) of
+    Windows.TIME_ZONE_ID_INVALID: SysUtils.RaiseLastOSError;
+    Windows.TIME_ZONE_ID_STANDARD: Result := TZI.Bias + TZI.StandardBias;
+    Windows.TIME_ZONE_ID_DAYLIGHT: Result := TZI.Bias + TZI.DaylightBias;
+    Windows.TIME_ZONE_ID_UNKNOWN: Result := TZI.Bias;
+  end;
+end;

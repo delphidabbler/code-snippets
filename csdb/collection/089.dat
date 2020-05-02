@@ -1,0 +1,15 @@
+﻿function ExploreFile(const Filename: string ): Boolean;
+var
+  Params: string; // params passed to explorer
+begin
+  if SysUtils.FileExists(Filename) then
+  begin
+    Params := '/n, /e, /select, ' + Filename;
+    Result := ShellAPI.ShellExecute (
+      0, 'open', 'explorer', PChar(Params), '', Windows.SW_SHOWNORMAL
+    ) > 32;
+  end
+  else
+    // Error: filename does not exist
+    Result := False;
+end;

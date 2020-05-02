@@ -1,0 +1,11 @@
+﻿function DelText(const Needle, Haystack: string): string;
+var
+  StartIdx: Integer;
+begin
+  Result := Haystack;
+  StartIdx := SysUtils.AnsiPos(
+    SysUtils.AnsiLowerCase(Needle), SysUtils.AnsiLowerCase(Haystack)
+  );
+  if StartIdx > 0 then
+    Delete(Result, StartIdx, Length(Needle));
+end;

@@ -1,0 +1,6 @@
+﻿function StripAccelChars(const S: string): string;
+begin
+  Result := SysUtils.StringReplace(
+    S, '&', SysUtils.EmptyStr, [SysUtils.rfReplaceAll]
+  );
+end;

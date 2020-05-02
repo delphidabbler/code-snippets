@@ -1,0 +1,20 @@
+﻿function AllDigitsDifferent(N: Int64): Boolean;
+var
+  UsedDigits: array[0..9] of Boolean; // records which digits have been used
+  I: 0..9;  // loops through elements of UsedDigits
+  M: 0..9;  // modulus after dividing by 10
+begin
+  N := Abs(N);
+  Result := False;
+  for I := 0 to 9 do
+    UsedDigits[I] := False;
+  while N > 0 do
+  begin
+    M := N mod 10;
+    if UsedDigits[M] then
+      Exit;
+    UsedDigits[M] := True;
+    N := N div 10;
+  end;
+  Result := True; // if we get here all digits are unique
+end;

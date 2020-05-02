@@ -1,0 +1,9 @@
+﻿procedure WBCut(WB: SHDocVw.TWebbrowser);
+begin
+  WBInvokeCmd(
+    WB,
+    False,
+    SHDocVw.OLECMDID_CUT,
+    SHDocVw.OLECMDEXECOPT_DODEFAULT
+  );
+end;

@@ -1,0 +1,16 @@
+﻿procedure DriveDisplayNames(const List: Classes.TStrings);
+var
+  Drives: Classes.TStringList;  // list of drives
+  Idx: Integer;                 // loops thru drives
+begin
+  // Get list of drives
+  Drives := Classes.TStringList.Create;
+  try
+    ListDrives(Drives);
+    // Loop thru drive list getting drive info
+    for Idx := 0 to Pred(Drives.Count) do
+      List.Add(DriveDisplayName(Drives[Idx]));
+  finally
+    Drives.Free;
+  end;
+end;

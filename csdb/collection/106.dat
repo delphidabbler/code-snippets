@@ -1,0 +1,4 @@
+﻿function ProgramPath: string;
+begin
+  Result := SysUtils.ExtractFilePath(ProgramFileSpec);
+end;

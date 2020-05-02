@@ -1,0 +1,18 @@
+﻿procedure RemoveDuplicateStrings(const Strings: Classes.TStrings);
+var
+  TempStrings: Classes.TStringList;
+  Cnt: Integer;
+begin
+  if Strings.Count <= 1 then
+    Exit;
+  TempStrings := Classes.TStringList.Create;
+  try
+    TempStrings.Sorted := True;
+    TempStrings.Duplicates := Classes.dupIgnore;
+    for Cnt := 0 to Strings.Count - 1 do
+      TempStrings.Add(Strings[Cnt]);
+    Strings.Assign(TempStrings);
+  finally
+    TempStrings.Free;
+  end;
+end;

@@ -1,0 +1,16 @@
+﻿function GetEnvVar(const VarName: string): string;
+var
+  BufSize: Integer;  // buffer size required for value
+begin
+  // Get required buffer size
+  BufSize := Windows.GetEnvironmentVariable(PChar(VarName), nil, 0);
+  if BufSize > 0 then
+  begin
+    // Environment variable found: read it
+    SetLength(Result, BufSize - 1);
+    Windows.GetEnvironmentVariable(PChar(VarName), PChar(Result), BufSize);
+  end
+  else
+    // No such environment variable
+    Result := '';
+end;

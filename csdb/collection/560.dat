@@ -1,0 +1,12 @@
+﻿function SAR(Value: LongInt; Shift: Byte): LongInt;
+begin
+  Shift := Shift and 31;
+  if Shift = 0 then
+  begin
+    Result := Value;
+    Exit;
+  end;
+  Result := LongInt(LongWord(Value) shr Shift);
+  if Value < 0 then
+    Result := LongInt(LongWord(Result) or ($FFFFFFFF shl (32 - Shift)));
+end;

@@ -1,0 +1,29 @@
+﻿procedure GraphicToBitmap(const Src: Graphics.TGraphic;
+  const Dest: Graphics.TBitmap; const TransparentColor: Graphics.TColor);
+begin
+  // Do nothing if either source or destination are nil
+  if not Assigned(Src) or not Assigned(Dest) then
+    Exit;
+  // Size the bitmap
+  Dest.Width := Src.Width;
+  Dest.Height := Src.Height;
+  if Src.Transparent then
+  begin
+    // Source graphic is transparent, make bitmap behave transparently
+    Dest.Transparent := True;
+    if (TransparentColor <> Graphics.clNone) then
+    begin
+      // Set destination as transparent using required colour key
+      Dest.TransparentColor := TransparentColor;
+      Dest.TransparentMode := Graphics.tmFixed;
+      // Set background colour of bitmap to transparent colour
+      Dest.Canvas.Brush.Color := TransparentColor;
+    end
+    else
+      // No transparent colour: set transparency to automatic
+      Dest.TransparentMode := Graphics.tmAuto;
+  end;
+  // Clear bitmap to required background colour and draw bitmap
+  Dest.Canvas.FillRect(Classes.Rect(0, 0, Dest.Width, Dest.Height));
+  Dest.Canvas.Draw(0, 0, Src);
+end;

@@ -1,0 +1,11 @@
+﻿function ExploreFolder(const Folder: string): Boolean;
+begin
+  if SysUtils.FileGetAttr(Folder) and faDirectory = faDirectory then
+    // Folder is valid directory: try to explore it
+    Result := ShellAPI.ShellExecute(
+      0, 'explore', PChar(Folder), nil, nil, Windows.SW_SHOWNORMAL
+    ) > 32
+  else
+    // Folder is not a directory: error
+    Result := False;
+end;

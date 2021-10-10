@@ -38,6 +38,12 @@ Contains the _TestCatString_[[2]](#2) project that provides _DUnit_ tests for se
 
 Contains the _TextWinSysCat_[[2]](#2) project that provides a GUI application that exercises and demonstrates all the code from the database's _Windows System_ category.
 
+### History
+
+These test files originated as a [zip file on Google Drive](https://drive.google.com/file/d/1pH7LtyZY-ehwjJ4AjC801j-0bVMdLpsz/view) that were copied as is into the `csdb/tests` subdirectory of the `delphidabbler/code-snippets` repository on GitHub.
+
+All subsequent changes to the files were made on GitHub. At present the GitHub repository differs from the original code on Google Drive.
+
 ## Notes
 
 ### 1

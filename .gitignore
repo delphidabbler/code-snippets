@@ -4,5 +4,6 @@ _release
 
 # Delphi test code
 *.local
+*.identcache
 _build
 __history

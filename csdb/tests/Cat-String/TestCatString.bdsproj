@@ -119,8 +119,8 @@
       <Linker Name="ExeDescription"></Linker>
     </Linker>
     <Directories>
-      <Directories Name="OutputDir">..\..\Exe</Directories>
-      <Directories Name="UnitOutputDir">..\..\Bin\Cat-String</Directories>
+      <Directories Name="OutputDir">_build\Exe</Directories>
+      <Directories Name="UnitOutputDir">_build\Bin\Cat-String</Directories>
       <Directories Name="PackageDLLOutputDir"></Directories>
       <Directories Name="PackageDCPOutputDir"></Directories>
       <Directories Name="SearchPath"></Directories>

@@ -24,12 +24,12 @@
 			<Base>true</Base>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Base)'!=''">
-			<DCC_ExeOutput>..\..\Exe</DCC_ExeOutput>
+			<DCC_ExeOutput>_build\Exe</DCC_ExeOutput>
 			<DCC_UnitSearchPath>$(BDS)\Source\DUnit\src;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
 			<DCC_Define>_CONSOLE_TESTRUNNER;$(DCC_Define)</DCC_Define>
 			<DCC_UnitAlias>WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;$(DCC_UnitAlias)</DCC_UnitAlias>
-			<DCC_DcuOutput>..\..\Bin\Cat-Arrays</DCC_DcuOutput>
-			<DCC_DependencyCheckOutputName>..\..\Exe\TestArraysCat.exe</DCC_DependencyCheckOutputName>
+			<DCC_DcuOutput>_build\Bin\Cat-Arrays</DCC_DcuOutput>
+			<DCC_DependencyCheckOutputName>_build\Exe\TestArraysCat.exe</DCC_DependencyCheckOutputName>
 			<DCC_ImageBase>00400000</DCC_ImageBase>
 			<DCC_Platform>x86</DCC_Platform>
 		</PropertyGroup>
@@ -40,6 +40,8 @@
 			<DCC_DebugInformation>false</DCC_DebugInformation>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_2)'!=''">
+			<DCC_ExeOutput>_build\Exe</DCC_ExeOutput>
+			<DCC_DcuOutput>_build\Bin\Cat-Arrays</DCC_DcuOutput>
 			<DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
 		</PropertyGroup>
 		<ItemGroup>

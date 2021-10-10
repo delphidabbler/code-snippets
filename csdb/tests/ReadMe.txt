@@ -1,8 +1,8 @@
-About the CodeSnippets project
+About the CodeSnippets Tests project
 --------------------------------------------------------------------------------
 
 This project provides tests and demos of snippets from the DelphiDabbler Code
-Snippets Database http://snippets.delphidabbler.com/
+Snippets Database https://github.com/delphidabbler/code-snippets
 
 
 Directory Structure
@@ -58,8 +58,3 @@ The project has the following directories:
   Contains the TextWinSysCat project that provides a GUI application that
   exercises and demonstrates all the code from the database's Windows System
   category.
-
---------------------------------------------------------------------------------
-$Rev$
-$Date$
---------------------------------------------------------------------------------

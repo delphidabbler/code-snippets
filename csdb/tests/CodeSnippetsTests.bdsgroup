@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<PersonalityInfo>
+		<Option>
+			<Option Name="Personality">Default.Personality</Option>
+			<Option Name="ProjectType"></Option>
+			<Option Name="Version">1.0</Option>
+			<Option Name="GUID">{C1A4369A-248A-486B-A611-D376E0ACCB77}</Option>
+		</Option>
+	</PersonalityInfo>
+	<Default.Personality>  
+    
+    <Projects>
+      <Projects Name="TestHexCat.exe">Cat-Hex\TestHexCat.bdsproj</Projects>
+      <Projects Name="TestDriveCat.exe">Cat-Drive\TestDriveCat.bdsproj</Projects>
+      <Projects Name="TestWinSysCat.exe">Cat-WinSys\TestWinSysCat.bdsproj</Projects>
+      <Projects Name="TestDateCat.exe">Cat-Date\TestDateCat.bdsproj</Projects>
+      <Projects Name="TestCatMaths.exe">Cat-Maths\TestCatMaths.bdsproj</Projects>
+      <Projects Name="TestCatString.exe">Cat-String\TestCatString.bdsproj</Projects>
+      <Projects Name="Targets">TestHexCat.exe TestDriveCat.exe TestWinSysCat.exe TestDateCat.exe TestCatMaths.exe TestCatString.exe</Projects>
+    </Projects>
+    <Dependencies/>
+  </Default.Personality>
+</BorlandProject>

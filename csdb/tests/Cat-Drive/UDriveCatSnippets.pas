@@ -100,6 +100,7 @@ begin
   end;
 end;
 
+{$WARNINGS OFF}
 function DriveDisplayName(const Drive: string): string;
 var
   FI: ShellAPI.TSHFileInfo; // info about drive
@@ -114,6 +115,7 @@ begin
     SysUtils.RaiseLastWin32Error;
   Result := FI.szDisplayName;
 end;
+{$WARNINGS ON}
 
 procedure DriveDisplayNames(const List: Classes.TStrings);
 var

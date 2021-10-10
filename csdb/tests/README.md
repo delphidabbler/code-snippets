@@ -8,34 +8,52 @@ The project has the following directories:
 
 ### `./`
 
-  Contains this file.
+Contains:
 
-### `./Src`
+* this file: `README.md`
+* project group files for Delphi 2006..XE[[1]](#1) that group together all the sub-projects that are stored in sub-directories of `Src`.
+* a batch file, `Config.bat`, that is used to create the temporary directories needed to compile the code.
 
-  Contains project groups files for Delphi 2006..2010 that group together all the sub-projects that are stored in sub-directories of `Src`.
+### `./Cat-Date`
 
-  There is also a batch file, `Config.bat`, that is used to create the temporary directories needed to compile the code.
+Contains the _TestDateCat_[[2]](#2) project that provides _DUnit_ tests for selected snippets from the database's _Date and Time_ category.
 
-### `./Src/Cat-Date`
+### `./Cat-Drive`
 
-  Contains the _TestDateCat_ project that provides _DUnit_ tests for selected snippets from the database's _Date and Time_ category.
+Contains the _TestDriveCat_[[2]](#2) project that implements a GUI application that exercises and demonstrates all the code from the database's _Drive Management_ category.
 
-### `./Src/Cat-Drive`
+### `./Cat-Hex`
 
-  Contains the _TestDriveCat_ project that implements a GUI application that exercises and demonstrates all the code from the database's _Drive Management_ category.
+Contains the _TestHexCat_[[2]](#2) project that provides _DUnit_ tests for all the snippets from the database's _Hex Utilities_ category.
 
-### `./Src/Cat-Hex`
+### `./Cat-Maths`
 
-  Contains the _TestHexCat_ project that provides _DUnit_ tests for all the snippets from the database's _Hex Utilities_ category.
+Contains the _TestCatMaths_[[2]](#2) project that provides _DUnit_ tests for selected snippets from the database's _Mathematics_ category.
 
-### `./Src/Cat-Maths`
+### `./Cat-String`
 
-  Contains the _TestCatMaths_ project that provides _DUnit_ tests for selected snippets from the database's _Mathematics_ category.
+Contains the _TestCatString_[[2]](#2) project that provides _DUnit_ tests for selected snippets from the database's _String Management_ category.
 
-### `./Src/Cat-String`
+### `./Cat-WinSys`
 
-  Contains the _TestCatString_ project that provides _DUnit_ tests for selected snippets from the database's _String Management_ category.
+Contains the _TextWinSysCat_[[2]](#2) project that provides a GUI application that exercises and demonstrates all the code from the database's _Windows System_ category.
 
-### `./Src/Cat-WinSys`
+## Notes
 
-  Contains the _TextWinSysCat_ project that provides a GUI application that exercises and demonstrates all the code from the database's _Windows System_ category.
+### 1
+
+There are different versions of the group project file for different Delphi versions:
+
+* `CodeSnippetsTestsbdsgroup` for Delphi 2006
+* `CodeSnippetsTests.groupproj` for Delphi 2007-2010
+* `CodeSnippetsTestsXE.groupproj` for Delphi XE
+
+### 2
+
+The are different versions of project files for different versions of Delphi. They are:
+
+* `<NAME>.bdsproj` for Delphi 2006
+* `<NAME>.dproj` for Delphi 2007 to 2010
+* `<NAME>XE.dproj` for Delphi XE
+
+where `<NAME>` is the base name of the project, for example `TestDateCat` or `TestCatMaths`.

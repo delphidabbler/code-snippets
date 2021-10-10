@@ -12,7 +12,6 @@ Contains:
 
 * this file: `README.md`
 * project group files for Delphi 2006..XE[[1]](#1) that group together all the sub-projects that are stored in sub-directories of `Src`.
-* a batch file, `Config.bat`, that is used to create the temporary directories needed to compile the code.
 
 ### `./Cat-Date`
 

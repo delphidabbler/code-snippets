@@ -175,7 +175,7 @@ begin
   CheckEquals(1, GCD2(-10, -9), 'GCD2(-10, -9)');
   CheckEquals(5, GCD2(-10, -5), 'GCD2(-10, -5)');
   CheckEquals(41, GCD2(-41,-41), 'GCD2(-41,-41)');
-  CheckEquals(10, GCD(10, -10), 'GCD2(10, -10)');
+  CheckEquals(10, GCD2(10, -10), 'GCD2(10, -10)');
 end;
 
 procedure TestMathsCatSnippets.TestIsPrime;

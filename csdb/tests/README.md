@@ -13,6 +13,10 @@ Contains:
 * this file: `README.md`
 * project group files for Delphi 2006..XE[[1]](#1) that group together all the sub-projects that are stored in sub-directories of `Src`.
 
+### `./Cat-Arrays`
+
+Contains the _TestArraysCat_[[2]](#2) project that provides _DUnit_ tests for snippets from the database's _Arrays_ category. Currently tests are only available for the _TArrayUtils_ advanced record.
+
 ### `./Cat-Date`
 
 Contains the _TestDateCat_[[2]](#2) project that provides _DUnit_ tests for selected snippets from the database's _Date and Time_ category.
@@ -62,3 +66,5 @@ The are different versions of project files for different versions of Delphi. Th
 * `<NAME>XE.dproj` for Delphi XE
 
 where `<NAME>` is the base name of the project, for example `TestDateCat` or `TestCatMaths`.
+
+> Not all test projects provide all the different project files versions.

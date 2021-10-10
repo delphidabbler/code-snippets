@@ -24,9 +24,6 @@
 			<Projects Include="Cat-Arrays\TestArraysCat.dproj">
 				<Dependencies/>
 			</Projects>
-			<Projects Include="Cat-Structs\TestStructsCat.dproj">
-				<Dependencies/>
-			</Projects>
 		</ItemGroup>
 		<ProjectExtensions>
 			<Borland.Personality>Default.Personality.12</Borland.Personality>

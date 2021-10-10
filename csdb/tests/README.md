@@ -36,10 +36,6 @@ The project has the following directories:
 
   Contains the _TestCatString_ project that provides _DUnit_ tests for selected snippets from the database's _String Management_ category.
 
-### `./Src/Cat-Structs`
-
-  Contains the _TestCatStruct_ project the provides _DUnit_ tests for selected snippets from the database's _Structs_ category.
-
 ### `./Src/Cat-WinSys`
 
   Contains the _TextWinSysCat_ project that provides a GUI application that exercises and demonstrates all the code from the database's _Windows System_ category.

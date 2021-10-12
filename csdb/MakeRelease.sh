@@ -32,6 +32,7 @@ RELEASE_FILE_STUB="${RELEASE_DIR}/csdb-v${VERSION}"
 
 COLLECTION_ZIP_FILE="${RELEASE_FILE_STUB}-data.zip"
 DOCS_ZIP_FILE="${RELEASE_FILE_STUB}-docs.zip"
+TESTS_ZIP_FILE="${RELEASE_FILE_STUB}-tests.zip"
 
 echo Creating CSDB release $1
 echo
@@ -44,5 +45,8 @@ zip -j -q $COLLECTION_ZIP_FILE ./collection/*
 
 echo Zipping documentation
 zip -j -q $DOCS_ZIP_FILE ./docs/*
+
+echo Zipping tests
+zip -q -r $TESTS_ZIP_FILE ./tests/*
 
 echo Done

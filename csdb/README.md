@@ -16,7 +16,7 @@ Version 2 is designed to be able to be used by other applications in addition to
 
 Anyone is welcome to write applications or web pages that access the snippets in the collection, subject to the terms of the license (see below). You should read the collection's documentation which explains the file format in detail.
 
-> **WARNING:** Implementors **must not** read the collection data directly from this GitHub repository - that could generate more than the permitted amount of traffic. Instead you must download a release from the _Releases_ tab and either distribute the collection with the application or host it on a web server.
+> **WARNING:** Implementers **must not** read the collection data directly from this GitHub repository - that could generate more than the permitted amount of traffic. Instead you must download a release from the _Releases_ tab and either distribute the collection with the application or host it on a web server.
 
 ## Documentation
 
@@ -36,9 +36,9 @@ Releases can be found on the `releases` tab on the GitHub project page.
 
 From v2.0.1, each release comprises three zip files, as follows (replace `X.Y.X` in the file names with the release version number):
 
-  * `csdb-vX.Y.Z-data.zip` - Contains all the data in the collection. Required by applications that access the collection.
-  * `csdb-vX.Y.Z-docs.zip` - Contains the documentation developers need to understand the structure of the data.
-  * `csdb-vX.Y.Z-tests.zip` - Contains the unit tests and demo code.
+* `csdb-vX.Y.Z-data.zip` - Contains all the data in the collection. Required by applications that access the collection.
+* `csdb-vX.Y.Z-docs.zip` - Contains the documentation developers need to understand the structure of the data.
+* `csdb-vX.Y.Z-tests.zip` - Contains the unit tests and demo code.
 
 ## Change Log
 

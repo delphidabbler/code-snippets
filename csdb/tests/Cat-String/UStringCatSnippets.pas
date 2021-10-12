@@ -1,3 +1,12 @@
+{
+ * This file was generated from the DelphiDabbler Code Snippets Database.
+ * The source code is licensed under the MIT license, copyright © 2005-2020,
+ * Peter Johnson (https://gravatar.com/delphidabbler) and Contributors. The
+ * full license and a list of contributors can be found in the `LICENSE` and
+ * `CONTRIBUTORS` files at
+ * https://github.com/delphidabbler/code-snippets/tree/master/csdb/collection
+}
+
 unit UStringCatSnippets;
 
 {$IFNDEF FPC}
@@ -35,7 +44,7 @@ function IsNumeric(Value: string; const AllowFloat: Boolean;
 
 function SplitString(const AText, ADelimiter: string): Classes.TStringList;
 
-procedure ParseStr(const StrToParse: string; const Delimiter: Char; 
+procedure ParseStr(const StrToParse: string; const Delimiter: Char;
   const Words: Classes.TStringList);
 
 implementation
@@ -97,7 +106,7 @@ begin
     Result.Add(LTxt);
 end;
 
-procedure ParseStr(const StrToParse: string; const Delimiter: Char; 
+procedure ParseStr(const StrToParse: string; const Delimiter: Char;
   const Words: Classes.TStringList);
 var
   TmpInStr: string;

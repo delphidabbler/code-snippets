@@ -26,10 +26,11 @@ The collection data format is fully documented in the file `collection-format.ht
 
 Releases can be found on the `releases` tab on the GitHub project page.
 
-Each release comprises two zip files, as follows (replace `X.Y.X` in the file names with the release version number):
+From v2.0.1, each release comprises three zip files, as follows (replace `X.Y.X` in the file names with the release version number):
 
   * `csdb-vX.Y.Z-data.zip` - Contains all the data in the collection. Required by applications that access the collection.
   * `csdb-vX.Y.Z-docs.zip` - Contains the documentation developers need to understand the structure of the data.
+  * `csdb-vX.Y.Z-tests.zip` - Contains the unit tests and demonstration code for _some_ of the snippets in the database, with one test project for each category for which tests are available.
 
 ## Change Log
 
@@ -39,4 +40,6 @@ The project's change log can be found in `CHANGELOG.md` in the collection's base
 
 All snippets in this collection (stored in `.dat` files in the `collections` directory) are licensed under the MIT license and are copyright © 2005-2020, [Peter Johnson](https://gravatar.com/delphidabbler) and Contributors. The full license and a list of contributors can be found in the `LICENSE` and `CONTRIBUTORS` files in the `collection` sub-directory.
 
-All other files in this project are licensed under the MIT license and are copyright © 2020, [Peter Johnson](https://gravatar.com/delphidabbler).
+Certain files in the `tests` directory contain copies of snippets extracted from the collection. These files are identified as such in the comments at the start of the file. The files are licensed  under the same license as the `.dat` files in the `collections` directory. See the paragraph above for details.
+
+All other files in this project are licensed under the MIT license and are copyright © 2020-2021, [Peter Johnson](https://gravatar.com/delphidabbler).

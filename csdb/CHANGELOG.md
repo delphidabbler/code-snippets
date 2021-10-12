@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 ## v2.0.1 of 2021/10/12
 
 * Add new unit tests and demo code for _some_ snippets from the database. All such code was added to a new `tests` directory. See `tests/README.md` for details.
+* Fix minor errors in documentation.
 
 > Other than to update the `VERSION` file there were no changes to any snippets or associated meta-data in this release.
 

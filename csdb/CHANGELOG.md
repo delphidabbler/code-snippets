@@ -8,6 +8,13 @@ From v2.0.0 all notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v2.0.1 of 2021/10/12
+
+* Add new unit tests and demo code for _some_ snippets from the database. All such code was added to a new `tests` directory. See `tests/README.md` for details.
+* Fix minor errors in documentation.
+
+> Other than to update the `VERSION` file there were no changes to any snippets or associated meta-data in this release.
+
 ## v2.0.0 of 2020/05/02
 
 Initial release of v2 of the collection.

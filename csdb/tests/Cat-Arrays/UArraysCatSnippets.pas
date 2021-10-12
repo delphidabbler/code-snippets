@@ -1,3 +1,12 @@
+{
+ * This file was generated from the DelphiDabbler Code Snippets Database.
+ * The source code is licensed under the MIT license, copyright © 2005-2021,
+ * Peter Johnson (https://gravatar.com/delphidabbler) and Contributors. The
+ * full license and a list of contributors can be found in the `LICENSE` and
+ * `CONTRIBUTORS` files at
+ * https://github.com/delphidabbler/code-snippets/tree/master/csdb/collection
+}
+
 unit UArraysCatSnippets;
 
 {$UNDEF Generics}

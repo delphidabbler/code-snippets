@@ -16,20 +16,29 @@ Version 2 is designed to be able to be used by other applications in addition to
 
 Anyone is welcome to write applications or web pages that access the snippets in the collection, subject to the terms of the license (see below). You should read the collection's documentation which explains the file format in detail.
 
-> **WARNING:** Implementors **must not** read the collection data directly from this GitHub repository - that could generate more than the permitted amount of traffic. Instead you must download a release from the _Releases_ tab and either distribute the collection with the application or host it on a web server.
+> **WARNING:** Implementers **must not** read the collection data directly from this GitHub repository - that could generate more than the permitted amount of traffic. Instead you must download a release from the _Releases_ tab and either distribute the collection with the application or host it on a web server.
 
 ## Documentation
 
 The collection data format is fully documented in the file `collection-format.html` in the `docs` directory.
 
+## Tests
+
+Unit tests and demonstration projects are available for _some_ of the snippets in the database.
+
+Source code for these tests and demonstrations is available in the `tests` directory. There is a sub-directory for each category where such code is available.
+
+See the `README.md` file in the `tests` directory for full details.
+
 ## Releases
 
 Releases can be found on the `releases` tab on the GitHub project page.
 
-Each release comprises two zip files, as follows (replace `X.Y.X` in the file names with the release version number):
+From v2.0.1, each release comprises three zip files, as follows (replace `X.Y.X` in the file names with the release version number):
 
-  * `csdb-vX.Y.Z-data.zip` - Contains all the data in the collection. Required by applications that access the collection.
-  * `csdb-vX.Y.Z-docs.zip` - Contains the documentation developers need to understand the structure of the data.
+* `csdb-vX.Y.Z-data.zip` - Contains all the data in the collection. Required by applications that access the collection.
+* `csdb-vX.Y.Z-docs.zip` - Contains the documentation developers need to understand the structure of the data.
+* `csdb-vX.Y.Z-tests.zip` - Contains the unit tests and demo code.
 
 ## Change Log
 
@@ -39,4 +48,6 @@ The project's change log can be found in `CHANGELOG.md` in the collection's base
 
 All snippets in this collection (stored in `.dat` files in the `collections` directory) are licensed under the MIT license and are copyright © 2005-2020, [Peter Johnson](https://gravatar.com/delphidabbler) and Contributors. The full license and a list of contributors can be found in the `LICENSE` and `CONTRIBUTORS` files in the `collection` sub-directory.
 
-All other files in this project are licensed under the MIT license and are copyright © 2020, [Peter Johnson](https://gravatar.com/delphidabbler).
+Certain files in the `tests` directory contain copies of snippets extracted from the collection. These files are identified as such in the comments at the start of the file. The files are licensed  under the same license as the `.dat` files in the `collections` directory. See the paragraph above for details.
+
+All other files in this project are licensed under the MIT license and are copyright © 2020-2021, [Peter Johnson](https://gravatar.com/delphidabbler).

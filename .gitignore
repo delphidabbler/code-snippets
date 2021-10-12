@@ -1,1 +1,9 @@
+# Database release folder
+
 _release
+
+# Delphi test code
+*.local
+*.identcache
+_build
+__history

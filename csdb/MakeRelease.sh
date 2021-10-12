@@ -5,8 +5,8 @@
 #
 # Build tool for Windows to package up files ready for release.
 #
-# This file is licensed under the MIT license, copyright © 2020 Peter Johnson,
-# https://gravatar.com/delphidabbler
+# This file is licensed under the MIT license, copyright © 2020-2021 Peter
+# Johnson, https://gravatar.com/delphidabbler
 #
 #
 # Two packages are made, each in a zip file: one containing the collection and
@@ -32,6 +32,7 @@ RELEASE_FILE_STUB="${RELEASE_DIR}/csdb-v${VERSION}"
 
 COLLECTION_ZIP_FILE="${RELEASE_FILE_STUB}-data.zip"
 DOCS_ZIP_FILE="${RELEASE_FILE_STUB}-docs.zip"
+TESTS_ZIP_FILE="${RELEASE_FILE_STUB}-tests.zip"
 
 echo Creating CSDB release $1
 echo
@@ -44,5 +45,8 @@ zip -j -q $COLLECTION_ZIP_FILE ./collection/*
 
 echo Zipping documentation
 zip -j -q $DOCS_ZIP_FILE ./docs/*
+
+echo Zipping tests
+zip -q -r $TESTS_ZIP_FILE ./tests/*
 
 echo Done

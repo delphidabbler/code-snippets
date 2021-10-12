@@ -1,0 +1,117 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{C43C8A3D-3CAB-4DCB-A2EF-92AC859AC037}</ProjectGuid>
+		</PropertyGroup>
+		<ItemGroup>
+			<Projects Include="Cat-Hex\TestHexCat.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Cat-Drive\TestDriveCat.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Cat-WinSys\TestWinSysCat.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Cat-Date\TestDateCat.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Cat-Maths\TestCatMaths.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Cat-String\TestCatString.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Cat-Arrays\TestArraysCat.dproj">
+				<Dependencies/>
+			</Projects>
+		</ItemGroup>
+		<ProjectExtensions>
+			<Borland.Personality>Default.Personality.12</Borland.Personality>
+			<Borland.ProjectType/>
+			<BorlandProject>
+				<Default.Personality/>
+			</BorlandProject>
+		</ProjectExtensions>
+		<Target Name="TestHexCat">
+			<MSBuild Projects="Cat-Hex\TestHexCat.dproj"/>
+		</Target>
+		<Target Name="TestHexCat:Clean">
+			<MSBuild Targets="Clean" Projects="Cat-Hex\TestHexCat.dproj"/>
+		</Target>
+		<Target Name="TestHexCat:Make">
+			<MSBuild Targets="Make" Projects="Cat-Hex\TestHexCat.dproj"/>
+		</Target>
+		<Target Name="TestDriveCat">
+			<MSBuild Projects="Cat-Drive\TestDriveCat.dproj"/>
+		</Target>
+		<Target Name="TestDriveCat:Clean">
+			<MSBuild Targets="Clean" Projects="Cat-Drive\TestDriveCat.dproj"/>
+		</Target>
+		<Target Name="TestDriveCat:Make">
+			<MSBuild Targets="Make" Projects="Cat-Drive\TestDriveCat.dproj"/>
+		</Target>
+		<Target Name="TestWinSysCat">
+			<MSBuild Projects="Cat-WinSys\TestWinSysCat.dproj"/>
+		</Target>
+		<Target Name="TestWinSysCat:Clean">
+			<MSBuild Targets="Clean" Projects="Cat-WinSys\TestWinSysCat.dproj"/>
+		</Target>
+		<Target Name="TestWinSysCat:Make">
+			<MSBuild Targets="Make" Projects="Cat-WinSys\TestWinSysCat.dproj"/>
+		</Target>
+		<Target Name="TestDateCat">
+			<MSBuild Projects="Cat-Date\TestDateCat.dproj"/>
+		</Target>
+		<Target Name="TestDateCat:Clean">
+			<MSBuild Targets="Clean" Projects="Cat-Date\TestDateCat.dproj"/>
+		</Target>
+		<Target Name="TestDateCat:Make">
+			<MSBuild Targets="Make" Projects="Cat-Date\TestDateCat.dproj"/>
+		</Target>
+		<Target Name="TestCatMaths">
+			<MSBuild Projects="Cat-Maths\TestCatMaths.dproj"/>
+		</Target>
+		<Target Name="TestCatMaths:Clean">
+			<MSBuild Targets="Clean" Projects="Cat-Maths\TestCatMaths.dproj"/>
+		</Target>
+		<Target Name="TestCatMaths:Make">
+			<MSBuild Targets="Make" Projects="Cat-Maths\TestCatMaths.dproj"/>
+		</Target>
+		<Target Name="TestCatString">
+			<MSBuild Projects="Cat-String\TestCatString.dproj"/>
+		</Target>
+		<Target Name="TestCatString:Clean">
+			<MSBuild Targets="Clean" Projects="Cat-String\TestCatString.dproj"/>
+		</Target>
+		<Target Name="TestCatString:Make">
+			<MSBuild Targets="Make" Projects="Cat-String\TestCatString.dproj"/>
+		</Target>
+		<Target Name="TestArraysCat">
+			<MSBuild Projects="Cat-Arrays\TestArraysCat.dproj"/>
+		</Target>
+		<Target Name="TestArraysCat:Clean">
+			<MSBuild Targets="Clean" Projects="Cat-Arrays\TestArraysCat.dproj"/>
+		</Target>
+		<Target Name="TestArraysCat:Make">
+			<MSBuild Targets="Make" Projects="Cat-Arrays\TestArraysCat.dproj"/>
+		</Target>
+		<Target Name="TestStructsCat">
+			<MSBuild Projects="Cat-Structs\TestStructsCat.dproj"/>
+		</Target>
+		<Target Name="TestStructsCat:Clean">
+			<MSBuild Targets="Clean" Projects="Cat-Structs\TestStructsCat.dproj"/>
+		</Target>
+		<Target Name="TestStructsCat:Make">
+			<MSBuild Targets="Make" Projects="Cat-Structs\TestStructsCat.dproj"/>
+		</Target>
+		<Target Name="Build">
+			<CallTarget Targets="TestHexCat;TestDriveCat;TestWinSysCat;TestDateCat;TestCatMaths;TestCatString;TestArraysCat;TestStructsCat"/>
+		</Target>
+		<Target Name="Clean">
+			<CallTarget Targets="TestHexCat:Clean;TestDriveCat:Clean;TestWinSysCat:Clean;TestDateCat:Clean;TestCatMaths:Clean;TestCatString:Clean;TestArraysCat:Clean;TestStructsCat:Clean"/>
+		</Target>
+		<Target Name="Make">
+			<CallTarget Targets="TestHexCat:Make;TestDriveCat:Make;TestWinSysCat:Make;TestDateCat:Make;TestCatMaths:Make;TestCatString:Make;TestArraysCat:Make;TestStructsCat:Make"/>
+		</Target>
+		<Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+	</Project>

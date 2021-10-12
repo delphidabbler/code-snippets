@@ -22,6 +22,14 @@ Anyone is welcome to write applications or web pages that access the snippets in
 
 The collection data format is fully documented in the file `collection-format.html` in the `docs` directory.
 
+## Tests
+
+Unit tests and demonstration projects are available for _some_ of the snippets in the database.
+
+Source code for these tests and demonstrations is available in the `tests` directory. There is a sub-directory for each category where such code is available.
+
+See the `README.md` file in the `tests` directory for full details.
+
 ## Releases
 
 Releases can be found on the `releases` tab on the GitHub project page.
@@ -30,7 +38,7 @@ From v2.0.1, each release comprises three zip files, as follows (replace `X.Y.X`
 
   * `csdb-vX.Y.Z-data.zip` - Contains all the data in the collection. Required by applications that access the collection.
   * `csdb-vX.Y.Z-docs.zip` - Contains the documentation developers need to understand the structure of the data.
-  * `csdb-vX.Y.Z-tests.zip` - Contains the unit tests and demonstration code for _some_ of the snippets in the database, with one test project for each category for which tests are available.
+  * `csdb-vX.Y.Z-tests.zip` - Contains the unit tests and demo code.
 
 ## Change Log
 

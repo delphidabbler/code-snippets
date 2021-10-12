@@ -5,8 +5,8 @@
 #
 # Build tool for Windows to package up files ready for release.
 #
-# This file is licensed under the MIT license, copyright © 2020 Peter Johnson,
-# https://gravatar.com/delphidabbler
+# This file is licensed under the MIT license, copyright © 2020-2021 Peter
+# Johnson, https://gravatar.com/delphidabbler
 #
 #
 # Two packages are made, each in a zip file: one containing the collection and

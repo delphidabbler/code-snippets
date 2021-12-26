@@ -156,16 +156,16 @@ Ini=date.ini</pre>
   </p>
   <pre class="sample">[snippet-name]
 DisplayName=&lt;snippet-display-name&gt;
-Desc=&lt;description-text&gt;
+Desc=&lt;description-text&gt; *
 DescEx=&lt;description-REML&gt;
 Snip=&lt;snippet-file-name&gt;
 Units=&lt;required-units&gt;
 Depends=&lt;required-snippets&gt;
 SeeAlso=&lt;cross-referenced-snippets&gt;
 Extra=&lt;extra-info-REML&gt;
-Credits=&lt;credits-text&gt;
-Credits_URL=&lt;url-used-in-credits&gt;
-Comments=&lt;comments-text&gt;
+Credits=&lt;credits-text&gt; *
+Credits_URL=&lt;url-used-in-credits&gt; *
+Comments=&lt;comments-text&gt; *
 Delphi2=&lt;&quot;Y&quot;|&quot;N&quot;|&quot;Q&quot;|&quot;W&quot;&gt;
 Delphi3=&lt;&quot;Y&quot;|&quot;N&quot;|&quot;Q&quot;|&quot;W&quot;&gt;
 Delphi4=&lt;&quot;Y&quot;|&quot;N&quot;|&quot;Q&quot;|&quot;W&quot;&gt;
@@ -190,6 +190,11 @@ Delphi101B=&lt;&quot;Y&quot;|&quot;N&quot;|&quot;Q&quot;|&quot;W&quot;&gt;
 FPC=&lt;&quot;Y&quot;|&quot;N&quot;|&quot;Q&quot;|&quot;W&quot;&gt;
 Kind=&lt;&quot;freeform&quot;|&quot;routine&quot;|&quot;type&quot;|&quot;const&quot;|&quot;class&quot;|&quot;unit&quot;&gt;
 TestInfo=&lt;&quot;none&quot;|&quot;basic&quot;|&quot;advanced&quot;&gt;</pre>
+  <aside>
+    <p>
+      <strong>NOTE:</strong> As of v2.1.0 keys marked with an asterisk (*) are deprecated and are no longer used in the Code Snippets Database collection.
+    </p>
+  </aside>
   <p>The sections in these files are named with identifiers that uniquely identify a snippet. This <span class="very-strong">must</span> be a valid Unicode Pascal identifier. The keys in a section have the following purpose:</p>
   <dl>
     <dt>
@@ -207,22 +212,44 @@ TestInfo=&lt;&quot;none&quot;|&quot;basic&quot;|&quot;advanced&quot;&gt;</pre>
       <code class="key">Desc</code>
     </dt>
     <dd>
+      <aside>
+        <p>
+          <span class="very-strong">Deprecated as of v2.1.0</span>: use <code class="key">DescEx</code> instead.
+        </p>
+        <p>
+          v2.1.0 conformant collections <span class="very-strong">must not</span> use this key.
+        </p>
+        <p>
+          Software <span class="very-strong">must</span> ignore this key when parsing v2.1.0 conformant collections.
+        </p>
+      </aside>
       <p>
         Description of the snippet as plain text.
       </p>
       <p>
-        <code class="key">Desc</code> is ignored if a non-empty <code class="key">DescEx</code> key is present. At least one of the <code class="key">Desc</code> or <code class="key">DescEx</code> keys are <span class="very-strong">required</span> to be present and non-empty.
+        For v2.0.x only, <code class="key">Desc</code> is ignored if a non-empty <code class="key">DescEx</code> key is present. At least one of the <code class="key">Desc</code> or <code class="key">DescEx</code> keys are <span class="very-strong">required</span> to be present and non-empty.
       </p>
     </dd>
     <dt>
       <code class="key">DescEx</code>
     </dt>
     <dd>
+      <aside>
+        <p>
+          <span class="very-strong">Required as of v2.1.0</span>.
+        </p>
+        <p>
+          v2.1.0 conformant collections <span class="very-strong">must</span> use this key.
+        </p>
+        <p>
+          Software <span class="very-strong">must</span> report an error when parsing v2.1.0 conformant collections if <code class="key">DescEx</code> is missing.
+        </p>
+      </aside>
       <p>
         Formatted description of the snippet using REML<sup><a href="#footnote-1">1</a></sup> code.
       </p>
       <p>
-        May be empty, in which case the <code class="key">Desc</code> key is used. <code class="key">Desc</code> is ignored if <code class="key">DescEx</code> has a non-empty value. At least one of the <code class="key">Desc</code> or <code class="key">DescEx</code> keys are <span class="very-strong">required</span> to be present and non-empty.
+        For version 2.0.x only, <code class="key">DescEx</code> may be empty, in which case the <code class="key">Desc</code> key is used. <code class="key">Desc</code> is ignored if <code class="key">DescEx</code> has a non-empty value. At least one of the <code class="key">Desc</code> or <code class="key">DescEx</code> keys are <span class="very-strong">required</span> to be present and non-empty.
       </p>
     </dd>
     <dt>
@@ -291,16 +318,27 @@ TestInfo=&lt;&quot;none&quot;|&quot;basic&quot;|&quot;advanced&quot;&gt;</pre>
         Provides extra information about the snippet. When present the value <span class="very-strong">must</span> be a valid string of REML<sup><a href="#footnote-1">1</a></sup> code.
       </p>
       <p>
-        May be omitted or empty. In this case any extra information is generated from the values of any <code class="key">Comments</code>, <code class="key">Credits</code> and <code class="key">Credits_URL</code> keys, if present.
+        May be omitted or empty.
       </p>
       <p>
-        When <code class="key">Extra</code> has a non-empty value the <code class="key">Comments</code>, <code class="key">Credits</code> and <code class="key">Credits_URL</code> keys are ignored.
+        For v2.0.x only, if and only if <code class="key">Extra</code> is empty, extra information is generated from the <code class="key">Comments</code>, <code class="key">Credits</code> and <code class="key">Credits_URL</code> key values.
       </p>
     </dd>
     <dt>
       <code class="key">Credits</code><sup><a href="#footnote-2">2</a></sup>
     </dt>
     <dd>
+      <aside>
+        <p>
+          <span class="very-strong">Deprecated as of v2.1.0</span>: use <code class="key">Extra</code> instead.
+        </p>
+        <p>
+          v2.1.0 conformant collections <span class="very-strong">must not</span> use this key.
+        </p>
+        <p>
+          Software <span class="very-strong">must</span> ignore this key when parsing v2.1.0 conformant collections.
+        </p>
+      </aside>
       <p>
         Text that notes any credits / acknowledgements. <code class="key">Credits</code> may optionally contain one (and only one) section of text delimited by <code>[</code> and <code>]</code> characters that indicate the presence of a hyperlink. The enclosed text is used as the text of a hyperlink whose URL <span class="very-strong">must</span> be specified in the <code class="key">Credits_URL</code> key.
       </p>
@@ -312,6 +350,17 @@ TestInfo=&lt;&quot;none&quot;|&quot;basic&quot;|&quot;advanced&quot;&gt;</pre>
       <code class="key">Credits_URL</code><sup><a href="#footnote-2">2</a></sup>
     </dt>
     <dd>
+      <aside>
+        <p>
+          <span class="very-strong">Deprecated as of v2.1.0</span>.
+        </p>
+        <p>
+          v2.1.0 conformant collections <span class="very-strong">must not</span> use this key.
+        </p>
+        <p>
+          Software <span class="very-strong">must</span> ignore this key when parsing v2.1.0 conformant collections.
+        </p>
+      </aside>
       <p>
         The URL used in any hyperlink present in the <code class="key">Credits</code> key.
       </p>
@@ -323,6 +372,17 @@ TestInfo=&lt;&quot;none&quot;|&quot;basic&quot;|&quot;advanced&quot;&gt;</pre>
       <code class="key">Comments</code>
     </dt>
     <dd>
+      <aside>
+        <p>
+          <span class="very-strong">Deprecated as of v2.1.0</span>: use <code class="key">Extra</code> instead.
+        </p>
+        <p>
+          v2.1.0 conformant collections <span class="very-strong">must not</span> use this key.
+        </p>
+        <p>
+          Software <span class="very-strong">must</span> ignore this key when parsing v2.1.0 conformant collections.
+        </p>
+      </aside>
       <p>
         Text string containing any additional comments about the snippet.
       </p>
@@ -650,11 +710,11 @@ CopyrightHolderURL=&lt;url&gt;</pre>
     <li id="footnote-1">
       <p>
         REML is a text markup language used to format text. REML version 4 is supported. The REML format is documented in <a href="reml.html">reml.html</a>.
-       </p>
+      </p>
     </li>
     <li id="footnote-2">
       <p>
-        Here is an example of how the <code class="key">Credits</code> and <code  class="key">Credits_URL</code> keys work together.
+        Here is an example of how the <span class="very-strong">deprecated</span> <code class="key">Credits</code> and <code  class="key">Credits_URL</code> keys work together.
       </p>
       <p>
       If <code class="key">Credits</code>=<code class="value">&quot;See [example 1]&quot;</code> and <code class="key">Credits_URL</code>=<code class="value">&quot;http://example.com&quot;</code> and the <code class="key">Extra</code> key is empty or missing then the extra REML code generated will be <samp>See &lt;a href=&quot;example.com&quot;&gt;example 1&lt;/a&gt;</samp>.

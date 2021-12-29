@@ -8,6 +8,10 @@ From v2.0.0 all notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v2.1.1 of 2021/12/29 (HOTFIX)
+
+* Fixed malformed REML tags. Fixes [issue #7](https://github.com/delphidabbler/code-snippets/issues/7).
+
 ## v2.1.0 of 2021/12/26
 
 * Deprecated `Desc`, `Comments`, `Credits` & `Credits_URL` keys in Code Snippets Database collection and changed `DescEx` key to be required. Made following changes to `.ini` files as a consequence:

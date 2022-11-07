@@ -5,13 +5,14 @@
 #
 # Build tool for Windows to package up files ready for release.
 #
-# This file is licensed under the MIT license, copyright © 2020-2021 Peter
+# This file is licensed under the MIT license, copyright © 2020-2022 Peter
 # Johnson, https://gravatar.com/delphidabbler
 #
 #
-# Two packages are made, each in a zip file: one containing the collection and
-# the other containing documentation. Both zip files are written to the
-# _release sub-folder in the collection's home directory.
+# Three packages are made, each in a zip file: one containing the
+# collection, another containing documentation and a third containing tests.
+# All zip files are written to the _release sub-folder in the collection's
+# home directory.
 #
 # Any pre-existing _release sub-folder is cleared before the zip files are
 # created.
@@ -19,9 +20,9 @@
 # Requirements:
 #
 #   - The release version number must be passed to this script as a command
-#     line.
+#     line parameter.
 #
-#   - The zip utility is required to zip up the files.
+#   - The zip utility program is required to zip up the files.
 #
 # --------------------------------------------------------------------------
 

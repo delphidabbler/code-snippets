@@ -46,8 +46,8 @@ The project's change log can be found in `CHANGELOG.md` in the collection's base
 
 ## License
 
-All snippets in this collection (stored in `.dat` files in the `collections` directory) are licensed under the MIT license and are copyright © 2005-2020, [Peter Johnson](https://gravatar.com/delphidabbler) and Contributors. The full license and a list of contributors can be found in the `LICENSE` and `CONTRIBUTORS` files in the `collection` sub-directory.
+All snippets in this collection (stored in `.dat` files in the `collection` directory) are licensed under the MIT license and are copyright © 2005-2020, [Peter Johnson](https://gravatar.com/delphidabbler) and Contributors. The full license and a list of contributors can be found in the `LICENSE` and `CONTRIBUTORS` files in the `collection` sub-directory.
 
-Certain files in the `tests` directory contain copies of snippets extracted from the collection. These files are identified as such in the comments at the start of the file. The files are licensed  under the same license as the `.dat` files in the `collections` directory. See the paragraph above for details.
+Certain files in the `tests` directory contain copies of snippets extracted from the collection. These files are identified as such in the comments at the start of the file. The files are licensed  under the same license as the `.dat` files in the `collection` directory. See the paragraph above for details.
 
 All other files in this project are licensed under the MIT license and are copyright © 2020-2021, [Peter Johnson](https://gravatar.com/delphidabbler).

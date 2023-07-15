@@ -5,7 +5,7 @@
 #
 # Build tool for Windows to package up files ready for release.
 #
-# This file is licensed under the MIT license, copyright © 2020-2022 Peter
+# This file is licensed under the MIT license, copyright © 2020-2023 Peter
 # Johnson, https://gravatar.com/delphidabbler
 #
 #

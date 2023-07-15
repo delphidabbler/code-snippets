@@ -8,6 +8,12 @@ From v2.0.0 all notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v2.1.2 of 2023/07/15
+
+* Fixed simple errors and oversights in documentation. Fixes issues [#9](https://github.com/delphidabbler/code-snippets/issues/9) & [#10](https://github.com/delphidabbler/code-snippets/issues/10).
+
+> Other than to update the `VERSION` file there were no changes to any snippets or associated meta-data in this release.
+
 ## v2.1.1 of 2021/12/29 (HOTFIX)
 
 * Fixed malformed REML tags. Fixes [issue #7](https://github.com/delphidabbler/code-snippets/issues/7).

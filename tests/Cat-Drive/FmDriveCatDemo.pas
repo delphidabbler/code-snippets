@@ -42,8 +42,10 @@ uses
 {$R *.dfm}
 
 {
-* CurrentDrive
+* CurentDrive (sic)
   Returns the letter that identifies the current drive.
+* DeleteVolumeName
+  Deletes an existing volume label on a given drive.
 * DiskSpaceInfo
   Gets total and free space information for a drive.
 * DriveDisplayName
@@ -68,6 +70,8 @@ uses
   Check if a drive number represents a valid drive.
 * ListDrives
   Gets list of the system's drive root paths.
+* SetVolumeName
+  Sets the name of the volume on a given drive.
 * VolumeName
   Returns volume name of a drive.
 }

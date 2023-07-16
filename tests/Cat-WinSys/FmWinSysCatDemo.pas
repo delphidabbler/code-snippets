@@ -48,7 +48,7 @@ uses
   Returns the Windows common file directory.
 * ComputerName
   Returns the name of the computer.
-* GetCurrentVersionRegStr #
+* GetCurrentVersionRegStr
   Gets a string value from a subkey of the Windows current version registry key.
 * GetRegistryString
   Gets a value from the registry from a specified root and sub key.
@@ -82,6 +82,9 @@ uses
   Returns the Windows directory.
 * WindowsProductID
   Returns the Windows product ID.
+
+All snippets are from the `winsys` category except GetCurrentVersionRegStr that
+is from the `reg` category.
 }
 
 procedure TWinSysCatDemoForm.btnGCVRSClick(Sender: TObject);

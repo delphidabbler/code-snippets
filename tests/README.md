@@ -43,7 +43,7 @@ Contains the _TextWinSysCat_[[2]](#2) project that provides a GUI application th
 
 ### History
 
-These test files originated as a [zip file on Google Drive](https://drive.google.com/file/d/1pH7LtyZY-ehwjJ4AjC801j-0bVMdLpsz/view) that were copied as is into the `csdb/tests` subdirectory of the `delphidabbler/code-snippets` repository on GitHub.
+These test files originated as a [zip file on Google Drive](https://drive.google.com/file/d/1pH7LtyZY-ehwjJ4AjC801j-0bVMdLpsz/view) that were transferred to the `delphidabbler/code-snippets` repository on GitHub. The tests are located in the repository's `tests` sub-directory.
 
 All subsequent changes to the files were made on GitHub. At present the GitHub repository differs from the original code on Google Drive.
 

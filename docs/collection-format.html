@@ -47,19 +47,22 @@
         <a href="#intro">Introduction</a>
       </li>
       <li>
-        <a href="#meta">Meta Data Files</a>
+        <a href="#meta">Meta&nbsp;Data&nbsp;Files</a>
       </li>
       <li>
-        <a href="#source-code">Source Code Files</a>
+        <a href="#source-code">Source&nbsp;Code&nbsp;Files</a>
       </li>
       <li>
-        <a href="#credits">Credits Files</a>
+        <a href="#credits">Credits&nbsp;Files</a>
       </li>
       <li>
-        <a href="#license">License Files</a>
+        <a href="#license">License&nbsp;Files</a>
       </li>
       <li>
-        <a href="#version">Version Information File</a>
+        <a href="#version">Version&nbsp;Information&nbsp;File</a>
+      </li>
+      <li>
+        <a href="#software-implementation-notes">Software&nbsp;Implementation&nbsp;Notes</a>
       </li>
     </ul>
   </nav>
@@ -86,6 +89,14 @@
   </p>
   <p>
     All files are located in the same directory.
+  </p>
+
+  <h2>
+    Notation
+  </h2>
+    
+  <p>
+    For any parts of this documentation that don't apply to all collection versions, the applicable versions may be specified using Ruby's <a href="https://thoughtbot.com/blog/rubys-pessimistic-operator">twiddle-wakka</a> pessimistic operator. For example <code>~>2.1</code> means that the item applies to all versions <code>&gt;=2.1</code> but <code>&lt;3.0</code> while <code>~>2.1.2</code> means that the item applies to all versions <code>&gt;=2.1.2</code> but <code>&lt;2.2.0</code>.
   </p>
 
 </section>
@@ -187,19 +198,22 @@ DelphiXE7=&lt;&quot;Y&quot;|&quot;N&quot;|&quot;Q&quot;|&quot;W&quot;&gt;
 DelphiXE8=&lt;&quot;Y&quot;|&quot;N&quot;|&quot;Q&quot;|&quot;W&quot;&gt;
 Delphi10S=&lt;&quot;Y&quot;|&quot;N&quot;|&quot;Q&quot;|&quot;W&quot;&gt;
 Delphi101B=&lt;&quot;Y&quot;|&quot;N&quot;|&quot;Q&quot;|&quot;W&quot;&gt;
-Delphi102T=&lt;&quot;Y&quot;|&quot;N&quot;|&quot;Q&quot;|&quot;W&quot;&gt; [from v2.2.0]
-Delphi103R=&lt;&quot;Y&quot;|&quot;N&quot;|&quot;Q&quot;|&quot;W&quot;&gt; [from v2.2.0]
-Delphi104S=&lt;&quot;Y&quot;|&quot;N&quot;|&quot;Q&quot;|&quot;W&quot;&gt; [from v2.2.0]
-Delphi11A=&lt;&quot;Y&quot;|&quot;N&quot;|&quot;Q&quot;|&quot;W&quot;&gt; [from v2.2.0]
+Delphi102T=&lt;&quot;Y&quot;|&quot;N&quot;|&quot;Q&quot;|&quot;W&quot;&gt; [~>2.2]
+Delphi103R=&lt;&quot;Y&quot;|&quot;N&quot;|&quot;Q&quot;|&quot;W&quot;&gt; [~>2.2]
+Delphi104S=&lt;&quot;Y&quot;|&quot;N&quot;|&quot;Q&quot;|&quot;W&quot;&gt; [~>2.2]
+Delphi11A=&lt;&quot;Y&quot;|&quot;N&quot;|&quot;Q&quot;|&quot;W&quot;&gt; [~>2.2]
 FPC=&lt;&quot;Y&quot;|&quot;N&quot;|&quot;Q&quot;|&quot;W&quot;&gt;
 Kind=&lt;&quot;freeform&quot;|&quot;routine&quot;|&quot;type&quot;|&quot;const&quot;|&quot;class&quot;|&quot;unit&quot;&gt;
-TestInfo=&lt;&quot;none&quot;|&quot;basic&quot;|&quot;advanced&quot;&gt;</pre>
-  <aside>
+TestInfo=&lt;&quot;none&quot;|&quot;basic&quot;|&quot;advanced&quot;&gt;
+AdvancedTest.Level=&lt;&quot;unspecified&quot;|&quot;unit-tests&quot;|&quot;demo&quot;|&quot;other&quot;&gt; [~>2.2]
+AdvancedTest.URL=&lt;url&gt; [~>2.2]</pre>
     <p>
-      <strong>NOTE:</strong> As of v2.1.0 keys marked with an asterisk (*) are deprecated and are no longer used in the Code Snippets Database collection.
+      <span class="very-strong">[~>2.1]:</span> Keys marked with an asterisk (*) are deprecated and are no longer used in the collection. However, software requiring backwards compatibility must be prepared to process these keys and to make appropriate decisions about how to handle them. See other notes below for further details.
     </p>
   </aside>
-  <p>The sections in these files are named with identifiers that uniquely identify a snippet. This <span class="very-strong">must</span> be a valid Unicode Pascal identifier. The keys in a section have the following purpose:</p>
+  <p>
+    The sections in these files are named with identifiers that uniquely identify a snippet. This <span class="very-strong">must</span> be a valid Unicode Pascal identifier. The keys in a section have the following purpose:
+  </p>
   <dl>
     <dt>
       <code class="key">DisplayName</code>
@@ -216,44 +230,28 @@ TestInfo=&lt;&quot;none&quot;|&quot;basic&quot;|&quot;advanced&quot;&gt;</pre>
       <code class="key">Desc</code>
     </dt>
     <dd>
-      <aside>
-        <p>
-          <span class="very-strong">Deprecated as of v2.1.0</span>: use <code class="key">DescEx</code> instead.
-        </p>
-        <p>
-          v2.1.0 conformant collections <span class="very-strong">must not</span> use this key.
-        </p>
-        <p>
-          Software <span class="very-strong">must</span> ignore this key when parsing v2.1.0 conformant collections.
-        </p>
-      </aside>
       <p>
         Description of the snippet as plain text.
       </p>
       <p>
-        For v2.0.x only, <code class="key">Desc</code> is ignored if a non-empty <code class="key">DescEx</code> key is present. At least one of the <code class="key">Desc</code> or <code class="key">DescEx</code> keys are <span class="very-strong">required</span> to be present and non-empty.
+       <strong> [~>2.0.0]:</strong> <code class="key">Desc</code> is ignored if a non-empty <code class="key">DescEx</code> key is present. At least one of the <code class="key">Desc</code> or <code class="key">DescEx</code> keys are <span class="very-strong">required</span> to be present and non-empty.
+      </p>
+      <p>
+        <strong>[~>2.1]:</strong> <code class="key">Desc</code> is <span class="very-strong">deprecated</span> and <span class="very-strong">must not</span> be used. <code class="key">DescEx</code> <span class="very-strong">must</span> be used instead.
       </p>
     </dd>
     <dt>
       <code class="key">DescEx</code>
     </dt>
     <dd>
-      <aside>
-        <p>
-          <span class="very-strong">Required as of v2.1.0</span>.
-        </p>
-        <p>
-          v2.1.0 conformant collections <span class="very-strong">must</span> use this key.
-        </p>
-        <p>
-          Software <span class="very-strong">must</span> report an error when parsing v2.1.0 conformant collections if <code class="key">DescEx</code> is missing.
-        </p>
-      </aside>
       <p>
-        Formatted description of the snippet using REML<sup><a href="#footnote-1">1</a></sup> code.
+        Formatted description of the snippet. When present the value <span class="very-strong">must</span> be a valid string of REML<sup><a href="#footnote-1">1</a></sup> code.
       </p>
       <p>
-        For version 2.0.x only, <code class="key">DescEx</code> may be empty, in which case the <code class="key">Desc</code> key is used. <code class="key">Desc</code> is ignored if <code class="key">DescEx</code> has a non-empty value. At least one of the <code class="key">Desc</code> or <code class="key">DescEx</code> keys are <span class="very-strong">required</span> to be present and non-empty.
+        <strong>[~>2.0.0]:</strong> <code class="key">DescEx</code> may be empty, in which case the <code class="key">Desc</code> key is used. <code class="key">Desc</code> is ignored if <code class="key">DescEx</code> has a non-empty value. At least one of the <code class="key">Desc</code> or <code class="key">DescEx</code> keys are <span class="very-strong">required</span> to be present and non-empty.
+      </p>
+      <p>
+        <strong>[~>2.1]:</strong> <code class="key">DescEx</code> is <span class="very-strong">required</span> to be present and non-empty.
       </p>
     </dd>
     <dt>
@@ -324,74 +322,55 @@ TestInfo=&lt;&quot;none&quot;|&quot;basic&quot;|&quot;advanced&quot;&gt;</pre>
       <p>
         May be omitted or empty.
       </p>
-      <p>
-        For v2.0.x only, if and only if <code class="key">Extra</code> is empty, extra information is generated from the <code class="key">Comments</code>, <code class="key">Credits</code> and <code class="key">Credits_URL</code> key values.
-      </p>
+      <aside>
+        <p>
+          <strong>[~>2.0.0]:</strong> If and only if <code class="key">Extra</code> is empty, extra information is generated from the <code class="key">Comments</code>, <code class="key">Credits</code> and <code class="key">Credits_URL</code> key values. See <a href="#generating-extra-from-credits-comments">below</a> for details of how to do this.
+        </p>
+      </aside>
     </dd>
     <dt>
       <code class="key">Credits</code><sup><a href="#footnote-2">2</a></sup>
     </dt>
     <dd>
-      <aside>
-        <p>
-          <span class="very-strong">Deprecated as of v2.1.0</span>: use <code class="key">Extra</code> instead.
-        </p>
-        <p>
-          v2.1.0 conformant collections <span class="very-strong">must not</span> use this key.
-        </p>
-        <p>
-          Software <span class="very-strong">must</span> ignore this key when parsing v2.1.0 conformant collections.
-        </p>
-      </aside>
       <p>
         Text that notes any credits / acknowledgements. <code class="key">Credits</code> may optionally contain one (and only one) section of text delimited by <code>[</code> and <code>]</code> characters that indicate the presence of a hyperlink. The enclosed text is used as the text of a hyperlink whose URL <span class="very-strong">must</span> be specified in the <code class="key">Credits_URL</code> key.
       </p>
       <p>
-        May be omitted or empty. <code class="key">Credits</code> is ignored if a non-empty <code class="key">Extra</code> key is present.
+        <strong>[~>2.0.0]:</strong> May be omitted or empty. <code class="key">Credits</code> is ignored if a non-empty <code class="key">Extra</code> key is present.
+      </p>
+      <p>
+        <strong>[~>2.1]:</strong> <span class="very-strong">Deprecated</span> and <span class="very-strong">must not</span> be used. Use <code class="key">Extra</code> instead.
       </p>
     </dd>
     <dt>
       <code class="key">Credits_URL</code><sup><a href="#footnote-2">2</a></sup>
     </dt>
     <dd>
-      <aside>
-        <p>
-          <span class="very-strong">Deprecated as of v2.1.0</span>.
-        </p>
-        <p>
-          v2.1.0 conformant collections <span class="very-strong">must not</span> use this key.
-        </p>
-        <p>
-          Software <span class="very-strong">must</span> ignore this key when parsing v2.1.0 conformant collections.
-        </p>
-      </aside>
       <p>
         The URL used in any hyperlink present in the <code class="key">Credits</code> key.
       </p>
       <p>
-        <span class="very-strong">Must</span> be present if <code class="key">Credits</code> specifies a hyperlink. Ignored if <code class="key">Credits</code> contains no hyperlink section or if a non-empty <code class="key">Extra</code> key is present.
+        <strong>[~>2.0.0]:</strong> <span class="very-strong">Must</span> be present if <code class="key">Credits</code> specifies a hyperlink. Ignored if <code class="key">Credits</code> contains no hyperlink section or if a non-empty <code class="key">Extra</code> key is present.
       <p>
+      <p>
+        <strong>[~>2.1]</strong> <span class="very-strong">Deprecated</span> and <span class="very-strong">must not</span> be used.
+      </p>
     </dd>
     <dt>
       <code class="key">Comments</code>
     </dt>
     <dd>
-      <aside>
-        <p>
-          <span class="very-strong">Deprecated as of v2.1.0</span>: use <code class="key">Extra</code> instead.
-        </p>
-        <p>
-          v2.1.0 conformant collections <span class="very-strong">must not</span> use this key.
-        </p>
-        <p>
-          Software <span class="very-strong">must</span> ignore this key when parsing v2.1.0 conformant collections.
-        </p>
-      </aside>
       <p>
         Text string containing any additional comments about the snippet.
       </p>
       <p>
         Optional. Ignored if a non-empty <code class="key">Extra</code> key is present.
+      </p>
+      <p>
+        <strong>[~>2.0.0]:</strong> May be omitted or empty. <code class="key">Comments</code> is ignored if a non-empty <code class="key">Extra</code> key is present.
+      </p>
+      <p>
+        <strong>[~>2.1]:</strong> <span class="very-strong">Deprecated</span> and <span class="very-strong">must not</span> be used. Use <code class="key">Extra</code> instead.
       </p>
     </dd>
     <dt>
@@ -423,10 +402,10 @@ TestInfo=&lt;&quot;none&quot;|&quot;basic&quot;|&quot;advanced&quot;&gt;</pre>
         <li><code class="key">DelphiXE8</code> – Delphi XE8 compiler</li>
         <li><code class="key">Delphi10S</code> – Delphi 10 Seattle compiler</li>
         <li><code class="key">Delphi101B</code> – Delphi 10.1 Berlin compiler</li>
-        <li><code class="key">Delphi102T</code> – Delphi 10.2 Tokyo compiler [from v2.2.0]</li>
-        <li><code class="key">Delphi103R</code> – Delphi 10.3 Rio compiler [from v2.2.0]</li>
-        <li><code class="key">Delphi104S</code> – Delphi 10.4 Sydney compiler [from v2.2.0]</li>
-        <li><code class="key">Delphi11A</code> – Delphi 11.x Alexandria compiler [from v2.2.0]</li>
+        <li><code class="key">Delphi102T</code> – Delphi 10.2 Tokyo compiler <strong>[~>2.2]</strong></li>
+        <li><code class="key">Delphi103R</code> – Delphi 10.3 Rio compiler <strong>[~>2.2]</strong></li>
+        <li><code class="key">Delphi104S</code> – Delphi 10.4 Sydney compiler <strong>[~>2.2]</strong></li>
+        <li><code class="key">Delphi11A</code> – Delphi 11.x Alexandria compiler <strong>[~>2.2]</strong></li>
         <li><code class="key">FPC</code> – Free Pascal compiler</li>
       </ul>
       <p>
@@ -470,20 +449,59 @@ TestInfo=&lt;&quot;none&quot;|&quot;basic&quot;|&quot;advanced&quot;&gt;</pre>
       </p>
       <ul class="unspaced">
         <li><code class="value">none</code> – the snippet has not been tested.</li>
-        <li><code class="value">basic</code> – the snippet has passed some simple testing.</li>
+        <li><code class="value">basic</code> – the snippet has passed some simple, unspecified testing.</li>
         <li><code class="value">advanced</code> – the snippet has passed more advanced testing, usually unit tests.</li>
       </ul>
       <p>
         <code class="key">TestInfo</code> is optional. If it is not present then its value defaults to <code class="value">basic</code>.
       </p>
+      <aside>
+        <p>
+          For ~>2.2 additional testing information can be provided for snippets with <code class="key">TestInfo</code> = <code class="value">advanced</code> by using the <code class="key">AdvancedTest.Level</code> and <code class="key">AdvancedTest.URL</code> keys.
+        </p>
+      </aside>
     </dd>
     <dt>
+      <code class="key">AdvancedTest.Level</code> <strong>[~>2.2]</strong>
+    </dt>
+    <dd>
+      <p>
+        Provides detailed testing information for snippets with <code class="key">TestInfo</code>=<code class="value">advanced</code>. Valid values are:
+      </p>
+      <ul class="unspaced">
+        <li><code class="value">unspecified</code> – the type of advanced testing has not been specified.</li>
+        <li><code class="value">unit-tests</code> – the snippet has passed unit tests.</li>
+        <li><code class="value">demo</code> - there exists demo code that exercises the snippet.</li>
+        <li><code class="value">other</code> - some other form of testing has been used.</li>
+      </ul>
+      <p>
+        <code class="key">AdvancedTest.Level</code> is optional. If it is not present or is empty then its value defaults to <code class="value">unspecified</code>.
+      </p>
+      <p>
+        <code class="key">AdvancedTest.Level</code> <span class="very-strong">must not</span> be present if <code class="key">TestInfo</code> &NotEqual; <code class="value">advanced</code>.
+      </p>
+    </dd>
+    <dt>
+      <code class="key">AdvancedTest.URL</code> <strong>[~>2.2]</strong>
+    </dt>
+    <dd>
+      <p>
+        The URL of test code relating to the snippet.
+      </p>
+      <p>
+        <code class="key">AdvancedTest.URL</code> is optional, but if present <span class="very-strong">must</span> be set to a valid URL.
+      </p>
+      <p>
+        <code class="key">AdvancedTest.URL</code> <span class="very-strong">must not</span> be present if <code class="key">TestInfo</code> &NotEqual; <code class="value">advanced</code> <em>or</em> <code class="key">AdvancedTest.Level</code> = <code class="value">unspecified</code>.
+      </p>
+    </dd>
   </dl>
+  <hr>
   <p>
     The format is quite messy, with several keys having similar or overlapping purposes. This has happened because new keys have been added over time while preserving backward compatibility.
   </p>
   <p>
-    Backwards compatibility with older file formats has now been dropped, but to save development time, some of the old style values have been retained. However some duplication of keys has been removed from the collection. Over time some redundant keys may be removed.
+    Limited backwards compatibility with v1 file formats was retained for ~>2.0.0 in order to save development time. For ~>2.1 such duplication has been removed from the collection.
   </p>
 
 </section>
@@ -709,6 +727,140 @@ CopyrightHolderURL=&lt;url&gt;</pre>
 
 </section>
 
+<section id="software-implementation-notes">
+
+  <h1>
+    Software Implementation Notes
+  </h1>
+
+  <h2>
+    Handling collection versions
+  </h2>
+
+  <p>
+    <span class="very-strong">Do not</span> attempt to use v1 format collection files.
+  </p>
+
+  <p>
+    Backwards compatibility is guaranteed for all versions ~>2.0. The file formats are defined in such a way that software designed to read a later collection version can make sensible decisions about missing values when reading earlier versions.
+  </p>
+
+  <p>
+    Forwards compatibility is not guaranteed, but every attempt is made to enable software designed to read older collection versions to be able to read newer versions, albeit with some loss of information. To be able to do this software must ignore values and files that it does not understand or expect.
+  </p>
+
+  <h2>
+    Key duplication in category <code>.ini</code> files
+  </h2>
+
+  <p>
+    Given that the some keys duplicate or overlap with others, it can be confusing to know how to process this duplication in software. Here are some tips.
+  </p>
+
+  <h3 id="implementing-desc-descex">
+    <code class="key">Desc</code> &amp; <code class="key">DescEx</code>
+  </h3>
+
+  <p>
+    In v2.0.x, both <code class="key">Desc</code> and <code class="key">DescEx</code> keys can be found together or individually. Deal with them as follows:
+  </p>
+
+  <ul>
+    <li>
+      If both keys are non-empty use the value of <code class="key">DescEx</code> and ignore <code class="key">Desc</code>.
+    </li>
+    <li>
+      If only <code class="key">DescEx</code> is non-empty, use its value.
+    </li>
+    <li>
+      If only <code class="key">Desc</code> is non-empty then convert its plain text value into a REM<sup><a href="#footnote-1">1</a></sup> paragraph and proceed as if <code class="key">DescEx</code> was defined with the REML as its value.
+    </li>
+  </ul>
+
+  <p>
+    For ~>2.1 you can expect that <code class="key">DescEx</code> will always be non-empty and that <code class="key">Desc</code> does not exist.
+  </p>
+
+  <h3 id="generating-extra-from-credits-comments">
+    <code class="key">Credits</code>, <code class="key">Credits_URL</code>, <code class="key">Comments</code> &amp; <code class="key">Extra</code>
+  </h3>
+
+  <p>
+    In version 2.0.x, various combinations of the above keys can be found. Deal with them as follows:
+  </p>
+
+  <ul>
+    <li>
+      <p>
+        If a non-empty <code class="key">Extra</code> key exists simply use the REML<sup><a href="#footnote-1">1</a></sup> code it defines and ignore and <code class="key">Credits</code>, <code class="key">Credits_URL</code> and <code class="key">Comments</code> values.
+      </p>
+    </li>
+    <li>
+      <p>
+        Wheres there is no <code class="key">Extra</code> content do this:
+      </p>
+      <ul>
+        <li>
+          If there is a non-empty <code class="key">Credits</code> value, but no <code class="key">Credits_URL</code> value, then create a REML<sup><a href="#footnote-1">1</a></sup> paragraph containing the plain text of the <code class="key">Credits</code> value. Store this.
+        </li>
+        <li>
+          If there are non-empty <code class="key">Credits</code> and <code class="key">Credits_URL</code> values then create REML<sup><a href="#footnote-1">1</a></sup> as explained in <a href="#footnote-2">footnote 2</a> and store it.
+        </li>
+        <li>
+          If there is a non-empty <code class="key">Credits_URL</code> value but no <code class="key">Credits</code> value then ignore the value.
+        </li>
+        <li>
+          If there is a non-empty <code class="key">Comments</code> value then create a REML<sup><a href="#footnote-1">1</a></sup> paragraph containing the plain text value. Store this.
+        </li>
+      </ul>
+      <p>
+        Now combine any REML<sup><a href="#footnote-1">1</a></sup> paragraphs you generated from the <code class="key">Credits</code> and <code class="key">Comments</code> values and proceed as if there was an <code class="key">Extra</code> key with the same value.
+      </p>
+    </li>
+  </ul>
+
+  <p>
+    For ~>2.1 you can expect that <code class="key">Credits</code>, <code class="key">Credits_URL</code> or <code class="key">Comments</code> won't exist and simply deal with <code class="key">Extra</code> if it present.
+  </p>
+
+  <h2>
+    Handling compiler results
+  </h2>
+
+  <p>
+    It is easy to deal with compilation results. Simply check for the existance of the key matching the required compiler (e.g. <code class="key">DelphiXE8</code>). If the key exists then read its value, otherwise proceed as if it had the value <code class="value">Q</code>.
+  </p>
+
+  <p>
+    Note that Delphi 10.2 Tokyo and later are only defined for ~>2.2.
+  </p>
+
+  <h2>
+    Handling test information
+  </h2>
+
+  <p>
+    Before v2.2.0 there was just the single <code class="key">TestInfo</code> key that provided any information about program testing. v2.2.0 added the <code class="key">AdvancedTest.Level</code> and <code class="key">AdvancedTest.URL</code> keys.
+  </p>
+
+  <p>
+    Software that doesn't understand the new keys can safely ignore them and continue to use only <code class="key">TestInfo</code>.
+  </p>
+  
+  <p>
+    ~>2.2 compliant software can get further information about snippets that have received advanced &quot;testing&quot;, where such information is available. The possible values are documented above.
+  </p>
+
+  <p>
+    Note that <code class="key">AdvancedTest.Level</code> = <code class="key">unspecified</code> simply means we know that &quot;advanced&quot; testing was undertaken, but we don't know exactly what form it took. There can be no URL linking to test source code: if <code class="key">AdvancedTest.URL</code> is non-empty that is an error and the value should be ignored. If <code class="key">AdvancedTest.Level</code> is not present then software should assume <code class="key">unspecified</code>, because that is the key's default value. 
+  </p>
+    
+  <p>
+    Having <code class="key">AdvancedTest.Level</code> set to any other value provides additional information. In these cases <code class="key">AdvancedTest.URL</code> may provide a URL that links to code containing the tests. This could be a source code repository or a Gist, for example. Given that <code class="key">AdvancedTest.URL</code> is optional, software should be able to handle cases where there is no link to the test code available.
+  </p>
+
+</section>
+
 <footer>
 
   <h1>
@@ -725,7 +877,7 @@ CopyrightHolderURL=&lt;url&gt;</pre>
         Here is an example of how the <span class="very-strong">deprecated</span> <code class="key">Credits</code> and <code  class="key">Credits_URL</code> keys work together.
       </p>
       <p>
-        If <code class="key">Credits</code>=<code class="value">&quot;See [example 1]&quot;</code> and <code class="key">Credits_URL</code>=<code class="value">&quot;http://example.com&quot;</code> and the <code class="key">Extra</code> key is empty or missing then the extra REML code generated will be <samp>See &lt;a href=&quot;example.com&quot;&gt;example 1&lt;/a&gt;</samp>.
+        If <code class="key">Credits</code>=<code class="value">&quot;See [example 1].&quot;</code> and <code class="key">Credits_URL</code>=<code class="value">&quot;https://example.com&quot;</code> then the equivalent HTML or REML code is <samp>&lt;p&gt;See &lt;a href=&quot;https://example.com&quot;&gt;example 1&lt;/a&gt;.&lt;/p&gt;</samp>.
       </p>
     </li>
     <li id="footnote-3">

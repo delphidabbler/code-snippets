@@ -128,7 +128,7 @@ code.key, code.value {
 }
 code.key {
   font-weight: bold;
-  font-style: none;
+  font-style: normal;
 }
 code.value {
   font-style: normal;

@@ -219,6 +219,15 @@ function Pow(const Base: Int64; const Exponent: Byte): Int64;
   {Raises integer value Base to non-negative integer power Exponent and returns
   the result.}
 
+function PowN(const X: Extended; const N: Integer): Extended;
+  {IEEE compliant function that raises real number X to the power N.}
+
+function PowNZZ(const X: Integer; const N: Integer): Extended;
+  {Raises integer X to non-negative integer power N.}
+
+function PowNZN(const X: Integer; const N: Cardinal): Int64;
+  {Raises integer X to integer power N.}
+
 function RectArea(const R: Windows.TRect): Int64;
   {Returns the area of the given rectangle.}
 
@@ -1024,6 +1033,68 @@ begin
   Result := 1;
   for I := 1 to Exponent do
     Result := Result * Base;
+end;
+
+function PowN(const X: Extended; const N: Integer): Extended;
+  {IEEE compliant function that raises real number X to the power N.}
+var
+  I: Integer;
+begin
+  if N = 0 then
+    // IEEE: pown(x, 0) is 1, even when X is zero
+    Exit(1.0);
+  if Math.SameValue(1.0, X) then
+    Exit(1.0);
+  if Math.IsZero(X) then
+  begin
+    if N < 0 then
+      raise SysUtils.EDivByZero.Create('PowN: Negative exponent for X = 0');
+    Exit(0.0);
+  end;
+  Result := 1.0;
+  for I := 1 to System.Abs(N) do
+    Result := Result * X;
+  if N < 0 then
+    Result := 1 / Result;
+end;
+
+function PowNZN(const X: Integer; const N: Cardinal): Int64;
+  {Raises integer X to integer power N.}
+var
+  I: Integer;
+begin
+  if (X = 0) and (N > 0) then
+    Exit(0);
+  if X = 1 then
+    Exit(1);
+  Result := 1;
+  for I := 1 to N do
+    Result := Result * X;
+end;
+
+function PowNZZ(const X: Integer; const N: Integer): Extended;
+  {Raises integer X to non-negative integer power N.}
+var
+  I: Integer;
+  ResultInt: Int64;
+begin
+  if N = 0 then
+    Exit(1.0);
+  if X = 1 then
+    Exit(1.0);
+  if X = 0 then
+  begin
+    if N < 0 then
+      raise SysUtils.EDivByZero.Create('PowNZZ: Negative exponent for X = 0');
+    Exit(0.0);
+  end;
+  ResultInt := 1;
+  for I := 1 to System.Abs(N) do
+    ResultInt := ResultInt * X;
+  if N > 0 then
+    Result := ResultInt
+  else // N < 0
+    Result := 1 / ResultInt;
 end;
 
 function RectArea(const R: Windows.TRect): Int64;

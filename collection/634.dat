@@ -1,0 +1,12 @@
+﻿function PowNZN(const X: Integer; const N: Cardinal): Int64;
+var
+  I: Integer;
+begin
+  if (X = 0) and (N > 0) then
+    Exit(0);
+  if X = 1 then
+    Exit(1);
+  Result := 1;
+  for I := 1 to N do
+    Result := Result * X;
+end;

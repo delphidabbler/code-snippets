@@ -40,6 +40,9 @@ type
     procedure TestMaxOfArray_Single;
     procedure TestMaxOfArray_Double;
     procedure TestMaxOfArray_Extended;
+    procedure TestPowNZN;
+    procedure TestPowNZZ;
+    procedure TestPowN;
   end;
 
 implementation
@@ -528,6 +531,78 @@ begin
   A := TSingleDynArray.Create(2.2, 6.6, 42.42, 8.8);
   N := 2.2;
   Check(SameValue(N, MinOfArray(A)), 'Test 5');
+end;
+
+procedure TestMathsCatSnippets.TestPowN;
+begin
+  CheckEquals(0,          PowN(0, 2),     'PowN(0,2)');
+  CheckEquals(1,          PowN(42, 0),    'PowN(42,0)');
+  CheckEquals(1,          PowN(0, 0),     'PowN(0,0)');
+  CheckEquals(1,          PowN(1, 1),     'PowN(1,1)');
+  CheckEquals(-1,         PowN(-1, 1),    'PowN(-1,1)');
+  CheckEquals(1,          PowN(1, 5),     'PowN(1,5)');
+  CheckEquals(4,          PowN(2, 2),     'PowN(2,2)');
+  CheckEquals(4,          PowN(-2, 2),    'PowN(-2,2)');
+  CheckEquals(100,        PowN(10, 2),    'PowN(10,2)');
+  CheckEquals(10000,      PowN(10, 4),    'PowN(10,2)');
+  CheckEquals(1.0,        PowN(0, 0),     'PowN(0, 0)');
+  CheckEquals(1/2,        PowN(2, -1),    'PowN(2, -1)');
+  CheckEquals(1/1000,     PowN(10, -3),   'PowN(10, -3)');
+  CheckEquals(-1000,      PowN(-10, 3),   'PowN(-10, 3)');
+  CheckEquals(-1/1000,    PowN(-10, -3),  'PowN(-10, -3)');
+  CheckEquals(4,          PowN(2, 2),     'PowN(2,2)');
+  CheckEquals(4,          PowN(-2, 2),    'PowN(-2,2)');
+  CheckEquals(1/27,       PowN(3, -3),    'PowN(3, -3)');
+  CheckEquals(1/3,        PowN(3, -1),    'PowN(3, -1)');
+  CheckEquals(-1,         PowN(-1, -3),   'PowN(-1, -3)');
+  CheckEquals(4294967296, PowN(2, 32),    'PowN(2, 32');
+  // Floats
+  CheckEquals(Math.Power(45.3672, 3.0), PowN(45.3672, 3), 'PowN(45.3672, 12)');
+  CheckEquals(Math.Power(-0.87659, -7), PowN(-0.87659, -7), 'PowN(-0.87659, -7)');
+  CheckEquals(Math.Power(45.3672, -3.0), PowN(45.3672, -3), 'PowN(45.3672, -3)');
+  CheckEquals(Math.Power(-0.87659, -7), PowN(-0.87659, -7), 'PowN(-0.87659, -7)');
+  CheckEquals(Math.Power(-0.87659, 3), PowN(-0.87659, 3), 'PowN(-0.87659, 3)');
+end;
+
+procedure TestMathsCatSnippets.TestPowNZN;
+begin
+  CheckEquals(0,      PowNZN(0, 2),   'PowNZN(0,2)');
+  CheckEquals(1,      PowNZN(42, 0),  'PowNZN(42,0)');
+  CheckEquals(1,      PowNZN(0, 0),   'PowNZN(0,0)');
+  CheckEquals(1,      PowNZN(1, 1),   'PowNZN(1,1)');
+  CheckEquals(-1,     PowNZN(-1, 1),  'PowNZN(-1,1)');
+  CheckEquals(1,      PowNZN(1, 5),   'PowNZN(1,5)');
+  CheckEquals(4,      PowNZN(2, 2),   'PowNZN(2,2)');
+  CheckEquals(4,      PowNZN(-2, 2),  'PowNZN(-2,2)');
+  CheckEquals(100,    PowNZN(10, 2),  'PowNZN(10,2)');
+  CheckEquals(10000,  PowNZN(10, 4),  'PowNZN(10,2)');
+  CheckEquals(-1000,  PowNZN(-10, 3), 'PowNZN(-10,3)');
+  CheckEquals(10000,  PowNZN(-10, 4), 'PowNZN(-10,4)');
+end;
+
+procedure TestMathsCatSnippets.TestPowNZZ;
+begin
+  CheckEquals(0,          PowNZZ(0, 2),     'PowNZZ(0,2)');
+  CheckEquals(1,          PowNZZ(42, 0),    'PowNZZ(42,0)');
+  CheckEquals(1,          PowNZZ(0, 0),     'PowNZZ(0,0)');
+  CheckEquals(1,          PowNZZ(1, 1),     'PowNZZ(1,1)');
+  CheckEquals(-1,         PowNZZ(-1, 1),    'PowNZZ(-1,1)');
+  CheckEquals(1,          PowNZZ(1, 5),     'PowNZZ(1,5)');
+  CheckEquals(4,          PowNZZ(2, 2),     'PowNZZ(2,2)');
+  CheckEquals(4,          PowNZZ(-2, 2),    'PowNZZ(-2,2)');
+  CheckEquals(100,        PowNZZ(10, 2),    'PowNZZ(10,2)');
+  CheckEquals(10000,      PowNZZ(10, 4),    'PowNZZ(10,2)');
+  CheckEquals(1.0,        PowNZZ(0, 0),     'PowNZZ(0, 0)');
+  CheckEquals(1/2,        PowNZZ(2, -1),    'PowNZZ(2, -1)');
+  CheckEquals(1/1000,     PowNZZ(10, -3),   'PowNZZ(10, -3)');
+  CheckEquals(-1000,      PowNZZ(-10, 3),   'PowNZZ(-10, 3)');
+  CheckEquals(-1/1000,    PowNZZ(-10, -3),  'PowNZZ(-10, -3)');
+  CheckEquals(4,          PowNZZ(2, 2),     'PowNZZ(2,2)');
+  CheckEquals(4,          PowNZZ(-2, 2),    'PowNZZ(-2,2)');
+  CheckEquals(1/27,       PowNZZ(3, -3),    'PowNZZ(3, -3)');
+  CheckEquals(1/3,        PowNZZ(3, -1),    'PowNZZ(3, -1)');
+  CheckEquals(-1,         PowNZZ(-1, -3),   'PowNZZ(-1, -3)');
+  CheckEquals(4294967296, PowNZZ(2, 32),    'PowNZZ(2, 32');
 end;
 
 procedure TestMathsCatSnippets.TestResizeRect_A;

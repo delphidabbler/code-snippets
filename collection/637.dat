@@ -1,0 +1,8 @@
+﻿function ArraySum(const A: array of Double): Double; overload;
+var
+  Elem: Double;
+begin
+  Result := 0.0;
+  for Elem in A do
+    Result := Result + Elem;
+end;

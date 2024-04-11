@@ -1,0 +1,8 @@
+﻿function ArraySum(const A: array of UInt64): UInt64; overload;
+var
+  Elem: UInt64;
+begin
+  Result := 0;
+  for Elem in A do
+    Result := Result + Elem;
+end;

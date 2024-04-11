@@ -1,0 +1,8 @@
+﻿function ArraySum(const A: array of Single): Single; overload;
+var
+  Elem: Single;
+begin
+  Result := 0.0;
+  for Elem in A do
+    Result := Result + Elem;
+end;

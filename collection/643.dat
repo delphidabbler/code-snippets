@@ -1,0 +1,18 @@
+﻿function SumOfLogs(const A: array of Cardinal): Extended; overload;
+{$IFDEF FPC}
+const
+{$ELSE}
+resourcestring
+{$ENDIF}
+  sNotPositive = 'All elements of array A must be > 0';
+var
+  Elem: Cardinal;
+begin
+  Result := 0.0;
+  for Elem in A do
+  begin
+    if Elem = 0 then
+      raise SysUtils.EArgumentOutOfRangeException(sNotPositive);
+    Result := Result + System.Ln(Elem);
+  end;
+end;

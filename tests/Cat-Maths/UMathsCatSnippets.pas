@@ -12,6 +12,7 @@ interface
 uses
   SysUtils, Math, Types, Windows;
 
+
 type
   {Encapsulates a point with double precision floating point coordinates.}
   TPointF = record
@@ -59,6 +60,27 @@ function AllDigitsDifferent(N: Int64): Boolean;
 
 function AllDigitsSame(N: Int64): Boolean;
   {Checks if all the digits of the given integer are the same.}
+
+function ArraySum(const A: array of Single): Single; overload;
+  {Returns the sum of all Single floating point elements of array A.}
+
+function ArraySum(const A: array of Double): Double; overload;
+  {Returns the sum of all Double floating point elements of array A.}
+
+function ArraySum(const A: array of Extended): Extended; overload;
+  {Returns the sum of all Extended floating point elements of array A.}
+
+function ArraySum(const A: array of UInt64): UInt64; overload;
+  {Returns the sum of all UInt64 elements of array A.}
+
+function ArraySum(const A: array of Int64): Int64; overload;
+  {Returns the sum of all Int64 elements of array A.}
+
+function ArraySum(const A: array of Cardinal): Cardinal; overload;
+  {Returns the sum of all Cardinal elements of array A.}
+
+function ArraySum(const A: array of Integer): Integer; overload;
+  {Returns the sum of all Integer elements of array A.}
 
 function BoundsF(ALeft, ATop, AWidth, AHeight: Double): TRectF;
   {Constructs and returns a TRectF record with the given top-left coordinate,
@@ -306,6 +328,32 @@ function StretchRect(const R: Types.TRect; const Scaling: Double):
   Both width and height are stretched by the same scale factor.
   The top left corner is not changed.}
 
+function SumOfLogs(const A: array of Single): Single; overload;
+  {Returns the sum of the natural logarithms of each Single floating point
+  element of array A.}
+
+function SumOfLogs(const A: array of Double): Double; overload;
+  {Returns the sum of the natural logarithms of each Double floating point
+  element of array A.}
+
+function SumOfLogs(const A: array of Extended): Extended; overload;
+  {Returns the sum of the natural logarithms of each Extended floating point
+  element of array A.}
+
+function SumOfLogs(const A: array of Cardinal): Extended; overload;
+  {Returns the sum of the natural logarithms of each Cardinal element of array
+  A.}
+
+function SumOfLogs(const A: array of UInt64): Extended; overload;
+  {Returns the sum of the natural logarithms of each UInt64 element of array A.}
+
+function SumOfLogs(const A: array of Integer): Extended; overload;
+  {Returns the sum of the natural logarithms of each Integer element of array
+  A.}
+
+function SumOfLogs(const A: array of Int64): Extended; overload;
+  {Returns the sum of the natural logarithms of each Int64 element of array A.}
+
 function ZoomRatio(const DestWidth, DestHeight, SrcWidth, SrcHeight: Integer):
   Double; overload;
   {Calculates and returns the largest scaling that can be applied to a rectangle
@@ -364,6 +412,76 @@ begin
     N := N div 10;
   end;
   Result := True;
+end;
+
+function ArraySum(const A: array of Single): Single; overload;
+  {Returns the sum of all Single floating point elements of array A.}
+var
+  Elem: Single;
+begin
+  Result := 0.0;
+  for Elem in A do
+    Result := Result + Elem;
+end;
+
+function ArraySum(const A: array of Double): Double; overload;
+  {Returns the sum of all Double floating point elements of array A.}
+var
+  Elem: Double;
+begin
+  Result := 0.0;
+  for Elem in A do
+    Result := Result + Elem;
+end;
+
+function ArraySum(const A: array of Extended): Extended; overload;
+  {Returns the sum of all Extended floating point elements of array A.}
+var
+  Elem: Extended;
+begin
+  Result := 0.0;
+  for Elem in A do
+    Result := Result + Elem;
+end;
+
+function ArraySum(const A: array of UInt64): UInt64; overload;
+  {Returns the sum of all UInt64 elements of array A.}
+var
+  Elem: UInt64;
+begin
+  Result := 0;
+  for Elem in A do
+    Result := Result + Elem;
+end;
+
+function ArraySum(const A: array of Int64): Int64; overload;
+  {Returns the sum of all Int64 elements of array A.}
+var
+  Elem: Int64;
+begin
+  Result := 0;
+  for Elem in A do
+    Result := Result + Elem;
+end;
+
+function ArraySum(const A: array of Cardinal): Cardinal; overload;
+  {Returns the sum of all Cardinal elements of array A.}
+var
+  Elem: Cardinal;
+begin
+  Result := 0;
+  for Elem in A do
+    Result := Result + Elem;
+end;
+
+function ArraySum(const A: array of Integer): Integer; overload;
+  {Returns the sum of all Integer elements of array A.}
+var
+  Elem: Integer;
+begin
+  Result := 0;
+  for Elem in A do
+    Result := Result + Elem;
 end;
 
 function BoundsF(ALeft, ATop, AWidth, AHeight: Double): TRectF;
@@ -1287,6 +1405,151 @@ function StretchRect(const R: Types.TRect; const Scaling: Double):
   The top left corner is not changed.}
 begin
   Result := StretchRect(R, Scaling, Scaling);
+end;
+
+function SumOfLogs(const A: array of Single): Single; overload;
+  {Returns the sum of the natural logarithms of each Single floating point
+  element of array A.}
+{$IFDEF FPC}
+const
+{$ELSE}
+resourcestring
+{$ENDIF}
+  sNotPositive = 'All elements of array A must be > 0';
+var
+  Elem: Single;
+begin
+  Result := 0.0;
+  for Elem in A do
+  begin
+    if Math.Sign(Elem) <> Math.PositiveValue then
+      raise SysUtils.EArgumentOutOfRangeException(sNotPositive);
+    Result := Result + System.Ln(Elem);
+  end;
+end;
+
+function SumOfLogs(const A: array of Double): Double; overload;
+  {Returns the sum of the natural logarithms of each Double floating point
+  element of array A.}
+{$IFDEF FPC}
+const
+{$ELSE}
+resourcestring
+{$ENDIF}
+  sNotPositive = 'All elements of array A must be > 0';
+var
+  Elem: Double;
+begin
+  Result := 0.0;
+  for Elem in A do
+  begin
+    if Math.Sign(Elem) <> Math.PositiveValue then
+      raise SysUtils.EArgumentOutOfRangeException(sNotPositive);
+    Result := Result + System.Ln(Elem);
+  end;
+end;
+
+function SumOfLogs(const A: array of Extended): Extended;
+  {Returns the sum of the natural logarithms of each Extended floating point
+  element of array A.}
+{$IFDEF FPC}
+const
+{$ELSE}
+resourcestring
+{$ENDIF}
+  sNotPositive = 'All elements of array A must be > 0';
+var
+  Elem: Extended;
+begin
+  Result := 0.0;
+  for Elem in A do
+  begin
+    if Math.Sign(Elem) <> Math.PositiveValue then
+      raise SysUtils.EArgumentOutOfRangeException(sNotPositive);
+    Result := Result + System.Ln(Elem);
+  end;
+end;
+
+function SumOfLogs(const A: array of Cardinal): Extended; overload;
+  {Returns the sum of the natural logarithms of each Cardinal element of array
+  A.}
+{$IFDEF FPC}
+const
+{$ELSE}
+resourcestring
+{$ENDIF}
+  sNotPositive = 'All elements of array A must be > 0';
+var
+  Elem: Cardinal;
+begin
+  Result := 0.0;
+  for Elem in A do
+  begin
+    if Elem = 0 then
+      raise SysUtils.EArgumentOutOfRangeException(sNotPositive);
+    Result := Result + System.Ln(Elem);
+  end;
+end;
+
+function SumOfLogs(const A: array of UInt64): Extended; overload;
+  {Returns the sum of the natural logarithms of each UInt64 element of array A.}
+{$IFDEF FPC}
+const
+{$ELSE}
+resourcestring
+{$ENDIF}
+  sNotPositive = 'All elements of array A must be > 0';
+var
+  Elem: UInt64;
+begin
+  Result := 0.0;
+  for Elem in A do
+  begin
+    if Elem = 0 then
+      raise SysUtils.EArgumentOutOfRangeException(sNotPositive);
+    Result := Result + System.Ln(Elem);
+  end;
+end;
+
+function SumOfLogs(const A: array of Integer): Extended; overload;
+  {Returns the sum of the natural logarithms of each Integer element of array
+  A.}
+{$IFDEF FPC}
+const
+{$ELSE}
+resourcestring
+{$ENDIF}
+  sNotPositive = 'All elements of array A must be > 0';
+var
+  Elem: Integer;
+begin
+  Result := 0.0;
+  for Elem in A do
+  begin
+    if Elem <= 0 then
+      raise SysUtils.EArgumentOutOfRangeException(sNotPositive);
+    Result := Result + System.Ln(Elem);
+  end;
+end;
+
+function SumOfLogs(const A: array of Int64): Extended; overload;
+  {Returns the sum of the natural logarithms of each Int64 element of array A.}
+{$IFDEF FPC}
+const
+{$ELSE}
+resourcestring
+{$ENDIF}
+  sNotPositive = 'All elements of array A must be > 0';
+var
+  Elem: Int64;
+begin
+  Result := 0.0;
+  for Elem in A do
+  begin
+    if Elem <= 0 then
+      raise SysUtils.EArgumentOutOfRangeException(sNotPositive);
+    Result := Result + System.Ln(Elem);
+  end;
 end;
 
 function ZoomRatio(const DestWidth, DestHeight, SrcWidth, SrcHeight: Integer):

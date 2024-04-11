@@ -43,6 +43,20 @@ type
     procedure TestPowNZN;
     procedure TestPowNZZ;
     procedure TestPowN;
+    procedure TestArraySum_Single;
+    procedure TestArraySum_Double;
+    procedure TestArraySum_Extended;
+    procedure TestArraySum_Integer;
+    procedure TestArraySum_Int64;
+    procedure TestArraySum_Cardinal;
+    procedure TestArraySum_UInt64;
+    procedure TestSumOfLogs_Single;
+    procedure TestSumOfLogs_Double;
+    procedure TestSumOfLogs_Extended;
+    procedure TestSumOfLogs_Integer;
+    procedure TestSumOfLogs_Cardinal;
+    procedure TestSumOfLogs_Int64;
+    procedure TestSumOfLogs_UInt64;
   end;
 
 implementation
@@ -59,6 +73,89 @@ const
     331, 337, 347, 349, 353, 359, 367, 373, 379, 383, 389, 397, 401, 409, 419,
     421, 431, 433, 439, 443, 449, 457, 461, 463, 467, 479, 487, 491, 499, 503,
     509, 521, 523, 541
+  );
+
+  PosExtendedArray: array[0..4] of Extended = (
+    1.234, 4256.12345, 7000000000.0, PI, 0.000006758493
+  );
+
+  PosDoubleArray: array[0..4] of Double = (
+    1.234, 4256.12345, 7000000000.0, PI, 0.000006758493
+  );
+
+  PosSingleArray: array[0..4] of Single = (
+    1.234, 4256.12345, 7000000000.0, PI, 0.000006758493
+  );
+
+  LnPosExtendedArray: array[0..4] of Extended = (
+    // Sourced by entering PosExtendedArray values into Windows Calculator
+    0.21026092548319607136082943601527,
+    8.3561140367098338229057764041835,
+    22.669175986001724461267275835602,
+    1.1447298858494001741553183317696,
+    -11.904710621755846032803428450819
+  );
+
+  LnPosDoubleArray: array[0..4] of Double = (
+    // Sourced by entering PosExtendedArray values into Windows Calculator
+    0.21026092548319607136082943601527,
+    8.3561140367098338229057764041835,
+    22.669175986001724461267275835602,
+    1.1447298858494001741553183317696,
+    -11.904710621755846032803428450819
+  );
+
+  LnPosSingleArray: array[0..4] of Single = (
+    // Sourced by entering PosExtendedArray values into Windows Calculator
+    0.21026092548319607136082943601527,
+    8.3561140367098338229057764041835,
+    22.669175986001724461267275835602,
+    1.1447298858494001741553183317696,
+    -11.904710621755846032803428450819
+  );
+
+  PosUInt64Array: array[0..3] of UInt64 = (
+    1, 4256, 782937294729473, 18446744073709551615 {High(UInt64)}
+  );
+
+  LnPosUInt64Array: array[0..3] of Extended = (
+    0.0,
+    8.3560850310214803122005407826219,
+    34.294073725352958690377297588172,
+    44.361419555836499802648645664699
+  );
+
+  PosInt64Array: array[0..3] of UInt64 = (
+    1, 4256, 782937294729473, 9223372036854775807 {High(Int64)}
+  );
+
+  LnPosInt64Array: array[0..3] of Extended = (
+    0.0,
+    8.3560850310214803122005407826219,
+    34.294073725352958690377297588172,
+    43.668272375276554493177203434617
+  );
+
+  PosCardinalArray: array[0..3] of Cardinal = (
+    1, 4256, 30392847, 4294967295 {High(Cardinal)}
+  );
+
+  LnPosCardinalArray: array[0..3] of Extended = (
+    0.0,
+    8.3560850310214803122005407826219,
+    17.229717842637359251929684335162,
+    22.180709777685419257670453203439
+  );
+
+  PosIntegerArray: array[0..3] of Integer = (
+    1, 4256, 738473, 2147483647 {High(Integer)}
+  );
+
+  LnPosIntegerArray: array[0..3] of Extended = (
+    0.0,
+    8.3560850310214803122005407826219,
+    13.512339819689414368459751325714,
+    21.487562596892643304518036290109
   );
 
 function RectWidth(const Rect: TRect): Integer;
@@ -95,6 +192,62 @@ var
 begin
   R0 := Rect(10, 40, 50, 100);
   R1 := StretchRect(R0, 1234567890.0);
+end;
+
+procedure TestMathsCatSnippets.TestArraySum_Cardinal;
+const
+  A: array[0..3] of Cardinal = (12, 78, 0, 3);
+  Expected: Cardinal = 93;
+begin
+  CheckEquals(Expected, ArraySum(A));
+end;
+
+procedure TestMathsCatSnippets.TestArraySum_Double;
+const
+  A: array[0..3] of Double = (93849367.8695, 0.003, 10294834.9473984, -98374.8593847);
+  Expected: Double = 104045827.9605137;
+begin
+  CheckTrue(SameValue(Expected, ArraySum(A)));
+end;
+
+procedure TestMathsCatSnippets.TestArraySum_Extended;
+const
+  A: array[0..3] of Extended = (93849367.8695, 0.003, 10294834.9473984, -98374.8593847);
+  Expected: Extended = 104045827.9605137;
+begin
+  CheckTrue(SameValue(Expected, ArraySum(A)));
+end;
+
+procedure TestMathsCatSnippets.TestArraySum_Int64;
+const
+  A: array[0..3] of Int64 = (-3849374778, +3849374780, 0, -8);
+  Expected: Int64 = -6;
+begin
+  CheckEquals(Expected, ArraySum(A));
+end;
+
+procedure TestMathsCatSnippets.TestArraySum_Integer;
+const
+  A: array[0..3] of Integer = (-(MaxInt-5), MaxInt, 0, -671);
+  Expected: Integer = -666;
+begin
+  CheckEquals(Expected, ArraySum(A));
+end;
+
+procedure TestMathsCatSnippets.TestArraySum_Single;
+const
+  A: array[0..3] of Single = (93849367.8695, 0.003, 10294834.9473984, -98374.8593847);
+  Expected: Single = 104045827.9605137;
+begin
+  CheckTrue(SameValue(Expected, ArraySum(A)));
+end;
+
+procedure TestMathsCatSnippets.TestArraySum_UInt64;
+const
+  A: array[0..3] of UInt64 = (9223372036854775808, 2, 90, 100);
+  Expected: UInt64 = 9223372036854776000;
+begin
+  CheckEquals(Expected, ArraySum(A));
 end;
 
 procedure TestMathsCatSnippets.TestDigitCount;
@@ -712,6 +865,83 @@ begin
   CheckEquals(40, R2.Top, 'R2.Top');
   CheckEquals(10, R2.Bottom, '2: R2.Bottom');
   CheckException(StretchRect_B_Except, EOverflow, 'Large scaling');
+end;
+
+procedure TestMathsCatSnippets.TestSumOfLogs_Cardinal;
+var
+  Res, Expected: Extended;
+  BoolRes: Boolean;
+begin
+  Expected := ArraySum(LnPosCardinalArray); // SumOfArray result cast to Extended
+  Res := SumOfLogs(PosCardinalArray);
+  BoolRes := SameValue(Expected, Res);
+  CheckTrue(BoolRes, 'Normal');
+end;
+
+procedure TestMathsCatSnippets.TestSumOfLogs_Double;
+var
+  Res, Expected: Double;
+  BoolRes: Boolean;
+begin
+  Expected := ArraySum(LnPosDoubleArray);
+  Res := SumOfLogs(PosDoubleArray);
+  BoolRes := SameValue(Expected, Res);
+  CheckTrue(BoolRes, 'SumOfLogs_Double');
+end;
+
+procedure TestMathsCatSnippets.TestSumOfLogs_Extended;
+var
+  Res, Expected: Extended;
+  BoolRes: Boolean;
+begin
+  Expected := ArraySum(LnPosExtendedArray);
+  Res := SumOfLogs(PosExtendedArray);
+  BoolRes := SameValue(Expected, Res);
+  CheckTrue(BoolRes, 'SumOfLogs_Extended');
+end;
+
+procedure TestMathsCatSnippets.TestSumOfLogs_Int64;
+var
+  Res, Expected: Extended;
+  BoolRes: Boolean;
+begin
+  Expected := ArraySum(LnPosInt64Array); // SumOfArray result cast to Extended
+  Res := SumOfLogs(PosInt64Array);
+  BoolRes := SameValue(Expected, Res);
+  CheckTrue(BoolRes, 'SumOfLogs_Int64');
+end;
+
+procedure TestMathsCatSnippets.TestSumOfLogs_Integer;
+var
+  Res, Expected: Extended;
+  BoolRes: Boolean;
+begin
+  Expected := ArraySum(LnPosIntegerArray); // SumOfArray result cast to Extended
+  Res := SumOfLogs(PosIntegerArray);
+  BoolRes := SameValue(Expected, Res);
+  CheckTrue(BoolRes, 'SumOfLogs_Integer');
+end;
+
+procedure TestMathsCatSnippets.TestSumOfLogs_Single;
+var
+  Res, Expected: Single;
+  BoolRes: Boolean;
+begin
+  Expected := ArraySum(LnPosSingleArray);
+  Res := SumOfLogs(PosSingleArray);
+  BoolRes := SameValue(Expected, Res);
+  CheckTrue(BoolRes, 'SumOfLogs_Single');
+end;
+
+procedure TestMathsCatSnippets.TestSumOfLogs_UInt64;
+var
+  Res, Expected: Extended;
+  BoolRes: Boolean;
+begin
+  Expected := ArraySum(LnPosUInt64Array); // SumOfArray result cast to Extended
+  Res := SumOfLogs(PosUInt64Array);
+  BoolRes := SameValue(Expected, Res);
+  CheckTrue(BoolRes, 'SumOfLogs_UInt64');
 end;
 
 initialization

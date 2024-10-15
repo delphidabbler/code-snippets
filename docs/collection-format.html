@@ -147,7 +147,7 @@ Ini=&lt;ini-file-name&gt;</pre>
     </dt>
     <dd>
       <p>
-        The name of the <code>.ini</code> file that contains information about each snippet in the category. <span class="very-strong">Must</span> be a valid file name, without path. The files <span class="very-strong">must</span> be stored in the same directory as <code>category.ini</code>.
+        The name of the <code>.ini</code> file that contains information about each snippet in the category. <span class="very-strong">Must</span> be a valid file name, without path. The files <span class="very-strong">must</span> be stored in the same directory as <code>category.ini</code> and <span class="very-strong">must</span> be unique within the collection.
       </p>
     </dd>
   </dl>
@@ -213,7 +213,7 @@ AdvancedTest.URL=&lt;url&gt; [~>2.2]</pre>
     </p>
   </aside>
   <p>
-    The sections in these files are named with identifiers that uniquely identify a snippet. This <span class="very-strong">must</span> be a valid Unicode Pascal identifier. The keys in a section have the following purpose:
+    The <code class="key">[snippet-name]</code> sections in these files <span class="very-strong">must</span> be named with identifiers that uniquely identify a snippet. This <span class="very-strong">must</span> be a valid Unicode Pascal identifier. The keys in each section have the following purpose:
   </p>
   <dl>
     <dt>
@@ -221,7 +221,7 @@ AdvancedTest.URL=&lt;url&gt; [~>2.2]</pre>
     </dt>
     <dd>
       <p>
-        The human readable name of the snippet. May be any text of up to 64 characters.
+        The human readable name of the snippet. May be any plain text of up to 64 characters.
       </p>
       <p>
         May be omitted. If not present then the snippet identifier that names the section is used as the human readable name.
@@ -334,7 +334,7 @@ AdvancedTest.URL=&lt;url&gt; [~>2.2]</pre>
     </dt>
     <dd>
       <p>
-        Text that notes any credits / acknowledgements. <code class="key">Credits</code> may optionally contain one (and only one) section of text delimited by <code>[</code> and <code>]</code> characters that indicate the presence of a hyperlink. The enclosed text is used as the text of a hyperlink whose URL <span class="very-strong">must</span> be specified in the <code class="key">Credits_URL</code> key.
+        Text that notes any credits / acknowledgements. <code class="key">Credits</code> may optionally contain one (and only one) section of plain text delimited by <code>[</code> and <code>]</code> characters that indicate the presence of a hyperlink. The enclosed text is used as the text of a hyperlink whose URL <span class="very-strong">must</span> be specified in the <code class="key">Credits_URL</code> key.
       </p>
       <p>
         <strong>[~>2.0.0]:</strong> May be omitted or empty. <code class="key">Credits</code> is ignored if a non-empty <code class="key">Extra</code> key is present.
@@ -362,7 +362,7 @@ AdvancedTest.URL=&lt;url&gt; [~>2.2]</pre>
     </dt>
     <dd>
       <p>
-        Text string containing any additional comments about the snippet.
+        Plain text string containing any additional comments about the snippet.
       </p>
       <p>
         Optional. Ignored if a non-empty <code class="key">Extra</code> key is present.
@@ -379,7 +379,7 @@ AdvancedTest.URL=&lt;url&gt; [~>2.2]</pre>
     </dt>
     <dd>
       <p>
-        This related group of keys describe the results of compiling the snippet with various compilers. The key name identifies the compiler. Valid key names are:
+        This related group of keys describes the results of compiling the snippet with various compilers. The key name identifies the compiler. Valid key names are:
       </p>
       <ul class="unspaced">
         <li><code class="key">Delphi2</code> – Delphi 2 compiler</li>
@@ -431,7 +431,7 @@ AdvancedTest.URL=&lt;url&gt; [~>2.2]</pre>
         The kind (or type) of this code snippet. Valid values are:
       </p>
       <ul class="unspaced">
-        <li><code class="value">freeform</code><sup><a href="#footnote-3">3</a></sup> – a freeform snippet that doesn't conform to any other other supported type.</li>
+        <li><code class="value">freeform</code><sup><a href="#footnote-3">3</a></sup> – a freeform snippet that doesn't conform to any other supported type.</li>
         <li><code class="value">routine</code> – a Pascal routine (function or procedure).</li>
         <li><code class="value">type</code> – a simple Pascal type definition.</li>
         <li><code class="value">const</code> – a Pascal constant definition.</li>
@@ -447,7 +447,7 @@ AdvancedTest.URL=&lt;url&gt; [~>2.2]</pre>
     </dt>
     <dd>
       <p>
-        Testing information for the snippet. Valid values are:
+        Information about if or how the snippet has been tested. Valid values are:
       </p>
       <ul class="unspaced">
         <li><code class="value">none</code> – the snippet has not been tested.</li>
@@ -515,7 +515,7 @@ AdvancedTest.URL=&lt;url&gt; [~>2.2]</pre>
   </h1>
 
   <p>
-    There is a separate source code file for each snippet. These file names <span class="very-strong">must</span> be named exactly as specified in the related category <code>.ini</code> file's <code class="key">Snip</code> key. They are usually numbered from <code>001</code> and have a <code>.dat</code> extension, but this is not a requirement.
+    There is a separate source code file for each snippet. These files <span class="very-strong">must</span> be named exactly as specified in the related category <code>.ini</code> file's <code class="key">Snip</code> key. They are usually numbered from <code>001</code> and have a <code>.dat</code> extension, but this is not a requirement.
   </p>
 
   <p>
@@ -712,7 +712,7 @@ CopyrightHolderURL=&lt;url&gt;</pre>
   </h1>
 
   <p>
-    This is a file named <code>VERSION</code> that contains the version number of the collection, terminated by <code>CR+LF</code>. The version number <span class="very-strong">must</span> be of the form <code class="value">9.9.9</code>, where each <code class="value">9</code> represents a non-negative integer. The file is <span class="very-strong">required</span> and <span class="very-strong">must</span> be non-empty.
+    This is a file named <code>VERSION</code> that contains the version number of the collection, terminated by <code>CR+LF</code>. The version number <span class="very-strong">must</span> be of the form <code class="value">9.9.9</code>, where each <code class="value">9</code> represents a non-negative integer. The file is <span class="very-strong">required</span> and <span class="very-strong">must not</span> be empty.
   </p>
 
   <p>
@@ -764,7 +764,7 @@ CopyrightHolderURL=&lt;url&gt;</pre>
   </h3>
 
   <p>
-    In v2.0.x, both <code class="key">Desc</code> and <code class="key">DescEx</code> keys can be found together or individually. Deal with them as follows:
+    In ~>v2.0.0, both <code class="key">Desc</code> and <code class="key">DescEx</code> keys can be found together or individually. Deal with them as follows:
   </p>
 
   <ul>
@@ -788,13 +788,13 @@ CopyrightHolderURL=&lt;url&gt;</pre>
   </h3>
 
   <p>
-    In version 2.0.x, various combinations of the above keys can be found. Deal with them as follows:
+    For ~>2.0.0 various combinations of the above keys can be found. Deal with them as follows:
   </p>
 
   <ul>
     <li>
       <p>
-        If a non-empty <code class="key">Extra</code> key exists simply use the REML<sup><a href="#footnote-1">1</a></sup> code it defines and ignore and <code class="key">Credits</code>, <code class="key">Credits_URL</code> and <code class="key">Comments</code> values.
+        If a non-empty <code class="key">Extra</code> key exists simply use the REML<sup><a href="#footnote-1">1</a></sup> code it defines and ignore any <code class="key">Credits</code>, <code class="key">Credits_URL</code> and <code class="key">Comments</code> values.
       </p>
     </li>
     <li>
@@ -822,7 +822,7 @@ CopyrightHolderURL=&lt;url&gt;</pre>
   </ul>
 
   <p>
-    For ~>2.1 you can expect that <code class="key">Credits</code>, <code class="key">Credits_URL</code> or <code class="key">Comments</code> won't exist and simply deal with <code class="key">Extra</code> if it present.
+    For ~>2.1 you can expect that <code class="key">Credits</code>, <code class="key">Credits_URL</code> or <code class="key">Comments</code> won't exist and simply deal with <code class="key">Extra</code> if it is present.
   </p>
 
   <h2>
@@ -858,7 +858,7 @@ CopyrightHolderURL=&lt;url&gt;</pre>
   </p>
     
   <p>
-    Having <code class="key">AdvancedTest.Level</code> set to any other value provides additional information. In these cases <code class="key">AdvancedTest.URL</code> may provide a URL that links to code containing the tests. This could be a source code repository or a Gist, for example. Given that <code class="key">AdvancedTest.URL</code> is optional, software should be able to handle cases where there is no link to the test code available.
+    Having <code class="key">AdvancedTest.Level</code> set to any value other than <code class="key">unspecified</code> provides additional information. In these cases <code class="key">AdvancedTest.URL</code> may provide a URL that links to code containing the tests. This could be a source code repository or a Gist, for example. Given that <code class="key">AdvancedTest.URL</code> is optional, software should be able to handle cases where there is no link to the test code available.
   </p>
 
 </section>

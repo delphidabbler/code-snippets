@@ -1,0 +1,23 @@
+﻿function PowNZZ(const X: Integer; const N: Integer): Extended;
+var
+  I: Integer;
+  ResultInt: Int64;
+begin
+  if N = 0 then
+    Exit(1.0);
+  if X = 1 then
+    Exit(1.0);
+  if X = 0 then
+  begin
+    if N < 0 then
+      raise SysUtils.EDivByZero.Create('PowNZZ: Negative exponent for X = 0');
+    Exit(0.0);
+  end;
+  ResultInt := 1;
+  for I := 1 to System.Abs(N) do
+    ResultInt := ResultInt * X;
+  if N > 0 then
+    Result := ResultInt
+  else // N < 0
+    Result := 1 / ResultInt;
+end;

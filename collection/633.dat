@@ -1,0 +1,21 @@
+﻿function PowN(const X: Extended; const N: Integer): Extended;
+var
+  I: Integer;
+begin
+  if N = 0 then
+    // IEEE: pown(x, 0) is 1, even when X is zero
+    Exit(1.0);
+  if Math.SameValue(1.0, X) then
+    Exit(1.0);
+  if Math.IsZero(X) then
+  begin
+    if N < 0 then
+      raise SysUtils.EDivByZero.Create('PowN: Negative exponent for X = 0');
+    Exit(0.0);
+  end;
+  Result := 1.0;
+  for I := 1 to System.Abs(N) do
+    Result := Result * X;
+  if N < 0 then
+    Result := 1 / Result;
+end;

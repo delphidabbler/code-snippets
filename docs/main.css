@@ -1,0 +1,229 @@
+/*
+ * This file copyright (C) 2020-2024, Peter Johnson (gravatar.com/delphidabbler) and
+ * is licensed under the MIT License: https://opensource.org/licenses/MIT
+ *
+ * DelphiDabbler Code Snippets Database Documentation: CSS used by all
+ * documentation HTML files.
+ */
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Helvetica, Arial, sans-serif;
+  font-size: 13pt;
+  font-weight: normal;
+  margin: 1em 3em;
+  padding: 0;
+  line-height: 150%;
+  background-color: white;
+  color: #444444;
+}
+header {
+  padding: 0;
+  background-color: #f5f5f5;
+  border-radius: 16px;
+  border: 1px silver solid;
+  display: block;
+}
+#title {
+  font-size: 200%;
+  font-weight: bold;
+  text-align: center;
+  margin: 0.5em;
+}
+#title .subtitle {
+  margin-top: 0.9em;
+  margin-bottom: 0.7em;
+  font-style: italic;
+  color: #336;
+  font-size: 125%
+}
+header nav {
+  display: block;
+  margin: 1em;
+  font-weight: normal;
+  font-size: 90%;
+}
+header nav ul {
+  list-style: none;
+  margin: 0;
+  text-align: center;
+}
+header nav li {
+  display: inline;
+}
+header nav a {
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 0.5em;
+}
+header nav a:hover {
+  background-color: #eeeeee;
+}
+h1 {
+  font-weight: bold;
+  font-size: 200%;
+  padding: 0 0 0.5em 0;
+  margin: 1em 0;
+  border-bottom: 1px silver solid;
+}
+h2 {
+  font-weight: bold;
+  font-size: 175%;
+  padding: 0;
+  margin: 0.75em 0;
+}
+h3 {
+  font-weight: bold;
+  font-size: 150%;
+  padding: 0;
+  margin: 0.75em 0;
+}
+h4 {
+  font-weight: bold;
+  font-size: 125%;
+  padding: 0;
+  margin: 0.75em 0;
+}
+h5 {
+  font-weight: normal;
+  font-style: italic;
+  font-size: 125%;
+  margin: 0.75em 0;
+  padding: 0;
+}
+aside {
+  display: block;
+  font-style: italic;
+  padding: 0.25em 0.5em;
+  margin: 0.75em 2em;
+  border-left: 2px solid silver;
+  border-right: 1px solid silver;
+  border-top: 1px solid silver;
+  border-bottom: 2px solid silver;
+  border-radius: 6px;
+  background-color: #f5f5f5;
+}
+aside code.value {
+  background-color: #ddd;
+}
+aside em {
+  font-style: normal;
+}
+p {
+  font-size: 100%;
+  padding: 0;
+  margin: 0.75em 0;
+}
+pre, kbd, code, samp {
+  font-family: "Lucida Console", "Courier New", Courier, monospace;
+  font-size: 90%;
+}
+pre.sample {
+  margin: 0.75em 2em;
+  background-color: #f5f5f5;
+  padding: 0.5em;
+}
+code.key, code.value {
+  background-color: #f5f5f5;
+  padding: 1px 4px;
+}
+code.key {
+  font-weight: bold;
+  font-style: normal;
+}
+code.value {
+  font-style: normal;
+}
+samp {
+  background-color: #666;
+  color: white;
+  padding: 2px 4px;
+}
+blockquote {
+  margin: 0.75em 2em;
+}
+ul, ol {
+  font-size: 100%;
+  padding: 0;
+  margin: 0.75em 0 0.75em 2em;
+}
+ul ul, ol ul {
+  margin: 0.25em 0 0.25em 2em;
+}
+li {
+  padding: 0;
+  margin: 0.75em 0;
+}
+li li, li div {
+  margin: 0.25em 0;
+}
+ul.half-spaced li,
+ol.half-spaced li {
+    margin: 0.4em 0;
+}
+ul.unspaced li,
+ol.unspaced li {
+  margin: 0;
+}
+div.license-name {
+  font-style: italic;
+}
+div.applies-to {
+}
+div.applies-to:before {
+  content: '»';
+}
+hr {
+  border: none;
+  margin-top: 2em;
+  border-top: 1px silver solid;
+}
+.very-strong{
+   xtext-transform: uppercase;
+   font-variant: small-caps;
+   font-weight: bold;
+}
+dt {
+  margin: 0;
+  padding: 0;
+  font-weight: inherited;
+}
+dd {
+  margin: 0 0 0 2em;
+  padding: 0;
+  font-weight: normal;
+}
+a {
+  color: rgb(46, 46, 192);
+}
+.indent {
+  margin-left: 2em;
+}
+footer {
+  display: block;
+  border-top: 2px silver solid;
+}
+footer h1 {
+  font-size: 110%;
+  border: none;
+  padding: 0;
+  margin-bottom: 0.25em;
+}
+footer ol {
+  margin: 0.5em 0 0.5em 2em;
+}
+footer ol li, footer ol li p, footer p{
+  font-size: 90%;
+  margin: 0.25em 0;
+}
+section {
+  display: block;
+  margin: 2em 0 2em 0;
+  padding: 1em;
+  background-color: transparent;
+  border-radius: 16px;
+  border: 1px silver solid;
+}
+section h1 {
+  margin-top: 0;
+  margin-bottom: 0.5em;
+}

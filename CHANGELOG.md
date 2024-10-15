@@ -8,6 +8,35 @@ From v2.0.0 all notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v2.2.0 of 2024/10/15
+
+* Updated collection specification:
+    * Added snippet properties to enable recording of compilation results with Delphi 10.2 through to Delphi 12. Fixes issue [#26](https://github.com/delphidabbler/code-snippets/issues/26).
+    * Added new `AdvancedTest.Level` and `AdvancedTest.URL` snippet properties to provide additional information for snippets that have received advanced testing. See issues [#13](https://github.com/delphidabbler/code-snippets/issues/13) & [#15](https://github.com/delphidabbler/code-snippets/issues/15).
+* Changes to the collection:
+    * Added 3 new IEEE Pown functions to the _Maths_ category: `PowN`, `PowNZN`, `PowNZZ`. Fixes issue [#20](https://github.com/delphidabbler/code-snippets/issues/20).
+    * Added 7 overloaded version of each of two new summing functions in the _Maths_ category: `ArraySum` & `SumOfLogs`. Fixes issue [#25](https://github.com/delphidabbler/code-snippets/issues/25).
+    * Added `AdvancedTest.Level` values to numerous snippets that have received advanced testing to provide details of the type of testing. See issue [#15](https://github.com/delphidabbler/code-snippets/issues/15).
+    * Added `AdvancedTest.URL`values to to numerous snippets that have received advanced testing to provide links to the test source code. See issue [#13](https://github.com/delphidabbler/code-snippets/issues/13)
+    * Corrected `RFC1123DateGMT` snippet test level from `advanced` to `basic`.
+    * Fixed syntax errors in `maths.ini` & `hex.ini` category files.
+* Changes to tests:
+    * Comments corrected and updated in the test projects for the `drive` and `winsys` categories.
+    * Pascal files in test projects that were generated from the collection had header comments changed to refer to the revised `LICENSE.md`.
+    * Added unit tests for the `PowN`, `PowNZN`, `PowNZZ` routines and the `ArraySum` & `SumOfLogs` overloaded functions the to maths category test project.
+* Restructured source code repository. All files and sub-directories that were in the `csdb` directory were moved up one directory level and `csdb` was deleted. Fixes issue [#14](https://github.com/delphidabbler/code-snippets/issues/14).
+* Updated documentation:
+    * `README.md` in the repo root was heavily edited to include information formerly in `csdb/README.md`, which was deleted.
+    * `tests/README.md` was changed to reflect the changed repo directory structure and footnotes were converted to GitHub style.
+    * `LICENSE.md` was changed to reflect the different copyright details that apply to the files belong to the collection and other files.
+    * Collection documentation updated as follows:
+        * Noted changes to the collection specification made in this releases.
+        * General editing
+        * Revised styling
+        * Added a new section discussing some issues that may be encountered when designing software to that reads the database.
+    * Fixed a CSS error in `docs/main.css`.
+    * Rewrote REML documentation to link to become a brief overview that links to an authoratitive definition of REML in the `delphidabbler/reml` repository. Fixes issue [#24](https://github.com/delphidabbler/code-snippets/issues/24).
+
 ## v2.1.2 of 2023/07/15
 
 * Fixed simple errors and oversights in documentation. Fixes issues [#9](https://github.com/delphidabbler/code-snippets/issues/9) & [#10](https://github.com/delphidabbler/code-snippets/issues/10).

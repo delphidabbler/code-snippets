@@ -10,7 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 
 ## v2.2.1 of 2024/12/02 (HOTFIX)
 
-* Fixed bug in `maths.ini` where some `AdvancedTest.Level` keys had invalid, corrupt, values. Fixes issue [#29](https://github.com/delphidabbler/code-snippets/issues/29).
+* Fixed invalid and corrupted values in some `AdvancedTest.URL` and `AdvancedTest.Level` keys in `data.ini`, `hex.ini` and `maths.ini`. Fixes issue [#29](https://github.com/delphidabbler/code-snippets/issues/29).
 
 ## v2.2.0 of 2024/10/15
 

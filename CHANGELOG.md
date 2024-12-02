@@ -8,6 +8,10 @@ From v2.0.0 all notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v2.2.1 of 2024/12/02 (HOTFIX)
+
+* Fixed invalid and corrupted values in some `AdvancedTest.URL` and `AdvancedTest.Level` keys in `data.ini`, `hex.ini` and `maths.ini`. Fixes issue [#29](https://github.com/delphidabbler/code-snippets/issues/29).
+
 ## v2.2.0 of 2024/10/15
 
 * Updated collection specification:

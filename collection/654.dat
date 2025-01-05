@@ -1,0 +1,11 @@
+﻿function WeightedArithMean(const Values: array of Integer;
+  const Weights: array of Double): Double; overload;
+var
+  Idx: Integer;
+  DblVals: array of Double;
+begin
+  SetLength(DblVals, Length(Values));
+  for Idx := Low(Values) to High(Values) do
+    DblVals[Idx] := Values[Idx];
+  Result := WeightedArithMean(DblVals, Weights);
+end;

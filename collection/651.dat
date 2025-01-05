@@ -1,0 +1,12 @@
+﻿function ArithMean(const A: array of Integer): Double; overload;
+var
+  X: Integer;
+begin
+  if Length(A) = 0 then
+    raise SysUtils.EArgumentException.Create(
+      'ArithMean: array is empty'
+    );
+  Result := 0.0;
+  for X in A do
+    Result := Result + X / Length(A);
+end;

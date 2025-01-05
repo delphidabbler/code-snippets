@@ -11,6 +11,14 @@ type
     procedure StretchRect_A_Except1;
     procedure StretchRect_A_Except2;
     procedure StretchRect_B_Except;
+    procedure TestArithMean_Integer_Except;
+    procedure TestArithMean_Cardinal_Except;
+    procedure TestArithMean_Double_Except;
+    procedure TestWeightedArithMean_Double_Except1;
+    procedure TestWeightedArithMean_Double_Except2;
+    procedure TestWeightedArithMean_Double_Except3;
+    procedure TestWeightedArithMean_Double_Except4;
+
   published
     procedure TestDigitCount;
     procedure TestDigitCount2;
@@ -57,6 +65,13 @@ type
     procedure TestSumOfLogs_Cardinal;
     procedure TestSumOfLogs_Int64;
     procedure TestSumOfLogs_UInt64;
+    procedure TestArithMean_Integer;
+    procedure TestArithMean_Cardinal;
+    procedure TestArithMean_Double;
+
+    procedure TestWeightedArithMean_Integer;
+    procedure TestWeightedArithMean_Cardinal;
+    procedure TestWeightedArithMean_Double;
   end;
 
 implementation
@@ -192,6 +207,81 @@ var
 begin
   R0 := Rect(10, 40, 50, 100);
   R1 := StretchRect(R0, 1234567890.0);
+end;
+
+procedure TestMathsCatSnippets.TestArithMean_Cardinal;
+const
+  A0: array[0..1] of Cardinal = (0, 0);
+  A1: array[0..0] of Cardinal = (56);
+  A4: array[0..3] of Cardinal = (12, 78, 0, 3);
+  E0 = 0.0;
+  E1 = 56.0;
+  E4 = (12.+78.+0.0+3.0)/4.0;
+begin
+  CheckTrue(Math.SameValue(E0, ArithMean(A0)), 'A0');
+  CheckTrue(Math.SameValue(E1, ArithMean(A1)), 'A1');
+  CheckTrue(Math.SameValue(E4, ArithMean(A4)), 'A4');
+  CheckException(
+    TestArithMean_Cardinal_Except, EArgumentException, 'Exception'
+  );
+end;
+
+procedure TestMathsCatSnippets.TestArithMean_Cardinal_Except;
+var
+  A: array of Cardinal;
+begin
+  SetLength(A, 0);
+  ArithMean(A);
+end;
+
+procedure TestMathsCatSnippets.TestArithMean_Double;
+const
+  A0: array[0..1] of Double = (0.0, 0.0);
+  A1: array[0..0] of Double = (-PI);
+  A4: array[0..3] of Double = (12.42, -56.47, 0.0, 3.0);
+  E0 = 0.0;
+  E1 = -PI;
+  E4 = (12.42-56.47+3.0)/4.0;
+begin
+  CheckTrue(Math.SameValue(E0, ArithMean(A0)), 'A0');
+  CheckTrue(Math.SameValue(E1, ArithMean(A1)), 'A1');
+  CheckTrue(Math.SameValue(E4, ArithMean(A4)), 'A4');
+  CheckException(
+    TestArithMean_Double_Except, EArgumentException, 'Exception'
+  );
+end;
+
+procedure TestMathsCatSnippets.TestArithMean_Double_Except;
+var
+  A: array of Double;
+begin
+  SetLength(A, 0);
+  ArithMean(A);
+end;
+
+procedure TestMathsCatSnippets.TestArithMean_Integer;
+const
+  A0: array[0..1] of Integer = (0, 0);
+  A1: array[0..0] of Integer = (-56);
+  A4: array[0..3] of Integer = (12, -42, 0, 3);
+  E0 = 0.0;
+  E1 = -56.0;
+  E4 = (12.0-42.0+3.0)/4.0;
+begin
+  CheckTrue(Math.SameValue(E0, ArithMean(A0)), 'A0');
+  CheckTrue(Math.SameValue(E1, ArithMean(A1)), 'A1');
+  CheckTrue(Math.SameValue(E4, ArithMean(A4)), 'A4');
+  CheckException(
+    TestArithMean_Integer_Except, EArgumentException, 'Exception'
+  );
+end;
+
+procedure TestMathsCatSnippets.TestArithMean_Integer_Except;
+var
+  A: array of Integer;
+begin
+  SetLength(A, 0);
+  ArithMean(A);
 end;
 
 procedure TestMathsCatSnippets.TestArraySum_Cardinal;
@@ -942,6 +1032,84 @@ begin
   Res := SumOfLogs(PosUInt64Array);
   BoolRes := SameValue(Expected, Res);
   CheckTrue(BoolRes, 'SumOfLogs_UInt64');
+end;
+
+procedure TestMathsCatSnippets.TestWeightedArithMean_Cardinal;
+const
+  A: array[1..3] of Cardinal = (12, 6, 3);
+  W: array[0..2] of Double = (0.5, 0.25, 0.75);
+  E = 6.5;
+begin
+  CheckTrue(Math.SameValue(E, WeightedArithMean(A, W)));
+end;
+
+procedure TestMathsCatSnippets.TestWeightedArithMean_Double;
+const
+  A1: array[1..1] of Double = (42.456);
+  W1: array[3..3] of Double = (1.7);
+  E1 = 42.456;
+  A2: array[1..5] of Double = (23.5, -3.9987, 66.0, 0.0, 47.6864);
+  W2: array[1..5] of Double = (7.6, 0.0, 12.7, 4.5, 3.2);
+  E2 = 41.7642;   // from online calculator: accurate to 4 decimal places
+  FudgeFactor2 = 10000;
+  A3: array[1..3] of Double = (0.0, 0.0, 0.0);
+  W3: array[1..3] of Double = (23.5, 99.7, 27.898);
+begin
+  CheckTrue(Math.SameValue(E1, WeightedArithMean(A1, W1)), 'A1');
+  // E2 is accurate to 4DP - so round of both values multiplied by 10,000
+  CheckEquals(Round(E2 * FudgeFactor2), Round(WeightedArithMean(A2, W2) * FudgeFactor2), 'A2');
+  CheckTrue(Math.IsZero(WeightedArithMean(A3, W3)), 'A3');
+
+  CheckException(TestWeightedArithMean_Double_Except1, EArgumentException, 'Except 1');
+  CheckException(TestWeightedArithMean_Double_Except2, EArgumentException, 'Except 2');
+  CheckException(TestWeightedArithMean_Double_Except3, EArgumentException, 'Except 3');
+  CheckException(TestWeightedArithMean_Double_Except4, EArgumentException, 'Except 4');
+end;
+
+procedure TestMathsCatSnippets.TestWeightedArithMean_Double_Except1;
+var
+  A, W: array of Double;
+begin
+  // Empty array error
+  SetLength(A, 0);
+  SetLength(W, 0);
+  WeightedArithMean(A, W);
+end;
+
+procedure TestMathsCatSnippets.TestWeightedArithMean_Double_Except2;
+const
+  A: array[1..3] of Double = (1.0, 2.0, PI);
+  W: array[1..2] of Double = (0.5, 0.7);
+begin
+  // Different size A & W arrays
+  WeightedArithMean(A, W);
+end;
+
+procedure TestMathsCatSnippets.TestWeightedArithMean_Double_Except3;
+const
+  A: array[1..4] of Double = (1.0, 2.0, PI, -67.948);
+  W: array[1..4] of Double = (0.5, 0, -42.0, 0.7);
+begin
+  // W array contains -ve value
+  WeightedArithMean(A, W);
+end;
+
+procedure TestMathsCatSnippets.TestWeightedArithMean_Double_Except4;
+const
+  A: array[1..3] of Double = (1.0, 2.0, PI);
+  W: array[1..3] of Double = (0.0, 0.0, 0.0);
+begin
+  // W array sums to 0
+  WeightedArithMean(A, W);
+end;
+
+procedure TestMathsCatSnippets.TestWeightedArithMean_Integer;
+const
+  A: array[1..3] of Integer = (12, -6, 3);
+  W: array[0..2] of Double = (0.5, 0.25, 0.75);
+  E = 4.5;
+begin
+  CheckTrue(Math.SameValue(E, WeightedArithMean(A, W)));
 end;
 
 initialization

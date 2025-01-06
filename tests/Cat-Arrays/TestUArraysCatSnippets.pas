@@ -34,7 +34,8 @@ type
   end;
 
   TestArraysCatSnippets = class(TTestCase)
-
+  published
+    procedure TestByteArraysEqual;
   end;
 
 implementation
@@ -196,6 +197,40 @@ begin
   CheckFalse(
     TArrayUtils.SameStart<Integer>(fIA0, fIAM, 2, IntegerCompareFn), 'Test 14'
   );
+end;
+
+{ TestArraysCatSnippets }
+
+procedure TestArraysCatSnippets.TestByteArraysEqual;
+var
+  A0L, A0R: TBytes;
+  A1L, A1Req, A1Rneq: TBytes;
+  ANL, ANReq, ANRneq1, ANRneq2, ANRneq3, ANRneq4: TBytes;
+  AMR: TBytes;
+begin
+  SetLength(A0L, 0);
+  SetLength(A0R, 0);
+  A1L := TBytes.Create(42);
+  A1Req := TBytes.Create(42);
+  A1Rneq := TBytes.Create(56);
+  ANL := TBytes.Create(27,98,128,46,35,0,1);
+  ANReq := TBytes.Create(27,98,128,46,35,0,1);
+  ANRneq1 := TBytes.Create(27,98,128,46,35,0,7);
+  ANRneq2 := TBytes.Create(26,98,128,46,35,0,1);
+  ANRneq3 := TBytes.Create(27,98,67,46,35,0,1);
+  ANRneq4 := TBytes.Create(27,17,67,46,35,12,1);
+  AMR := TBytes.Create(27,98,128,35,0,1);
+
+  CheckTrue(ByteArraysEqual(A0L, A0R), '#1');
+  CheckTrue(ByteArraysEqual(A1L, A1Req), '#2');
+  CheckFalse(ByteArraysEqual(A1L, A1Rneq), '#3');
+  CheckTrue(ByteArraysEqual(ANL, ANReq), '#4');
+  CheckFalse(ByteArraysEqual(A1L, ANRneq1), '#5');
+  CheckFalse(ByteArraysEqual(A1L, ANRneq2), '#6');
+  CheckFalse(ByteArraysEqual(A1L, ANRneq3), '#7');
+  CheckFalse(ByteArraysEqual(A1L, ANRneq4), '#8');
+  CheckFalse(ByteArraysEqual(A1L, AMR), '#9');
+  CheckFalse(ByteArraysEqual(A0L, A1L), '#10');
 end;
 
 initialization

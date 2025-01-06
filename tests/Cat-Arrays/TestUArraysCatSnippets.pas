@@ -1,26 +1,5 @@
 unit TestUArraysCatSnippets;
 
-{$UNDEF Generics}
-{$IFNDEF FPC}
-  {$IFDEF CONDITIONALEXPRESSIONS}
-    {$IF CompilerVersion >= 14.00}
-      {$WARN SYMBOL_PLATFORM OFF}
-      {$WARN SYMBOL_DEPRECATED OFF}
-      {$WARN SYMBOL_LIBRARY OFF}
-    {$IFEND}
-    {$IF CompilerVersion >= 15.00}
-      {$WARN UNSAFE_TYPE OFF}
-      {$WARN UNSAFE_CAST OFF}
-      {$WARN UNSAFE_CODE OFF}
-    {$IFEND}
-    {$IF CompilerVersion >= 20.00}
-      {$WARN EXPLICIT_STRING_CAST OFF}
-      {$WARN IMPLICIT_STRING_CAST OFF}
-      {$DEFINE Generics}
-    {$IFEND}
-  {$ENDIF}
-{$ENDIF}
-
 interface
 
 uses
@@ -28,7 +7,6 @@ uses
 
 type
 
-  {$IFDEF Generics}
   TestTArrayUtils = class(TTestCase)
   strict private
     fSA0: TArray<string>;
@@ -54,7 +32,6 @@ type
     procedure TestEqual;
     procedure TestSameStart;
   end;
-  {$ENDIF Generics}
 
   TestArraysCatSnippets = class(TTestCase)
 
@@ -63,19 +40,11 @@ type
 implementation
 
 uses
-  SysUtils
-  {$IFDEF Generics}
-  , Generics.Defaults
-  {$ENDIF Generics}
-  ;
+  SysUtils, Generics.Defaults;
 
-{$IFDEF Generics}
 var
   IntegerCompareFn: TEqualityComparison<Integer>;
   StringCompareFn: TEqualityComparison<string>;
-{$ENDIF Generics}
-
-{$IFDEF Generics}
 
 { TestTArrayUtils }
 
@@ -229,11 +198,7 @@ begin
   );
 end;
 
-{$ENDIF Generics}
-
 initialization
-
-{$IFDEF Generics}
 
 IntegerCompareFn := function (const Left, Right: Integer): Boolean
   begin
@@ -245,12 +210,8 @@ StringCompareFn := function (const Left, Right: string): Boolean
     Result := SameStr(Left, Right);
   end;
 
-{$ENDIF Generics}
-
   // Register any test cases with the test runner
-{$IFDEF Generics}
 RegisterTest(TestTArrayUtils.Suite);
-{$ENDIF Generics}
 RegisterTest(TestArraysCatSnippets.Suite);
 
 end.

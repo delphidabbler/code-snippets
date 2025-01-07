@@ -1,0 +1,22 @@
+﻿function DigitsOf(N: Int64; const Base: Byte): SysUtils.TBytes;
+var
+  Idx: Integer;
+begin
+  if Base < 2 then
+    raise SysUtils.EArgumentException.Create(
+      'Base must be in the range 2..255'
+    );
+  N := Abs(N);
+  SetLength(Result, DigitCountBase(N, Base));
+  if N > 0 then
+  begin
+    Idx := 0;
+    repeat
+      Result[Idx] := N mod Base;
+      Inc(Idx);
+      N := N div Base;
+    until N = 0;
+  end
+  else
+    Result[0] := 0;
+end;

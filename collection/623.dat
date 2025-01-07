@@ -21,6 +21,8 @@
       const Count: Integer; 
       const EqualityComparer: Generics.Defaults.TEqualityComparison<T>): 
       Boolean; static;
+    // Creates and returns a new array that is the reverse of the given array.
+    class function Reverse<T>(const A: array of T): TArray<T>; static;
   end;
 
 class function TArrayUtils.Equal<T>(const Left, Right: array of T;
@@ -58,6 +60,15 @@ class function TArrayUtils.Last<T>(const A: array of T): T;
 begin
   Assert(Length(A) > 0);
   Result := A[Pred(Length(A))];
+end;
+
+class function TArrayUtils.Reverse<T>(const A: array of T): TArray<T>;
+var
+  I: Integer;
+begin
+  SetLength(Result, Length(A));
+  for I := 0 to High(A) do
+    Result[High(A)-I] := A[I];
 end;
 
 class function TArrayUtils.SameStart<T>(const Left, Right: array of T;

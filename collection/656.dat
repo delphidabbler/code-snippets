@@ -1,0 +1,8 @@
+﻿function ReverseByteArray(const A: array of Byte): TBytes;
+var
+  I: Integer;
+begin
+  SetLength(Result, Length(A));
+  for I := 0 to High(A) do
+    Result[High(A)-I] := A[I];
+end;

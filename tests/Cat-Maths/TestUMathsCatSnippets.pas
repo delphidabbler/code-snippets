@@ -3,7 +3,7 @@ unit TestUMathsCatSnippets;
 interface
 
 uses
-  Types, Math, TestFramework, UMathsCatSnippets;
+  Types, Math, SysUtils, TestFramework, UMathsCatSnippets;
 
 type
   TestMathsCatSnippets = class(TTestCase)
@@ -18,7 +18,10 @@ type
     procedure TestWeightedArithMean_Double_Except2;
     procedure TestWeightedArithMean_Double_Except3;
     procedure TestWeightedArithMean_Double_Except4;
-
+    procedure TestDigitSumBase_Except;
+    procedure TestDigitsOf_ArgExcept;
+    function EqualArrays(const Left, Right: TBytes): Boolean;
+    function ReverseArray(const A: TBytes): TBytes;
   published
     procedure TestDigitCount;
     procedure TestDigitCount2;
@@ -68,16 +71,15 @@ type
     procedure TestArithMean_Integer;
     procedure TestArithMean_Cardinal;
     procedure TestArithMean_Double;
-
     procedure TestWeightedArithMean_Integer;
     procedure TestWeightedArithMean_Cardinal;
     procedure TestWeightedArithMean_Double;
+    procedure TestDigitCountBase;
+    procedure TestDigitSumBase;
+    procedure TestDigitsOf;
   end;
 
 implementation
-
-uses
-  SysUtils;
 
 const
   First100Primes: array[1..100] of Int64 = (
@@ -184,6 +186,27 @@ begin
 end;
 
 { TestMathsCatSnippets }
+
+function TestMathsCatSnippets.EqualArrays(const Left, Right: TBytes): Boolean;
+var
+  Idx: Integer;
+begin
+  Result := True;
+  if Length(Left) <> Length(Right) then
+    Exit(False);
+  for Idx := Low(Left) to High(Left) do
+    if Left[Idx] <> Right[Idx] then
+      Exit(False);
+end;
+
+function TestMathsCatSnippets.ReverseArray(const A: TBytes): TBytes;
+var
+  I: Integer;
+begin
+  SetLength(Result, Length(A));
+  for I := 0 to High(A) do
+    Result[High(A)-I] := A[I];
+end;
 
 procedure TestMathsCatSnippets.StretchRect_A_Except1;
 var
@@ -364,6 +387,23 @@ begin
   CheckEquals(5, DigitCount2(-12345), 'DigitCount2(-12345)');
 end;
 
+procedure TestMathsCatSnippets.TestDigitCountBase;
+begin
+  CheckEquals(1, DigitCountBase(0, 10), '0 base 10');
+  CheckEquals(1, DigitCountBase(1, 10), '1 base 10');
+  CheckEquals(2, DigitCountBase(9, 8), '9 base 8');
+  CheckEquals(2, DigitCountBase(-9, 8), '9 base 8');
+  CheckEquals(2, DigitCountBase(9, 7), '9 base 7');
+  CheckEquals(1, DigitCountBase(9, 16), '9 base 16');
+  CheckEquals(2, DigitCountBase(12, 10), '12 base 10');
+  CheckEquals(4, DigitCountBase(12, 2), '12 base 2');
+  CheckEquals(5, DigitCountBase(123456, 16), '123456 base 16');
+  CheckEquals(11, DigitCountBase(1234567890, 8), '1234567890 base 8');
+  CheckEquals(2, DigitCountBase(256, 255), '256 base 255');
+  CheckEquals(9, DigitCountBase(-429981696, 12), '-429981696 base 12');
+  CheckEquals(8, DigitCountBase($FFFFFFFF, 16), '$FFFFFFFF base 16');
+end;
+
 procedure TestMathsCatSnippets.TestDigitCountR;
 begin
   CheckEquals(1, DigitCountR(0), 'DigitCountR(0)');
@@ -374,6 +414,57 @@ begin
   CheckEquals(10, DigitCountR(1234567890), 'DigitCountR(1234567890)');
   CheckEquals(1, DigitCountR(-1), 'DigitCountR(-1)');
   CheckEquals(5, DigitCountR(-12345), 'DigitCountR(-12345)');
+end;
+
+procedure TestMathsCatSnippets.TestDigitsOf;
+var
+  E: TBytes;
+begin
+  E := TBytes.Create(0);
+  CheckTrue(EqualArrays(E, DigitsOf(0, 10)), '0, base 10');
+  CheckTrue(EqualArrays(E, DigitsOf(0, 16)), '0, base 16');
+  E := ReverseArray(TBytes.Create(3, 6, 5, 7, 0, 4, 2, 1, 0));
+  CheckTrue(EqualArrays(E, DigitsOf(365704210, 10)), '365704210, base 10');
+  E := ReverseArray(TBytes.Create(1, 5, $C, $C, 3, 4, 1, 2));
+  CheckTrue(EqualArrays(E, DigitsOf(365704210, 16)), '365704210, base 16');
+  E := ReverseArray(TBytes.Create({0,0,0}1, 0,1,0,1, 1,1,0,0, 1,1,0,0, 0,0,1,1, 0,1,0,0, 0,0,0,1, 0,0,1,0));
+  CheckTrue(EqualArrays(E, DigitsOf(365704210, 2)), '365704210, base 2');
+  E := TBytes.Create(7);
+  CheckTrue(EqualArrays(E, DigitsOf(7, 8)), '7, base 8');
+  E := ReverseArray(TBytes.Create(1,3));
+  CheckTrue(EqualArrays(E, DigitsOf(7, 4)), '7, base 4');
+  E := ReverseArray(TBytes.Create(1,6));
+  CheckTrue(EqualArrays(E, DigitsOf(16, 10)), '16, base 10');
+  E := ReverseArray(TBytes.Create(1,0));
+  CheckTrue(EqualArrays(E, DigitsOf(16, 16)), '16, base 16');
+  E := TBytes.Create(16);
+  CheckTrue(EqualArrays(E, DigitsOf(16, 32)), '16, base 32');
+  E := ReverseArray(TBytes.Create(1,5));
+  CheckTrue(EqualArrays(E, DigitsOf(15, 10)), '15, base 10');
+  E := TBytes.Create(15);
+  CheckTrue(EqualArrays(E, DigitsOf(15, 16)), '15, base 16');
+  E := TBytes.Create(3);
+  CheckTrue(EqualArrays(E, DigitsOf(3, 10)), '3, base 10');
+  E := ReverseArray(TBytes.Create(1,0));
+  CheckTrue(EqualArrays(E, DigitsOf(3, 3)), '3, base 3');
+  E := ReverseArray(TBytes.Create(1,1));
+  CheckTrue(EqualArrays(E, DigitsOf(3, 2)), '3, base 2');
+  E := ReverseArray(TBytes.Create(1,254));
+  CheckTrue(EqualArrays(E, DigitsOf(509, 255)), '509, base 255');
+  E := ReverseArray(TBytes.Create(4,2,9,4,9,6,7,2,9,5));
+  CheckTrue(EqualArrays(E, DigitsOf(4294967295, 10)), 'High(Cardinal), base 10');
+  E := TBytes.Create($f,$f,$f,$f,$f,$f,$f,$f);
+  CheckTrue(EqualArrays(E, DigitsOf($FFFFFFFF, 16)), 'High(Cardinal), base 16');
+  E := ReverseArray(TBytes.Create(4,7,6,8,7,3,6,2));
+  CheckTrue(EqualArrays(E, DigitsOf(-47687362, 10)), '-47687362, base 10');
+  E := TBytes.Create(1,1);
+  CheckTrue(EqualArrays(E, DigitsOf(-17, 16)), '-17, base 16');
+  CheckException(TestDigitsOf_ArgExcept, EArgumentException, 'Argument Exception');
+end;
+
+procedure TestMathsCatSnippets.TestDigitsOf_ArgExcept;
+begin
+  DigitsOf(2345, 0);
 end;
 
 procedure TestMathsCatSnippets.TestDigitSum;
@@ -390,6 +481,24 @@ begin
   CheckEquals(-19, DigitSum(-5743), 'DigitSum(-5743)');
   CheckEquals(-1, DigitSum(-1), 'DigitSum(-1)');
   CheckEquals(-9, DigitSum(-9), 'DigitSum(-9)');
+end;
+
+procedure TestMathsCatSnippets.TestDigitSumBase;
+begin
+  CheckEquals(6, DigitSumBase(123, 10), '123 base 10');
+  CheckEquals(18, DigitSumBase(123, 16), '123 base 16 (7B)');
+  CheckEquals(6, DigitSumBase(123, 2), '123 base 2 (0111 1011)');
+  CheckEquals(7, DigitSumBase(1785, 255), '1785 base 255 (70)');
+  CheckEquals(17, DigitSumBase(512, 100), '512 base 100 (5,12)');
+  CheckEquals(0, DigitSumBase(0, 32), '0 base 32');
+  CheckEquals(8*$f, DigitSumBase($FFFFFFFF, 16), '$FFFFFFFF base 16');
+  CheckEquals(-45, DigitSumBase(-9876543210, 10), '-9876543210 base 10');
+  CheckException(TestDigitSumBase_Except, EArgumentException, 'Err: base 1');
+end;
+
+procedure TestMathsCatSnippets.TestDigitSumBase_Except;
+begin
+  DigitSumBase(42, 1);
 end;
 
 procedure TestMathsCatSnippets.TestGCD;

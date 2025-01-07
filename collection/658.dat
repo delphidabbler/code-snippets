@@ -1,0 +1,15 @@
+﻿function DigitCountBase(N: Int64; const Base: Byte): Cardinal;
+begin
+  if Base < 2 then
+    raise SysUtils.EArgumentException.Create(
+      'Base must be in the range 2..255'
+    );
+  if N = 0 then
+    Exit(1);
+  N := Abs(N);
+  Result := 0;
+  repeat
+    Inc(Result);
+    N := N div Base;
+  until N = 0;
+end;

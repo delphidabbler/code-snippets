@@ -1,0 +1,8 @@
+﻿function IsNarcissistic(N: Integer; const Base: Byte = 10): Boolean;
+var
+  Sum: Int64;
+begin
+  N := Abs(N);
+  Sum := DigitPowerSum(N, Base, DigitCountBase(N, Base));
+  Result := N = Sum;
+end;

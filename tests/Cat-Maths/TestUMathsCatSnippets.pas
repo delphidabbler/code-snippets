@@ -20,6 +20,7 @@ type
     procedure TestWeightedArithMean_Double_Except4;
     procedure TestDigitSumBase_Except;
     procedure TestDigitsOf_ArgExcept;
+    procedure TestPowNZN_EOverflow;
     function EqualArrays(const Left, Right: TBytes): Boolean;
     function ReverseArray(const A: TBytes): TBytes;
   published
@@ -930,6 +931,12 @@ begin
   CheckEquals(10000,  PowNZN(10, 4),  'PowNZN(10,2)');
   CheckEquals(-1000,  PowNZN(-10, 3), 'PowNZN(-10,3)');
   CheckEquals(10000,  PowNZN(-10, 4), 'PowNZN(-10,4)');
+  CheckException(TestPowNZN_EOverflow, EOverflow, 'EOverflow');
+end;
+
+procedure TestMathsCatSnippets.TestPowNZN_EOverflow;
+begin
+  PowNZN(2, 63);
 end;
 
 procedure TestMathsCatSnippets.TestPowNZZ;

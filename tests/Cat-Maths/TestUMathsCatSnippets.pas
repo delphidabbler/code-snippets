@@ -21,6 +21,8 @@ type
     procedure TestDigitSumBase_Except;
     procedure TestDigitsOf_ArgExcept;
     procedure TestPowNZN_EOverflow;
+    procedure TestDigitPowerSum_EOverflow;
+    procedure TestDigitPowerSum_EArgumentException;
     function EqualArrays(const Left, Right: TBytes): Boolean;
     function ReverseArray(const A: TBytes): TBytes;
   published
@@ -52,7 +54,7 @@ type
     procedure TestMaxOfArray_Single;
     procedure TestMaxOfArray_Double;
     procedure TestMaxOfArray_Extended;
-    procedure TestPowNZN;
+    procedure TestPowNZN;   // required by DigitPowerSum
     procedure TestPowNZZ;
     procedure TestPowN;
     procedure TestArraySum_Single;
@@ -78,6 +80,7 @@ type
     procedure TestDigitCountBase;
     procedure TestDigitSumBase;
     procedure TestDigitsOf;
+    procedure TestDigitPowerSum;
   end;
 
 implementation
@@ -415,6 +418,33 @@ begin
   CheckEquals(10, DigitCountR(1234567890), 'DigitCountR(1234567890)');
   CheckEquals(1, DigitCountR(-1), 'DigitCountR(-1)');
   CheckEquals(5, DigitCountR(-12345), 'DigitCountR(-12345)');
+end;
+
+procedure TestMathsCatSnippets.TestDigitPowerSum;
+begin
+  CheckEquals(35, DigitPowerSum(135, 10, 2), '#1');
+  CheckEquals(0, DigitPowerSum(0, 8, 5), '#2');
+  CheckEquals(3, DigitPowerSum(510, 10, 0), '#3');
+  CheckEquals(30, DigitPowerSum($FF, 16, 1), '#4');
+  CheckEquals(12613, DigitPowerSum(1685237180, 10, 4), '#5');
+  CheckEquals(77907, DigitPowerSum(1685237180 {6472ADBC hex}, 16, 4), '#6');
+  CheckEquals(6740, DigitPowerSum(1685237180 {14434526674 oct}, 8, 4), '#7');
+  CheckEquals(-6740, DigitPowerSum(-1685237180 {14434526674 oct}, 8, 4), '#8');
+  CheckEquals(17, DigitPowerSum(1685237180 {1100100011100101010110110111100 bin}, 2, 4), '#9');
+  CheckEquals(2409140909625644483, DigitPowerSum(MaxInt {C87E66B7 base 15}, 15, 16), '#10');
+  CheckException(TestDigitPowerSum_EArgumentException, EArgumentException, 'EArgumentException');
+  CheckException(TestDigitPowerSum_EOverflow, EOverflow, 'EOverflow');
+  // EOverflow can also be raised by PowNZN, not tested here
+end;
+
+procedure TestMathsCatSnippets.TestDigitPowerSum_EArgumentException;
+begin
+  DigitPowerSum(42, 1, 2); // Base = 1 => EArgumentException
+end;
+
+procedure TestMathsCatSnippets.TestDigitPowerSum_EOverflow;
+begin
+  DigitPowerSum(88888888, 10, 20); // overflows High(Int64) by 1
 end;
 
 procedure TestMathsCatSnippets.TestDigitsOf;

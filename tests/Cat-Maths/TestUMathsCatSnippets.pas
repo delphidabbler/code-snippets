@@ -77,10 +77,12 @@ type
     procedure TestWeightedArithMean_Integer;
     procedure TestWeightedArithMean_Cardinal;
     procedure TestWeightedArithMean_Double;
-    procedure TestDigitCountBase;
+    procedure TestDigitCountBase; // required by DigitsOf, IsNarcissistic
     procedure TestDigitSumBase;
     procedure TestDigitsOf;
-    procedure TestDigitPowerSum;
+    procedure TestDigitPowerSum;  // required by IsNarcissistic
+    procedure TestIsPalindromic;
+    procedure TestIsNarcissistic;
   end;
 
 implementation
@@ -562,6 +564,141 @@ begin
   CheckEquals(5, GCD2(-10, -5), 'GCD2(-10, -5)');
   CheckEquals(41, GCD2(-41,-41), 'GCD2(-41,-41)');
   CheckEquals(10, GCD2(10, -10), 'GCD2(10, -10)');
+end;
+
+procedure TestMathsCatSnippets.TestIsNarcissistic;
+const
+  NarcNumsBase10: array[1..25] of Integer = (
+    // Source: https://rosettacode.org/wiki/Narcissistic_decimal_number
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 153, 370, 371, 407, 1634, 8208, 9474, 54748,
+    92727, 93084, 548834, 1741725, 4210818, 9800817, 9926315
+  );
+  // Following all sourced from https://en.wikipedia.org/wiki/Narcissistic_number
+  // and bases converted to decimal
+  NarcNumsBase2: array[1..2] of Integer = (0, 1);
+  NarcNumsBase3: array[1..6] of Integer = (0, 1, 2, 5, 8, 17);
+  NarcNumsBase4: array[1..12] of Integer = (
+    0, 1, 2, 3, 28, 29, 35, 43, 55, 62, 83, 243
+  );
+  NarcNumsBase5: array[1..16] of Integer = (
+    0, 1, 2, 3, 4, 13, 18, 28, 118, 289, 353, 419, 4890, 4891, 9113, 1874374
+  );
+  NarcNumsBase6: array[1..18] of Integer = (
+    0, 1, 2, 3, 4, 5, 99, 190, 2292, 2293, 2324, 3432, 3433, 6197, 36140,
+    269458, 391907, 10067135
+  );
+  NarcNumsBase7: array[1..28] of Integer = (
+    0, 1, 2, 3, 4, 5, 6, 10, 25, 32, 45, 133, 134, 152, 250, 3190, 3222, 3612,
+    3613, 4183, 9286, 35411, 191334, 193393, 376889, 535069, 794376, 8094840
+  );
+  NarcNumsBase8: array[1..23] of Integer = (
+    0, 1, 2, 3, 4, 5, 6, 7, 20, 52, 92, 133, 307, 432, 433, 16819, 17864, 17865,
+    24583, 25639, 212419, 906298, 906426
+  );
+  NarcNumsBase13: array[1..26] of Integer = (
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 17, 45, 85, 98, 136, 160, 793,
+    794, 854, 1968, 8194, 62481, 167544
+  );
+  NarcNumsBase16: array[1..51] of Integer = (
+    $0, $1, $2, $3, $4, $5, $6, $7, $8, $9, $A, $B, $C, $D, $E, $F, $156, $173,
+    $208, $248, $285, $4A5, $5B0, $5B1, $60B, $64B, $8C0, $8C1, $99A, $AA9,
+    $AC3, $CA8, $E69, $EA0, $EA1, $B8D2, $13579, $2B702, $2B722, $5A07C, $5A47C,
+    $C00E0, $C00E1, $C04E0, $C04E1, $C60E7, $C64E7, $C80E0, $C80E1, $C84E0,
+    $C84E1
+  );
+var
+  X: Integer;
+  Base: Byte;
+begin
+  // Base 2
+  for X in NarcNumsBase2 do
+    CheckTrue(IsNarcissistic(X, 2), Format('%d base 2', [X]));
+  // Base 3
+  for X in NarcNumsBase3 do
+    CheckTrue(IsNarcissistic(X, 3), Format('%d base 3', [X]));
+  // Base 4
+  for X in NarcNumsBase4 do
+    CheckTrue(IsNarcissistic(X, 4), Format('%d base 4', [X]));
+  // Base 5
+  for X in NarcNumsBase5 do
+    CheckTrue(IsNarcissistic(X, 5), Format('%d base 5', [X]));
+  // Base 6
+  for X in NarcNumsBase6 do
+    CheckTrue(IsNarcissistic(X, 6), Format('%d base 6', [X]));
+  // Base 7
+  for X in NarcNumsBase7 do
+    CheckTrue(IsNarcissistic(X, 7), Format('%d base 7', [X]));
+  // Base 8
+  for X in NarcNumsBase8 do
+    CheckTrue(IsNarcissistic(X, 8), Format('%d base 8', [X]));
+  // Base 10
+  for X in NarcNumsBase10 do
+    // uses default base
+    CheckTrue(IsNarcissistic(X), Format('%d base 10', [X]));
+  // Base 13
+  for X in NarcNumsBase13 do
+    CheckTrue(IsNarcissistic(X, 13), Format('%d base 13', [X]));
+  // Base 16
+  for X in NarcNumsBase16 do
+    CheckTrue(IsNarcissistic(X, 16), Format('%d base 16', [X]));
+  // Check some known falsities
+  CheckFalse(IsNarcissistic($C04E2, 16), 'False #1');
+  CheckFalse(IsNarcissistic(906299, 8), 'False #2');
+  CheckFalse(IsNarcissistic(501), 'False #3');
+  CheckFalse(IsNarcissistic(2, 2), 'False #4');
+  // Bases 2..255: All single digits in the base are narcissistic
+  for Base := 2 to 255 do
+    for X := 0 to Base - 1 do
+      CheckTrue(IsNarcissistic(X, Base), Format('Single digit%d base: %d', [X, Base]));
+end;
+
+procedure TestMathsCatSnippets.TestIsPalindromic;
+const
+  // All palindromic numbers base 10 less than 200
+  // Source: https://oeis.org/A002113
+  PalBase10LessThan256: set of Byte = [
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 22, 33, 44, 55, 66, 77, 88, 99, 101, 111,
+    121, 131, 141, 151, 161, 171, 181, 191, 202, 212, 222, 232, 242, 252
+  ];
+  // All palindromic numbers base 2 less than 200 decimal
+  // Source: https://oeis.org/A006995
+  PalBase2LessThan256: set of Byte = [
+    0, 1, 3, 5, 7, 9, 15, 17, 21, 27, 31, 33, 45, 51, 63, 65, 73, 85, 93, 99,
+    107, 119, 127, 129, 153, 165, 189, 195, 219, 231, 255
+  ];
+  // Bases for which 105 decimal is palindromic
+  // Source: https://en.wikipedia.org/wiki/Palindromic_number#Other_bases
+  Pal105Bases: set of Byte = [4, 8, 14, 20, 34, 104];
+var
+  X, B: Byte;
+begin
+  CheckTrue(IsPalindromic(243999, 8), '734437 octal');
+  CheckTrue(IsPalindromic(30495, 8), '73437 octal');
+  CheckFalse(IsPalindromic(30943, 8), '74337 octal');
+  CheckTrue(IsPalindromic($FFFFFFFF, 16), 'FFFFFFFF hex');
+  CheckTrue(IsPalindromic($FFFFFFFF, 2), '11111111111111111111111111111111 bin');
+  CheckTrue(IsPalindromic($FFF11FFF, 16), 'FFF11FFF hex');
+  CheckFalse(IsPalindromic($FFF11FFF, 2), '11111111111100010001111111111111 bin');
+  CheckTrue(IsPalindromic(341, 2), '101010101 bin');
+  CheckTrue(IsPalindromic(2081023, 128), '127|1|127 base 128');
+  CheckFalse(IsPalindromic(2081024, 128), '127|2|0 base 128');
+  CheckTrue(IsPalindromic(145787541), '145787541 base 10 (default)');
+  CheckTrue(IsPalindromic(1, 25), '1 base 25');
+  CheckFalse(IsPalindromic(66, 4), '1002 base 4');
+  CheckTrue(IsPalindromic(66, 21), '33 base 21');
+  for B in Pal105Bases do
+    CheckTrue(IsPalindromic(105, B), Format('105 in base %d', [B]));
+  for X := 0 to 255 do
+  begin
+    if X in PalBase10LessThan256 then
+      CheckTrue(IsPalindromic(X), Format('%d in base 10', [X]))
+    else
+      CheckFalse(IsPalindromic(X), Format('%d in base 10', [X]));
+    if X in PalBase2LessThan256 then
+      CheckTrue(IsPalindromic(X, 2), Format('%d in base 2', [X]))
+    else
+      CheckFalse(IsPalindromic(X, 2), Format('%d in base 2', [X]));
+  end;
 end;
 
 procedure TestMathsCatSnippets.TestIsPrime;

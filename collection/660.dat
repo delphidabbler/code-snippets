@@ -1,0 +1,13 @@
+﻿function IsPalindromic(const N: Int64; const Base: Byte = 10): Boolean;
+var
+  Digits: SysUtils.TBytes;
+  Idx: Integer;
+  PartitionSize: Integer;
+begin
+  Digits := DigitsOf(N, Base); // raises exception for Base < 2
+  Result := True;
+  PartitionSize := Length(Digits) div 2;
+  for Idx := 0 to Pred(PartitionSize) do
+    if Digits[Idx] <> Digits[Length(Digits) - Idx - 1] then
+      Exit(False);
+end;

@@ -23,6 +23,7 @@ type
     procedure TestPowNZN_EOverflow;
     procedure TestDigitPowerSum_EOverflow;
     procedure TestDigitPowerSum_EArgumentException;
+    procedure TestLSE_EArgumentException;
     function EqualArrays(const Left, Right: TBytes): Boolean;
     function ReverseArray(const A: TBytes): TBytes;
   published
@@ -52,7 +53,7 @@ type
     procedure TestMaxOfArray_Integer;
     procedure TestMaxOfArray_Int64;
     procedure TestMaxOfArray_Single;
-    procedure TestMaxOfArray_Double;
+    procedure TestMaxOfArray_Double;  // required by LSE
     procedure TestMaxOfArray_Extended;
     procedure TestPowNZN;   // required by DigitPowerSum
     procedure TestPowNZZ;
@@ -83,6 +84,8 @@ type
     procedure TestDigitPowerSum;  // required by IsNarcissistic
     procedure TestIsPalindromic;
     procedure TestIsNarcissistic;
+    procedure TestLSE;    // required by SoftMax
+    procedure TestSoftMax;
   end;
 
 implementation
@@ -753,6 +756,31 @@ begin
   CheckEquals(9, LCD(-9, -9), 'LCD(-9, -9)');
 end;
 
+procedure TestMathsCatSnippets.TestLSE;
+const
+  Fudge = 0.000001;
+  A1: array [1..7] of Double = (-35.0, 20.78, 42.56, -27.8, 41.576, 0.0, 57.945);
+  A2: array [1..7] of Double = (-35.0, 20.78, 42.56, -27.8, 41.576, 0.0, 20.78);
+  A5: array [1..3] of Double = (-430.0, -399.83, -300.00);
+  A6: array [1..10] of Double = (-12.0, 4.0, -6.0, 11.0, 10.0, 3.0, -3.0, 9.0, -8.0, 7.0);
+begin
+  // Hand calculated
+  CheckTrue(SameValue(57.945000285961067157769252279369, LSE(A1)), '#1');
+  // Calculated using http://mycalcsolutions.com/calculator?mathematics;stat_prob;softmax
+  CheckTrue(SameValue(42.87759, LSE(A2), Fudge), '#2');
+  CheckTrue(SameValue(-35.0, LSE([-35.0]), Fudge), '#3');
+  CheckTrue(SameValue(0.0, LSE([0.0]), Fudge), '#4');
+  CheckTrue(SameValue(-300.0, LSE(A5), Fudge), '#5');
+  CheckTrue(SameValue(11.420537, LSE(A6), Fudge), '#6');
+  // Check empty array exception
+  CheckException(TestLSE_EArgumentException, EArgumentException, 'EArgumentException');
+end;
+
+procedure TestMathsCatSnippets.TestLSE_EArgumentException;
+begin
+  LSE([]);
+end;
+
 procedure TestMathsCatSnippets.TestMaxOfArray_Double;
 var
   A: TDoubleDynArray;
@@ -1201,6 +1229,42 @@ begin
   CheckEquals(24, R.Top, '3: R.Top');
   CheckEquals(24 - 4, R.Bottom, '3: R.Bottom');
   CheckEquals(-4, RectHeight(R), '3: RectHeight');
+end;
+
+procedure TestMathsCatSnippets.TestSoftMax;
+
+  function ArraysEqual(const Left, Right: array of Double): Boolean;
+  const
+    Fudge = 0.000001;
+  var
+    Idx: Integer;
+  begin
+    Result := True;
+    if Length(Left) <> Length(Right) then
+      Exit(False);
+    for Idx := Low(Left) to High(Left) do
+      if not SameValue(Left[Idx], Right[Idx], Fudge) then
+        Exit(False);
+  end;
+const
+  A1: array [1..7] of Double = (-35.0, 20.78, 42.56, -27.8, 41.576, 0.0, 57.945);
+  E1: array [1..7] of Double = (0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0);
+  A2: array [1..7] of Double = (-35.0, 20.78, 42.56, -27.8, 41.576, 0.0, 20.78);
+  E2: array [1..7] of Double = (0.0, 0.0, 0.727901, 0.0, 0.272099, 0.0, 0.0);
+  A5: array [1..3] of Double = (-430.0, -399.83, -300.0);
+  E5: array [1..3] of Double = (0.0, 0.0, 1.0);
+  A6: array [1..10] of Double = (-12.0, 4.0, -6.0, 11.0, 10.0, 3.0, -3.0, 9.0, -8.0, 7.0);
+  E6: array [1..10] of Double = (0.0, 0.000599, 0.0, 0.656694, 0.241584, 0.00022, 0.000001, 0.088874, 0, 0.012028);
+  A7: array [1..3] of Double = (1430.0, 1430.83, 1440.47);
+  E7: array [1..3] of Double = (0.000028, 0.000065, 0.999907);
+begin
+  CheckTrue(ArraysEqual(E1, SoftMax(A1)), '#1');
+  CheckTrue(ArraysEqual(E2, SoftMax(A2)), '#2');
+  CheckTrue(ArraysEqual([1.0], SoftMax([-35.0])), '#3');
+  CheckTrue(ArraysEqual([1.0], SoftMax([0.0])), '#4');
+  CheckTrue(ArraysEqual(E5, SoftMax(A5)), '#6');
+  CheckTrue(ArraysEqual(E6, SoftMax(A6)), '#6');
+  CheckTrue(ArraysEqual(E7, SoftMax(A7)), '#7');
 end;
 
 procedure TestMathsCatSnippets.TestStretchRect_A;

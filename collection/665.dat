@@ -1,0 +1,18 @@
+﻿function Median(A: array of Double): Double; overload;
+var
+  MiddleLo: Integer;
+begin
+  if System.Length(A) = 0 then
+    raise SysUtils.EArgumentException.Create('Array is empty');
+  // optimisations for array lengths 1 & 2 to avoid sorting
+  if System.Length(A) = 1 then
+    Exit(A[0]);
+  if System.Length(A) = 2 then
+    Exit((A[0] + A[1]) / 2.0);
+  Generics.Collections.TArray.Sort<Double>(A); // using standard comparer
+  MiddleLo := System.Length(A) div 2 - 1;
+  if System.Odd(System.Length(A)) then
+    Result := A[MiddleLo + 1]
+  else
+    Result := (A[MiddleLo] + A[MiddleLo + 1]) / 2.0;
+end;

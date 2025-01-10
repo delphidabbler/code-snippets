@@ -86,6 +86,8 @@ type
     procedure TestIsNarcissistic;
     procedure TestLSE;    // required by SoftMax
     procedure TestSoftMax;
+    procedure TestMedian_Integer;
+    procedure TestMedian_Double;
   end;
 
 implementation
@@ -879,6 +881,38 @@ begin
   A := TSingleDynArray.Create(52.25, 6.6, 42.42, 8.8);
   N := 52.25;
   Check(SameValue(N, MaxOfArray(A)), 'Test 5');
+end;
+
+procedure TestMathsCatSnippets.TestMedian_Double;
+const
+  Fudge = 0.000001;
+  A1: array[1..1] of Double = (436.57);
+  A2: array[1..2] of Double = (-123.45, 170.05);
+  A5: array[1..5] of Double = (1.234, 4256.12345, 7000000000.0, PI, 0.000006758493);
+  A6: array[1..6] of Double = (4883.937382, 37473.0, 235.00001, -99.9282, 42.32654, 56.986382);
+  A7: array[1..7] of Double = (938298.0837, 729837.3627, 80001.34, 79876.46372, 67012.1234, 38983.12, 3500.93937);
+begin
+  CheckTrue(SameValue(436.57, Median(A1), Fudge), '#1');
+  CheckTrue(SameValue(23.3, Median(A2), Fudge), '#2');
+  CheckTrue(SameValue(PI, Median(A5), Fudge), '#5');
+  CheckTrue(SameValue(145.993196, Median(A6), Fudge), '#6');
+  CheckTrue(SameValue(79876.46372, Median(A7), Fudge), '#7');
+end;
+
+procedure TestMathsCatSnippets.TestMedian_Integer;
+const
+  A1: array[1..1] of Integer = (4);
+  A2: array[1..2] of Integer = (-6, 1);
+  A5: array[1..5] of Integer = (1, 3, 5, 7, 9);
+  A6: array[1..6] of Integer = (4883, 37473, 235, -99, 42, 56);
+  A7: array[1..7] of Integer = (77, 66, 55, 44, 33, 22, 11);
+begin
+  CheckTrue(SameValue(4.0, Median(A1)), '#1');
+  CheckTrue(SameValue(-2.5, Median(A2)), '#2');
+  CheckTrue(SameValue(5.0, Median(A5)), '#5');
+  CheckTrue(SameValue(145.5, Median(A6)), '#6');
+  CheckTrue(SameValue(44.0, Median(A7)), '#7');
+
 end;
 
 procedure TestMathsCatSnippets.TestMid_Double;

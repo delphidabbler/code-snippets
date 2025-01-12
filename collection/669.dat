@@ -1,0 +1,19 @@
+﻿procedure MinMaxOfArray(const A: array of Double;
+  out MinValue, MaxValue: Double); overload;
+var
+  Idx: Integer;
+  Elem: Double;
+begin
+  if Length(A) = 0 then
+    raise SysUtils.EArgumentException.Create('Array is empty');
+  MinValue := A[0];
+  MaxValue := A[0];
+  for Idx := 1 to Pred(Length(A)) do
+  begin
+    Elem := A[Idx];
+    if Elem > MaxValue then
+      MaxValue := Elem
+    else if Elem < MinValue then
+      MinValue := Elem;
+  end;
+end;

@@ -1,0 +1,14 @@
+﻿function RescaleRange(const A: array of Double): Types.TDoubleDynArray;
+  overload;
+var
+  Min, Max, RangeLength: Double;
+  Idx: Integer;
+begin
+  MinMaxOfArray(A, Min, Max); // raises exception if A is empty
+  if Math.SameValue(Max, Min) then
+    raise SysUtils.EArgumentException.Create('All array values are the same');
+  System.SetLength(Result, System.Length(A));
+  RangeLength := Max - Min;
+  for Idx := 0 to Pred(System.Length(A)) do
+    Result[Idx] := (A[Idx] - Min) / RangeLength;
+end;

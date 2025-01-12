@@ -1,0 +1,10 @@
+﻿function RangeOf(const A: array of Double): Double; overload;
+var
+  MinValue, MaxValue: Double;
+begin
+  MinMaxOfArray(A, MinValue, MaxValue); // exception raised if A is empty
+  Result := MaxValue - MinValue;
+  // Ensure that exactly zero is returned when MaxValue = MinValue
+  if Math.IsZero(Result) then
+    Result := 0.0;
+end;

@@ -24,7 +24,22 @@ type
     procedure TestDigitPowerSum_EOverflow;
     procedure TestDigitPowerSum_EArgumentException;
     procedure TestLSE_EArgumentException;
-    function EqualArrays(const Left, Right: TBytes): Boolean;
+    procedure TestMinMaxOfArray_Integer_ExceptEmpty;
+    procedure TestMinMaxOfArray_Double_ExceptEmpty;
+    procedure TestNormaliseByWeight_Cardinal_ExceptEmpty;
+    procedure TestNormaliseByWeight_Cardinal_ExceptZero;
+    procedure TestNormaliseByWeight_Double_ExceptEmpty;
+    procedure TestNormaliseByWeight_Double_ExceptNegative;
+    procedure TestNormaliseByWeight_Double_ExceptZero;
+    procedure TestRescaleRange_Integer_ExceptEmpty;
+    procedure TestRescaleRange_Integer_ExceptAllValuesSame;
+    procedure TestRescaleRange_Double_ExceptEmpty;
+    procedure TestRescaleRange_Double_ExceptAllValuesSame;
+    procedure TestRangeOf_Double_ExceptEmpty;
+    procedure TestRangeOf_Integer_ExceptEmpty;
+    function EqualArrays(const Left, Right: TBytes): Boolean; overload;
+    function EqualArrays(const Left, Right: array of Double;
+      Fudge: Double = 0.0): Boolean; overload;
     function ReverseArray(const A: TBytes): TBytes;
   published
     procedure TestDigitCount;
@@ -88,6 +103,14 @@ type
     procedure TestSoftMax;
     procedure TestMedian_Integer;
     procedure TestMedian_Double;
+    procedure TestMinMaxOfArray_Integer;  // required by Rescale & RangeOf
+    procedure TestMinMaxOfArray_Double;   // required by Rescale & RangeOf
+    procedure TestNormaliseByWeight_Cardinal;
+    procedure TestNormaliseByWeight_Double;
+    procedure TestRescaleRange_Integer;
+    procedure TestRescaleRange_Double;
+    procedure TestRangeOf_Integer;
+    procedure TestRangeOf_Double;
   end;
 
 implementation
@@ -207,6 +230,19 @@ begin
     Exit(False);
   for Idx := Low(Left) to High(Left) do
     if Left[Idx] <> Right[Idx] then
+      Exit(False);
+end;
+
+function TestMathsCatSnippets.EqualArrays(const Left,
+  Right: array of Double; Fudge: Double = 0.0): Boolean;
+var
+  Idx: Integer;
+begin
+  Result := True;
+  if Length(Left) <> Length(Right) then
+    Exit(False);
+  for Idx := Low(Left) to High(Left) do
+    if not SameValue(Left[Idx], Right[Idx], Fudge) then
       Exit(False);
 end;
 
@@ -1015,6 +1051,90 @@ begin
   Check(SameValue(E, Mid(E, E, D)), 'Mid(E, E, D)');
 end;
 
+procedure TestMathsCatSnippets.TestMinMaxOfArray_Double;
+const
+  A1: array[1..1] of Double = (436.57);
+  Min1 = 436.57; Max1 = 436.57;
+  A2: array[1..2] of Double = (-123.45, 170.05);
+  Min2 = -123.45; Max2 = 170.05;
+  A5: array[1..5] of Double = (1.234, 4256.12345, 7000000000.0, PI, 0.000006758493);
+  Min5 = 0.000006758493; Max5 = 7000000000.0;
+  A6: array[1..6] of Double = (4883.937382, 37473.0, 235.00001, -99.9282, 42.32654, 56.986382);
+  Min6 = -99.9282; Max6 = 37473.0;
+  A7: array[1..7] of Double = (938298.0837, 729837.3627, 80001.34, 79876.46372, 67012.1234, 38983.12, 3500.93937);
+  Min7 = 3500.93937; Max7 = 938298.0837;
+var
+  MinVal, MaxVal: Double;
+begin
+  MinMaxOfArray(A1, MinVal, MaxVal);
+  CheckTrue(SameValue(Min1, MinVal), '1 min');
+  CheckTrue(SameValue(Max1, MaxVal), '1 max');
+  MinMaxOfArray(A2, MinVal, MaxVal);
+  CheckTrue(SameValue(Min2, MinVal), '2 min');
+  CheckTrue(SameValue(Max2, MaxVal), '2 max');
+  MinMaxOfArray(A5, MinVal, MaxVal);
+  CheckTrue(SameValue(Min5, MinVal), '5 min');
+  CheckTrue(SameValue(Max5, MaxVal), '5 max');
+  MinMaxOfArray(A6, MinVal, MaxVal);
+  CheckTrue(SameValue(Min6, MinVal), '6 min');
+  CheckTrue(SameValue(Max6, MaxVal), '6 max');
+  MinMaxOfArray(A7, MinVal, MaxVal);
+  CheckTrue(SameValue(Min7, MinVal), '7 min');
+  CheckTrue(SameValue(Max7, MaxVal), '7 max');
+  CheckException(TestMinMaxOfArray_Double_ExceptEmpty, EArgumentException, 'Empty exception');
+end;
+
+procedure TestMathsCatSnippets.TestMinMaxOfArray_Double_ExceptEmpty;
+var
+  A: array of Double;
+  Min, Max: Double;
+begin
+  SetLength(A, 0);
+  MinMaxOfArray(A, Min, Max);
+end;
+
+procedure TestMathsCatSnippets.TestMinMaxOfArray_Integer;
+const
+  A1: array[1..1] of Integer = (4);
+  Min1 = 4; Max1 = 4;
+  A2: array[1..2] of Integer = (-6, 1);
+  Min2 = -6; Max2 = 1;
+  A5: array[1..5] of Integer = (1, 3, 5, 7, 9);
+  Min5 = 1; Max5 = 9;
+  A6: array[1..6] of Integer = (4883, 37473, 235, -99, 42, 56);
+  Min6 = -99; Max6 = 37473;
+  A7: array[1..7] of Integer = (77, 66, 55, 44, 33, 22, 11);
+  Min7 = 11; Max7 = 77;
+var
+  MinVal, MaxVal: Integer;
+begin
+  MinMaxOfArray(A1, MinVal, MaxVal);
+  CheckEquals(Min1, MinVal, '1 min');
+  CheckEquals(Max1, MaxVal, '1 max');
+  MinMaxOfArray(A2, MinVal, MaxVal);
+  CheckEquals(Min2, MinVal, '2 min');
+  CheckEquals(Max2, MaxVal, '2 max');
+  MinMaxOfArray(A5, MinVal, MaxVal);
+  CheckEquals(Min5, MinVal, '5 min');
+  CheckEquals(Max5, MaxVal, '5 max');
+  MinMaxOfArray(A6, MinVal, MaxVal);
+  CheckEquals(Min6, MinVal, '6 min');
+  CheckEquals(Max6, MaxVal, '6 max');
+  MinMaxOfArray(A7, MinVal, MaxVal);
+  CheckEquals(Min7, MinVal, '7 min');
+  CheckEquals(Max7, MaxVal, '7 max');
+  CheckException(TestMinMaxOfArray_Integer_ExceptEmpty, EArgumentException, 'Empty exception');
+end;
+
+procedure TestMathsCatSnippets.TestMinMaxOfArray_Integer_ExceptEmpty;
+var
+  A: array of Integer;
+  Min, Max: Integer;
+begin
+  SetLength(A, 0);
+  MinMaxOfArray(A, Min, Max);
+end;
+
 procedure TestMathsCatSnippets.TestMinOfArray_Double;
 var
   A: TDoubleDynArray;
@@ -1115,6 +1235,100 @@ begin
   Check(SameValue(N, MinOfArray(A)), 'Test 5');
 end;
 
+procedure TestMathsCatSnippets.TestNormaliseByWeight_Cardinal;
+const
+  A1: array[1..1] of Cardinal = (6);
+  E1: array[1..1] of Double = (1.0);
+  A2Eq: array[1..2] of Cardinal = (56, 56);
+  E2Eq: array[1..2] of Double = (0.5, 0.5);
+  A2Neq: array[1..2] of Cardinal = (56, 36);
+  E2Neq: array[1..2] of Double = (0.60869565217391304347826086956522, 0.39130434782608695652173913043478);
+  A10: array[1..10] of Cardinal = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+  E10: array[1..10] of Double = (1/55, 2/55, 3/55, 4/55, 5/55, 6/55, 7/55, 8/55, 9/55, 10/55);
+  A9: array[1..9] of Cardinal = (0, 1, 2, 3, 0, 1, 2, 3, 0);
+  E9: array[1..9] of Double = (0.0, 1/12, 2/12, 3/12, 0.0, 1/12, 2/12, 3/12, 0.0);
+  A5: array[1..5] of Cardinal = (0, 0, 76595787, 0, 0);
+  E5: array[1..5] of Double = (0.0, 0.0, 1.0, 0.0, 0.0);
+  A6: array[1..6] of Cardinal = (High(Cardinal), 0, High(Cardinal), 0, High(Cardinal), High(Cardinal));
+  E6: array[1..6] of Double = (0.25, 0.0, 0.25, 0.0, 0.25, 0.25);
+begin
+  CheckTrue(EqualArrays(E1, NormaliseByWeight(A1)), '#1');
+  CheckTrue(EqualArrays(E2Eq, NormaliseByWeight(A2Eq)), '#2Eq');
+  CheckTrue(EqualArrays(E2Neq, NormaliseByWeight(A2Neq)), '#2Neq');
+  CheckTrue(EqualArrays(E10, NormaliseByWeight(A10)), '#10');
+  CheckTrue(EqualArrays(E9, NormaliseByWeight(A9)), '#9');
+  CheckTrue(EqualArrays(E5, NormaliseByWeight(A5)), '#5');
+  CheckTrue(EqualArrays(E6, NormaliseByWeight(A6)), '#6');
+  CheckException(TestNormaliseByWeight_Cardinal_ExceptEmpty, EArgumentException, 'Empty array');
+  CheckException(TestNormaliseByWeight_Cardinal_ExceptZero, EArgumentException, 'Array sums to zero');
+end;
+
+procedure TestMathsCatSnippets.TestNormaliseByWeight_Cardinal_ExceptEmpty;
+var
+  A: array of Cardinal;
+begin
+  SetLength(A, 0);
+  NormaliseByWeight(A);
+end;
+
+procedure TestMathsCatSnippets.TestNormaliseByWeight_Cardinal_ExceptZero;
+const
+  Zero = Cardinal(0);
+begin
+  NormaliseByWeight([Zero, Zero]);
+end;
+
+procedure TestMathsCatSnippets.TestNormaliseByWeight_Double;
+const
+  A1: array[1..1] of Double = (5.6);
+  E1: array[1..1] of Double = (1.0);
+  A2Eq: array[1..2] of Double = (56.42, 56.42);
+  E2Eq: array[1..2] of Double = (0.5, 0.5);
+  A2Neq: array[1..2] of Double = (56.42, 36.953);
+  E2Neq: array[1..2] of Double = (0.60424319664142739335782292525677, 0.39575680335857260664217707474323);
+  A10: array[1..10] of Double = (1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0);
+  E10: array[1..10] of Double = (1/55, 2/55, 3/55, 4/55, 5/55, 6/55, 7/55, 8/55, 9/55, 10/55);
+  A9: array[1..9] of Double = (0.0, 1.1, 2.2, 3.3, 0.0, 1.4, 2.5, 3.6, 0.0);
+  E9: array[1..9] of Double = (
+    0.0, 0.07801418439716312056737588652482, 0.15602836879432624113475177304965,
+    0.23404255319148936170212765957447, 0.0, 0.09929078014184397163120567375887,
+    0.17730496453900709219858156028369, 0.25531914893617021276595744680851, 0.0
+  );
+  A5a: array[1..5] of Double = (0.0, 0.0, 7659574468.085176, 0.0, 0.0);
+  E5a: array[1..5] of Double = (0.0, 0.0, 1.0, 0.0, 0.0);
+  A5b: array[1..5] of Double = (0.0, 0.0, 7659574468.085176, 0.0, 7659574468.085176);
+  E5b: array[1..5] of Double = (0.0, 0.0, 0.5, 0.0, 0.5);
+begin
+  CheckTrue(EqualArrays(E1, NormaliseByWeight(A1)), '#1');
+  CheckTrue(EqualArrays(E2Eq, NormaliseByWeight(A2Eq)), '#2Eq');
+  CheckTrue(EqualArrays(E2Neq, NormaliseByWeight(A2Neq)), '#2Neq');
+  CheckTrue(EqualArrays(E10, NormaliseByWeight(A10)), '#10');
+  CheckTrue(EqualArrays(E9, NormaliseByWeight(A9)), '#9');
+  CheckTrue(EqualArrays(E5a, NormaliseByWeight(A5a)), '#5a');
+  CheckTrue(EqualArrays(E5b, NormaliseByWeight(A5b)), '#5b');
+  CheckException(TestNormaliseByWeight_Double_ExceptEmpty, EArgumentException, 'Empty array');
+  CheckException(TestNormaliseByWeight_Double_ExceptNegative, EArgumentException, 'Negative values in array');
+  CheckException(TestNormaliseByWeight_Double_ExceptZero, EArgumentException, 'Array sums to zero');
+end;
+
+procedure TestMathsCatSnippets.TestNormaliseByWeight_Double_ExceptEmpty;
+var
+  A: array of Double;
+begin
+  SetLength(A, 0);
+  NormaliseByWeight(A);
+end;
+
+procedure TestMathsCatSnippets.TestNormaliseByWeight_Double_ExceptNegative;
+begin
+  NormaliseByWeight([0.0, 4.2, -34.8736, 56.67]);
+end;
+
+procedure TestMathsCatSnippets.TestNormaliseByWeight_Double_ExceptZero;
+begin
+  NormaliseByWeight([0.0, 0.0, 0.0]);
+end;
+
 procedure TestMathsCatSnippets.TestPowN;
 begin
   CheckEquals(0,          PowN(0, 2),     'PowN(0,2)');
@@ -1191,6 +1405,143 @@ begin
   CheckEquals(1/3,        PowNZZ(3, -1),    'PowNZZ(3, -1)');
   CheckEquals(-1,         PowNZZ(-1, -3),   'PowNZZ(-1, -3)');
   CheckEquals(4294967296, PowNZZ(2, 32),    'PowNZZ(2, 32');
+end;
+
+procedure TestMathsCatSnippets.TestRangeOf_Double;
+const
+  AA: array[1..5] of Double = (1.234, 4256.12345, 7000000000.0, PI, 0.000006758493);
+  EA: Double = 6999999999.999993241507;
+  AB: array[1..4] of Double = (0.00001, 0.00002, 0.00004, 0.00003);
+  EB: Double = 0.00003;
+  AC: array[1..4] of Double = (0.0, 0.0, 0.0, 0.0);
+  EC: Double = 0.0;
+  AD: array[1..4] of Double = (-42.0, 0.1, 36.8, 56.0);
+  ED: Double = 98.0;
+  AE: array[1..4] of Double = (-56.0, -60.6, -42.0, -56.0);
+  EE: Double = 18.6;
+  AF: array[1..1] of Double = (42.0);
+  EF: Double = 0.0;
+begin
+  CheckTrue(SameValue(EA, RangeOf(AA)), 'A');
+  CheckTrue(SameValue(EB, RangeOf(AB)), 'B');
+  CheckTrue(SameValue(EC, RangeOf(AC)), 'C');
+  CheckTrue(SameValue(ED, RangeOf(AD)), 'D');
+  CheckTrue(SameValue(EE, RangeOf(AE)), 'E');
+  CheckTrue(SameValue(EF, RangeOf(AF)), 'F');
+  CheckException(TestRangeOf_Double_ExceptEmpty, EArgumentException, 'Empty array');
+end;
+
+procedure TestMathsCatSnippets.TestRangeOf_Double_ExceptEmpty;
+var
+  A: array of Double;
+begin
+  SetLength(A, 0);
+  RangeOf(A);
+end;
+
+procedure TestMathsCatSnippets.TestRangeOf_Integer;
+const
+  AA: array[1..5] of Integer = (1, 4256, 7000000, 3, 1);
+  EA: Double = 6999999;
+  AB: array[1..4] of Integer = (0, 2, 4, 3);
+  EB: Integer = 4;
+  AC: array[1..4] of Integer = (0, 0, 0, 0);
+  EC: Integer = 0;
+  AD: array[1..4] of Integer = (-42, 1, 37, 56);
+  ED: Integer = 98;
+  AE: array[1..4] of Integer = (-56, -60, -42, -56);
+  EE: Integer = 18;
+  AF: array[1..1] of Integer = (42);
+  EF: Integer = 0;
+begin
+  CheckEquals(EA, RangeOf(AA), 'A');
+  CheckEquals(EB, RangeOf(AB), 'B');
+  CheckEquals(EC, RangeOf(AC), 'C');
+  CheckEquals(ED, RangeOf(AD), 'D');
+  CheckEquals(EE, RangeOf(AE), 'E');
+  CheckEquals(EF, RangeOf(AF), 'F');
+  CheckException(TestRangeOf_Integer_ExceptEmpty, EArgumentException, 'Empty array');
+end;
+
+procedure TestMathsCatSnippets.TestRangeOf_Integer_ExceptEmpty;
+var
+  A: array of Integer;
+begin
+  SetLength(A, 0);
+  RangeOf(A);
+end;
+
+procedure TestMathsCatSnippets.TestRescaleRange_Double;
+  // Expected results marked with * were calculated using
+  // https://www.educba.com/normalization-formula/, with an accuracy to 2DP, so
+  // a fudge factor of 0.01 was used when comparing those results
+const
+  Fudge2 = 0.01;
+  AA: array[1..5] of Double = (2.3, 5.4, 6.279, 1.4, 12.78);
+  EA{*}: array[1..5] of Double = (0.08, 0.35, 0.43, 0.00, 1.00);
+  AB: array[1..6] of Double = (-5.4, -2.3, -2.3, 0.0, 1.4, 3.7);
+  EB{*}: array[1..6] of Double = (0.00, 0.34, 0.34, 0.59, 0.75, 1.00);
+  AC1: array[1..2] of Double = (42.42, 56.56);
+  AC2: array[1..2] of Double = (-PI, +PI);
+  EC: array[1..2] of Double = (0.0, 1.0);
+  AD: array[1..4] of Double = (-2345.6, -1200.76, -999.99, -875.20);
+  ED{*}: array[1..4] of Double = (0.0, 0.78, 0.92, 1.0);
+begin
+  CheckTrue(EqualArrays(EA, RescaleRange(AA), Fudge2), 'A');
+  CheckTrue(EqualArrays(EB, RescaleRange(AB), Fudge2), 'B');
+  CheckTrue(EqualArrays(EC, RescaleRange(AC1)), 'C1');
+  CheckTrue(EqualArrays(EC, RescaleRange(AC2)), 'C2');
+  CheckTrue(EqualArrays(ED, RescaleRange(AD), Fudge2), 'D');
+  CheckException(TestRescaleRange_Double_ExceptEmpty, EArgumentException, 'Empty');
+  CheckException(TestRescaleRange_Double_ExceptAllValuesSame, EArgumentException, 'All values same');
+end;
+
+procedure TestMathsCatSnippets.TestRescaleRange_Double_ExceptAllValuesSame;
+begin
+  RescaleRange([1.345, 1.345, 1.345, 1.345]);
+end;
+
+procedure TestMathsCatSnippets.TestRescaleRange_Double_ExceptEmpty;
+var
+  A: array of Double;
+begin
+  SetLength(A, 0);
+  RescaleRange(A);
+end;
+
+procedure TestMathsCatSnippets.TestRescaleRange_Integer;
+const
+  Fudge2 = 0.01;
+  AA: array[1..5] of Integer = (2, 5, 6, 1, 12);
+  EA{*}: array[1..5] of Double = (0.091, 0.364, 0.455, 0.00, 1.00);
+  AB: array[1..6] of Integer = (-5, -2, -2, 0, 1, 4);
+  EB{*}: array[1..6] of Double = (0.0, 0.3333, 0.3333, 0.555555, 0.666666, 1.00);
+  AC1: array[1..2] of Integer = (42, 56);
+  AC2: array[1..2] of Integer = (-8, +8);
+  EC: array[1..2] of Double = (0.0, 1.0);
+  AD: array[1..4] of Integer = (-2345, -1201, -1000, -875);
+  ED{*}: array[1..4] of Double = (0.0, 0.78, 0.91, 1.0);
+begin
+  CheckTrue(EqualArrays(EA, RescaleRange(AA), Fudge2), 'A');
+  CheckTrue(EqualArrays(EB, RescaleRange(AB), Fudge2), 'B');
+  CheckTrue(EqualArrays(EC, RescaleRange(AC1)), 'C1');
+  CheckTrue(EqualArrays(EC, RescaleRange(AC2)), 'C2');
+  CheckTrue(EqualArrays(ED, RescaleRange(AD), Fudge2), 'D');
+  CheckException(TestRescaleRange_Integer_ExceptEmpty, EArgumentException, 'Empty');
+  CheckException(TestRescaleRange_Integer_ExceptAllValuesSame, EArgumentException, 'All values same');
+end;
+
+procedure TestMathsCatSnippets.TestRescaleRange_Integer_ExceptAllValuesSame;
+begin
+  RescaleRange([3, 3, 3, 3]);
+end;
+
+procedure TestMathsCatSnippets.TestRescaleRange_Integer_ExceptEmpty;
+var
+  A: array of Integer;
+begin
+  SetLength(A, 0);
+  RescaleRange(A);
 end;
 
 procedure TestMathsCatSnippets.TestResizeRect_A;

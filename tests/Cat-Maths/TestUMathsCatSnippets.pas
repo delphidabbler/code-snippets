@@ -11,6 +11,13 @@ type
     procedure StretchRect_A_Except1;
     procedure StretchRect_A_Except2;
     procedure StretchRect_B_Except;
+    procedure TestSumOfLogs_Single_Except_NonPositive;
+    procedure TestSumOfLogs_Double_Except_NonPositive;
+    procedure TestSumOfLogs_Extended_Except_NonPositive;
+    procedure TestSumOfLogs_Integer_Except_NonPositive;
+    procedure TestSumOfLogs_Cardinal_Except_NonPositive;
+    procedure TestSumOfLogs_Int64_Except_NonPositive;
+    procedure TestSumOfLogs_UInt64_Except_NonPositive;
     procedure TestArithMean_Integer_Except;
     procedure TestArithMean_Cardinal_Except;
     procedure TestArithMean_Double_Except;
@@ -1698,6 +1705,14 @@ begin
   Res := SumOfLogs(PosCardinalArray);
   BoolRes := SameValue(Expected, Res);
   CheckTrue(BoolRes, 'Normal');
+  CheckException(TestSumOfLogs_Cardinal_Except_NonPositive, EArgumentOutOfRangeException, 'Non-positive value');
+end;
+
+procedure TestMathsCatSnippets.TestSumOfLogs_Cardinal_Except_NonPositive;
+const
+  Bad: array [1..2] of Cardinal = (12, 0);
+begin
+  SumOfLogs(Bad);
 end;
 
 procedure TestMathsCatSnippets.TestSumOfLogs_Double;
@@ -1709,6 +1724,14 @@ begin
   Res := SumOfLogs(PosDoubleArray);
   BoolRes := SameValue(Expected, Res);
   CheckTrue(BoolRes, 'SumOfLogs_Double');
+  CheckException(TestSumOfLogs_Double_Except_NonPositive, EArgumentOutOfRangeException, 'Non-positive value');
+end;
+
+procedure TestMathsCatSnippets.TestSumOfLogs_Double_Except_NonPositive;
+const
+  Bad: array [1..2] of Double = (122.0, -2.1);
+begin
+  SumOfLogs(Bad);
 end;
 
 procedure TestMathsCatSnippets.TestSumOfLogs_Extended;
@@ -1720,6 +1743,14 @@ begin
   Res := SumOfLogs(PosExtendedArray);
   BoolRes := SameValue(Expected, Res);
   CheckTrue(BoolRes, 'SumOfLogs_Extended');
+  CheckException(TestSumOfLogs_Extended_Except_NonPositive, EArgumentOutOfRangeException, 'Non-positive value');
+end;
+
+procedure TestMathsCatSnippets.TestSumOfLogs_Extended_Except_NonPositive;
+const
+  Bad: array [1..2] of Extended = (122.0, -2.1);
+begin
+  SumOfLogs(Bad);
 end;
 
 procedure TestMathsCatSnippets.TestSumOfLogs_Int64;
@@ -1731,6 +1762,14 @@ begin
   Res := SumOfLogs(PosInt64Array);
   BoolRes := SameValue(Expected, Res);
   CheckTrue(BoolRes, 'SumOfLogs_Int64');
+  CheckException(TestSumOfLogs_Int64_Except_NonPositive, EArgumentOutOfRangeException, 'Non-positive value');
+end;
+
+procedure TestMathsCatSnippets.TestSumOfLogs_Int64_Except_NonPositive;
+const
+  Bad: array [1..2] of Int64 = (12, -23);
+begin
+  SumOfLogs(Bad);
 end;
 
 procedure TestMathsCatSnippets.TestSumOfLogs_Integer;
@@ -1742,6 +1781,14 @@ begin
   Res := SumOfLogs(PosIntegerArray);
   BoolRes := SameValue(Expected, Res);
   CheckTrue(BoolRes, 'SumOfLogs_Integer');
+  CheckException(TestSumOfLogs_Integer_Except_NonPositive, EArgumentOutOfRangeException, 'Non-positive value');
+end;
+
+procedure TestMathsCatSnippets.TestSumOfLogs_Integer_Except_NonPositive;
+const
+  Bad: array [1..2] of Integer = (12, 0);
+begin
+  SumOfLogs(Bad);
 end;
 
 procedure TestMathsCatSnippets.TestSumOfLogs_Single;
@@ -1753,6 +1800,14 @@ begin
   Res := SumOfLogs(PosSingleArray);
   BoolRes := SameValue(Expected, Res);
   CheckTrue(BoolRes, 'SumOfLogs_Single');
+  CheckException(TestSumOfLogs_Single_Except_NonPositive, EArgumentOutOfRangeException, 'Non-positive value');
+end;
+
+procedure TestMathsCatSnippets.TestSumOfLogs_Single_Except_NonPositive;
+const
+  Bad: array [1..2] of Single = (122.0, -2.1);
+begin
+  SumOfLogs(Bad);
 end;
 
 procedure TestMathsCatSnippets.TestSumOfLogs_UInt64;
@@ -1764,6 +1819,14 @@ begin
   Res := SumOfLogs(PosUInt64Array);
   BoolRes := SameValue(Expected, Res);
   CheckTrue(BoolRes, 'SumOfLogs_UInt64');
+  CheckException(TestSumOfLogs_UInt64_Except_NonPositive, EArgumentOutOfRangeException, 'Non-positive value');
+end;
+
+procedure TestMathsCatSnippets.TestSumOfLogs_UInt64_Except_NonPositive;
+const
+  Bad: array [1..2] of UInt64 = (12, 0);
+begin
+  SumOfLogs(Bad);
 end;
 
 procedure TestMathsCatSnippets.TestWeightedArithMean_Cardinal;

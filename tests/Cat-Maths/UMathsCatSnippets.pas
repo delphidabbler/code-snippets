@@ -2381,7 +2381,7 @@ begin
   for Elem in A do
   begin
     if Elem = 0 then
-      raise SysUtils.EArgumentOutOfRangeException(sNotPositive);
+      raise SysUtils.EArgumentOutOfRangeException.Create(sNotPositive);
     Result := Result + System.Ln(Elem);
   end;
 end;
@@ -2406,7 +2406,7 @@ begin
   for Elem in A do
   begin
     if Math.Sign(Elem) <> Math.PositiveValue then
-      raise SysUtils.EArgumentOutOfRangeException(sNotPositive);
+      raise SysUtils.EArgumentOutOfRangeException.Create(sNotPositive);
     Result := Result + System.Ln(Elem);
   end;
 end;
@@ -2431,7 +2431,7 @@ begin
   for Elem in A do
   begin
     if Math.Sign(Elem) <> Math.PositiveValue then
-      raise SysUtils.EArgumentOutOfRangeException(sNotPositive);
+      raise SysUtils.EArgumentOutOfRangeException.Create(sNotPositive);
     Result := Result + System.Ln(Elem);
   end;
 end;
@@ -2455,7 +2455,7 @@ begin
   for Elem in A do
   begin
     if Elem <= 0 then
-      raise SysUtils.EArgumentOutOfRangeException(sNotPositive);
+      raise SysUtils.EArgumentOutOfRangeException.Create(sNotPositive);
     Result := Result + System.Ln(Elem);
   end;
 end;
@@ -2479,7 +2479,7 @@ begin
   for Elem in A do
   begin
     if Elem <= 0 then
-      raise SysUtils.EArgumentOutOfRangeException(sNotPositive);
+      raise SysUtils.EArgumentOutOfRangeException.Create(sNotPositive);
     Result := Result + System.Ln(Elem);
   end;
 end;
@@ -2504,7 +2504,7 @@ begin
   for Elem in A do
   begin
     if Math.Sign(Elem) <> Math.PositiveValue then
-      raise SysUtils.EArgumentOutOfRangeException(sNotPositive);
+      raise SysUtils.EArgumentOutOfRangeException.Create(sNotPositive);
     Result := Result + System.Ln(Elem);
   end;
 end;
@@ -2528,7 +2528,7 @@ begin
   for Elem in A do
   begin
     if Elem = 0 then
-      raise SysUtils.EArgumentOutOfRangeException(sNotPositive);
+      raise SysUtils.EArgumentOutOfRangeException.Create(sNotPositive);
     Result := Result + System.Ln(Elem);
   end;
 end;

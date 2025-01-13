@@ -11,6 +11,13 @@ type
     procedure StretchRect_A_Except1;
     procedure StretchRect_A_Except2;
     procedure StretchRect_B_Except;
+    procedure TestSumOfLogs_Single_Except_NonPositive;
+    procedure TestSumOfLogs_Double_Except_NonPositive;
+    procedure TestSumOfLogs_Extended_Except_NonPositive;
+    procedure TestSumOfLogs_Integer_Except_NonPositive;
+    procedure TestSumOfLogs_Cardinal_Except_NonPositive;
+    procedure TestSumOfLogs_Int64_Except_NonPositive;
+    procedure TestSumOfLogs_UInt64_Except_NonPositive;
     procedure TestArithMean_Integer_Except;
     procedure TestArithMean_Cardinal_Except;
     procedure TestArithMean_Double_Except;
@@ -37,6 +44,16 @@ type
     procedure TestRescaleRange_Double_ExceptAllValuesSame;
     procedure TestRangeOf_Double_ExceptEmpty;
     procedure TestRangeOf_Integer_ExceptEmpty;
+    procedure TestWeightedGeoMean_Double_ExceptEmpty;
+    procedure TestWeightedGeoMean_Double_ExceptDiffSizeArrays;
+    procedure TestWeightedGeoMean_Double_ExceptNegativeWeights;
+    procedure TestWeightedGeoMean_Double_ExceptZeroWeights;
+    procedure TestGeoMean_Cardinal_ExceptEmpty;
+    procedure TestGeoMean_Double_ExceptEmpty;
+    procedure TestGeoMean_Integer_ExceptEmpty;
+    procedure TestGeoMean_Cardinal_ExceptNotPositive;
+    procedure TestGeoMean_Double_ExceptNotPositive;
+    procedure TestGeoMean_Integer_ExceptNotPositive;
     function EqualArrays(const Left, Right: TBytes): Boolean; overload;
     function EqualArrays(const Left, Right: array of Double;
       Fudge: Double = 0.0): Boolean; overload;
@@ -111,6 +128,12 @@ type
     procedure TestRescaleRange_Double;
     procedure TestRangeOf_Integer;
     procedure TestRangeOf_Double;
+    procedure TestGeoMean_Cardinal;
+    procedure TestGeoMean_Double;
+    procedure TestGeoMean_Integer;
+    procedure TestWeightedGeoMean_Double;  // required by Cardinal & Integer overloads
+    procedure TestWeightedGeoMean_Cardinal;
+    procedure TestWeightedGeoMean_Integer;
   end;
 
 implementation
@@ -605,6 +628,117 @@ begin
   CheckEquals(5, GCD2(-10, -5), 'GCD2(-10, -5)');
   CheckEquals(41, GCD2(-41,-41), 'GCD2(-41,-41)');
   CheckEquals(10, GCD2(10, -10), 'GCD2(10, -10)');
+end;
+
+procedure TestMathsCatSnippets.TestGeoMean_Cardinal;
+const
+  Fudge = 0.00000001;
+  AA: array[0..2] of Cardinal = (1, 1, 1);
+  AB: array[0..0] of Cardinal = (3);
+  AC: array[0..5] of Cardinal = (12, 56, 1, 3, 12, 19);
+  AD: array[11..14] of Cardinal = (1000000, 2222222, 3333333, 4444444);
+  // Expected results calculated using
+  // https://www.gigacalculator.com/calculators/geometric-mean-calculator.php
+  EA = 1.0;
+  EB = 3.0;
+  EC = 8.784914973781;
+  ED = 2395360.566768502351;
+begin
+  CheckTrue(Math.SameValue(EA, GeoMean(AA), Fudge), 'A');
+  CheckTrue(Math.SameValue(EB, GeoMean(AB), Fudge), 'B');
+  CheckTrue(Math.SameValue(EC, GeoMean(AC), Fudge), 'C');
+  CheckTrue(Math.SameValue(ED, GeoMean(AD), Fudge), 'D');
+  CheckException(TestGeoMean_Cardinal_ExceptEmpty, EArgumentException, 'Empty array');
+  CheckException(TestGeoMean_Cardinal_ExceptNotPositive, EArgumentOutOfRangeException, 'Non-positive values');
+end;
+
+procedure TestMathsCatSnippets.TestGeoMean_Cardinal_ExceptEmpty;
+var
+  A: array of Cardinal;
+begin
+  SetLength(A, 0);
+  GeoMean(A);
+end;
+
+procedure TestMathsCatSnippets.TestGeoMean_Cardinal_ExceptNotPositive;
+const
+  A: array[1..4] of Cardinal = (1, 4, 0, 7);
+begin
+  GeoMean(A);
+end;
+
+procedure TestMathsCatSnippets.TestGeoMean_Double;
+const
+  Fudge = 0.00000000001;
+  AA: array[0..1] of Double = (1.0, 1.0);
+  AB: array[0..0] of Double = (PI);
+  AC: array[0..5] of Double = (12.42, 56.47, 0.1, 3.0, 12.42, 18.678);
+  AD: array[11..14] of Double = (0.000001, 0.000002, 0.000003, 0.000004);
+  // Expected results calculated using
+  // https://www.gigacalculator.com/calculators/geometric-mean-calculator.php
+  EA = 1.0;
+  EB = PI;
+  EC = 6.045312664207;
+  ED = 0.000002213364;
+begin
+  CheckTrue(Math.SameValue(EA, GeoMean(AA), Fudge), 'A');
+  CheckTrue(Math.SameValue(EB, GeoMean(AB), Fudge), 'B');
+  CheckTrue(Math.SameValue(EC, GeoMean(AC), Fudge), 'C');
+  CheckTrue(Math.SameValue(ED, GeoMean(AD), Fudge), 'D');
+  CheckException(TestGeoMean_Double_ExceptEmpty, EArgumentException, 'Empty array');
+  CheckException(TestGeoMean_Double_ExceptNotPositive, EArgumentOutOfRangeException, 'Non-positive values');
+end;
+
+procedure TestMathsCatSnippets.TestGeoMean_Double_ExceptEmpty;
+var
+  A: array of Double;
+begin
+  SetLength(A, 0);
+  GeoMean(A);
+end;
+
+procedure TestMathsCatSnippets.TestGeoMean_Double_ExceptNotPositive;
+const
+  A: array[0..3] of Double = (1.4, 4.6, -12.0, 7.8);
+begin
+  GeoMean(A);
+end;
+
+procedure TestMathsCatSnippets.TestGeoMean_Integer;
+const
+  Fudge = 0.00000001;
+  AA: array[0..2] of Integer = (1, 1, 1);
+  AB: array[0..0] of Integer = (3);
+  AC: array[0..5] of Integer = (12, 56, 1, 3, 12, 19);
+  AD: array[11..14] of Integer = (1000000, 2222222, 3333333, 4444444);
+  // Expected results calculated using
+  // https://www.gigacalculator.com/calculators/geometric-mean-calculator.php
+  EA = 1.0;
+  EB = 3.0;
+  EC = 8.784914973781;
+  ED = 2395360.566768502351;
+begin
+  CheckTrue(Math.SameValue(EA, GeoMean(AA), Fudge), 'A');
+  CheckTrue(Math.SameValue(EB, GeoMean(AB), Fudge), 'B');
+  CheckTrue(Math.SameValue(EC, GeoMean(AC), Fudge), 'C');
+  CheckTrue(Math.SameValue(ED, GeoMean(AD), Fudge), 'D');
+  CheckException(TestGeoMean_Integer_ExceptEmpty, EArgumentException, 'Empty array');
+  CheckException(TestGeoMean_Integer_ExceptNotPositive, EArgumentOutOfRangeException, 'Non-positive values');
+end;
+
+procedure TestMathsCatSnippets.TestGeoMean_Integer_ExceptEmpty;
+var
+  A: array of Integer;
+begin
+  SetLength(A, 0);
+  GeoMean(A);
+end;
+
+procedure TestMathsCatSnippets.TestGeoMean_Integer_ExceptNotPositive;
+const
+  A: array[0..3] of Integer = (1, 4, -2, 7);
+begin
+  GeoMean(A);
 end;
 
 procedure TestMathsCatSnippets.TestIsNarcissistic;
@@ -1698,6 +1832,14 @@ begin
   Res := SumOfLogs(PosCardinalArray);
   BoolRes := SameValue(Expected, Res);
   CheckTrue(BoolRes, 'Normal');
+  CheckException(TestSumOfLogs_Cardinal_Except_NonPositive, EArgumentOutOfRangeException, 'Non-positive value');
+end;
+
+procedure TestMathsCatSnippets.TestSumOfLogs_Cardinal_Except_NonPositive;
+const
+  Bad: array [1..2] of Cardinal = (12, 0);
+begin
+  SumOfLogs(Bad);
 end;
 
 procedure TestMathsCatSnippets.TestSumOfLogs_Double;
@@ -1709,6 +1851,14 @@ begin
   Res := SumOfLogs(PosDoubleArray);
   BoolRes := SameValue(Expected, Res);
   CheckTrue(BoolRes, 'SumOfLogs_Double');
+  CheckException(TestSumOfLogs_Double_Except_NonPositive, EArgumentOutOfRangeException, 'Non-positive value');
+end;
+
+procedure TestMathsCatSnippets.TestSumOfLogs_Double_Except_NonPositive;
+const
+  Bad: array [1..2] of Double = (122.0, -2.1);
+begin
+  SumOfLogs(Bad);
 end;
 
 procedure TestMathsCatSnippets.TestSumOfLogs_Extended;
@@ -1720,6 +1870,14 @@ begin
   Res := SumOfLogs(PosExtendedArray);
   BoolRes := SameValue(Expected, Res);
   CheckTrue(BoolRes, 'SumOfLogs_Extended');
+  CheckException(TestSumOfLogs_Extended_Except_NonPositive, EArgumentOutOfRangeException, 'Non-positive value');
+end;
+
+procedure TestMathsCatSnippets.TestSumOfLogs_Extended_Except_NonPositive;
+const
+  Bad: array [1..2] of Extended = (122.0, -2.1);
+begin
+  SumOfLogs(Bad);
 end;
 
 procedure TestMathsCatSnippets.TestSumOfLogs_Int64;
@@ -1731,6 +1889,14 @@ begin
   Res := SumOfLogs(PosInt64Array);
   BoolRes := SameValue(Expected, Res);
   CheckTrue(BoolRes, 'SumOfLogs_Int64');
+  CheckException(TestSumOfLogs_Int64_Except_NonPositive, EArgumentOutOfRangeException, 'Non-positive value');
+end;
+
+procedure TestMathsCatSnippets.TestSumOfLogs_Int64_Except_NonPositive;
+const
+  Bad: array [1..2] of Int64 = (12, -23);
+begin
+  SumOfLogs(Bad);
 end;
 
 procedure TestMathsCatSnippets.TestSumOfLogs_Integer;
@@ -1742,6 +1908,14 @@ begin
   Res := SumOfLogs(PosIntegerArray);
   BoolRes := SameValue(Expected, Res);
   CheckTrue(BoolRes, 'SumOfLogs_Integer');
+  CheckException(TestSumOfLogs_Integer_Except_NonPositive, EArgumentOutOfRangeException, 'Non-positive value');
+end;
+
+procedure TestMathsCatSnippets.TestSumOfLogs_Integer_Except_NonPositive;
+const
+  Bad: array [1..2] of Integer = (12, 0);
+begin
+  SumOfLogs(Bad);
 end;
 
 procedure TestMathsCatSnippets.TestSumOfLogs_Single;
@@ -1753,6 +1927,14 @@ begin
   Res := SumOfLogs(PosSingleArray);
   BoolRes := SameValue(Expected, Res);
   CheckTrue(BoolRes, 'SumOfLogs_Single');
+  CheckException(TestSumOfLogs_Single_Except_NonPositive, EArgumentOutOfRangeException, 'Non-positive value');
+end;
+
+procedure TestMathsCatSnippets.TestSumOfLogs_Single_Except_NonPositive;
+const
+  Bad: array [1..2] of Single = (122.0, -2.1);
+begin
+  SumOfLogs(Bad);
 end;
 
 procedure TestMathsCatSnippets.TestSumOfLogs_UInt64;
@@ -1764,6 +1946,14 @@ begin
   Res := SumOfLogs(PosUInt64Array);
   BoolRes := SameValue(Expected, Res);
   CheckTrue(BoolRes, 'SumOfLogs_UInt64');
+  CheckException(TestSumOfLogs_UInt64_Except_NonPositive, EArgumentOutOfRangeException, 'Non-positive value');
+end;
+
+procedure TestMathsCatSnippets.TestSumOfLogs_UInt64_Except_NonPositive;
+const
+  Bad: array [1..2] of UInt64 = (12, 0);
+begin
+  SumOfLogs(Bad);
 end;
 
 procedure TestMathsCatSnippets.TestWeightedArithMean_Cardinal;
@@ -1842,6 +2032,117 @@ const
   E = 4.5;
 begin
   CheckTrue(Math.SameValue(E, WeightedArithMean(A, W)));
+end;
+
+procedure TestMathsCatSnippets.TestWeightedGeoMean_Cardinal;
+const
+  Fudge = 0.00001;
+  AA: array[0..1] of Cardinal = (1, 1);
+  WA: array[0..1] of Double = (0.25, 0.75);
+  AB: array[0..0] of Cardinal = (3);
+  WB: array[0..0] of Double = (5.0);
+  AC: array[0..5] of Cardinal = (12, 56, 1, 3, 12, 19);
+  WC: array[0..5] of Double = (1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
+  AD: array[11..14] of Cardinal = (10001, 20002, 30003, 40004);
+  WD: array[9..12] of Double = (1.0, 1.0, 1.0, 1.0);
+  // Expected results calculated using https://www.dcode.fr/weighted-mean
+  EA = 1.0;
+  EB = 3.0;
+  EC = 8.53238;
+  ED = 22135.851757845830;
+begin
+  CheckTrue(Math.SameValue(EA, WeightedGeoMean(AA, WA), Fudge), 'A');
+  CheckTrue(Math.SameValue(EB, WeightedGeoMean(AB, WB), Fudge), 'B');
+  CheckTrue(Math.SameValue(EC, WeightedGeoMean(AC, WC), Fudge), 'C');
+  CheckTrue(Math.SameValue(ED, WeightedGeoMean(AD, WD), Fudge), 'D');
+  // Exceptions not checked: WeightedGeoMean Cardinal overload calls Double
+  // overload which raises execptions. So tests of Double overload exceptions
+  // suffice.
+end;
+
+procedure TestMathsCatSnippets.TestWeightedGeoMean_Double;
+const
+  Fudge = 0.00001;
+  AA: array[0..1] of Double = (1.0, 1.0);
+  WA: array[0..1] of Double = (0.25, 0.75);
+  AB: array[0..0] of Double = (PI);
+  WB: array[0..0] of Double = (5.0);
+  AC: array[0..5] of Double = (12.42, 56.47, 0.1, 3.0, 12.42, 18.678);
+  WC: array[0..5] of Double = (1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
+  AD: array[11..14] of Double = (0.000001, 0.000002, 0.000003, 0.000004);
+  WD: array[9..12] of Double = (1.0, 1.0, 1.0, 1.0);
+  // Expected results calculated using https://www.dcode.fr/weighted-mean
+  EA = 1.0;
+  EB = PI;
+  EC = 6.17599;
+  ED = 2.2133638394006e-6;
+begin
+  CheckTrue(Math.SameValue(EA, WeightedGeoMean(AA, WA), Fudge), 'A');
+  CheckTrue(Math.SameValue(EB, WeightedGeoMean(AB, WB), Fudge), 'B');
+  CheckTrue(Math.SameValue(EC, WeightedGeoMean(AC, WC), Fudge), 'C');
+  CheckTrue(Math.SameValue(ED, WeightedGeoMean(AD, WD), Fudge), 'D');
+  CheckException(TestWeightedGeoMean_Double_ExceptEmpty, EArgumentException, 'Empty array');
+  CheckException(TestWeightedGeoMean_Double_ExceptDiffSizeArrays, EArgumentException, 'Different size arrays');
+  CheckException(TestWeightedGeoMean_Double_ExceptNegativeWeights, EArgumentException, 'Negative weights');
+  CheckException(TestWeightedGeoMean_Double_ExceptZeroWeights, EArgumentException, 'Weights sum to zero');
+end;
+
+procedure TestMathsCatSnippets.TestWeightedGeoMean_Double_ExceptDiffSizeArrays;
+const
+  A: array [1..2] of Double = (1.0, 2.0);
+  W: array [1..3] of Double = (1.0, 2.0, 3.0);
+begin
+  WeightedGeoMean(A, W);
+end;
+
+procedure TestMathsCatSnippets.TestWeightedGeoMean_Double_ExceptEmpty;
+var
+  A: array of Double;
+begin
+  SetLength(A, 0);
+  WeightedGeoMean(A, A);
+end;
+
+procedure TestMathsCatSnippets.TestWeightedGeoMean_Double_ExceptNegativeWeights;
+const
+  A: array [1..3] of Double = (1.0, 2.0, 3.0);
+  W: array [1..3] of Double = (1.0, -2.0, 3.0);
+begin
+  WeightedGeoMean(A, W);
+end;
+
+procedure TestMathsCatSnippets.TestWeightedGeoMean_Double_ExceptZeroWeights;
+const
+  A: array [1..3] of Double = (1.0, 2.0, 3.0);
+  W: array [1..3] of Double = (0.0, 0.0, 0.0);
+begin
+  WeightedGeoMean(A, W);
+end;
+
+procedure TestMathsCatSnippets.TestWeightedGeoMean_Integer;
+const
+  Fudge = 0.00001;
+  AA: array[0..1] of Integer = (1, 1);
+  WA: array[0..1] of Double = (0.25, 0.75);
+  AB: array[0..0] of Integer = (3);
+  WB: array[0..0] of Double = (5.0);
+  AC: array[0..5] of Integer = (12, 56, 1, 3, 12, 19);
+  WC: array[0..5] of Double = (1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
+  AD: array[11..14] of Integer = (10001, 20002, 30003, 40004);
+  WD: array[9..12] of Double = (1.0, 1.0, 1.0, 1.0);
+  // Expected results calculated using https://www.dcode.fr/weighted-mean
+  EA = 1.0;
+  EB = 3.0;
+  EC = 8.53238;
+  ED = 22135.851757845830;
+begin
+  CheckTrue(Math.SameValue(EA, WeightedGeoMean(AA, WA), Fudge), 'A');
+  CheckTrue(Math.SameValue(EB, WeightedGeoMean(AB, WB), Fudge), 'B');
+  CheckTrue(Math.SameValue(EC, WeightedGeoMean(AC, WC), Fudge), 'C');
+  CheckTrue(Math.SameValue(ED, WeightedGeoMean(AD, WD), Fudge), 'D');
+  // Exceptions not checked: WeightedGeoMean Integer overload calls Double
+  // overload which raises execptions. So tests of Double overload exceptions
+  // suffice.
 end;
 
 initialization

@@ -54,6 +54,12 @@ type
     procedure TestGeoMean_Cardinal_ExceptNotPositive;
     procedure TestGeoMean_Double_ExceptNotPositive;
     procedure TestGeoMean_Integer_ExceptNotPositive;
+    procedure TestSumOfReciprocals_Double_ExceptEmpty;
+    procedure TestSumOfReciprocals_Double_ExceptNonPositive;
+    procedure TestSumOfReciprocals_Cardinal_ExceptEmpty;
+    procedure TestSumOfReciprocals_Cardinal_ExceptNonPositive;
+    procedure TestSumOfReciprocals_Integer_ExceptEmpty;
+    procedure TestSumOfReciprocals_Integer_ExceptNonPositive;
     function EqualArrays(const Left, Right: TBytes): Boolean; overload;
     function EqualArrays(const Left, Right: array of Double;
       Fudge: Double = 0.0): Boolean; overload;
@@ -134,6 +140,12 @@ type
     procedure TestWeightedGeoMean_Double;  // required by Cardinal & Integer overloads
     procedure TestWeightedGeoMean_Cardinal;
     procedure TestWeightedGeoMean_Integer;
+    procedure TestSumOfReciprocals_Double;    // required by HarmonicMean
+    procedure TestSumOfReciprocals_Cardinal;  // required by HarmonicMean
+    procedure TestSumOfReciprocals_Integer;   // required by HarmonicMean
+    procedure TestHarmonicMean_Double;
+    procedure TestHarmonicMean_Cardinal;
+    procedure TestHarmonicMean_Integer;
   end;
 
 implementation
@@ -739,6 +751,81 @@ const
   A: array[0..3] of Integer = (1, 4, -2, 7);
 begin
   GeoMean(A);
+end;
+
+procedure TestMathsCatSnippets.TestHarmonicMean_Cardinal;
+const
+  // Expected results calculated using https://www.dcode.fr/mean
+  Fudge = 0.00000001;
+  AA: array [1..4] of Cardinal = (1, 2, 34, 789);
+  EA = 2.61321903463;
+  AB: array [1..1] of Cardinal = (12);
+  EB = 12.0000000000;
+  AC: array [1..2] of Cardinal = (42, 56);
+  EC = 48.0000000000;
+  AD: array [1..6] of Cardinal = (1, 7, 3, 5, 1, 2);
+  ED = 1.88905547226;
+  AE: array [1..6] of Cardinal = (1000, 2000, 3000, 4000, 5000, 6000);
+  EE = 2448.97959184;
+begin
+  CheckTrue(SameValue(EA, HarmonicMean(AA), Fudge), 'A');
+  CheckTrue(SameValue(EB, HarmonicMean(AB), Fudge), 'B');
+  CheckTrue(SameValue(EC, HarmonicMean(AC), Fudge), 'C');
+  CheckTrue(SameValue(ED, HarmonicMean(AD), Fudge), 'D');
+  CheckTrue(SameValue(EE, HarmonicMean(AE), Fudge), 'E');
+  // Exceptions not tested: all exceptions are raised by SumOfReciprocals which
+  // is called by HarmonicMean. Those exceptions have been tested when testing
+  // SumOfReciprocals
+end;
+
+procedure TestMathsCatSnippets.TestHarmonicMean_Double;
+const
+  // Expected results calculated using https://www.dcode.fr/mean
+  Fudge = 0.00000001;
+  AA: array [1..4] of Double = (0.1, 2.4573648, 34.0, 789.567);
+  EA = 0.383229190511;
+  AB: array [1..1] of Double = (12.78);
+  EB = 12.7800000000;
+  AC: array [1..2] of Double = (42.567987, 56.9837593);
+  EC = 48.7321220420;
+  AD: array [1..6] of Double = (1.0, 0.7, 0.3, 0.5, 0.1, 0.2);
+  ED = 0.26359832636;
+  AE: array [1..6] of Double = (0.0001, 0.0002, 0.0003, 0.0004, 0.0005, 0.0006);
+  EE = 0.00024489796;
+begin
+  CheckTrue(SameValue(EA, HarmonicMean(AA), Fudge), 'A');
+  CheckTrue(SameValue(EB, HarmonicMean(AB), Fudge), 'B');
+  CheckTrue(SameValue(EC, HarmonicMean(AC), Fudge), 'C');
+  CheckTrue(SameValue(ED, HarmonicMean(AD), Fudge), 'D');
+  CheckTrue(SameValue(EE, HarmonicMean(AE), Fudge), 'E');
+  // Exceptions not tested: all exceptions are raised by SumOfReciprocals which
+  // is called by HarmonicMean. Those exceptions have been tested when testing
+  // SumOfReciprocals
+end;
+
+procedure TestMathsCatSnippets.TestHarmonicMean_Integer;
+const
+  // Expected results calculated using https://www.dcode.fr/mean
+  Fudge = 0.00000001;
+  AA: array [1..4] of Integer = (1, 2, 34, 789);
+  EA = 2.61321903463;
+  AB: array [1..1] of Integer = (12);
+  EB = 12.0000000000;
+  AC: array [1..2] of Integer = (42, 56);
+  EC = 48.0000000000;
+  AD: array [1..6] of Integer = (1, 7, 3, 5, 1, 2);
+  ED = 1.88905547226;
+  AE: array [1..6] of Integer = (1000, 2000, 3000, 4000, 5000, 6000);
+  EE = 2448.97959184;
+begin
+  CheckTrue(SameValue(EA, HarmonicMean(AA), Fudge), 'A');
+  CheckTrue(SameValue(EB, HarmonicMean(AB), Fudge), 'B');
+  CheckTrue(SameValue(EC, HarmonicMean(AC), Fudge), 'C');
+  CheckTrue(SameValue(ED, HarmonicMean(AD), Fudge), 'D');
+  CheckTrue(SameValue(EE, HarmonicMean(AE), Fudge), 'E');
+  // Exceptions not tested: all exceptions are raised by SumOfReciprocals which
+  // is called by HarmonicMean. Those exceptions have been tested when testing
+  // SumOfReciprocals
 end;
 
 procedure TestMathsCatSnippets.TestIsNarcissistic;
@@ -1954,6 +2041,117 @@ const
   Bad: array [1..2] of UInt64 = (12, 0);
 begin
   SumOfLogs(Bad);
+end;
+
+procedure TestMathsCatSnippets.TestSumOfReciprocals_Cardinal;
+const
+  // Expected values calculated on Windows Calc
+  Fudge = 0.00000001;
+  AA: array [1..4] of Cardinal = (1, 2, 34, 790);
+  EA = 1.530677587491;
+  AB: array [1..1] of Cardinal = (13);
+  EB = 0.076923076923;
+  AC: array [1..2] of Cardinal = (43, 57);
+  EC = 0.040799673603;
+  AD: array [1..6] of Cardinal = (1, 2, 3, 2, 1, 2);
+  ED = 3.833333333333;
+begin
+  CheckTrue(SameValue(EA, SumOfReciprocals(AA), Fudge), 'A');
+  CheckTrue(SameValue(EB, SumOfReciprocals(AB), Fudge), 'B');
+  CheckTrue(SameValue(EC, SumOfReciprocals(AC), Fudge), 'C');
+  CheckTrue(SameValue(ED, SumOfReciprocals(AD), Fudge), 'D');
+  CheckException(TestSumOfReciprocals_Cardinal_ExceptEmpty, EArgumentException, 'Empty array');
+  CheckException(TestSumOfReciprocals_Cardinal_ExceptNonPositive, EArgumentException, 'Non-positive array values');
+end;
+
+procedure TestMathsCatSnippets.TestSumOfReciprocals_Cardinal_ExceptEmpty;
+var
+  A: array of Cardinal;
+begin
+  SetLength(A, 0);
+  SumOfReciprocals(A);
+end;
+
+procedure TestMathsCatSnippets.TestSumOfReciprocals_Cardinal_ExceptNonPositive;
+const
+  A: array [1..3] of Cardinal = (42, 56, 0);
+begin
+  SumOfReciprocals(A);
+end;
+
+procedure TestMathsCatSnippets.TestSumOfReciprocals_Double;
+const
+  // Expected values calculated on Windows Calc
+  Fudge = 0.00000001;
+  AA: array [1..4] of Double = (0.1, 2.4573648, 34.0, 789.567);
+  EA = 10.43761826877;
+  AB: array [1..1] of Double = (12.78);
+  EB = 0.078247261345;
+  AC: array [1..2] of Double = (42.567987, 56.9837593);
+  EC = 0.041040691769;
+  AD: array [1..6] of Double = (1.0, 0.7, 0.3, 0.5, 0.1, 0.2);
+  ED = 22.76190476190;
+  AE: array [1..6] of Double = (0.0001, 0.0002, 0.0003, 0.0004, 0.0005, 0.0006);
+  EE = 24500.00000000;
+begin
+  CheckTrue(SameValue(EA, SumOfReciprocals(AA), Fudge), 'A');
+  CheckTrue(SameValue(EB, SumOfReciprocals(AB), Fudge), 'B');
+  CheckTrue(SameValue(EC, SumOfReciprocals(AC), Fudge), 'C');
+  CheckTrue(SameValue(ED, SumOfReciprocals(AD), Fudge), 'D');
+  CheckTrue(SameValue(EE, SumOfReciprocals(AE), Fudge), 'E');
+  CheckException(TestSumOfReciprocals_Double_ExceptEmpty, EArgumentException, 'Empty array');
+  CheckException(TestSumOfReciprocals_Double_ExceptNonPositive, EArgumentException, 'Non-positive array values');
+end;
+
+procedure TestMathsCatSnippets.TestSumOfReciprocals_Double_ExceptEmpty;
+var
+  A: array of Double;
+begin
+  SetLength(A, 0);
+  SumOfReciprocals(A);
+end;
+
+procedure TestMathsCatSnippets.TestSumOfReciprocals_Double_ExceptNonPositive;
+const
+  A: array [1..3] of Double = (42.2, 56.2, 0.0);
+begin
+  SumOfReciprocals(A);
+end;
+
+procedure TestMathsCatSnippets.TestSumOfReciprocals_Integer;
+const
+  // Expected values calculated on Windows Calc
+  Fudge = 0.00000001;
+  AA: array [1..4] of Integer = (1, 2, 34, 790);
+  EA = 1.530677587491;
+  AB: array [1..1] of Integer = (13);
+  EB = 0.076923076923;
+  AC: array [1..2] of Integer = (43, 57);
+  EC = 0.040799673603;
+  AD: array [1..6] of Integer = (1, 2, 3, 2, 1, 2);
+  ED = 3.833333333333;
+begin
+  CheckTrue(SameValue(EA, SumOfReciprocals(AA), Fudge), 'A');
+  CheckTrue(SameValue(EB, SumOfReciprocals(AB), Fudge), 'B');
+  CheckTrue(SameValue(EC, SumOfReciprocals(AC), Fudge), 'C');
+  CheckTrue(SameValue(ED, SumOfReciprocals(AD), Fudge), 'D');
+  CheckException(TestSumOfReciprocals_Integer_ExceptEmpty, EArgumentException, 'Empty array');
+  CheckException(TestSumOfReciprocals_Integer_ExceptNonPositive, EArgumentException, 'Non-positive array values');
+end;
+
+procedure TestMathsCatSnippets.TestSumOfReciprocals_Integer_ExceptEmpty;
+var
+  A: array of Integer;
+begin
+  SetLength(A, 0);
+  SumOfReciprocals(A);
+end;
+
+procedure TestMathsCatSnippets.TestSumOfReciprocals_Integer_ExceptNonPositive;
+const
+  A: array [1..3] of Integer = (42, -56, 12);
+begin
+  SumOfReciprocals(A);
 end;
 
 procedure TestMathsCatSnippets.TestWeightedArithMean_Cardinal;

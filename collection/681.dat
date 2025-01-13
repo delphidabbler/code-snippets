@@ -1,0 +1,14 @@
+﻿function SumOfReciprocals(const A: array of Double): Double; overload;
+var
+  Elem: Double;
+begin
+  if System.Length(A) = 0 then
+    raise SysUtils.EArgumentException.Create('Array is empty');
+  Result := 0.0;
+  for Elem in A do
+  begin
+    if Math.Sign(Elem) <> Math.PositiveValue then
+      raise SysUtils.EArgumentException.Create('Array values must be > 0');
+    Result := Result + 1 / Elem;
+  end;
+end;

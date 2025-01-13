@@ -1,0 +1,4 @@
+﻿function HarmonicMean(const A: array of Double): Double; overload;
+begin
+  Result := System.Length(A) / SumOfReciprocals(A);
+end;

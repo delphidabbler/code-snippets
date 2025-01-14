@@ -1,4 +1,4 @@
-﻿function WeightedArithMean(const Values: array of Double;
+﻿function WeightedArithmeticMean(const Values: array of Double;
   const Weights: array of Double): Double; overload;
 var
   WeightSum: Double;

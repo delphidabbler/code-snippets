@@ -18,13 +18,13 @@ type
     procedure TestSumOfLogs_Cardinal_Except_NonPositive;
     procedure TestSumOfLogs_Int64_Except_NonPositive;
     procedure TestSumOfLogs_UInt64_Except_NonPositive;
-    procedure TestArithMean_Integer_Except;
-    procedure TestArithMean_Cardinal_Except;
-    procedure TestArithMean_Double_Except;
-    procedure TestWeightedArithMean_Double_Except1;
-    procedure TestWeightedArithMean_Double_Except2;
-    procedure TestWeightedArithMean_Double_Except3;
-    procedure TestWeightedArithMean_Double_Except4;
+    procedure TestArithmeticMean_Integer_Except;
+    procedure TestArithmeticMean_Cardinal_Except;
+    procedure TestArithmeticMean_Double_Except;
+    procedure TestWeightedArithmeticMean_Double_Except1;
+    procedure TestWeightedArithmeticMean_Double_Except2;
+    procedure TestWeightedArithmeticMean_Double_Except3;
+    procedure TestWeightedArithmeticMean_Double_Except4;
     procedure TestDigitSumBase_Except;
     procedure TestDigitsOf_ArgExcept;
     procedure TestPowNZN_EOverflow;
@@ -44,16 +44,16 @@ type
     procedure TestRescaleRange_Double_ExceptAllValuesSame;
     procedure TestRangeOf_Double_ExceptEmpty;
     procedure TestRangeOf_Integer_ExceptEmpty;
-    procedure TestWeightedGeoMean_Double_ExceptEmpty;
-    procedure TestWeightedGeoMean_Double_ExceptDiffSizeArrays;
-    procedure TestWeightedGeoMean_Double_ExceptNegativeWeights;
-    procedure TestWeightedGeoMean_Double_ExceptZeroWeights;
-    procedure TestGeoMean_Cardinal_ExceptEmpty;
-    procedure TestGeoMean_Double_ExceptEmpty;
-    procedure TestGeoMean_Integer_ExceptEmpty;
-    procedure TestGeoMean_Cardinal_ExceptNotPositive;
-    procedure TestGeoMean_Double_ExceptNotPositive;
-    procedure TestGeoMean_Integer_ExceptNotPositive;
+    procedure TestWeightedGeometricMean_Double_ExceptEmpty;
+    procedure TestWeightedGeometricMean_Double_ExceptDiffSizeArrays;
+    procedure TestWeightedGeometricMean_Double_ExceptNegativeWeights;
+    procedure TestWeightedGeometricMean_Double_ExceptZeroWeights;
+    procedure TestGeometricMean_Cardinal_ExceptEmpty;
+    procedure TestGeometricMean_Double_ExceptEmpty;
+    procedure TestGeometricMean_Integer_ExceptEmpty;
+    procedure TestGeometricMean_Cardinal_ExceptNotPositive;
+    procedure TestGeometricMean_Double_ExceptNotPositive;
+    procedure TestGeometricMean_Integer_ExceptNotPositive;
     procedure TestSumOfReciprocals_Double_ExceptEmpty;
     procedure TestSumOfReciprocals_Double_ExceptNonPositive;
     procedure TestSumOfReciprocals_Cardinal_ExceptEmpty;
@@ -114,12 +114,12 @@ type
     procedure TestSumOfLogs_Cardinal;
     procedure TestSumOfLogs_Int64;
     procedure TestSumOfLogs_UInt64;
-    procedure TestArithMean_Integer;
-    procedure TestArithMean_Cardinal;
-    procedure TestArithMean_Double;
-    procedure TestWeightedArithMean_Integer;
-    procedure TestWeightedArithMean_Cardinal;
-    procedure TestWeightedArithMean_Double;
+    procedure TestArithmeticMean_Integer;
+    procedure TestArithmeticMean_Cardinal;
+    procedure TestArithmeticMean_Double;
+    procedure TestWeightedArithmeticMean_Integer;
+    procedure TestWeightedArithmeticMean_Cardinal;
+    procedure TestWeightedArithmeticMean_Double;
     procedure TestDigitCountBase; // required by DigitsOf, IsNarcissistic
     procedure TestDigitSumBase;
     procedure TestDigitsOf;
@@ -133,17 +133,17 @@ type
     procedure TestMinMaxOfArray_Integer;  // required by Rescale & RangeOf
     procedure TestMinMaxOfArray_Double;   // required by Rescale & RangeOf
     procedure TestNormaliseByWeight_Cardinal;
-    procedure TestNormaliseByWeight_Double; // required by WeightedGeoMean & WeightedHarmonicMean
+    procedure TestNormaliseByWeight_Double; // required by WeightedGeometricMean & WeightedHarmonicMean
     procedure TestRescaleRange_Integer;
     procedure TestRescaleRange_Double;
     procedure TestRangeOf_Integer;
     procedure TestRangeOf_Double;
-    procedure TestGeoMean_Cardinal;
-    procedure TestGeoMean_Double;
-    procedure TestGeoMean_Integer;
-    procedure TestWeightedGeoMean_Double;  // required by Cardinal & Integer overloads
-    procedure TestWeightedGeoMean_Cardinal;
-    procedure TestWeightedGeoMean_Integer;
+    procedure TestGeometricMean_Cardinal;
+    procedure TestGeometricMean_Double;
+    procedure TestGeometricMean_Integer;
+    procedure TestWeightedGeometricMean_Double;  // required by Cardinal & Integer overloads
+    procedure TestWeightedGeometricMean_Cardinal;
+    procedure TestWeightedGeometricMean_Integer;
     procedure TestSumOfReciprocals_Double;    // required by HarmonicMean
     procedure TestSumOfReciprocals_Cardinal;  // required by HarmonicMean
     procedure TestSumOfReciprocals_Integer;   // required by HarmonicMean
@@ -321,7 +321,7 @@ begin
   R1 := StretchRect(R0, 1234567890.0);
 end;
 
-procedure TestMathsCatSnippets.TestArithMean_Cardinal;
+procedure TestMathsCatSnippets.TestArithmeticMean_Cardinal;
 const
   A0: array[0..1] of Cardinal = (0, 0);
   A1: array[0..0] of Cardinal = (56);
@@ -330,23 +330,23 @@ const
   E1 = 56.0;
   E4 = (12.+78.+0.0+3.0)/4.0;
 begin
-  CheckTrue(Math.SameValue(E0, ArithMean(A0)), 'A0');
-  CheckTrue(Math.SameValue(E1, ArithMean(A1)), 'A1');
-  CheckTrue(Math.SameValue(E4, ArithMean(A4)), 'A4');
+  CheckTrue(Math.SameValue(E0, ArithmeticMean(A0)), 'A0');
+  CheckTrue(Math.SameValue(E1, ArithmeticMean(A1)), 'A1');
+  CheckTrue(Math.SameValue(E4, ArithmeticMean(A4)), 'A4');
   CheckException(
-    TestArithMean_Cardinal_Except, EArgumentException, 'Exception'
+    TestArithmeticMean_Cardinal_Except, EArgumentException, 'Exception'
   );
 end;
 
-procedure TestMathsCatSnippets.TestArithMean_Cardinal_Except;
+procedure TestMathsCatSnippets.TestArithmeticMean_Cardinal_Except;
 var
   A: array of Cardinal;
 begin
   SetLength(A, 0);
-  ArithMean(A);
+  ArithmeticMean(A);
 end;
 
-procedure TestMathsCatSnippets.TestArithMean_Double;
+procedure TestMathsCatSnippets.TestArithmeticMean_Double;
 const
   A0: array[0..1] of Double = (0.0, 0.0);
   A1: array[0..0] of Double = (-PI);
@@ -355,23 +355,23 @@ const
   E1 = -PI;
   E4 = (12.42-56.47+3.0)/4.0;
 begin
-  CheckTrue(Math.SameValue(E0, ArithMean(A0)), 'A0');
-  CheckTrue(Math.SameValue(E1, ArithMean(A1)), 'A1');
-  CheckTrue(Math.SameValue(E4, ArithMean(A4)), 'A4');
+  CheckTrue(Math.SameValue(E0, ArithmeticMean(A0)), 'A0');
+  CheckTrue(Math.SameValue(E1, ArithmeticMean(A1)), 'A1');
+  CheckTrue(Math.SameValue(E4, ArithmeticMean(A4)), 'A4');
   CheckException(
-    TestArithMean_Double_Except, EArgumentException, 'Exception'
+    TestArithmeticMean_Double_Except, EArgumentException, 'Exception'
   );
 end;
 
-procedure TestMathsCatSnippets.TestArithMean_Double_Except;
+procedure TestMathsCatSnippets.TestArithmeticMean_Double_Except;
 var
   A: array of Double;
 begin
   SetLength(A, 0);
-  ArithMean(A);
+  ArithmeticMean(A);
 end;
 
-procedure TestMathsCatSnippets.TestArithMean_Integer;
+procedure TestMathsCatSnippets.TestArithmeticMean_Integer;
 const
   A0: array[0..1] of Integer = (0, 0);
   A1: array[0..0] of Integer = (-56);
@@ -380,20 +380,20 @@ const
   E1 = -56.0;
   E4 = (12.0-42.0+3.0)/4.0;
 begin
-  CheckTrue(Math.SameValue(E0, ArithMean(A0)), 'A0');
-  CheckTrue(Math.SameValue(E1, ArithMean(A1)), 'A1');
-  CheckTrue(Math.SameValue(E4, ArithMean(A4)), 'A4');
+  CheckTrue(Math.SameValue(E0, ArithmeticMean(A0)), 'A0');
+  CheckTrue(Math.SameValue(E1, ArithmeticMean(A1)), 'A1');
+  CheckTrue(Math.SameValue(E4, ArithmeticMean(A4)), 'A4');
   CheckException(
-    TestArithMean_Integer_Except, EArgumentException, 'Exception'
+    TestArithmeticMean_Integer_Except, EArgumentException, 'Exception'
   );
 end;
 
-procedure TestMathsCatSnippets.TestArithMean_Integer_Except;
+procedure TestMathsCatSnippets.TestArithmeticMean_Integer_Except;
 var
   A: array of Integer;
 begin
   SetLength(A, 0);
-  ArithMean(A);
+  ArithmeticMean(A);
 end;
 
 procedure TestMathsCatSnippets.TestArraySum_Cardinal;
@@ -649,7 +649,7 @@ begin
   CheckEquals(10, GCD2(10, -10), 'GCD2(10, -10)');
 end;
 
-procedure TestMathsCatSnippets.TestGeoMean_Cardinal;
+procedure TestMathsCatSnippets.TestGeometricMean_Cardinal;
 const
   Fudge = 0.00000001;
   AA: array[0..2] of Cardinal = (1, 1, 1);
@@ -663,30 +663,30 @@ const
   EC = 8.784914973781;
   ED = 2395360.566768502351;
 begin
-  CheckTrue(Math.SameValue(EA, GeoMean(AA), Fudge), 'A');
-  CheckTrue(Math.SameValue(EB, GeoMean(AB), Fudge), 'B');
-  CheckTrue(Math.SameValue(EC, GeoMean(AC), Fudge), 'C');
-  CheckTrue(Math.SameValue(ED, GeoMean(AD), Fudge), 'D');
-  CheckException(TestGeoMean_Cardinal_ExceptEmpty, EArgumentException, 'Empty array');
-  CheckException(TestGeoMean_Cardinal_ExceptNotPositive, EArgumentOutOfRangeException, 'Non-positive values');
+  CheckTrue(Math.SameValue(EA, GeometricMean(AA), Fudge), 'A');
+  CheckTrue(Math.SameValue(EB, GeometricMean(AB), Fudge), 'B');
+  CheckTrue(Math.SameValue(EC, GeometricMean(AC), Fudge), 'C');
+  CheckTrue(Math.SameValue(ED, GeometricMean(AD), Fudge), 'D');
+  CheckException(TestGeometricMean_Cardinal_ExceptEmpty, EArgumentException, 'Empty array');
+  CheckException(TestGeometricMean_Cardinal_ExceptNotPositive, EArgumentOutOfRangeException, 'Non-positive values');
 end;
 
-procedure TestMathsCatSnippets.TestGeoMean_Cardinal_ExceptEmpty;
+procedure TestMathsCatSnippets.TestGeometricMean_Cardinal_ExceptEmpty;
 var
   A: array of Cardinal;
 begin
   SetLength(A, 0);
-  GeoMean(A);
+  GeometricMean(A);
 end;
 
-procedure TestMathsCatSnippets.TestGeoMean_Cardinal_ExceptNotPositive;
+procedure TestMathsCatSnippets.TestGeometricMean_Cardinal_ExceptNotPositive;
 const
   A: array[1..4] of Cardinal = (1, 4, 0, 7);
 begin
-  GeoMean(A);
+  GeometricMean(A);
 end;
 
-procedure TestMathsCatSnippets.TestGeoMean_Double;
+procedure TestMathsCatSnippets.TestGeometricMean_Double;
 const
   Fudge = 0.00000000001;
   AA: array[0..1] of Double = (1.0, 1.0);
@@ -700,30 +700,30 @@ const
   EC = 6.045312664207;
   ED = 0.000002213364;
 begin
-  CheckTrue(Math.SameValue(EA, GeoMean(AA), Fudge), 'A');
-  CheckTrue(Math.SameValue(EB, GeoMean(AB), Fudge), 'B');
-  CheckTrue(Math.SameValue(EC, GeoMean(AC), Fudge), 'C');
-  CheckTrue(Math.SameValue(ED, GeoMean(AD), Fudge), 'D');
-  CheckException(TestGeoMean_Double_ExceptEmpty, EArgumentException, 'Empty array');
-  CheckException(TestGeoMean_Double_ExceptNotPositive, EArgumentOutOfRangeException, 'Non-positive values');
+  CheckTrue(Math.SameValue(EA, GeometricMean(AA), Fudge), 'A');
+  CheckTrue(Math.SameValue(EB, GeometricMean(AB), Fudge), 'B');
+  CheckTrue(Math.SameValue(EC, GeometricMean(AC), Fudge), 'C');
+  CheckTrue(Math.SameValue(ED, GeometricMean(AD), Fudge), 'D');
+  CheckException(TestGeometricMean_Double_ExceptEmpty, EArgumentException, 'Empty array');
+  CheckException(TestGeometricMean_Double_ExceptNotPositive, EArgumentOutOfRangeException, 'Non-positive values');
 end;
 
-procedure TestMathsCatSnippets.TestGeoMean_Double_ExceptEmpty;
+procedure TestMathsCatSnippets.TestGeometricMean_Double_ExceptEmpty;
 var
   A: array of Double;
 begin
   SetLength(A, 0);
-  GeoMean(A);
+  GeometricMean(A);
 end;
 
-procedure TestMathsCatSnippets.TestGeoMean_Double_ExceptNotPositive;
+procedure TestMathsCatSnippets.TestGeometricMean_Double_ExceptNotPositive;
 const
   A: array[0..3] of Double = (1.4, 4.6, -12.0, 7.8);
 begin
-  GeoMean(A);
+  GeometricMean(A);
 end;
 
-procedure TestMathsCatSnippets.TestGeoMean_Integer;
+procedure TestMathsCatSnippets.TestGeometricMean_Integer;
 const
   Fudge = 0.00000001;
   AA: array[0..2] of Integer = (1, 1, 1);
@@ -737,27 +737,27 @@ const
   EC = 8.784914973781;
   ED = 2395360.566768502351;
 begin
-  CheckTrue(Math.SameValue(EA, GeoMean(AA), Fudge), 'A');
-  CheckTrue(Math.SameValue(EB, GeoMean(AB), Fudge), 'B');
-  CheckTrue(Math.SameValue(EC, GeoMean(AC), Fudge), 'C');
-  CheckTrue(Math.SameValue(ED, GeoMean(AD), Fudge), 'D');
-  CheckException(TestGeoMean_Integer_ExceptEmpty, EArgumentException, 'Empty array');
-  CheckException(TestGeoMean_Integer_ExceptNotPositive, EArgumentOutOfRangeException, 'Non-positive values');
+  CheckTrue(Math.SameValue(EA, GeometricMean(AA), Fudge), 'A');
+  CheckTrue(Math.SameValue(EB, GeometricMean(AB), Fudge), 'B');
+  CheckTrue(Math.SameValue(EC, GeometricMean(AC), Fudge), 'C');
+  CheckTrue(Math.SameValue(ED, GeometricMean(AD), Fudge), 'D');
+  CheckException(TestGeometricMean_Integer_ExceptEmpty, EArgumentException, 'Empty array');
+  CheckException(TestGeometricMean_Integer_ExceptNotPositive, EArgumentOutOfRangeException, 'Non-positive values');
 end;
 
-procedure TestMathsCatSnippets.TestGeoMean_Integer_ExceptEmpty;
+procedure TestMathsCatSnippets.TestGeometricMean_Integer_ExceptEmpty;
 var
   A: array of Integer;
 begin
   SetLength(A, 0);
-  GeoMean(A);
+  GeometricMean(A);
 end;
 
-procedure TestMathsCatSnippets.TestGeoMean_Integer_ExceptNotPositive;
+procedure TestMathsCatSnippets.TestGeometricMean_Integer_ExceptNotPositive;
 const
   A: array[0..3] of Integer = (1, 4, -2, 7);
 begin
-  GeoMean(A);
+  GeometricMean(A);
 end;
 
 procedure TestMathsCatSnippets.TestHarmonicMean_Cardinal;
@@ -2161,16 +2161,16 @@ begin
   SumOfReciprocals(A);
 end;
 
-procedure TestMathsCatSnippets.TestWeightedArithMean_Cardinal;
+procedure TestMathsCatSnippets.TestWeightedArithmeticMean_Cardinal;
 const
   A: array[1..3] of Cardinal = (12, 6, 3);
   W: array[0..2] of Double = (0.5, 0.25, 0.75);
   E = 6.5;
 begin
-  CheckTrue(Math.SameValue(E, WeightedArithMean(A, W)));
+  CheckTrue(Math.SameValue(E, WeightedArithmeticMean(A, W)));
 end;
 
-procedure TestMathsCatSnippets.TestWeightedArithMean_Double;
+procedure TestMathsCatSnippets.TestWeightedArithmeticMean_Double;
 const
   A1: array[1..1] of Double = (42.456);
   W1: array[3..3] of Double = (1.7);
@@ -2182,64 +2182,64 @@ const
   A3: array[1..3] of Double = (0.0, 0.0, 0.0);
   W3: array[1..3] of Double = (23.5, 99.7, 27.898);
 begin
-  CheckTrue(Math.SameValue(E1, WeightedArithMean(A1, W1)), 'A1');
+  CheckTrue(Math.SameValue(E1, WeightedArithmeticMean(A1, W1)), 'A1');
   // E2 is accurate to 4DP - so round of both values multiplied by 10,000
-  CheckEquals(Round(E2 * FudgeFactor2), Round(WeightedArithMean(A2, W2) * FudgeFactor2), 'A2');
-  CheckTrue(Math.IsZero(WeightedArithMean(A3, W3)), 'A3');
+  CheckEquals(Round(E2 * FudgeFactor2), Round(WeightedArithmeticMean(A2, W2) * FudgeFactor2), 'A2');
+  CheckTrue(Math.IsZero(WeightedArithmeticMean(A3, W3)), 'A3');
 
-  CheckException(TestWeightedArithMean_Double_Except1, EArgumentException, 'Except 1');
-  CheckException(TestWeightedArithMean_Double_Except2, EArgumentException, 'Except 2');
-  CheckException(TestWeightedArithMean_Double_Except3, EArgumentException, 'Except 3');
-  CheckException(TestWeightedArithMean_Double_Except4, EArgumentException, 'Except 4');
+  CheckException(TestWeightedArithmeticMean_Double_Except1, EArgumentException, 'Except 1');
+  CheckException(TestWeightedArithmeticMean_Double_Except2, EArgumentException, 'Except 2');
+  CheckException(TestWeightedArithmeticMean_Double_Except3, EArgumentException, 'Except 3');
+  CheckException(TestWeightedArithmeticMean_Double_Except4, EArgumentException, 'Except 4');
 end;
 
-procedure TestMathsCatSnippets.TestWeightedArithMean_Double_Except1;
+procedure TestMathsCatSnippets.TestWeightedArithmeticMean_Double_Except1;
 var
   A, W: array of Double;
 begin
   // Empty array error
   SetLength(A, 0);
   SetLength(W, 0);
-  WeightedArithMean(A, W);
+  WeightedArithmeticMean(A, W);
 end;
 
-procedure TestMathsCatSnippets.TestWeightedArithMean_Double_Except2;
+procedure TestMathsCatSnippets.TestWeightedArithmeticMean_Double_Except2;
 const
   A: array[1..3] of Double = (1.0, 2.0, PI);
   W: array[1..2] of Double = (0.5, 0.7);
 begin
   // Different size A & W arrays
-  WeightedArithMean(A, W);
+  WeightedArithmeticMean(A, W);
 end;
 
-procedure TestMathsCatSnippets.TestWeightedArithMean_Double_Except3;
+procedure TestMathsCatSnippets.TestWeightedArithmeticMean_Double_Except3;
 const
   A: array[1..4] of Double = (1.0, 2.0, PI, -67.948);
   W: array[1..4] of Double = (0.5, 0, -42.0, 0.7);
 begin
   // W array contains -ve value
-  WeightedArithMean(A, W);
+  WeightedArithmeticMean(A, W);
 end;
 
-procedure TestMathsCatSnippets.TestWeightedArithMean_Double_Except4;
+procedure TestMathsCatSnippets.TestWeightedArithmeticMean_Double_Except4;
 const
   A: array[1..3] of Double = (1.0, 2.0, PI);
   W: array[1..3] of Double = (0.0, 0.0, 0.0);
 begin
   // W array sums to 0
-  WeightedArithMean(A, W);
+  WeightedArithmeticMean(A, W);
 end;
 
-procedure TestMathsCatSnippets.TestWeightedArithMean_Integer;
+procedure TestMathsCatSnippets.TestWeightedArithmeticMean_Integer;
 const
   A: array[1..3] of Integer = (12, -6, 3);
   W: array[0..2] of Double = (0.5, 0.25, 0.75);
   E = 4.5;
 begin
-  CheckTrue(Math.SameValue(E, WeightedArithMean(A, W)));
+  CheckTrue(Math.SameValue(E, WeightedArithmeticMean(A, W)));
 end;
 
-procedure TestMathsCatSnippets.TestWeightedGeoMean_Cardinal;
+procedure TestMathsCatSnippets.TestWeightedGeometricMean_Cardinal;
 const
   Fudge = 0.00001;
   AA: array[0..1] of Cardinal = (1, 1);
@@ -2256,16 +2256,16 @@ const
   EC = 8.53238;
   ED = 22135.851757845830;
 begin
-  CheckTrue(Math.SameValue(EA, WeightedGeoMean(AA, WA), Fudge), 'A');
-  CheckTrue(Math.SameValue(EB, WeightedGeoMean(AB, WB), Fudge), 'B');
-  CheckTrue(Math.SameValue(EC, WeightedGeoMean(AC, WC), Fudge), 'C');
-  CheckTrue(Math.SameValue(ED, WeightedGeoMean(AD, WD), Fudge), 'D');
-  // Exceptions not checked: WeightedGeoMean Cardinal overload calls Double
+  CheckTrue(Math.SameValue(EA, WeightedGeometricMean(AA, WA), Fudge), 'A');
+  CheckTrue(Math.SameValue(EB, WeightedGeometricMean(AB, WB), Fudge), 'B');
+  CheckTrue(Math.SameValue(EC, WeightedGeometricMean(AC, WC), Fudge), 'C');
+  CheckTrue(Math.SameValue(ED, WeightedGeometricMean(AD, WD), Fudge), 'D');
+  // Exceptions not checked: WeightedGeometricMean Cardinal overload calls Double
   // overload which raises execptions. So tests of Double overload exceptions
   // suffice.
 end;
 
-procedure TestMathsCatSnippets.TestWeightedGeoMean_Double;
+procedure TestMathsCatSnippets.TestWeightedGeometricMean_Double;
 const
   Fudge = 0.00001;
   AA: array[0..1] of Double = (1.0, 1.0);
@@ -2282,49 +2282,49 @@ const
   EC = 6.17599;
   ED = 2.2133638394006e-6;
 begin
-  CheckTrue(Math.SameValue(EA, WeightedGeoMean(AA, WA), Fudge), 'A');
-  CheckTrue(Math.SameValue(EB, WeightedGeoMean(AB, WB), Fudge), 'B');
-  CheckTrue(Math.SameValue(EC, WeightedGeoMean(AC, WC), Fudge), 'C');
-  CheckTrue(Math.SameValue(ED, WeightedGeoMean(AD, WD), Fudge), 'D');
-  CheckException(TestWeightedGeoMean_Double_ExceptEmpty, EArgumentException, 'Empty array');
-  CheckException(TestWeightedGeoMean_Double_ExceptDiffSizeArrays, EArgumentException, 'Different size arrays');
-  CheckException(TestWeightedGeoMean_Double_ExceptNegativeWeights, EArgumentException, 'Negative weights');
-  CheckException(TestWeightedGeoMean_Double_ExceptZeroWeights, EArgumentException, 'Weights sum to zero');
+  CheckTrue(Math.SameValue(EA, WeightedGeometricMean(AA, WA), Fudge), 'A');
+  CheckTrue(Math.SameValue(EB, WeightedGeometricMean(AB, WB), Fudge), 'B');
+  CheckTrue(Math.SameValue(EC, WeightedGeometricMean(AC, WC), Fudge), 'C');
+  CheckTrue(Math.SameValue(ED, WeightedGeometricMean(AD, WD), Fudge), 'D');
+  CheckException(TestWeightedGeometricMean_Double_ExceptEmpty, EArgumentException, 'Empty array');
+  CheckException(TestWeightedGeometricMean_Double_ExceptDiffSizeArrays, EArgumentException, 'Different size arrays');
+  CheckException(TestWeightedGeometricMean_Double_ExceptNegativeWeights, EArgumentException, 'Negative weights');
+  CheckException(TestWeightedGeometricMean_Double_ExceptZeroWeights, EArgumentException, 'Weights sum to zero');
 end;
 
-procedure TestMathsCatSnippets.TestWeightedGeoMean_Double_ExceptDiffSizeArrays;
+procedure TestMathsCatSnippets.TestWeightedGeometricMean_Double_ExceptDiffSizeArrays;
 const
   A: array [1..2] of Double = (1.0, 2.0);
   W: array [1..3] of Double = (1.0, 2.0, 3.0);
 begin
-  WeightedGeoMean(A, W);
+  WeightedGeometricMean(A, W);
 end;
 
-procedure TestMathsCatSnippets.TestWeightedGeoMean_Double_ExceptEmpty;
+procedure TestMathsCatSnippets.TestWeightedGeometricMean_Double_ExceptEmpty;
 var
   A: array of Double;
 begin
   SetLength(A, 0);
-  WeightedGeoMean(A, A);
+  WeightedGeometricMean(A, A);
 end;
 
-procedure TestMathsCatSnippets.TestWeightedGeoMean_Double_ExceptNegativeWeights;
+procedure TestMathsCatSnippets.TestWeightedGeometricMean_Double_ExceptNegativeWeights;
 const
   A: array [1..3] of Double = (1.0, 2.0, 3.0);
   W: array [1..3] of Double = (1.0, -2.0, 3.0);
 begin
-  WeightedGeoMean(A, W);
+  WeightedGeometricMean(A, W);
 end;
 
-procedure TestMathsCatSnippets.TestWeightedGeoMean_Double_ExceptZeroWeights;
+procedure TestMathsCatSnippets.TestWeightedGeometricMean_Double_ExceptZeroWeights;
 const
   A: array [1..3] of Double = (1.0, 2.0, 3.0);
   W: array [1..3] of Double = (0.0, 0.0, 0.0);
 begin
-  WeightedGeoMean(A, W);
+  WeightedGeometricMean(A, W);
 end;
 
-procedure TestMathsCatSnippets.TestWeightedGeoMean_Integer;
+procedure TestMathsCatSnippets.TestWeightedGeometricMean_Integer;
 const
   Fudge = 0.00001;
   AA: array[0..1] of Integer = (1, 1);
@@ -2341,11 +2341,11 @@ const
   EC = 8.53238;
   ED = 22135.851757845830;
 begin
-  CheckTrue(Math.SameValue(EA, WeightedGeoMean(AA, WA), Fudge), 'A');
-  CheckTrue(Math.SameValue(EB, WeightedGeoMean(AB, WB), Fudge), 'B');
-  CheckTrue(Math.SameValue(EC, WeightedGeoMean(AC, WC), Fudge), 'C');
-  CheckTrue(Math.SameValue(ED, WeightedGeoMean(AD, WD), Fudge), 'D');
-  // Exceptions not checked: WeightedGeoMean Integer overload calls Double
+  CheckTrue(Math.SameValue(EA, WeightedGeometricMean(AA, WA), Fudge), 'A');
+  CheckTrue(Math.SameValue(EB, WeightedGeometricMean(AB, WB), Fudge), 'B');
+  CheckTrue(Math.SameValue(EC, WeightedGeometricMean(AC, WC), Fudge), 'C');
+  CheckTrue(Math.SameValue(ED, WeightedGeometricMean(AD, WD), Fudge), 'D');
+  // Exceptions not checked: WeightedGeometricMean Integer overload calls Double
   // overload which raises execptions. So tests of Double overload exceptions
   // suffice.
 end;

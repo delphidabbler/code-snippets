@@ -1,4 +1,4 @@
-﻿function WeightedGeoMean(const Values: array of Double;
+﻿function WeightedGeometricMean(const Values: array of Double;
   const Weights: array of Double): Double; overload;
 var
   Sum: Double;

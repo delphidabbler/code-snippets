@@ -1,4 +1,4 @@
-﻿function WeightedGeoMean(const Values: array of Cardinal;
+﻿function WeightedGeometricMean(const Values: array of Cardinal;
   const Weights: array of Double): Double; overload;
 var
   Idx: Integer;
@@ -7,5 +7,5 @@ begin
   System.Setlength(FloatValues, System.Length(Values));
   for Idx := 0 to Pred(System.Length(Values)) do
     FloatValues[Idx] := Values[Idx];
-  Result := WeightedGeoMean(FloatValues, Weights);
+  Result := WeightedGeometricMean(FloatValues, Weights);
 end;

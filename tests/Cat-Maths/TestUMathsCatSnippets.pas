@@ -60,6 +60,10 @@ type
     procedure TestSumOfReciprocals_Cardinal_ExceptNonPositive;
     procedure TestSumOfReciprocals_Integer_ExceptEmpty;
     procedure TestSumOfReciprocals_Integer_ExceptNonPositive;
+    procedure TestWeightedHarmonicMean_Double_ExceptEmpty;
+    procedure TestWeightedHarmonicMean_Double_ExceptDiffSizeArrays;
+    procedure TestWeightedHarmonicMean_Double_ExceptNegativeWeights;
+    procedure TestWeightedHarmonicMean_Double_ExceptZeroWeights;
     function EqualArrays(const Left, Right: TBytes): Boolean; overload;
     function EqualArrays(const Left, Right: array of Double;
       Fudge: Double = 0.0): Boolean; overload;
@@ -129,7 +133,7 @@ type
     procedure TestMinMaxOfArray_Integer;  // required by Rescale & RangeOf
     procedure TestMinMaxOfArray_Double;   // required by Rescale & RangeOf
     procedure TestNormaliseByWeight_Cardinal;
-    procedure TestNormaliseByWeight_Double;
+    procedure TestNormaliseByWeight_Double; // required by WeightedGeoMean & WeightedHarmonicMean
     procedure TestRescaleRange_Integer;
     procedure TestRescaleRange_Double;
     procedure TestRangeOf_Integer;
@@ -146,6 +150,9 @@ type
     procedure TestHarmonicMean_Double;
     procedure TestHarmonicMean_Cardinal;
     procedure TestHarmonicMean_Integer;
+    procedure TestWeightedHarmonicMean_Double;  // required by Integer & Cardinal overloads
+    procedure TestWeightedHarmonicMean_Cardinal;
+    procedure TestWeightedHarmonicMean_Integer;
   end;
 
 implementation
@@ -2339,6 +2346,126 @@ begin
   CheckTrue(Math.SameValue(EC, WeightedGeoMean(AC, WC), Fudge), 'C');
   CheckTrue(Math.SameValue(ED, WeightedGeoMean(AD, WD), Fudge), 'D');
   // Exceptions not checked: WeightedGeoMean Integer overload calls Double
+  // overload which raises execptions. So tests of Double overload exceptions
+  // suffice.
+end;
+
+procedure TestMathsCatSnippets.TestWeightedHarmonicMean_Cardinal;
+const
+  Fudge = 0.00001;
+  AA: array[0..1] of Cardinal = (1, 1);
+  WA: array[0..1] of Double = (0.25, 0.75);
+  AB: array[0..0] of Cardinal = (3);
+  WB: array[0..0] of Double = (5.0);
+  AC: array[0..5] of Cardinal = (12, 56, 1, 3, 12, 19);
+  WC: array[0..5] of Double = (1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
+  AD: array[11..14] of Cardinal = (10001, 20002, 30003, 40004);
+  WD: array[9..12] of Double = (1.0, 1.0, 1.0, 1.0);
+  // Expected results calculated using https://www.dcode.fr/weighted-mean
+  EA = 1.0;
+  EB = 3.0;
+  EC = 4.05027;
+  ED = 19201.92;
+begin
+  CheckTrue(SameValue(EA, WeightedHarmonicMean(AA, WA), Fudge), 'A');
+  CheckTrue(SameValue(EB, WeightedHarmonicMean(AB, WB), Fudge), 'B');
+  CheckTrue(SameValue(EC, WeightedHarmonicMean(AC, WC), Fudge), 'C');
+  CheckTrue(SameValue(ED, WeightedHarmonicMean(AD, WD), Fudge), 'D');
+  // Exceptions not checked: WeightedHarmonicMean Cardinal overload calls Double
+  // overload which raises execptions. So tests of Double overload exceptions
+  // suffice.
+end;
+
+procedure TestMathsCatSnippets.TestWeightedHarmonicMean_Double;
+const
+  Fudge = 0.00001;
+  AA: array[0..1] of Double = (1.0, 1.0);
+  WA: array[0..1] of Double = (0.25, 0.75);
+  AB: array[0..0] of Double = (PI);
+  WB: array[0..0] of Double = (5.0);
+  AC: array[0..5] of Double = (12.42, 56.47, 0.1, 3.0, 12.42, 18.678);
+  WC: array[0..5] of Double = (1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
+  AD: array[11..14] of Double = (0.000001, 0.000002, 0.000003, 0.000004);
+  WD: array[9..12] of Double = (1.0, 1.0, 1.0, 1.0);
+  AE: array[0..5] of Cardinal = (12, 56, 1, 3, 12, 19);
+  WE: array[0..5] of Double = (1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
+  AF: array[11..14] of Cardinal = (10001, 20002, 30003, 40004);
+  WF: array[9..12] of Double = (1.0, 1.0, 1.0, 1.0);
+  // Expected results calculated using https://www.dcode.fr/weighted-mean
+  EA = 1.0;
+  EB = PI;
+  EC = 0.65272;
+  ED = 1.92e-6;
+  EE = 4.05027;
+  EF = 19201.92;
+begin
+  CheckTrue(SameValue(EA, WeightedHarmonicMean(AA, WA), Fudge), 'A');
+  CheckTrue(SameValue(EB, WeightedHarmonicMean(AB, WB), Fudge), 'B');
+  CheckTrue(SameValue(EC, WeightedHarmonicMean(AC, WC), Fudge), 'C');
+  CheckTrue(SameValue(ED, WeightedHarmonicMean(AD, WD), Fudge), 'D');
+  CheckTrue(SameValue(EE, WeightedHarmonicMean(AE, WE), Fudge), 'E');
+  CheckTrue(SameValue(EF, WeightedHarmonicMean(AF, WF), Fudge), 'F');
+
+  CheckException(TestWeightedHarmonicMean_Double_ExceptEmpty, EArgumentException, 'Empty array');
+  CheckException(TestWeightedHarmonicMean_Double_ExceptDiffSizeArrays, EArgumentException, 'Different size arrays');
+  CheckException(TestWeightedHarmonicMean_Double_ExceptNegativeWeights, EArgumentException, 'Negative weights');
+  CheckException(TestWeightedHarmonicMean_Double_ExceptZeroWeights, EArgumentException, 'Weights sum to zero');
+end;
+
+procedure TestMathsCatSnippets.TestWeightedHarmonicMean_Double_ExceptDiffSizeArrays;
+const
+  A: array [1..2] of Double = (1.0, 2.0);
+  W: array [1..3] of Double = (1.0, 2.0, 3.0);
+begin
+  WeightedHarmonicMean(A, W);
+end;
+
+procedure TestMathsCatSnippets.TestWeightedHarmonicMean_Double_ExceptEmpty;
+var
+  A: array of Double;
+begin
+  SetLength(A, 0);
+  WeightedHarmonicMean(A, A);
+end;
+
+procedure TestMathsCatSnippets.TestWeightedHarmonicMean_Double_ExceptNegativeWeights;
+const
+  A: array [1..3] of Double = (1.0, 2.0, 3.0);
+  W: array [1..3] of Double = (1.0, -2.0, 3.0);
+begin
+  WeightedHarmonicMean(A, W);
+end;
+
+procedure TestMathsCatSnippets.TestWeightedHarmonicMean_Double_ExceptZeroWeights;
+const
+  A: array [1..3] of Double = (1.0, 2.0, 3.0);
+  W: array [1..3] of Double = (0.0, 0.0, 0.0);
+begin
+  WeightedHarmonicMean(A, W);
+end;
+
+procedure TestMathsCatSnippets.TestWeightedHarmonicMean_Integer;
+const
+  Fudge = 0.00001;
+  AA: array[0..1] of Integer = (1, 1);
+  WA: array[0..1] of Double = (0.25, 0.75);
+  AB: array[0..0] of Integer = (3);
+  WB: array[0..0] of Double = (5.0);
+  AC: array[0..5] of Integer = (12, 56, 1, 3, 12, 19);
+  WC: array[0..5] of Double = (1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
+  AD: array[11..14] of Integer = (10001, 20002, 30003, 40004);
+  WD: array[9..12] of Double = (1.0, 1.0, 1.0, 1.0);
+  // Expected results calculated using https://www.dcode.fr/weighted-mean
+  EA = 1.0;
+  EB = 3.0;
+  EC = 4.05027;
+  ED = 19201.92;
+begin
+  CheckTrue(SameValue(EA, WeightedHarmonicMean(AA, WA), Fudge), 'A');
+  CheckTrue(SameValue(EB, WeightedHarmonicMean(AB, WB), Fudge), 'B');
+  CheckTrue(SameValue(EC, WeightedHarmonicMean(AC, WC), Fudge), 'C');
+  CheckTrue(SameValue(ED, WeightedHarmonicMean(AD, WD), Fudge), 'D');
+  // Exceptions not checked: WeightedHarmonicMean Integer overload calls Double
   // overload which raises execptions. So tests of Double overload exceptions
   // suffice.
 end;

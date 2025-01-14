@@ -1,0 +1,11 @@
+﻿function LogarithmicMean(const X, Y: Double): Double;
+begin
+  if (X <= 0) or (Y <= 0) then
+    raise SysUtils.EArgumentException.Create(
+      'Parameters X & Y must both be positive'
+    );
+  if Math.SameValue(X, Y) then
+    Result := X
+  else
+    Result := (Y - X) / (System.Ln(Y) - System.Ln(X));
+end;

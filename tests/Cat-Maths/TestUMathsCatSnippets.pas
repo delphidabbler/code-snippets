@@ -64,6 +64,8 @@ type
     procedure TestWeightedHarmonicMean_Double_ExceptDiffSizeArrays;
     procedure TestWeightedHarmonicMean_Double_ExceptNegativeWeights;
     procedure TestWeightedHarmonicMean_Double_ExceptZeroWeights;
+    procedure TestLogarithmicMean_ExceptNonPositive;
+    procedure TestLogarithmicMean_ExceptZero;
     function EqualArrays(const Left, Right: TBytes): Boolean; overload;
     function EqualArrays(const Left, Right: array of Double;
       Fudge: Double = 0.0): Boolean; overload;
@@ -153,6 +155,7 @@ type
     procedure TestWeightedHarmonicMean_Double;  // required by Integer & Cardinal overloads
     procedure TestWeightedHarmonicMean_Cardinal;
     procedure TestWeightedHarmonicMean_Integer;
+    procedure TestLogarithmicMean;
   end;
 
 implementation
@@ -1020,6 +1023,40 @@ begin
   CheckEquals(30, LCD(15, 6), 'LCD(15, 6)');
   CheckEquals(30, LCD(15, 10), 'LCD(15, 10)');
   CheckEquals(9, LCD(-9, -9), 'LCD(-9, -9)');
+end;
+
+procedure TestMathsCatSnippets.TestLogarithmicMean;
+const
+  Fudge = 0.000000001;
+  // Expected values calculated with Windows Calc
+  XA = 42.456;                          EA = XA;
+  XB = 42.456;      YB = 56.847;        EB = 49.3019407666718697;
+  XC = 0.000001;    YC = 0.000002;      EC = 1.4426950408889634e-6;
+  XD = 0.000001;                        ED = XD;
+  XE = 18374983.0;  YE = 2768293.9362;  EE = 8245471.247628288866;
+  XF = 18.374983;   YF = 2768293.9362;  EF = 232184.284293825682;
+  XG = 0.00002356;  YG = 2768293.9362;  EG = 108604.405745470878;
+begin
+  CheckTrue(SameValue(EA, LogarithmicMean(XA, XA), Fudge), 'A (x,x)');
+  CheckTrue(SameValue(EB, LogarithmicMean(XB, YB), Fudge), 'B (x,y)');
+  CheckTrue(SameValue(EB, LogarithmicMean(YB, XB), Fudge), 'B (y,x)');
+  CheckTrue(SameValue(EC, LogarithmicMean(XC, YC), Fudge), 'C (x,y)');
+  CheckTrue(SameValue(ED, LogarithmicMean(XD, XD), Fudge), 'D (x,x)');
+  CheckTrue(SameValue(EE, LogarithmicMean(XE, YE), Fudge), 'E (x,y)');
+  CheckTrue(SameValue(EF, LogarithmicMean(XF, YF), Fudge), 'F (x,y)');
+  CheckTrue(SameValue(EG, LogarithmicMean(XG, YG), Fudge), 'G (x,y)');
+  CheckException(TestLogarithmicMean_ExceptNonPositive, EArgumentException, 'Not positive exception');
+  CheckException(TestLogarithmicMean_ExceptZero, EArgumentException, 'Zero exception');
+end;
+
+procedure TestMathsCatSnippets.TestLogarithmicMean_ExceptNonPositive;
+begin
+  LogarithmicMean(-2.4, 1.0);
+end;
+
+procedure TestMathsCatSnippets.TestLogarithmicMean_ExceptZero;
+begin
+  LogarithmicMean(2.4, 0.0);
 end;
 
 procedure TestMathsCatSnippets.TestLSE;

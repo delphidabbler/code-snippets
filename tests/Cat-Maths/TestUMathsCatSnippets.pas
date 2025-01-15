@@ -3,7 +3,7 @@ unit TestUMathsCatSnippets;
 interface
 
 uses
-  Types, Math, SysUtils, TestFramework, UMathsCatSnippets;
+  DIALOGS, Types, Math, SysUtils, TestFramework, UMathsCatSnippets;
 
 type
   TestMathsCatSnippets = class(TTestCase)
@@ -66,6 +66,15 @@ type
     procedure TestWeightedHarmonicMean_Double_ExceptZeroWeights;
     procedure TestLogarithmicMean_ExceptNonPositive;
     procedure TestLogarithmicMean_ExceptZero;
+    procedure TestPowerMean_Double_ExceptEmptyArray;
+    procedure TestPowerMean_Double_ExceptZeroLambda;
+    procedure TestPowerMean_Double_ExceptNegativeArrayElems;
+    procedure TestWeightedPowerMean_Double_ExceptNoValues;
+    procedure TestWeightedPowerMean_Double_ExceptMismatchedLengths;
+    procedure TestWeightedPowerMean_Double_ExceptZeroLambda;
+    procedure TestWeightedPowerMean_Double_ExceptNegativeWeight;
+    procedure TestWeightedPowerMean_Double_ExceptZeroWeights;
+    procedure TestWeightedPowerMean_Double_ExceptNegativeValues;
     function EqualArrays(const Left, Right: TBytes): Boolean; overload;
     function EqualArrays(const Left, Right: array of Double;
       Fudge: Double = 0.0): Boolean; overload;
@@ -156,6 +165,12 @@ type
     procedure TestWeightedHarmonicMean_Cardinal;
     procedure TestWeightedHarmonicMean_Integer;
     procedure TestLogarithmicMean;
+    procedure TestPowerMean_Double; // required by Integer & Cardinal overloads
+    procedure TestPowerMean_Cardinal;
+    procedure TestPowerMean_Integer;
+    procedure TestWeightedPowerMean_Double; // required by Integer & Cardinal overloads
+    procedure TestWeightedPowerMean_Cardinal;
+    procedure TestWeightedPowerMean_Integer;
   end;
 
 implementation
@@ -1594,6 +1609,177 @@ begin
   NormaliseByWeight([0.0, 0.0, 0.0]);
 end;
 
+procedure TestMathsCatSnippets.TestPowerMean_Cardinal;
+const
+  Fudge = 0.000001;
+  L1 = 1.0;
+  L2 = 3.5;
+  L3 = -1.0;
+  L4 = -4.2;
+  L5 = 0.004;
+  L6 = -0.004;
+  A1: array[1..4] of Cardinal = (1, 0, 1, 0);
+  A2: array[1..1] of Cardinal = (4);
+  A3: array[1..2] of Cardinal = (0, 0);
+  A4: array[1..4] of Cardinal = (1, 2, 3, 4);
+  A5: array[1..5] of Cardinal = (56, 42, 78, 81, 100);
+  // Expected results arrived at using Libre Office Calc using the generalised
+  // weighted power mean formula with all weights set to 1. The Pascal
+  // implementation uses the specialised power mean formula to get the same
+  // result.
+  E_A1L1 = 0.5;
+  E_A2L1 = 4.0;
+  E_A3L2 = 0.0;
+  E_A4L2 = 3.00008061136289;
+  E_A4L4 = 1.36966593221928;
+  E_A5L1 = 71.4;
+  E_A5L2 = 77.800263633617;
+  E_A5L3 = 65.076324083802;
+  E_A5L4 = 56.2806784357653;
+  E_A5L5 = 68.3100592877524;
+  E_A5L6 = 68.28449242165;
+  E_A3L6 = 0.0;
+  E_A1L5 = 3.27339060789619E-100;
+begin
+  CheckTrue(SameValue(E_A1L1, PowerMean(A1, L1), Fudge), 'A1.L1');
+  CheckTrue(SameValue(E_A2L1, PowerMean(A2, L1), Fudge), 'A2.L1');
+  CheckTrue(SameValue(E_A4L2, PowerMean(A4, L2), Fudge), 'A4.L2');
+  CheckTrue(SameValue(E_A4L4, PowerMean(A4, L4), Fudge), 'A4.L4');
+  CheckTrue(SameValue(E_A5L1, PowerMean(A5, L1), Fudge), 'A5.L1');
+  CheckTrue(SameValue(E_A5L2, PowerMean(A5, L2), Fudge), 'A5.L2');
+  CheckTrue(SameValue(E_A5L3, PowerMean(A5, L3), Fudge), 'A5.L3');
+  CheckTrue(SameValue(E_A5L4, PowerMean(A5, L4), Fudge), 'A5.L4');
+  CheckTrue(SameValue(E_A5L5, PowerMean(A5, L5), Fudge), 'A5.L5');
+  CheckTrue(SameValue(E_A5L6, PowerMean(A5, L6), Fudge), 'A5.L6');
+  CheckTrue(SameValue(E_A3L6, PowerMean(A3, L6), Fudge), 'A3.L6');
+  CheckTrue(SameValue(E_A1L5, PowerMean(A1, L5), Fudge), 'A1.L5');
+  // Exceptions not checked: PowerMean Cardinal overload calls Double
+  // overload which raises execptions. So tests of Double overload exceptions
+  // suffice.
+end;
+
+procedure TestMathsCatSnippets.TestPowerMean_Double;
+const
+  Fudge = 0.000001;
+  L1 = 1.0;
+  L2 = 3.5;
+  L3 = -1.0;
+  L4 = -4.2;
+  L5 = 0.004;
+  L6 = -0.004;
+  A1: array[1..4] of Double = (1.0, 0.0, 1.0, 0.0);
+  A2: array[1..1] of Double = (4.2);
+  A3: array[1..2] of Double = (0.0, 0.0);
+  A4: array[1..4] of Double = (0.0001, 0.0002, 0.0003, 0.0004);
+  A5: array[1..5] of Double = (56.23, 42.13, 78.90, 81.43, 99.99);
+  // Expected results arrived at using Libre Office Calc using the generalised
+  // weighted power mean formula with all weights set to 1. The Pascal
+  // implementation uses the specialised power mean formula to get the same
+  // result.
+  E_A1L1 = 0.5;
+  E_A2L1 = 4.2;
+  E_A3L2 = 0.0;
+  E_A4L2 = 0.000300008061136289;
+  E_A4L4 = 0.000136966593221928;
+  E_A5L1 = 71.736;
+  E_A5L2 = 78.1005147470797;
+  E_A5L3 = 65.3800622564157;
+  E_A5L4 = 56.4922849054017;
+  E_A5L5 = 68.6367674223661;
+  E_A5L6 = 68.6110663291188;
+  E_A3L6 = 0.0;
+  E_A1L5 = 5.52714787526045E-76;
+  // E_A1L6: Double = 1.80925139433306E75; - see note for why this expected value is not used
+begin
+  CheckTrue(SameValue(E_A1L1, PowerMean(A1, L1), Fudge), 'A1.L1');
+  CheckTrue(SameValue(E_A2L1, PowerMean(A2, L1), Fudge), 'A2.L1');
+  CheckTrue(SameValue(E_A4L2, PowerMean(A4, L2), Fudge), 'A4.L2');
+  CheckTrue(SameValue(E_A4L4, PowerMean(A4, L4), Fudge), 'A4.L4');
+  CheckTrue(SameValue(E_A5L1, PowerMean(A5, L1), Fudge), 'A5.L1');
+  CheckTrue(SameValue(E_A5L2, PowerMean(A5, L2), Fudge), 'A5.L2');
+  CheckTrue(SameValue(E_A5L3, PowerMean(A5, L3), Fudge), 'A5.L3');
+  CheckTrue(SameValue(E_A5L4, PowerMean(A5, L4), Fudge), 'A5.L4');
+  CheckTrue(SameValue(E_A5L5, PowerMean(A5, L5), Fudge), 'A5.L5');
+  CheckTrue(SameValue(E_A5L6, PowerMean(A5, L6), Fudge), 'A5.L6');
+  CheckTrue(SameValue(E_A3L6, PowerMean(A3, L6), Fudge), 'A3.L6');
+  CheckTrue(SameValue(E_A1L5, PowerMean(A1, L5), Fudge), 'A1.L5');
+  // Note that PowerMean(A1,L6) returns 1.80925139433305913E75, but Delphi
+  // compares that result to the calculated result of 1.80925139433306E75 as
+  // False, even with epsilon set to 0.000001. Therefore even though this test
+  // fails, the returned result is actually correct. The DUnit error message is
+  // "expected: <1.80925139433306E75> but was: <1.80925139433306E75> !!!"
+  CheckException(TestPowerMean_Double_ExceptEmptyArray, EArgumentException, 'Empty array');
+  CheckException(TestPowerMean_Double_ExceptZeroLambda, EArgumentException, 'Zero lambda');
+  CheckException(TestPowerMean_Double_ExceptNegativeArrayElems, EArgumentException, 'Negative array elements');
+end;
+
+procedure TestMathsCatSnippets.TestPowerMean_Double_ExceptEmptyArray;
+var
+  A: array of Double;
+begin
+  SetLength(A, 0);
+  PowerMean(A, 0.7);
+end;
+
+procedure TestMathsCatSnippets.TestPowerMean_Double_ExceptNegativeArrayElems;
+begin
+  PowerMean([1.0, 2.0, -3.0, 4.0], -3.4);
+end;
+
+procedure TestMathsCatSnippets.TestPowerMean_Double_ExceptZeroLambda;
+begin
+  PowerMean([1.0, 2.0, 3.0], 0.0);
+end;
+
+procedure TestMathsCatSnippets.TestPowerMean_Integer;
+const
+  Fudge = 0.000001;
+  L1 = 1.0;
+  L2 = 3.5;
+  L3 = -1.0;
+  L4 = -4.2;
+  L5 = 0.004;
+  L6 = -0.004;
+  A1: array[1..4] of Integer = (1, 0, 1, 0);
+  A2: array[1..1] of Integer = (4);
+  A3: array[1..2] of Integer = (0, 0);
+  A4: array[1..4] of Integer = (1, 2, 3, 4);
+  A5: array[1..5] of Integer = (56, 42, 78, 81, 100);
+  // Expected results arrived at using Libre Office Calc using the generalised
+  // weighted power mean formula with all weights set to 1. The Pascal
+  // implementation uses the specialised power mean formula to get the same
+  // result.
+  E_A1L1 = 0.5;
+  E_A2L1 = 4.0;
+  E_A3L2 = 0.0;
+  E_A4L2 = 3.00008061136289;
+  E_A4L4 = 1.36966593221928;
+  E_A5L1 = 71.4;
+  E_A5L2 = 77.800263633617;
+  E_A5L3 = 65.076324083802;
+  E_A5L4 = 56.2806784357653;
+  E_A5L5 = 68.3100592877524;
+  E_A5L6 = 68.28449242165;
+  E_A3L6 = 0.0;
+  E_A1L5 = 3.27339060789619E-100;
+begin
+  CheckTrue(SameValue(E_A1L1, PowerMean(A1, L1), Fudge), 'A1.L1');
+  CheckTrue(SameValue(E_A2L1, PowerMean(A2, L1), Fudge), 'A2.L1');
+  CheckTrue(SameValue(E_A4L2, PowerMean(A4, L2), Fudge), 'A4.L2');
+  CheckTrue(SameValue(E_A4L4, PowerMean(A4, L4), Fudge), 'A4.L4');
+  CheckTrue(SameValue(E_A5L1, PowerMean(A5, L1), Fudge), 'A5.L1');
+  CheckTrue(SameValue(E_A5L2, PowerMean(A5, L2), Fudge), 'A5.L2');
+  CheckTrue(SameValue(E_A5L3, PowerMean(A5, L3), Fudge), 'A5.L3');
+  CheckTrue(SameValue(E_A5L4, PowerMean(A5, L4), Fudge), 'A5.L4');
+  CheckTrue(SameValue(E_A5L5, PowerMean(A5, L5), Fudge), 'A5.L5');
+  CheckTrue(SameValue(E_A5L6, PowerMean(A5, L6), Fudge), 'A5.L6');
+  CheckTrue(SameValue(E_A3L6, PowerMean(A3, L6), Fudge), 'A3.L6');
+  CheckTrue(SameValue(E_A1L5, PowerMean(A1, L5), Fudge), 'A1.L5');
+  // Exceptions not checked: PowerMean Integer overload calls Double
+  // overload which raises execptions. So tests of Double overload exceptions
+  // suffice.
+end;
+
 procedure TestMathsCatSnippets.TestPowN;
 begin
   CheckEquals(0,          PowN(0, 2),     'PowN(0,2)');
@@ -2503,6 +2689,247 @@ begin
   CheckTrue(SameValue(EC, WeightedHarmonicMean(AC, WC), Fudge), 'C');
   CheckTrue(SameValue(ED, WeightedHarmonicMean(AD, WD), Fudge), 'D');
   // Exceptions not checked: WeightedHarmonicMean Integer overload calls Double
+  // overload which raises execptions. So tests of Double overload exceptions
+  // suffice.
+end;
+
+procedure TestMathsCatSnippets.TestWeightedPowerMean_Cardinal;
+const
+  Fudge = 0.000001;
+  L1 = 1.0;
+  L2 = 3.5;
+  L3 = -1.0;
+  L4 = -4.2;
+  L5 = 0.004;
+  A1: array[1..4] of Cardinal =  (1,  0,  1,  0);
+  W1a: array[1..4] of Double = (0.25, 0.25, 0.25, 0.25);
+  W1b: array[1..4] of Double = (0.0,  0.25, 0.0,  0.25);
+  W1c: array[1..4] of Double = (1.0,  2.0,  3.0,  4.0);
+  A2: array[1..1] of Cardinal = (4);
+  W2a: array[1..1] of Double = (12.0);
+  W2b: array[1..1] of Double =  (1.0);
+  A3: array[1..2] of Cardinal =  (0, 0);
+  W3a: array[1..2] of Double = (0.2, 0.0);
+  W3b: array[1..2] of Double = (0.2, 0.1);
+  A4: array[1..5] of Cardinal = (56, 42, 79, 81, 100);
+  W4a: array[1..5] of Double = (1.0,   2.0,   3.0,   4.0,   5.0);
+  W4b: array[1..5] of Double = (1.0,   1.0,   1.0,   1.0,   1.0);
+  W4c: array[1..5] of Double = (0.2,   0.2,   0.2,   0.2,   0.2);
+  // Expected results arrived at using Libre Office Calc using the weighted
+  // power mean formula without normalising weights to sum to 1. The Pascal
+  // implementation does normalise weights and so uses a slightly different
+  // formula to get to the same result.
+  E_A1W1aL2 = 0.820335356007638;
+  E_A1W1bL2 = 0.0;
+  E_A1W1aL4 = 1.17943444889736;
+  E_A1W1bL4 = 0.0;
+  E_A1W1aL3 = 2.0;
+  E_A1W1aL1 = 0.5;
+  E_A2W2aL2 = 4.0;
+  E_A2W2bL4 = 4.0;
+  E_A3W3aL4 = 0.0;
+  E_A3W3bL4 = 0.0;
+  E_A4W4aL2 = 84.8922382345367;
+  E_A4W4bL2 = 78.0041275858397;
+  E_A4W4cL2 = 78.0041275858397;
+  E_A4W4aL5 = 77.2982026654713;
+  E_A4W4bL5 = 68.4844180736562;
+  E_A4W4aL1 = 80.0666666666667;
+  E_A4W4aL3 = 73.9522482190077;
+  E_A4W4aL4 = 62.1412529474231;
+begin
+  CheckEquals(E_A1W1aL2, WeightedPowerMean(A1, W1a, L2), Fudge, 'A1-W1a-L2');
+  CheckEquals(E_A1W1bL2, WeightedPowerMean(A1, W1b, L2), Fudge, 'A1-W1b-L2');
+  CheckEquals(E_A1W1aL4, WeightedPowerMean(A1, W1a, L4), Fudge, 'A1-W1a-L4');
+  CheckEquals(E_A1W1bL4, WeightedPowerMean(A1, W1b, L4), Fudge, 'A1-W1b-L4');
+  CheckEquals(E_A1W1aL3, WeightedPowerMean(A1, W1a, L3), Fudge, 'A1-W1a-L3');
+  CheckEquals(E_A1W1aL1, WeightedPowerMean(A1, W1a, L1), Fudge, 'A1-W1a-L1');
+  CheckEquals(E_A2W2aL2, WeightedPowerMean(A2, W2a, L2), Fudge, 'A2-W2a-L2');
+  CheckEquals(E_A2W2bL4, WeightedPowerMean(A2, W2b, L4), Fudge, 'A2-W2b-L4');
+  CheckEquals(E_A3W3aL4, WeightedPowerMean(A3, W3a, L4), Fudge, 'A3-W3a-L4');
+  CheckEquals(E_A3W3bL4, WeightedPowerMean(A3, W3b, L4), Fudge, 'A3-W3b-L4');
+  CheckEquals(E_A4W4aL2, WeightedPowerMean(A4, W4a, L2), Fudge, 'A4-W4a-L2');
+  CheckEquals(E_A4W4bL2, WeightedPowerMean(A4, W4b, L2), Fudge, 'A4-W4b-L2');
+  CheckEquals(E_A4W4cL2, WeightedPowerMean(A4, W4c, L2), Fudge, 'A4-W4c-L2');
+  CheckEquals(E_A4W4aL5, WeightedPowerMean(A4, W4a, L5), Fudge, 'A4-W4a-L5');
+  CheckEquals(E_A4W4bL5, WeightedPowerMean(A4, W4b, L5), Fudge, 'A4-W4b-L5');
+  CheckEquals(E_A4W4aL1, WeightedPowerMean(A4, W4a, L1), Fudge, 'A4-W4a-L1');
+  CheckEquals(E_A4W4aL3, WeightedPowerMean(A4, W4a, L3), Fudge, 'A4-W4a-L3');
+  CheckEquals(E_A4W4aL4, WeightedPowerMean(A4, W4a, L4), Fudge, 'A4-W4a-L4');
+  // Exceptions not checked: WeightedPowerMean Cardinal overload calls Double
+  // overload which raises execptions. So tests of Double overload exceptions
+  // suffice.
+end;
+
+procedure TestMathsCatSnippets.TestWeightedPowerMean_Double;
+const
+  Fudge = 0.000001;
+  L1 = 1.0;
+  L2 = 3.5;
+  L3 = -1.0;
+  L4 = -4.2;
+  L5 = 0.004;
+  A1: array[1..4] of Double =  (1.0,  0.0,  1.0,  0.0);
+  W1a: array[1..4] of Double = (0.25, 0.25, 0.25, 0.25);
+  W1b: array[1..4] of Double = (0.0,  0.25, 0.0,  0.25);
+  W1c: array[1..4] of Double = (1.0,  2.0,  3.0,  4.0);
+  A2: array[1..1] of Double =   (4.2);
+  W2a: array[1..1] of Double = (12.0);
+  W2b: array[1..1] of Double =  (1.0);
+  A3: array[1..2] of Double =  (0.0, 0.0);
+  W3a: array[1..2] of Double = (0.2, 0.0);
+  W3b: array[1..2] of Double = (0.2, 0.1);
+  A4: array[1..5] of Double = (56.23, 42.13, 78.90, 81.43, 99.99);
+  W4a: array[1..5] of Double = (1.0,   2.0,   3.0,   4.0,   5.0);
+  W4b: array[1..5] of Double = (1.0,   1.0,   1.0,   1.0,   1.0);
+  W4c: array[1..5] of Double = (0.2,   0.2,   0.2,   0.2,   0.2);
+  // Expected results arrived at using Libre Office Calc using the weighted
+  // power mean formula without normalising weights to sum to 1. The Pascal
+  // implementation does normalise weights and so uses a slightly different
+  // formula to get to the same result.
+  E_A1W1aL2 = 0.820335356007638;
+  E_A1W1bL2 = 0.0;
+  E_A1W1aL4 = 1.17943444889736;
+  E_A1W1bL4 = 0.0;
+  E_A1W1aL3 = 2.0;
+  E_A1W1aL1 = 0.5;
+  E_A2W2aL2 = 4.2;
+  E_A2W2bL4 = 4.2;
+  E_A3W3aL4 = 0.0;
+  E_A3W3bL4 = 0.0;
+  E_A4W4aL2 = 84.9815127826831;
+  E_A4W4bL2 = 78.1005147470797;
+  E_A4W4cL2 = 78.1005147470797;
+  E_A4W4aL5 = 77.4381933235749;
+  E_A4W4bL5 = 68.6367674223661;
+  E_A4W4aL1 = 80.1906666666667;
+  E_A4W4aL3 = 74.1084858220022;
+  E_A4W4aL4 = 62.3230021409355;
+begin
+  CheckEquals(E_A1W1aL2, WeightedPowerMean(A1, W1a, L2), Fudge, 'A1-W1a-L2');
+  CheckEquals(E_A1W1bL2, WeightedPowerMean(A1, W1b, L2), Fudge, 'A1-W1b-L2');
+  CheckEquals(E_A1W1aL4, WeightedPowerMean(A1, W1a, L4), Fudge, 'A1-W1a-L4');
+  CheckEquals(E_A1W1bL4, WeightedPowerMean(A1, W1b, L4), Fudge, 'A1-W1b-L4');
+  CheckEquals(E_A1W1aL3, WeightedPowerMean(A1, W1a, L3), Fudge, 'A1-W1a-L3');
+  CheckEquals(E_A1W1aL1, WeightedPowerMean(A1, W1a, L1), Fudge, 'A1-W1a-L1');
+  CheckEquals(E_A2W2aL2, WeightedPowerMean(A2, W2a, L2), Fudge, 'A2-W2a-L2');
+  CheckEquals(E_A2W2bL4, WeightedPowerMean(A2, W2b, L4), Fudge, 'A2-W2b-L4');
+  CheckEquals(E_A3W3aL4, WeightedPowerMean(A3, W3a, L4), Fudge, 'A3-W3a-L4');
+  CheckEquals(E_A3W3bL4, WeightedPowerMean(A3, W3b, L4), Fudge, 'A3-W3b-L4');
+  CheckEquals(E_A4W4aL2, WeightedPowerMean(A4, W4a, L2), Fudge, 'A4-W4a-L2');
+  CheckEquals(E_A4W4bL2, WeightedPowerMean(A4, W4b, L2), Fudge, 'A4-W4b-L2');
+  CheckEquals(E_A4W4cL2, WeightedPowerMean(A4, W4c, L2), Fudge, 'A4-W4c-L2');
+  CheckEquals(E_A4W4aL5, WeightedPowerMean(A4, W4a, L5), Fudge, 'A4-W4a-L5');
+  CheckEquals(E_A4W4bL5, WeightedPowerMean(A4, W4b, L5), Fudge, 'A4-W4b-L5');
+  CheckEquals(E_A4W4aL1, WeightedPowerMean(A4, W4a, L1), Fudge, 'A4-W4a-L1');
+  CheckEquals(E_A4W4aL3, WeightedPowerMean(A4, W4a, L3), Fudge, 'A4-W4a-L3');
+  CheckEquals(E_A4W4aL4, WeightedPowerMean(A4, W4a, L4), Fudge, 'A4-W4a-L4');
+
+  CheckException(TestWeightedPowerMean_Double_ExceptNoValues, EArgumentException, 'Empty values array');
+  CheckException(TestWeightedPowerMean_Double_ExceptMismatchedLengths, EArgumentException, 'Num of values & weights mismatched');
+  CheckException(TestWeightedPowerMean_Double_ExceptZeroLambda, EArgumentException, 'Lambda is zero');
+  CheckException(TestWeightedPowerMean_Double_ExceptNegativeWeight, EArgumentException, 'Negative weights');
+  CheckException(TestWeightedPowerMean_Double_ExceptZeroWeights, EArgumentException, 'Weights sum to zero');
+  CheckException(TestWeightedPowerMean_Double_ExceptNegativeValues, EArgumentException, 'Negative values');
+end;
+
+procedure TestMathsCatSnippets.TestWeightedPowerMean_Double_ExceptMismatchedLengths;
+begin
+  WeightedPowerMean([1.0, 2.0], [3.0, 3.1, 3.2], 12.0);
+end;
+
+procedure TestMathsCatSnippets.TestWeightedPowerMean_Double_ExceptNegativeValues;
+begin
+  WeightedPowerMean([1.0, -2.0], [1.0, 2.0], 2.0);
+end;
+
+procedure TestMathsCatSnippets.TestWeightedPowerMean_Double_ExceptNegativeWeight;
+begin
+  WeightedPowerMean([1.0, 2.0], [1.0, -2.0], 2.0);
+end;
+
+procedure TestMathsCatSnippets.TestWeightedPowerMean_Double_ExceptNoValues;
+var
+  A: array of Double;
+begin
+  SetLength(A, 0);
+  WeightedPowerMean(A, [2.4], 2.3);
+end;
+
+procedure TestMathsCatSnippets.TestWeightedPowerMean_Double_ExceptZeroLambda;
+begin
+  WeightedPowerMean([1.0, 2.0], [0.1, 0.2], 0.0);
+end;
+
+procedure TestMathsCatSnippets.TestWeightedPowerMean_Double_ExceptZeroWeights;
+begin
+  WeightedPowerMean([1.0, 2.0], [0.0, 0.0], 1.2);
+end;
+
+procedure TestMathsCatSnippets.TestWeightedPowerMean_Integer;
+const
+  Fudge = 0.000001;
+  L1 = 1.0;
+  L2 = 3.5;
+  L3 = -1.0;
+  L4 = -4.2;
+  L5 = 0.004;
+  A1: array[1..4] of Integer =  (1,  0,  1,  0);
+  W1a: array[1..4] of Double = (0.25, 0.25, 0.25, 0.25);
+  W1b: array[1..4] of Double = (0.0,  0.25, 0.0,  0.25);
+  W1c: array[1..4] of Double = (1.0,  2.0,  3.0,  4.0);
+  A2: array[1..1] of Integer = (4);
+  W2a: array[1..1] of Double = (12.0);
+  W2b: array[1..1] of Double =  (1.0);
+  A3: array[1..2] of Integer =  (0, 0);
+  W3a: array[1..2] of Double = (0.2, 0.0);
+  W3b: array[1..2] of Double = (0.2, 0.1);
+  A4: array[1..5] of Integer = (56, 42, 79, 81, 100);
+  W4a: array[1..5] of Double = (1.0,   2.0,   3.0,   4.0,   5.0);
+  W4b: array[1..5] of Double = (1.0,   1.0,   1.0,   1.0,   1.0);
+  W4c: array[1..5] of Double = (0.2,   0.2,   0.2,   0.2,   0.2);
+  // Expected results arrived at using Libre Office Calc using the weighted
+  // power mean formula without normalising weights to sum to 1. The Pascal
+  // implementation does normalise weights and so uses a slightly different
+  // formula to get to the same result.
+  E_A1W1aL2 = 0.820335356007638;
+  E_A1W1bL2 = 0.0;
+  E_A1W1aL4 = 1.17943444889736;
+  E_A1W1bL4 = 0.0;
+  E_A1W1aL3 = 2.0;
+  E_A1W1aL1 = 0.5;
+  E_A2W2aL2 = 4.0;
+  E_A2W2bL4 = 4.0;
+  E_A3W3aL4 = 0.0;
+  E_A3W3bL4 = 0.0;
+  E_A4W4aL2 = 84.8922382345367;
+  E_A4W4bL2 = 78.0041275858397;
+  E_A4W4cL2 = 78.0041275858397;
+  E_A4W4aL5 = 77.2982026654713;
+  E_A4W4bL5 = 68.4844180736562;
+  E_A4W4aL1 = 80.0666666666667;
+  E_A4W4aL3 = 73.9522482190077;
+  E_A4W4aL4 = 62.1412529474231;
+begin
+  CheckEquals(E_A1W1aL2, WeightedPowerMean(A1, W1a, L2), Fudge, 'A1-W1a-L2');
+  CheckEquals(E_A1W1bL2, WeightedPowerMean(A1, W1b, L2), Fudge, 'A1-W1b-L2');
+  CheckEquals(E_A1W1aL4, WeightedPowerMean(A1, W1a, L4), Fudge, 'A1-W1a-L4');
+  CheckEquals(E_A1W1bL4, WeightedPowerMean(A1, W1b, L4), Fudge, 'A1-W1b-L4');
+  CheckEquals(E_A1W1aL3, WeightedPowerMean(A1, W1a, L3), Fudge, 'A1-W1a-L3');
+  CheckEquals(E_A1W1aL1, WeightedPowerMean(A1, W1a, L1), Fudge, 'A1-W1a-L1');
+  CheckEquals(E_A2W2aL2, WeightedPowerMean(A2, W2a, L2), Fudge, 'A2-W2a-L2');
+  CheckEquals(E_A2W2bL4, WeightedPowerMean(A2, W2b, L4), Fudge, 'A2-W2b-L4');
+  CheckEquals(E_A3W3aL4, WeightedPowerMean(A3, W3a, L4), Fudge, 'A3-W3a-L4');
+  CheckEquals(E_A3W3bL4, WeightedPowerMean(A3, W3b, L4), Fudge, 'A3-W3b-L4');
+  CheckEquals(E_A4W4aL2, WeightedPowerMean(A4, W4a, L2), Fudge, 'A4-W4a-L2');
+  CheckEquals(E_A4W4bL2, WeightedPowerMean(A4, W4b, L2), Fudge, 'A4-W4b-L2');
+  CheckEquals(E_A4W4cL2, WeightedPowerMean(A4, W4c, L2), Fudge, 'A4-W4c-L2');
+  CheckEquals(E_A4W4aL5, WeightedPowerMean(A4, W4a, L5), Fudge, 'A4-W4a-L5');
+  CheckEquals(E_A4W4bL5, WeightedPowerMean(A4, W4b, L5), Fudge, 'A4-W4b-L5');
+  CheckEquals(E_A4W4aL1, WeightedPowerMean(A4, W4a, L1), Fudge, 'A4-W4a-L1');
+  CheckEquals(E_A4W4aL3, WeightedPowerMean(A4, W4a, L3), Fudge, 'A4-W4a-L3');
+  CheckEquals(E_A4W4aL4, WeightedPowerMean(A4, W4a, L4), Fudge, 'A4-W4a-L4');
+  // Exceptions not checked: WeightedPowerMean Integer overload calls Double
   // overload which raises execptions. So tests of Double overload exceptions
   // suffice.
 end;

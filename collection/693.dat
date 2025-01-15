@@ -1,0 +1,11 @@
+﻿function PowerMean(const A: array of Cardinal; const Lambda: Double): Double;
+  overload;
+var
+  Floats: Types.TDoubleDynArray;
+  Idx: Integer;
+begin
+  System.SetLength(Floats, System.Length(A));
+  for Idx := 0 to Pred(System.Length(A)) do
+    Floats[Idx] := A[Idx];
+  Result := PowerMean(Floats, Lambda);
+end;

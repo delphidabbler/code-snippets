@@ -38,6 +38,9 @@ type
     // TestReverse must come after TestEqual since the test calls TArrayUtils.Equal<T>
     procedure TestReverse;
     procedure TestSameStart;
+    procedure TestMax;
+    procedure TestMin;
+    procedure TestMinMax;
   end;
 
   TestArraysCatSnippets = class(TTestCase)
@@ -55,6 +58,8 @@ uses
 var
   IntegerCompareFn: TEqualityComparison<Integer>;
   StringCompareFn: TEqualityComparison<string>;
+  IntegerComparisonFn: TComparison<Integer>;
+  StringComparisonFn: TComparison<string>;
 
 { TestTArrayUtils }
 
@@ -165,6 +170,72 @@ begin
   CheckEquals(42, TArrayUtils.Last<Integer>(fIA1), 'Test 4');
   CheckEquals(56, TArrayUtils.Last<Integer>(fIA2), 'Test 5');
   CheckEquals(37, TArrayUtils.Last<Integer>(fIAN), 'Test 6');
+end;
+
+procedure TestTArrayUtils.TestMax;
+begin
+  CheckEquals(42, TArrayUtils.Max<Integer>(fIA1, IntegerComparisonFn), 'Test 1');
+  CheckEquals(56, TArrayUtils.Max<Integer>(fIA2, IntegerComparisonFn), 'Test 2');
+  CheckEquals(102, TArrayUtils.Max<Integer>(fIA3, IntegerComparisonFn), 'Test 3');
+  CheckEquals(37, TArrayUtils.Max<Integer>(fIAY, IntegerComparisonFn), 'Test 4');
+  CheckEquals(37, TArrayUtils.Max<Integer>(fIAR, IntegerComparisonFn), 'Test 5');
+  CheckEquals('foo', TArrayUtils.Max<string>(fSA1, StringComparisonFn), 'Test 6');
+  CheckEquals('foo', TArrayUtils.Max<string>(fSA2, StringComparisonFn), 'Test 7');
+  CheckEquals('foo', TArrayUtils.Max<string>(fSA2R, StringComparisonFn), 'Test 8');
+  CheckEquals('time', TArrayUtils.Max<string>(fSAM, StringComparisonFn), 'Test 9');
+  CheckEquals('time', TArrayUtils.Max<string>(fSAR, StringComparisonFn), 'Test 10');
+end;
+
+procedure TestTArrayUtils.TestMin;
+begin
+  CheckEquals(42, TArrayUtils.Min<Integer>(fIA1, IntegerComparisonFn), 'Test 1');
+  CheckEquals(42, TArrayUtils.Min<Integer>(fIA2, IntegerComparisonFn), 'Test 2');
+  CheckEquals(42, TArrayUtils.Min<Integer>(fIA3, IntegerComparisonFn), 'Test 3');
+  CheckEquals(0, TArrayUtils.Min<Integer>(fIAY, IntegerComparisonFn), 'Test 4');
+  CheckEquals(1, TArrayUtils.Min<Integer>(fIAR, IntegerComparisonFn), 'Test 5');
+  CheckEquals('foo', TArrayUtils.Min<string>(fSA1, StringComparisonFn), 'Test 6');
+  CheckEquals('bar', TArrayUtils.Min<string>(fSA2, StringComparisonFn), 'Test 7');
+  CheckEquals('bar', TArrayUtils.Min<string>(fSA2R, StringComparisonFn), 'Test 8');
+  CheckEquals('a', TArrayUtils.Min<string>(fSAM, StringComparisonFn), 'Test 9');
+  CheckEquals('a', TArrayUtils.Min<string>(fSAR, StringComparisonFn), 'Test 10');
+
+end;
+
+procedure TestTArrayUtils.TestMinMax;
+var
+  MinInt, MaxInt: Integer;
+  MinStr, MaxStr: string;
+begin
+  TArrayUtils.MinMax<Integer>(fIA1, IntegerComparisonFn, MinInt, MaxInt);
+  CheckEquals(42, MinInt, 'Test 1 min');
+  CheckEquals(42, MaxInt, 'Test 1 max');
+  TArrayUtils.MinMax<Integer>(fIA2, IntegerComparisonFn, MinInt, MaxInt);
+  CheckEquals(42, MinInt, 'Test 2 min');
+  CheckEquals(56, MaxInt, 'Test 2 max');
+  TArrayUtils.MinMax<Integer>(fIA3, IntegerComparisonFn, MinInt, MaxInt);
+  CheckEquals(42, MinInt, 'Test 3 min');
+  CheckEquals(102, MaxInt, 'Test 3 max');
+  TArrayUtils.MinMax<Integer>(fIAY, IntegerComparisonFn, MinInt, MaxInt);
+  CheckEquals(0, MinInt, 'Test 4 min');
+  CheckEquals(37, MaxInt, 'Test 4 max');
+  TArrayUtils.MinMax<Integer>(fIAR, IntegerComparisonFn, MinInt, MaxInt);
+  CheckEquals(1, MinInt, 'Test 5 min');
+  CheckEquals(37, MaxInt, 'Test 5 max');
+  TArrayUtils.MinMax<string>(fSA1, StringComparisonFn, MinStr, MaxStr);
+  CheckEquals('foo', MinStr, 'Test 6 min');
+  CheckEquals('foo', MaxStr, 'Test 6 max');
+  TArrayUtils.MinMax<string>(fSA2, StringComparisonFn, MinStr, MaxStr);
+  CheckEquals('bar', MinStr, 'Test 7 min');
+  CheckEquals('foo', MaxStr, 'Test 7 max');
+  TArrayUtils.MinMax<string>(fSA2R, StringComparisonFn, MinStr, MaxStr);
+  CheckEquals('bar', MinStr, 'Test 8 min');
+  CheckEquals('foo', MaxStr, 'Test 8 max');
+  TArrayUtils.MinMax<string>(fSAM, StringComparisonFn, MinStr, MaxStr);
+  CheckEquals('a', MinStr, 'Test 9 min');
+  CheckEquals('time', MaxStr, 'Test 9 max');
+  TArrayUtils.MinMax<string>(fSAR, StringComparisonFn, MinStr, MaxStr);
+  CheckEquals('a', MinStr, 'Test 10 min');
+  CheckEquals('time', MaxStr, 'Test 10 max');
 end;
 
 procedure TestTArrayUtils.TestReverse;
@@ -303,6 +374,17 @@ StringCompareFn := function (const Left, Right: string): Boolean
   begin
     Result := SameStr(Left, Right);
   end;
+
+IntegerComparisonFn := function (const Left, Right: Integer): Integer
+  begin
+    Result := Left - Right;
+  end;
+
+StringComparisonFn := function (const Left, Right: string): Integer
+  begin
+    Result := CompareStr(Left, Right);
+  end;
+
 
   // Register any test cases with the test runner
 RegisterTest(TestTArrayUtils.Suite);

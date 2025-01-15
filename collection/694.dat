@@ -1,0 +1,35 @@
+﻿function WeightedPowerMean(const Values, Weights: array of Double;
+  const Lambda: Double): Double; overload;
+var
+  NormalisedWeights: Types.TDoubleDynArray;
+  PowerSum: Double;
+  Idx: Integer;
+  Value: Double;
+  Weight: Double;
+begin
+  if System.Length(Values) = 0 then
+    raise SysUtils.EArgumentException.Create('Array of values is empty');
+  if System.Length(Values) <> System.Length(Weights) then
+    raise SysUtils.EArgumentException.Create(
+      'Number of values and number of weights must be the same'
+    );
+  if Math.IsZero(Lambda) then
+    raise SysUtils.EArgumentException.Create('Lambda must not be zero');
+  NormalisedWeights := NormaliseByWeight(Weights);
+  PowerSum := 0.0;
+  for Idx := 0 to Pred(System.Length(Values)) do
+  begin
+    Value := Values[Idx];
+    Weight := NormalisedWeights[Idx];
+    if Math.Sign(Value) = Math.NegativeValue then
+      raise SysUtils.EArgumentException.Create(
+        'All values must be non-negative'
+      );
+    if not Math.IsZero(Value) and not Math.IsZero(Weight) then
+      PowerSum := PowerSum + Weight * Math.Power(Value, Lambda);
+  end;
+  if not Math.IsZero(PowerSum) then
+    Result := Math.Power(PowerSum, 1 / Lambda)
+  else
+    Result := 0.0;
+end;

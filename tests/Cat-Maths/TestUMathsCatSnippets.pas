@@ -75,7 +75,18 @@ type
     procedure TestWeightedPowerMean_Double_ExceptNegativeWeight;
     procedure TestWeightedPowerMean_Double_ExceptZeroWeights;
     procedure TestWeightedPowerMean_Double_ExceptNegativeValues;
+    procedure TestCountOccurrences_ExceptEmptyArray;
+    procedure TestMode_ExceptEmptyArray;
+    procedure TestMode_ExceptSingleElementArray;
+    procedure TestModeAlt_ExceptEmptyArray;
+    procedure TestModeAlt_ExceptSingleElementArray;
+    procedure TestHasMode_ExceptEmptyArray;
+    procedure TestHasMode_ExceptSingleElementArray;
+    procedure TestModeCount_ExceptEmptyArray;
+    procedure TestModeCount_ExceptSingleElementArray;
     function EqualArrays(const Left, Right: TBytes): Boolean; overload;
+    function EqualArrays(const Left, Right: array of Integer): Boolean;
+      overload;
     function EqualArrays(const Left, Right: array of Double;
       Fudge: Double = 0.0): Boolean; overload;
     function ReverseArray(const A: TBytes): TBytes;
@@ -171,9 +182,17 @@ type
     procedure TestWeightedPowerMean_Double; // required by Integer & Cardinal overloads
     procedure TestWeightedPowerMean_Cardinal;
     procedure TestWeightedPowerMean_Integer;
+    procedure TestCountOccurrences; // required by Mode, ModeAlt, HasMode & ModeCount
+    procedure TestMode;
+    procedure TestModeAlt;
+    procedure TestHasMode;
+    procedure TestModeCount;
   end;
 
 implementation
+
+uses
+  Generics.Defaults, Generics.Collections;
 
 const
   First100Primes: array[1..100] of Int64 = (
@@ -303,6 +322,19 @@ begin
     Exit(False);
   for Idx := Low(Left) to High(Left) do
     if not SameValue(Left[Idx], Right[Idx], Fudge) then
+      Exit(False);
+end;
+
+function TestMathsCatSnippets.EqualArrays(const Left,
+  Right: array of Integer): Boolean;
+var
+  Idx: Integer;
+begin
+  Result := True;
+  if Length(Left) <> Length(Right) then
+    Exit(False);
+  for Idx := Low(Left) to High(Left) do
+    if Left[Idx] <> Right[Idx] then
       Exit(False);
 end;
 
@@ -468,6 +500,117 @@ const
   Expected: UInt64 = 9223372036854776000;
 begin
   CheckEquals(Expected, ArraySum(A));
+end;
+
+procedure TestMathsCatSnippets.TestCountOccurrences;
+const
+  A: array[1..4] of Integer = (2, 2, 2, 2); // [2->4]
+  B: array[1..9] of Integer = (-1, 3, 4, -1, 8, 3, -1, 4, 7); // [-1:3,3:2,4:2,7:1,8:1
+  C: array[1..10] of Integer = (2, 2, 2, 3, 3, 3, 4, 4, 5, 6); // [2:3,3:3,4:2,5:1,6:1
+  D: array[1..8] of Integer = (-42, -1, -1, 0, 56, 0, -42, 56); // [-42:2,-1:2,0:2,56:2]
+  E: array[1..4] of Integer = (1, 2, 3, 4); // [1:1,2:1,3:1,4:1]
+  F: array[1..10] of Integer = (42, 42, 42, 42, 56, 56, 56, 56, 56, 56); // [42:4,56:6]
+  G: array[1..9] of Integer = (1, 2, 3, 4, 5, 4, 3, 2, 1); // [1:2,2:2,3:2,4:2,5:1]
+  H: array[1..8] of Integer = (1, 2, 4, 4, 4, 4, -2, -3); // [-3:1,-2:1,1:1,2:1,4:4,]
+  I: array[1..5] of Integer = (21, 22, 23, 24, 25); // [21:1,22:1,23:1,24:1,25:1]
+
+  function EqualMaps(A, B: TArray<TPair<Integer,Cardinal>>): Boolean;
+  var
+    Idx: Integer;
+  begin
+    if Length(A) <> Length(B) then
+      Exit(False);
+    Result := True;
+    for Idx := 0 to Pred(Length(A)) do
+      if (A[Idx].Key <> B[Idx].Key) or (A[Idx].Value <> B[Idx].Value) then
+        Exit(False);
+  end;
+
+var
+  EA, EB, EC, ED, EE, EF, EG, EH, EI: TArray<TPair<Integer,Cardinal>>;
+
+begin
+  EA := TArray<TPair<Integer,Cardinal>>.Create(
+    TPair<Integer,Cardinal>.Create(2, 4)
+  );
+  CheckTrue(EqualMaps(EA, CountOccurrences(A)), 'A');
+
+  EB := TArray<TPair<Integer,Cardinal>>.Create(
+    TPair<Integer,Cardinal>.Create(-1, 3),
+    TPair<Integer,Cardinal>.Create(3, 2),
+    TPair<Integer,Cardinal>.Create(4, 2),
+    TPair<Integer,Cardinal>.Create(7, 1),
+    TPair<Integer,Cardinal>.Create(8, 1)
+  );
+  CheckTrue(EqualMaps(EB, CountOccurrences(B)), 'B');
+
+  EC := TArray<TPair<Integer,Cardinal>>.Create(
+    TPair<Integer,Cardinal>.Create(2, 3),
+    TPair<Integer,Cardinal>.Create(3, 3),
+    TPair<Integer,Cardinal>.Create(4, 2),
+    TPair<Integer,Cardinal>.Create(5, 1),
+    TPair<Integer,Cardinal>.Create(6, 1)
+  );
+  CheckTrue(EqualMaps(EC, CountOccurrences(C)), 'C');
+
+  ED := TArray<TPair<Integer,Cardinal>>.Create(
+    TPair<Integer,Cardinal>.Create(-42, 2),
+    TPair<Integer,Cardinal>.Create(-1, 2),
+    TPair<Integer,Cardinal>.Create(0, 2),
+    TPair<Integer,Cardinal>.Create(56, 2)
+  );
+  CheckTrue(EqualMaps(ED, CountOccurrences(D)), 'D');
+
+  EE := TArray<TPair<Integer,Cardinal>>.Create(
+    TPair<Integer,Cardinal>.Create(1, 1),
+    TPair<Integer,Cardinal>.Create(2, 1),
+    TPair<Integer,Cardinal>.Create(3, 1),
+    TPair<Integer,Cardinal>.Create(4, 1)
+  );
+  CheckTrue(EqualMaps(EE, CountOccurrences(E)), 'E');
+
+  EF := TArray<TPair<Integer,Cardinal>>.Create(
+    TPair<Integer,Cardinal>.Create(42, 4),
+    TPair<Integer,Cardinal>.Create(56, 6)
+  );
+  CheckTrue(EqualMaps(EF, CountOccurrences(F)), 'F');
+
+  EG := TArray<TPair<Integer,Cardinal>>.Create(
+    TPair<Integer,Cardinal>.Create(1, 2),
+    TPair<Integer,Cardinal>.Create(2, 2),
+    TPair<Integer,Cardinal>.Create(3, 2),
+    TPair<Integer,Cardinal>.Create(4, 2),
+    TPair<Integer,Cardinal>.Create(5, 1)
+  );
+  CheckTrue(EqualMaps(EG, CountOccurrences(G)), 'G');
+
+  EH := TArray<TPair<Integer,Cardinal>>.Create(
+    TPair<Integer,Cardinal>.Create(-3, 1),
+    TPair<Integer,Cardinal>.Create(-2, 1),
+    TPair<Integer,Cardinal>.Create(1, 1),
+    TPair<Integer,Cardinal>.Create(2, 1),
+    TPair<Integer,Cardinal>.Create(4, 4)
+  );
+  CheckTrue(EqualMaps(EH, CountOccurrences(H)), 'H');
+
+  EI := TArray<TPair<Integer,Cardinal>>.Create(
+    TPair<Integer,Cardinal>.Create(21, 1),
+    TPair<Integer,Cardinal>.Create(22, 1),
+    TPair<Integer,Cardinal>.Create(23, 1),
+    TPair<Integer,Cardinal>.Create(24, 1),
+    TPair<Integer,Cardinal>.Create(25, 1)
+  );
+  CheckTrue(EqualMaps(EI, CountOccurrences(I)), 'I');
+
+  CheckException(TestCountOccurrences_ExceptEmptyArray, EArgumentException, 'Empty array');
+end;
+
+procedure TestMathsCatSnippets.TestCountOccurrences_ExceptEmptyArray;
+var
+  A: array of Integer;
+begin
+  SetLength(A, 0);
+  CountOccurrences(A);
 end;
 
 procedure TestMathsCatSnippets.TestDigitCount;
@@ -851,6 +994,57 @@ begin
   // Exceptions not tested: all exceptions are raised by SumOfReciprocals which
   // is called by HarmonicMean. Those exceptions have been tested when testing
   // SumOfReciprocals
+end;
+
+procedure TestMathsCatSnippets.TestHasMode;
+const
+  A: array[1..4] of Integer = (2, 2, 2, 2);   // mode = [2]
+  B: array[1..9] of Integer = (-1, 3, 4, -1, 8, 3, -1, 4, 7); // mode = [-1]
+  C: array[1..10] of Integer = (2, 2, 2, 3, 3, 3, 4, 4, 5, 6); // mode = [2,3]
+  D: array[1..8] of Integer = (-42, -1, -1, 0, 56, 0, -42, 56); // no mode
+  E: array[1..4] of Integer = (1, 2, 3, 4); // no mode
+  F: array[1..2] of Integer = (42, 56); // no mode
+  G: array[1..10] of Integer = (42, 42, 42, 42, 56, 56, 56, 56, 56, 56); // mode = [56]
+  H: array[1..9] of Integer = (-1, -999, -888, 4, 67, 10774, -888, 12, 6); // mode = [-888]
+  I: array[1..9] of Integer = (1, 2, 3, 4, 5, 4, 3, 2, 1); // mode = [1,2,3,4]
+  J: array[1..8] of Integer = (1, 2, 4, 4, 4, 4, -2, -3); // mode = [4]
+  K: array[1..10] of Integer = (42, 42, 55, 55, 55, 55, 56, 56, 42, 42); // mode = [42,55]
+  L: array[1..11] of Integer = (21, 21, 22, 22, 23, 23, 24, 24, 25, 25, 26); // mode = [21,22,23,24,25]
+  M: array[1..10] of Integer = (8, 6, 1, 2, 9, 6, 10, 5, 9, 1); // mode = [1,6,9]
+  N: array[1..36] of Integer = (1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4,
+      1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4); // no mode
+begin
+  CheckTrue(HasMode(A), 'A');
+  CheckTrue(HasMode(B), 'B');
+  CheckTrue(HasMode(C), 'C');
+  CheckFalse(HasMode(D), 'D');
+  CheckFalse(HasMode(E), 'E');
+  CheckFalse(HasMode(F), 'F');
+  CheckTrue(HasMode(G), 'G');
+  CheckTrue(HasMode(H), 'H');
+  CheckTrue(HasMode(I), 'I');
+  CheckTrue(HasMode(J), 'J');
+  CheckTrue(HasMode(K), 'K');
+  CheckTrue(HasMode(L), 'L');
+  CheckTrue(HasMode(M), 'M');
+  CheckFalse(HasMode(N), 'N');
+  CheckException(TestHasMode_ExceptEmptyArray, EArgumentException, 'Empty array');
+  CheckException(TestHasMode_ExceptSingleElementArray, EArgumentException, 'Single element array');
+end;
+
+procedure TestMathsCatSnippets.TestHasMode_ExceptEmptyArray;
+var
+  A: array of Integer;
+begin
+  SetLength(A, 0);
+  HasMode(A);
+end;
+
+procedure TestMathsCatSnippets.TestHasMode_ExceptSingleElementArray;
+const
+  A: array[1..1] of Integer = (1);
+begin
+  HasMode(A);
 end;
 
 procedure TestMathsCatSnippets.TestIsNarcissistic;
@@ -1513,6 +1707,163 @@ begin
   A := TSingleDynArray.Create(2.2, 6.6, 42.42, 8.8);
   N := 2.2;
   Check(SameValue(N, MinOfArray(A)), 'Test 5');
+end;
+
+procedure TestMathsCatSnippets.TestMode;
+const
+  A: array[1..4] of Integer = (2, 2, 2, 2);   // mode = [2]
+  B: array[1..9] of Integer = (-1, 3, 4, -1, 8, 3, -1, 4, 7); // mode = [-1]
+  C: array[1..10] of Integer = (2, 2, 2, 3, 3, 3, 4, 4, 5, 6); // mode = [2,3]
+  D: array[1..8] of Integer = (-42, -1, -1, 0, 56, 0, -42, 56); // no mode = [-42,-1,0,56]
+  E: array[1..4] of Integer = (1, 2, 3, 4); // no mode = [1,2,3,4]
+  F: array[1..2] of Integer = (42, 56); // no mode = [42,56]
+  G: array[1..10] of Integer = (42, 42, 42, 42, 56, 56, 56, 56, 56, 56); // mode = [56]
+  H: array[1..9] of Integer = (-1, -999, -888, 4, 67, 10774, -888, 12, 6); // mode = [-888]
+  I: array[1..9] of Integer = (1, 2, 3, 4, 5, 4, 3, 2, 1); // mode = [1,2,3,4]
+  J: array[1..8] of Integer = (1, 2, 4, 4, 4, 4, -2, -3); // mode = [4]
+  K: array[1..10] of Integer = (42, 42, 55, 55, 55, 55, 56, 56, 42, 42); // mode = [42,55]
+  L: array[1..11] of Integer = (21, 21, 22, 22, 23, 23, 24, 24, 25, 25, 26); // mode = [21,22,23,24,25]
+  M: array[1..10] of Integer = (8, 6, 1, 2, 9, 6, 10, 5, 9, 1); // mode = [1,6,9]
+  N: array[1..36] of Integer = (1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4,
+      1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4); // no mode = [1,2,3,4]
+begin
+  // All expected results check using
+  // https://www.calculatorsoup.com/calculators/statistics/mean-median-mode.php
+  CheckTrue(EqualArrays([2], Mode(A)), 'A');
+  CheckTrue(EqualArrays([-1], Mode(B)), 'B');
+  CheckTrue(EqualArrays([2, 3], Mode(C)), 'C');
+  CheckTrue(EqualArrays([-42, -1, 0, 56], Mode(D)), 'D');
+  CheckTrue(EqualArrays([1, 2, 3, 4], Mode(E)), 'E');
+  CheckTrue(EqualArrays([42,56], Mode(F)), 'F');
+  CheckTrue(EqualArrays([56], Mode(G)), 'G');
+  CheckTrue(EqualArrays([-888], Mode(H)), 'H');
+  CheckTrue(EqualArrays([1, 2, 3, 4], Mode(I)), 'I');
+  CheckTrue(EqualArrays([4], Mode(J)), 'J');
+  CheckTrue(EqualArrays([42, 55], Mode(K)), 'K');
+  CheckTrue(EqualArrays([21, 22, 23, 24, 25], Mode(L)), 'L');
+  CheckTrue(EqualArrays([1, 6, 9], Mode(M)), 'M');
+  CheckTrue(EqualArrays([1, 2, 3, 4], Mode(N)), 'N');
+  CheckException(TestMode_ExceptEmptyArray, EArgumentException, 'Empty array');
+  CheckException(TestMode_ExceptSingleElementArray, EArgumentException, 'Single element array');
+end;
+
+procedure TestMathsCatSnippets.TestModeAlt;
+const
+  A: array[1..4] of Integer = (2, 2, 2, 2);   // mode = [2]
+  B: array[1..9] of Integer = (-1, 3, 4, -1, 8, 3, -1, 4, 7); // mode = [-1]
+  C: array[1..10] of Integer = (2, 2, 2, 3, 3, 3, 4, 4, 5, 6); // mode = [2,3]
+  D: array[1..8] of Integer = (-42, -1, -1, 0, 56, 0, -42, 56); // no mode
+  E: array[1..4] of Integer = (1, 2, 3, 4); // no mode
+  F: array[1..2] of Integer = (42, 56); // no mode
+  G: array[1..10] of Integer = (42, 42, 42, 42, 56, 56, 56, 56, 56, 56); // mode = [56]
+  H: array[1..9] of Integer = (-1, -999, -888, 4, 67, 10774, -888, 12, 6); // mode = [-888]
+  I: array[1..9] of Integer = (1, 2, 3, 4, 5, 4, 3, 2, 1); // mode = [1,2,3,4]
+  J: array[1..8] of Integer = (1, 2, 4, 4, 4, 4, -2, -3); // mode = [4]
+  K: array[1..10] of Integer = (42, 42, 55, 55, 55, 55, 56, 56, 42, 42); // mode = [42,55]
+  L: array[1..11] of Integer = (21, 21, 22, 22, 23, 23, 24, 24, 25, 25, 26); // mode = [21,22,23,24,25]
+  M: array[1..10] of Integer = (8, 6, 1, 2, 9, 6, 10, 5, 9, 1); // mode = [1,6,9]
+  N: array[1..36] of Integer = (1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4,
+      1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4); // no mode
+begin
+  // All expected results check using
+  // https://www.calculatorsoup.com/calculators/statistics/mean-median-mode.php
+  CheckTrue(EqualArrays([2], ModeAlt(A)), 'A');
+  CheckTrue(EqualArrays([-1], ModeAlt(B)), 'B');
+  CheckTrue(EqualArrays([2, 3], ModeAlt(C)), 'C');
+  CheckTrue(EqualArrays([], ModeAlt(D)), 'D');
+  CheckTrue(EqualArrays([], ModeAlt(E)), 'E');
+  CheckTrue(EqualArrays([], ModeAlt(F)), 'F');
+  CheckTrue(EqualArrays([56], ModeAlt(G)), 'G');
+  CheckTrue(EqualArrays([-888], ModeAlt(H)), 'H');
+  CheckTrue(EqualArrays([1, 2, 3, 4], ModeAlt(I)), 'I');
+  CheckTrue(EqualArrays([4], ModeAlt(J)), 'J');
+  CheckTrue(EqualArrays([42, 55], ModeAlt(K)), 'K');
+  CheckTrue(EqualArrays([21, 22, 23, 24, 25], ModeAlt(L)), 'L');
+  CheckTrue(EqualArrays([1, 6, 9], ModeAlt(M)), 'M');
+  CheckTrue(EqualArrays([], ModeAlt(N)), 'N');
+  CheckException(TestModeAlt_ExceptEmptyArray, EArgumentException, 'Empty array');
+  CheckException(TestModeAlt_ExceptSingleElementArray, EArgumentException, 'Single element array');
+end;
+
+procedure TestMathsCatSnippets.TestModeAlt_ExceptEmptyArray;
+var
+  A: array of Integer;
+begin
+  SetLength(A, 0);
+  ModeAlt(A);
+end;
+
+procedure TestMathsCatSnippets.TestModeAlt_ExceptSingleElementArray;
+const
+  A: array[1..1] of Integer = (1);
+begin
+  ModeAlt(A);
+end;
+
+procedure TestMathsCatSnippets.TestModeCount;
+const
+  A: array[1..4] of Integer = (2, 2, 2, 2);   // ModeCount: 1
+  B: array[1..9] of Integer = (-1, 3, 4, -1, 8, 3, -1, 4, 7); // ModeCount: 1
+  C: array[1..10] of Integer = (2, 2, 2, 3, 3, 3, 4, 4, 5, 6); // ModeCount: 2
+  D: array[1..8] of Integer = (-42, -1, -1, 0, 56, 0, -42, 56); // ModeCount: 0
+  E: array[1..4] of Integer = (1, 2, 3, 4); // ModeCount: 0
+  F: array[1..2] of Integer = (42, 56); // ModeCount: 0
+  G: array[1..10] of Integer = (42, 42, 42, 42, 56, 56, 56, 56, 56, 56); // ModeCount: 1
+  H: array[1..9] of Integer = (-1, -999, -888, 4, 67, 10774, -888, 12, 6); // ModeCount: 1
+  I: array[1..9] of Integer = (1, 2, 3, 4, 5, 4, 3, 2, 1); // ModeCount: 4
+  J: array[1..8] of Integer = (1, 2, 4, 4, 4, 4, -2, -3); // ModeCount: 1
+  K: array[1..10] of Integer = (42, 42, 55, 55, 55, 55, 56, 56, 42, 42); // ModeCount: 2
+  L: array[1..11] of Integer = (21, 21, 22, 22, 23, 23, 24, 24, 25, 25, 26); // ModeCount: 5
+  M: array[1..10] of Integer = (8, 6, 1, 2, 9, 6, 10, 5, 9, 1); // ModeCount: 3
+  N: array[1..36] of Integer = (1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4,
+      1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4); // ModeCount: 0
+begin
+  CheckEquals(1, ModeCount(A), 'A');
+  CheckEquals(1, ModeCount(B), 'B');
+  CheckEquals(2, ModeCount(C), 'C');
+  CheckEquals(0, ModeCount(D), 'D');
+  CheckEquals(0, ModeCount(E), 'E');
+  CheckEquals(0, ModeCount(F), 'F');
+  CheckEquals(1, ModeCount(G), 'G');
+  CheckEquals(1, ModeCount(H), 'H');
+  CheckEquals(4, ModeCount(I), 'I');
+  CheckEquals(1, ModeCount(J), 'J');
+  CheckEquals(2, ModeCount(K), 'K');
+  CheckEquals(5, ModeCount(L), 'L');
+  CheckEquals(3, ModeCount(M), 'M');
+  CheckEquals(0, ModeCount(N), 'N');
+  CheckException(TestModeCount_ExceptEmptyArray, EArgumentException, 'Empty array');
+  CheckException(TestModeCount_ExceptSingleElementArray, EArgumentException, 'Single element array');
+end;
+
+procedure TestMathsCatSnippets.TestModeCount_ExceptEmptyArray;
+var
+  A: array of Integer;
+begin
+  SetLength(A, 0);
+  ModeCount(A);
+end;
+
+procedure TestMathsCatSnippets.TestModeCount_ExceptSingleElementArray;
+const
+  A: array[1..1] of Integer = (1);
+begin
+  ModeCount(A);
+end;
+
+procedure TestMathsCatSnippets.TestMode_ExceptEmptyArray;
+var
+  A: array of Integer;
+begin
+  SetLength(A, 0);
+  Mode(A);
+end;
+
+procedure TestMathsCatSnippets.TestMode_ExceptSingleElementArray;
+const
+  A: array[1..1] of Integer = (1);
+begin
+  Mode(A);
 end;
 
 procedure TestMathsCatSnippets.TestNormaliseByWeight_Cardinal;

@@ -1,0 +1,46 @@
+﻿function CountOccurrences(const A: array of Integer):
+  System.TArray<Generics.Collections.TPair<Integer,Cardinal>>;
+var
+  OccurrenceMap: Generics.Collections.TDictionary<Integer,Cardinal>;
+  Elem: Integer;
+  OccurrencesOfX: Cardinal;
+
+  procedure SortResult(
+    var A: array of Generics.Collections.TPair<Integer,Cardinal>);
+  begin
+    Generics.Collections.TArray.Sort<
+      Generics.Collections.TPair<Integer,Cardinal>
+    >(
+      A,
+      Generics.Defaults.TDelegatedComparer<
+        Generics.Collections.TPair<Integer,Cardinal>
+      >.Create(
+        function (
+          const Left, Right: Generics.Collections.TPair<Integer,Cardinal>):
+          Integer
+        begin
+          Result := Left.Key - Right.Key;
+        end
+      )
+    );
+  end;
+
+begin
+  if System.Length(A) = 0 then
+    raise SysUtils.EArgumentException.Create('Array is empty');
+  OccurrenceMap := Generics.Collections.TDictionary<Integer,Cardinal>.Create;
+  try
+    for Elem in A do
+    begin
+      if OccurrenceMap.TryGetValue(Elem, OccurrencesOfX) then
+        System.Inc(OccurrencesOfX)
+      else
+        OccurrencesOfX := 1;
+      OccurrenceMap.AddOrSetValue(Elem, OccurrencesOfX);
+    end;
+    Result := OccurrenceMap.ToArray;
+    SortResult(Result);
+  finally
+    OccurrenceMap.Free;
+  end;
+end;

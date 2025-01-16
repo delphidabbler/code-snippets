@@ -1,0 +1,27 @@
+﻿function Mode(const A: array of Integer): System.TArray<Integer>;
+var
+  OccurrenceCounts: System.TArray<Generics.Collections.TPair<Integer,Cardinal>>;
+  Modes: Generics.Collections.TList<Integer>;
+  KV: Generics.Collections.TPair<Integer,Cardinal>;
+  MaxCount: Cardinal;
+begin
+  if System.Length(A) <= 1 then
+    raise SysUtils.EArgumentException.Create(
+      'At least two values required to calculate the mode'
+    );
+  MaxCount := 0;
+  OccurrenceCounts := CountOccurrences(A);
+  for KV in OccurrenceCounts do
+    if KV.Value > MaxCount then
+      MaxCount := KV.Value;
+  Modes := Generics.Collections.TList<Integer>.Create;
+  try
+    for KV in OccurrenceCounts do
+      if KV.Value = MaxCount then
+        Modes.Add(KV.Key);
+    Modes.Sort;
+    Result := Modes.ToArray;
+  finally
+    Modes.Free;
+  end;
+end;

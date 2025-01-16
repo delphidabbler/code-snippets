@@ -1,0 +1,24 @@
+﻿function HasMode(const A: array of Integer): Boolean;
+var
+  OccurrenceCounts: System.TArray<Generics.Collections.TPair<Integer,Cardinal>>;
+  KV: Generics.Collections.TPair<Integer,Cardinal>;
+  MaxCount: Cardinal;
+begin
+  if System.Length(A) <= 1 then
+    raise SysUtils.EArgumentException.Create(
+      'At least two values required to calculate a mode'
+    );
+  Result := False;
+  OccurrenceCounts := CountOccurrences(A);
+  if System.Length(OccurrenceCounts) = 1 then
+    // all data items have the same value: has mode
+    Exit(True);
+  MaxCount := 0;
+  for KV in OccurrenceCounts do
+    if KV.Value > MaxCount then
+      MaxCount := KV.Value;
+  for KV in OccurrenceCounts do
+    if KV.Value < MaxCount then
+      // at least one value is not the mode => mode exists
+      Exit(True);
+end;

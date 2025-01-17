@@ -1,8 +1,8 @@
 # MIT License
 
-All `.dat` files in the `collection` directory and certain `.pas` files in the `tests` directory that were generated from the collection are copyright © 2005-2024, [Peter Johnson](https://gravatar.com/delphidabbler) and [Contributors](https://github.com/delphidabbler/code-snippets/tree/master/collection/CONTRIBUTORS).
+All `.dat` files in the `collection` directory and certain `.pas` files in the `tests` directory that were generated from the collection are copyright © 2005-2025, [Peter Johnson](https://gravatar.com/delphidabbler) and [Contributors](https://github.com/delphidabbler/code-snippets/tree/master/collection/CONTRIBUTORS).
 
-All other files in this project are copyright © 2020-2024, [Peter Johnson](https://gravatar.com/delphidabbler).
+All other files in this project are copyright © 2020-2025, [Peter Johnson](https://gravatar.com/delphidabbler).
 
 ----
 

@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repository contains a collection of over 600 reusable Pascal code snippets. The majority are simple functions and procedures but there are also some constants and type definitions, including some advanced records with methods.
+This repository contains a collection of over 700 reusable Pascal code snippets. The majority are simple functions and procedures but there are also some constants and type definitions, including some advanced records with methods.
 
 Snippets are grouped into categories, with each snippet belonging to exactly one category.
 

@@ -86,6 +86,8 @@ type
     procedure TestModeCount_ExceptSingleElementArray;
     procedure TestRMS_Double_ExceptEmptyArray;
     procedure TestRMS_Integer_ExceptEmptyArray;
+    procedure TestTSS_Double_ExceptEmptyArray;
+    procedure TestTSS_Integer_ExceptEmptyArray;
     function EqualArrays(const Left, Right: TBytes): Boolean; overload;
     function EqualArrays(const Left, Right: array of Integer): Boolean;
       overload;
@@ -191,6 +193,8 @@ type
     procedure TestModeCount;
     procedure TestRMS_Double;
     procedure TestRMS_Integer;
+    procedure TestTSS_Double;
+    procedure TestTSS_Integer;
   end;
 
 implementation
@@ -2789,6 +2793,76 @@ const
   A: array [1..3] of Integer = (42, -56, 12);
 begin
   SumOfReciprocals(A);
+end;
+
+procedure TestMathsCatSnippets.TestTSS_Double;
+const
+  // Expected results calculated using
+  // https://www.socscistatistics.com/tests/sumofsquares/default.aspx
+  Fudge = 0.00001;
+  A: array[1..4] of Double = (49.7, -89.3, 9.36, 10.0);
+  EA = 10529.7752;
+  B: array[1..1] of Double = (7483.84);
+  EB = 0.0;
+  C: array[1..3] of Double = (7483.84, 7483.84, 7483.84);
+  EC = 0.0;
+  D: array[1..3] of Double = (-7483.84, -7483.84, -7483.84);
+  ED = 0.0;
+  E: array[1..3] of Double = (-7483.84, 7483.84, -7483.84);
+  EE = 149354296.38827;
+  F: array[1..6] of Double = (-42.0, 42.0, -56.0, 56.0, -4256.42, 4256.42);
+  EF = 36244022.4328;
+begin
+  CheckEquals(EA, TSS(A), Fudge, 'A');
+  CheckEquals(EB, TSS(B), Fudge, 'B');
+  CheckEquals(EC, TSS(C), Fudge, 'C');
+  CheckEquals(ED, TSS(D), Fudge, 'D');
+  CheckEquals(EE, TSS(E), Fudge, 'E');
+  CheckEquals(EF, TSS(F), Fudge, 'F');
+  CheckException(TestTSS_Double_ExceptEmptyArray, EArgumentException, 'Empty array');
+end;
+
+procedure TestMathsCatSnippets.TestTSS_Double_ExceptEmptyArray;
+var
+  A: array of Double;
+begin
+  SetLength(A, 0);
+  TSS(A);
+end;
+
+procedure TestMathsCatSnippets.TestTSS_Integer;
+const
+  // Expected results calculated using
+  // https://www.socscistatistics.com/tests/sumofsquares/default.aspx
+  Fudge = 0.00001;
+  A: array[1..4] of Integer = (50, -89, 9, 10);
+  EA = 10502.0;
+  B: array[1..1] of Integer = (7484);
+  EB = 0.0;
+  C: array[1..3] of Integer = (7484, 7484, 7484);
+  EC = 0.0;
+  D: array[1..3] of Integer = (-7484, -7484, -7484);
+  ED = 0.0;
+  E: array[1..3] of Integer = (-7484, 7484, -7484);
+  EE = 149360682.66667;
+  F: array[1..6] of Integer = (-42, 42, -56, 56, -4256, 4256);
+  EF = 36236872.0;
+begin
+  CheckEquals(EA, TSS(A), Fudge, 'A');
+  CheckEquals(EB, TSS(B), Fudge, 'B');
+  CheckEquals(EC, TSS(C), Fudge, 'C');
+  CheckEquals(ED, TSS(D), Fudge, 'D');
+  CheckEquals(EE, TSS(E), Fudge, 'E');
+  CheckEquals(EF, TSS(F), Fudge, 'F');
+  CheckException(TestTSS_Integer_ExceptEmptyArray, EArgumentException, 'Empty array');
+end;
+
+procedure TestMathsCatSnippets.TestTSS_Integer_ExceptEmptyArray;
+var
+  A: array of Integer;
+begin
+  SetLength(A, 0);
+  TSS(A);
 end;
 
 procedure TestMathsCatSnippets.TestWeightedArithmeticMean_Cardinal;

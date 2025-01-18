@@ -1,0 +1,11 @@
+﻿function TSS(const A: array of Double): Double; overload;
+var
+  ElemOfA: Double;
+  MeanOfA: Double;
+begin
+  // Note: ArithmeticMean raises an exception if A is empty
+  MeanOfA := ArithmeticMean(A);
+  Result := 0.0;
+  for ElemOfA in A do
+    Result := Result + System.Sqr(ElemOfA - MeanOfA);
+end;

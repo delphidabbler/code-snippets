@@ -1,0 +1,16 @@
+﻿function RMS(const A: array of Integer): Double; overload;
+var
+  Squares: array of Double;
+  Idx: Integer;
+  Elem: Double;
+begin
+  System.SetLength(Squares, System.Length(A));
+  for Idx := 0 to Pred(System.Length(A)) do
+  begin
+    // convert Integer to Double before squaring to reduce change of overflow
+    Elem := A[Idx];
+    Squares[Idx] := Elem * Elem;
+  end;
+  // Note: ArithmeticMean raises exception if A is empty
+  Result := Math.Power(ArithmeticMean(Squares), 0.5);
+end;

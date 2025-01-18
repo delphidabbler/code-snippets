@@ -84,6 +84,8 @@ type
     procedure TestHasMode_ExceptSingleElementArray;
     procedure TestModeCount_ExceptEmptyArray;
     procedure TestModeCount_ExceptSingleElementArray;
+    procedure TestRMS_Double_ExceptEmptyArray;
+    procedure TestRMS_Integer_ExceptEmptyArray;
     function EqualArrays(const Left, Right: TBytes): Boolean; overload;
     function EqualArrays(const Left, Right: array of Integer): Boolean;
       overload;
@@ -187,6 +189,8 @@ type
     procedure TestModeAlt;
     procedure TestHasMode;
     procedure TestModeCount;
+    procedure TestRMS_Double;
+    procedure TestRMS_Integer;
   end;
 
 implementation
@@ -2416,6 +2420,58 @@ begin
   CheckEquals(24, R.Top, '3: R.Top');
   CheckEquals(24 - 4, R.Bottom, '3: R.Bottom');
   CheckEquals(-4, RectHeight(R), '3: RectHeight');
+end;
+
+procedure TestMathsCatSnippets.TestRMS_Double;
+const
+  Fudge = 0.0001;
+  A: array[1..4] of Double = (23.45, 35.786, 87326.948, 13);
+  B: array[1..8] of Double = (-19.0, 27.890, -42.83729, 56.73829, 100.0, -100.0, 0.0, 666.6);
+  C: array[1..3] of Double = (0.0, 0.0, 0.0);
+  D: array[1..1] of Double = (2345.67889);
+  E: array[1..2] of Double = (-999.99, +999.99);
+begin
+  // Some expected results from https://miniwebtool.com/root-mean-square-calculator/
+  CheckEquals(43663.47973, RMS(A), Fudge, 'A');
+  CheckEquals(242.5254314, RMS(B), Fudge, 'B');
+  CheckEquals(0.0, RMS(C), Fudge, 'C');
+  CheckEquals(2345.67889, RMS(D), Fudge, 'D');
+  CheckEquals(999.99, RMS(E), Fudge, 'E');
+  CheckException(TestRMS_Double_ExceptEmptyArray, EArgumentException, 'Empty array');
+end;
+
+procedure TestMathsCatSnippets.TestRMS_Double_ExceptEmptyArray;
+var
+  A: array of Double;
+begin
+  SetLength(A, 0);
+  RMS(A);
+end;
+
+procedure TestMathsCatSnippets.TestRMS_Integer;
+const
+  Fudge = 0.0001;
+  A: array[1..4] of Integer = (23, 36, 87327, 13);
+  B: array[1..8] of Integer = (-19, 28, -43, 57, 100, -100, 0, 666);
+  C: array[1..3] of Integer = (0, 0, 0);
+  D: array[1..1] of Integer = (2346);
+  E: array[1..2] of Integer = (-999, +999);
+begin
+  // Some expected results from https://miniwebtool.com/root-mean-square-calculator/
+  CheckEquals(43663.505708428864, RMS(A), Fudge, 'A');
+  CheckEquals(242.3321584, RMS(B), Fudge, 'B');
+  CheckEquals(0.0, RMS(C), Fudge, 'C');
+  CheckEquals(2346.0, RMS(D), Fudge, 'D');
+  CheckEquals(999.0, RMS(E), Fudge, 'E');
+  CheckException(TestRMS_Integer_ExceptEmptyArray, EArgumentException, 'Empty array');
+end;
+
+procedure TestMathsCatSnippets.TestRMS_Integer_ExceptEmptyArray;
+var
+  A: array of Integer;
+begin
+  SetLength(A, 0);
+  RMS(A);
 end;
 
 procedure TestMathsCatSnippets.TestSoftMax;

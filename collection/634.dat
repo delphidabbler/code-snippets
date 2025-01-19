@@ -1,12 +1,22 @@
 ﻿function PowNZN(const X: Integer; const N: Cardinal): Int64;
 var
   I: Integer;
+  OverflowGuard: Int64;
 begin
-  if (X = 0) and (N > 0) then
-    Exit(0);
-  if X = 1 then
+  if N = 0 then
+    // IEEE: pown(x, 0) is 1, even when X is zero
     Exit(1);
+  if X = 0 then
+    // pown(0, n) = 0, for all positive n
+    Exit(0);
+  OverflowGuard := High(Int64) div Abs(X);
   Result := 1;
   for I := 1 to N do
+  begin
+    if OverflowGuard < Abs(Result) then
+      raise SysUtils.EOverflow.CreateFmt(
+        'Overflow calculating %d to the power %d', [X, N]
+      );
     Result := Result * X;
+  end;
 end;

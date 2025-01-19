@@ -1,0 +1,18 @@
+﻿function NormaliseByWeight(const A: array of Cardinal): Types.TDoubleDynArray;
+  overload;
+var
+  Weight: Cardinal;
+  WeightSum: UInt64;
+  Idx: Integer;
+begin
+  if (System.Length(A) = 0) then
+    raise SysUtils.EArgumentException.Create('Array of weights is empty');
+  WeightSum := 0;
+  for Weight in A do
+    WeightSum := WeightSum + Weight;
+  if WeightSum = 0 then
+    raise SysUtils.EArgumentException.Create('Sum of weights is zero');
+  System.SetLength(Result, System.Length(A));
+  for Idx := 0 to Pred(System.Length(A)) do
+    Result[Idx] := A[Idx] / WeightSum;
+end;

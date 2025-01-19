@@ -1,0 +1,10 @@
+﻿function ArithmeticMean(const A: array of Cardinal): Double; overload;
+var
+  X: Cardinal;
+begin
+  if Length(A) = 0 then
+    raise SysUtils.EArgumentException.Create('Array is empty');
+  Result := 0.0;
+  for X in A do
+    Result := Result + X / Length(A);
+end;

@@ -1,0 +1,19 @@
+﻿function WeightedHarmonicMean(const Values: array of Double;
+  const Weights: array of Double): Double; overload;
+var
+  Sum: Double;
+  Idx: Integer;
+  NormalisedWeights: Types.TDoubleDynArray;
+begin
+  if System.Length(Values) = 0 then
+    raise SysUtils.EArgumentException.Create('Array of values is empty');
+  if System.Length(Values) <> System.Length(Weights) then
+    raise SysUtils.EArgumentException.Create(
+      'Number of values and number of weights must be the same'
+    );
+  NormalisedWeights := NormaliseByWeight(Weights);
+  Sum := 0.0;
+  for Idx := 0 to Pred(System.Length(Values)) do
+    Sum := Sum + NormalisedWeights[Idx] / Values[Idx];
+  Result := 1.0 / Sum;
+end;

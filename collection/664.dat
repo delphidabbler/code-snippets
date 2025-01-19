@@ -1,0 +1,10 @@
+﻿function SoftMax(const A: array of Double): Types.TDoubleDynArray;
+var
+  LSEOfA: Double;
+  Idx: Integer;
+begin
+  LSEOfA := LSE(A); // raise EArgumentException if A is empty
+  System.SetLength(Result, System.Length(A));
+  for Idx := 0 to Pred(System.Length(A)) do
+    Result[Idx] := System.Exp(A[Idx] - LSEOfA);
+end;

@@ -1,0 +1,20 @@
+﻿function DigitSumBase(N: Int64; const Base: Byte): Integer;
+var
+  SignOfN: Math.TValueSign;
+begin
+  if Base < 2 then
+    raise SysUtils.EArgumentException.Create(
+      'Base must be in the range 2..255'
+    );
+  if N = 0 then
+    Exit(0);    
+  SignOfN := Math.Sign(N);
+  N := Abs(N);
+  Result := 0;
+  repeat
+    Inc(Result, N mod Base);
+    N := N div Base;
+  until N = 0;
+  if SignOfN = Math.NegativeValue then
+    Result := -1 * Result;
+end;

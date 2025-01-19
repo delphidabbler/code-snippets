@@ -1,0 +1,22 @@
+﻿function PowerMean(const A: array of Double; const Lambda: Double): Double;
+  overload;
+var
+  Sum: Double;
+  X: Double;
+begin
+  if System.Length(A) = 0 then
+    raise SysUtils.EArgumentException.Create('Array is empty');
+  if Math.IsZero(Lambda) then
+    raise SysUtils.EArgumentException.Create('Lambda must not be zero');
+  Sum := 0.0;
+  for X in A do
+  begin
+    if Math.Sign(X) = NegativeValue then
+      raise SysUtils.EArgumentException.Create(
+        'All array elements must be non-negative'
+      );
+    if not Math.IsZero(X) then
+      Sum := Sum + Math.Power(X, Lambda);
+  end;
+  Result := Math.Power(Sum / System.Length(A), 1 / Lambda);
+end;

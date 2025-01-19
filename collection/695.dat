@@ -1,0 +1,11 @@
+﻿function WeightedPowerMean(const Values: array of Integer;
+  const Weights: array of Double; const Lambda: Double): Double; overload;
+var
+  FloatValues: Types.TDoubleDynArray;
+  Idx: Integer;
+begin
+  System.SetLength(FloatValues, System.Length(Values));
+  for Idx := 0 to Pred(System.Length(Values)) do
+    FloatValues[Idx] := Values[Idx];
+  Result := WeightedPowerMean(FloatValues, Weights, Lambda);
+end;

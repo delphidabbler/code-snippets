@@ -1,0 +1,11 @@
+﻿function WeightedGeometricMean(const Values: array of Cardinal;
+  const Weights: array of Double): Double; overload;
+var
+  Idx: Integer;
+  FloatValues: Types.TDoubleDynArray;
+begin
+  System.Setlength(FloatValues, System.Length(Values));
+  for Idx := 0 to Pred(System.Length(Values)) do
+    FloatValues[Idx] := Values[Idx];
+  Result := WeightedGeometricMean(FloatValues, Weights);
+end;

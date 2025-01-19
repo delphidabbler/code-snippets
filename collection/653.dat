@@ -1,0 +1,26 @@
+﻿function WeightedArithmeticMean(const Values: array of Double;
+  const Weights: array of Double): Double; overload;
+var
+  WeightSum: Double;
+  Weight: Double;
+  Idx: Integer;
+begin
+  if Length(Values) = 0 then
+    raise SysUtils.EArgumentException.Create('Array of values is empty');
+  if Length(Values) <> Length(Weights) then
+    raise SysUtils.EArgumentException.Create(
+      'Number of values and number of weights must be the same'
+    );
+  WeightSum := 0.0;
+  for Weight in Weights do
+  begin
+    if Math.Sign(Weight) = Math.NegativeValue then
+      raise SysUtils.EArgumentException.Create('Weights must all be >= 0');
+    WeightSum := WeightSum + Weight;
+  end;
+  if Math.IsZero(WeightSum) then
+    raise SysUtils.EArgumentException.Create('All weights are 0');
+  Result := 0.0;
+  for Idx := Low(Values) to High(Values) do
+    Result := Result + Weights[Idx] * Values[Idx] / WeightSum;
+end;

@@ -1,0 +1,24 @@
+﻿function NormaliseByWeight(const A: array of Double): Types.TDoubleDynArray;
+  overload;
+var
+  Weight: Double;
+  WeightSum: Double;
+  Idx: Integer;
+begin
+  if (System.Length(A) = 0) then
+    raise SysUtils.EArgumentException.Create('Array of weights is empty');
+  WeightSum := 0.0;
+  for Weight in A do
+  begin
+    if Math.Sign(Weight) = Math.NegativeValue then
+      raise SysUtils.EArgumentException.Create(
+        'All weights must be non-negative'
+      );
+    WeightSum := WeightSum + Weight;
+  end;
+  if Math.IsZero(WeightSum) then
+    raise SysUtils.EArgumentException.Create('Sum of weights is zero');
+  System.SetLength(Result, System.Length(A));
+  for Idx := 0 to Pred(System.Length(A)) do
+    Result[Idx] := A[Idx] / WeightSum;
+end;

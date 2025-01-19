@@ -1,0 +1,15 @@
+﻿function LSE(const A: array of Double): Double;
+var
+  MaxElem: Double;
+  Elem: Double;
+  Sum: Double;
+begin
+  if System.Length(A) = 0 then
+    raise SysUtils.EArgumentException.Create('Empty array');
+  // Using the centering "trick": see https://rpubs.com/FJRubio/LSE
+  MaxElem := MaxOfArray(A);
+  Sum := 0.0;
+  for Elem in A do
+    Sum := Sum + System.Exp(Elem - MaxElem);
+  Result := System.Ln(Sum) + MaxElem;
+end;

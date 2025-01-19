@@ -1,0 +1,6 @@
+﻿function GeometricMean(const A: array of Integer): Double; overload;
+begin
+  if System.Length(A) = 0 then
+    raise SysUtils.EArgumentException.Create('Array is empty');
+  Result := System.Exp(SumOfLogs(A) / System.Length(A));
+end;

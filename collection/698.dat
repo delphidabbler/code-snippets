@@ -1,0 +1,39 @@
+﻿function ModeAlt(const A: array of Integer): System.TArray<Integer>;
+var
+  OccurrenceCounts: System.TArray<Generics.Collections.TPair<Integer,Cardinal>>;
+  Modes: Generics.Collections.TList<Integer>;
+  KV: Generics.Collections.TPair<Integer,Cardinal>;
+  MaxCount: Cardinal;
+  HasMode: Boolean;
+begin
+  if System.Length(A) <= 1 then
+    raise SysUtils.EArgumentException.Create(
+      'At least two values required to calculate the mode'
+    );
+  OccurrenceCounts := CountOccurrences(A);
+  if System.Length(OccurrenceCounts) = 1 then
+    // all data items have the same value: result is the sole data value
+    Exit(System.TArray<Integer>.Create(A[0]));
+  MaxCount := 0;
+  for KV in OccurrenceCounts do
+    if KV.Value > MaxCount then
+      MaxCount := KV.Value;
+  Modes := Generics.Collections.TList<Integer>.Create;
+  HasMode := False;
+  try
+    for KV in OccurrenceCounts do
+      if KV.Value = MaxCount then
+        Modes.Add(KV.Key)
+      else
+        HasMode := True;
+    Modes.Sort;
+    if HasMode then
+      Result := Modes.ToArray
+    else
+      // the are >= 2 different data items, all of which occur with the same
+      // frequency: return empty array
+      System.SetLength(Result, 0);
+  finally
+    Modes.Free;
+  end;
+end;

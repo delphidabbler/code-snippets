@@ -3,24 +3,51 @@
   public
     // Returns first element of given array, which must not be empty.
     class function First<T>(const A: array of T): T; static;
+
     // Returns last element of given array, which must not be empty.
     class function Last<T>(const A: array of T): T; static;
+
     // Returns index of given item in given array or -1 if element no in array.
     // Given equality comparer is used to compare array elements with Elem.
     class function IndexOf<T>(const Item: T; const A: array of T;
       const EqualityComparer: Generics.Defaults.TEqualityComparison<T>):
       Integer; static;
+
     // Checks if two given arrays have the same contents, in same order. Given
     // equality comparer is used to compare array elements.
     class function Equal<T>(const Left, Right: array of T;
       const EqualityComparer: Generics.Defaults.TEqualityComparison<T>):
       Boolean; static;
+
     // Checks if the first Count elements of the given arrays are the same.
     // Given equality comparer is used to compare array elements.
     class function SameStart<T>(const Left, Right: array of T;
       const Count: Integer; 
       const EqualityComparer: Generics.Defaults.TEqualityComparison<T>): 
       Boolean; static;
+
+    // Creates and returns a new array that is the reverse of the given array.
+    class function Reverse<T>(const A: array of T): TArray<T>; static;
+
+    // Returns the maximum value of array A, which must not be be empty. The
+    // given comparer must return -ve if its 1st argument is less than the 2nd
+    // argument, +ve if the reverse holds and zero if both arguments are equal.
+    class function Max<T>(const A: array of T; const Comparer: TComparison<T>):
+      T; static;
+
+    // Returns the minimum value of array A, which must not be be empty. The
+    // given comparer must return -ve if its 1st argument is less than the 2nd
+    // argument, +ve if the reverse holds and zero if both arguments are equal.
+    class function Min<T>(const A: array of T; const Comparer: TComparison<T>):
+      T; static;
+
+    // Finds the minimum and maximum value of array A, which must not be empty.
+    // The minimum and maximum are returned via the MinValue and MaxValue
+    // parameters respectively. The given comparer must return -ve if its 1st
+    // argument is less than the 2nd argument, +ve if the reverse holds and zero
+    // if both arguments are equal.
+    class procedure MinMax<T>(const A: array of T;
+      const Comparer: TComparison<T>; out MinValue, MaxValue: T); static;
   end;
 
 class function TArrayUtils.Equal<T>(const Left, Right: array of T;
@@ -58,6 +85,56 @@ class function TArrayUtils.Last<T>(const A: array of T): T;
 begin
   Assert(Length(A) > 0);
   Result := A[Pred(Length(A))];
+end;
+
+class function TArrayUtils.Max<T>(const A: array of T;
+  const Comparer: TComparison<T>): T;
+var
+  Idx: Integer;
+begin
+  Assert(System.Length(A) > 0);
+  Result := A[0];
+  for Idx := 1 to Pred(System.Length(A)) do
+    if Comparer(A[Idx], Result) > 0 then
+      Result := A[Idx];
+end;
+
+class function TArrayUtils.Min<T>(const A: array of T;
+  const Comparer: TComparison<T>): T;
+var
+  Idx: Integer;
+begin
+  Assert(System.Length(A) > 0);
+  Result := A[0];
+  for Idx := 1 to Pred(System.Length(A)) do
+    if Comparer(A[Idx], Result) < 0 then
+      Result := A[Idx];
+end;
+
+class procedure TArrayUtils.MinMax<T>(const A: array of T;
+  const Comparer: TComparison<T>; out MinValue, MaxValue: T);
+var
+  Idx: Integer;
+begin
+  Assert(System.Length(A) > 0);
+  MinValue := A[0];
+  MaxValue := A[0];
+  for Idx := 1 to Pred(System.Length(A)) do
+  begin
+    if Comparer(A[Idx], MinValue) < 0 then
+      MinValue := A[Idx]
+    else if Comparer(A[Idx], MaxValue) > 0 then
+      MaxValue := A[Idx];
+  end;
+end;
+
+class function TArrayUtils.Reverse<T>(const A: array of T): TArray<T>;
+var
+  I: Integer;
+begin
+  SetLength(Result, Length(A));
+  for I := 0 to High(A) do
+    Result[High(A)-I] := A[I];
 end;
 
 class function TArrayUtils.SameStart<T>(const Left, Right: array of T;

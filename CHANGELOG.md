@@ -8,6 +8,40 @@ From v2.0.0 all notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v2.2.2 of 2025/01/19
+
+* New snippets were added to the _Arrays_ and _Mathematics_ categories:
+    * _Arrays_ category:
+        * `Reverse<T>` method of `TArrayUtils` & `ReverseByteArray` function (issue [#37](https://github.com/delphidabbler/code-snippets/issues/37)).
+        * `Max<T>`, `Min<T>` & `MinMax<T>` methods of `TArrayUtils` (issue [#8](https://github.com/delphidabbler/code-snippets/issues/8)).
+    * _Mathematics_ category:
+        * 3 overloaded versions of each of the `ArithmeticMean` & `WeightedArithmeticMean` functions (issue [#30](https://github.com/delphidabbler/code-snippets/issues/30)).
+        * `DigitSumBase`, `DigitCountBase` & `DigitsOf` function (issue [#17](https://github.com/delphidabbler/code-snippets/issues/17)).
+        * `DigitPowerSum` function (issue [#39](https://github.com/delphidabbler/code-snippets/issues/39)).
+        * `IsPalindromic` function (issue [#19](https://github.com/delphidabbler/code-snippets/issues/19)).
+        * `IsNarcissistic` function (issue [#18](https://github.com/delphidabbler/code-snippets/issues/18)).
+        * `LSE` & `Softmax` functions (issue [34](https://github.com/delphidabbler/code-snippets/issues/34)).
+        * 3 overloaded versions of a `Median` function (issue [#41](https://github.com/delphidabbler/code-snippets/issues/41)).
+        * 2 overloaded versions of each of the `MinMaxOfArray`, `RescaleRange`, `NormaliseByWeight` & `RangeOf` functions (issue [#44](https://github.com/delphidabbler/code-snippets/issues/44)).
+        * 3 overloaded versions of each of the `GeometricMean` and `WeightedGeometricMean` functions (issue [#31](https://github.com/delphidabbler/code-snippets/issues/31)).
+        * 3 overloaded versions of each of the `SumOfReciprocals` and `HarmonicMean` functions (issue [#35](https://github.com/delphidabbler/code-snippets/issues/35)).
+        * 3 overloaded versions of a `WeightedHarmonicMean` function (issue [#47](https://github.com/delphidabbler/code-snippets/issues/47)).
+        * `LogarithmicMean` function (issue [#32](https://github.com/delphidabbler/code-snippets/issues/32)).
+        * 3 overloaded versions of the `PowerMean` and `WeightedPowerMean` functions (issue [#33](https://github.com/delphidabbler/code-snippets/issues/33)).
+        * `Mode`, `ModeAlt`, `ModeCount`, `HasMode` & `CountOccurences` functions (issue [#42](https://github.com/delphidabbler/code-snippets/issues/42)).
+        * 2 overloaded versions of a `RMS` function (issue [#49](https://github.com/delphidabbler/code-snippets/issues/49)).
+        * 2 overloaded versions of a `TSS` (total sum of squares) function (issue [#51](https://github.com/delphidabbler/code-snippets/issues/51)).
+* Updates to snippets in the _Mathematics_ category:
+    * Overflow checking was added to the `PowNZN`.
+    * Fixed bug in all overloads of the `SumOfLogs` routine that was causing access violations whenever an exception was to be raised (issue [#46](https://github.com/delphidabbler/code-snippets/issues/46)).
+* Changes to tests:
+    * Added unit tests for all the routines and methods that were added to the _Arrays_ and _Mathematics_ categories in this release.
+    * Added unit test for the pre-existing `ByteArraysEqual` function in the _Arrays_ category.
+    * Modified unit test for `PowNZN` to check for new `EOverflow` exception raised when an overflow condition is detected.
+    * Removed conditional compilation directives from the array unit test unit.
+* Updated `README.md` to note that there are now over 700 snippets in the collection.
+* Updated all copyright dates for 2025.
+
 ## v2.2.1 of 2024/12/02 (HOTFIX)
 
 * Fixed invalid and corrupted values in some `AdvancedTest.URL` and `AdvancedTest.Level` keys in `data.ini`, `hex.ini` and `maths.ini`. Fixes issue [#29](https://github.com/delphidabbler/code-snippets/issues/29).

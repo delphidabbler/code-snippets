@@ -15,8 +15,8 @@ type
     Flags: Byte;          // flags and local colour table size
   end;
 const
-  cSignature: PAnsiChar = 'GIF';  // gif image signature
-  cImageSep = $2C;                // image separator byte
+  cSignature = 'GIF';  // gif image signature
+  cImageSep = $2C;     // image separator byte
 var
   FS: Classes.TFileStream;      // stream onto gif file
   Header: TGIFHeader;           // gif header record
@@ -37,7 +37,7 @@ begin
     // Check signature
     BytesRead := FS.Read(Header, SizeOf(Header));
     if (BytesRead <> SizeOf(TGIFHeader)) or
-      (SysUtils.StrLComp(cSignature, Header.Sig, 3) <> 0) then
+      (Copy(Header.sig, 1, 3) <> cSignature) then
       // Invalid file format
       Exit;
     // Skip colour map, if there is one

@@ -1204,12 +1204,12 @@ var
 
   procedure SortResult(
     var A: array of Generics.Collections.TPair<Integer,Cardinal>);
-  begin
-    Generics.Collections.TArray.Sort<
+  var
+    Comparer: Generics.Defaults.IComparer<
       Generics.Collections.TPair<Integer,Cardinal>
-    >(
-      A,
-      Generics.Defaults.TDelegatedComparer<
+    >;
+  begin
+    Comparer := Generics.Defaults.TDelegatedComparer<
         Generics.Collections.TPair<Integer,Cardinal>
       >.Create(
         function (
@@ -1218,8 +1218,10 @@ var
         begin
           Result := Left.Key - Right.Key;
         end
-      )
-    );
+      );
+    Generics.Collections.TArray.Sort<
+      Generics.Collections.TPair<Integer,Cardinal>
+    >(A, Comparer);
   end;
 
 begin

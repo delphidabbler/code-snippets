@@ -47,9 +47,6 @@ type
   private
     procedure TestCtorAndPropsException;
     procedure TestConstrainException;
-  public
-    procedure SetUp; override;
-    procedure TearDown; override;
   published
     procedure TestCtorAndProps;
     procedure TestCreateEmpty;
@@ -382,18 +379,6 @@ end;
 
 { TestTIntegerRange }
 
-procedure TestTIntegerRange.SetUp;
-begin
-  inherited;
-
-end;
-
-procedure TestTIntegerRange.TearDown;
-begin
-  inherited;
-
-end;
-
 procedure TestTIntegerRange.TestAddOp;
 var
   L, R, E: TIntegerRange;
@@ -543,51 +528,6 @@ begin
   R := TIntegerRange.Create(-42, 56);
   CheckEquals('[-42..56]', string(R));
 end;
-
-//procedure TestTIntegerRange.TestGreaterThanOp;
-//var
-//  L, R: TIntegerRange;
-//begin
-//  L := TIntegerRange.Create(0, 0);
-//  R := TIntegerRange.Create(0, 0);
-//  CheckFalse(L > R, '#1a');
-//  CheckFalse(R > L, '#1b');
-//  L := TIntegerRange.Create(0, 1);
-//  R := TIntegerRange.Create(0, 0);
-//  CheckTrue(L > R, '#2a');
-//  CheckFalse(R > L, '#2b');
-//  L := TIntegerRange.Create(-3, 12);
-//  R := TIntegerRange.Create(-5, 18);
-//  CheckFalse(L > R, '#3a');
-//  CheckTrue(R > L, '#3b');
-//  L := TIntegerRange.Create(-5, 17);
-//  R := TIntegerRange.Create(-5, 18);
-//  CheckFalse(L > R, '#4a');
-//  CheckTrue(R > L, '#4b');
-//  L := TIntegerRange.Create(-4, 18);
-//  R := TIntegerRange.Create(-5, 18);
-//  CheckFalse(L > R, '#5a');
-//  CheckTrue(R > L, '#5b');
-//  L := TIntegerRange.Create(-5, 18);
-//  R := TIntegerRange.Create(-5, 18);
-//  CheckFalse(L > R, '#6a');
-//  CheckFalse(R > L, '#6b');
-//  L := TIntegerRange.Create(-5, 2);
-//  R := TIntegerRange.Create(4, 18);
-//  CheckFalse(L > R, '#7a');
-//  CheckFalse(R > L, '#7b');
-//  L := TIntegerRange.Create(1, 1);
-//  R := TIntegerRange.Create(4, 18);
-//  CheckFalse(L > R, '#8a');
-//  CheckFalse(R > L, '#8b');
-//  L := TIntegerRange.CreateEmpty;
-//  R := TIntegerRange.CreateEmpty;
-//  CheckFalse(L > R, '#9');
-//  L := TIntegerRange.Create(10, 10);
-//  R := TIntegerRange.CreateEmpty;
-//  CheckTrue(L > R, '#10a');
-//  CheckFalse(R > L, '#10b');
-//end;
 
 procedure TestTIntegerRange.TestGreaterThanOrEqualOp;
 var
@@ -772,51 +712,6 @@ begin
   R := TIntegerRange.Create(-MaxInt, MaxInt);
   CheckEquals(High(Cardinal), R.Length, '#7');
 end;
-
-//procedure TestTIntegerRange.TestLessThanOp;
-//var
-//  L, R: TIntegerRange;
-//begin
-//  L := TIntegerRange.Create(0, 0);
-//  R := TIntegerRange.Create(0, 0);
-//  CheckFalse(L < R, '#1a');
-//  CheckFalse(R < L, '#1b');
-//  L := TIntegerRange.Create(0, 0);
-//  R := TIntegerRange.Create(0, 1);
-//  CheckTrue(L < R, '#2a');
-//  CheckFalse(R < L, '#2b');
-//  L := TIntegerRange.Create(-3, 12);
-//  R := TIntegerRange.Create(-5, 18);
-//  CheckTrue(L < R, '#3a');
-//  CheckFalse(R < L, '#3b');
-//  L := TIntegerRange.Create(-5, 17);
-//  R := TIntegerRange.Create(-5, 18);
-//  CheckTrue(L < R, '#4a');
-//  CheckFalse(R < L, '#4b');
-//  L := TIntegerRange.Create(-4, 18);
-//  R := TIntegerRange.Create(-5, 18);
-//  CheckTrue(L < R, '#5a');
-//  CheckFalse(R < L, '#5b');
-//  L := TIntegerRange.Create(-5, 18);
-//  R := TIntegerRange.Create(-5, 18);
-//  CheckFalse(L < R, '#6a');
-//  CheckFalse(R < L, '#6b');
-//  L := TIntegerRange.Create(-5, 2);
-//  R := TIntegerRange.Create(4, 18);
-//  CheckFalse(L < R, '#7a');
-//  CheckFalse(R < L, '#7b');
-//  L := TIntegerRange.Create(1, 1);
-//  R := TIntegerRange.Create(4, 18);
-//  CheckFalse(L < R, '#8a');
-//  CheckFalse(R < L, '#8b');
-//  L := TIntegerRange.CreateEmpty;
-//  R := TIntegerRange.CreateEmpty;
-//  CheckFalse(L < R, '#9');
-//  L := TIntegerRange.Create(10, 10);
-//  R := TIntegerRange.CreateEmpty;
-//  CheckFalse(L < R, '#10a');
-//  CheckTrue(R < L, '#10b');
-//end;
 
 procedure TestTIntegerRange.TestLessThanOrEqualOp;
 var

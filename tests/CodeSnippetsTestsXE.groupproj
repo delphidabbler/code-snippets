@@ -24,6 +24,9 @@
 			<Projects Include="Cat-Arrays\TestArraysCatXE.dproj">
 				<Dependencies/>
 			</Projects>
+			<Projects Include="Cat-Structs\TestCatStructsXE.dproj">
+				<Dependencies/>
+			</Projects>
 		</ItemGroup>
 		<ProjectExtensions>
 			<Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -95,14 +98,23 @@
 		<Target Name="TestArraysCatXE:Make">
 			<MSBuild Projects="Cat-Arrays\TestArraysCatXE.dproj" Targets="Make"/>
 		</Target>
+		<Target Name="TestCatStructsXE">
+			<MSBuild Projects="Cat-Structs\TestCatStructsXE.dproj"/>
+		</Target>
+		<Target Name="TestCatStructsXE:Clean">
+			<MSBuild Projects="Cat-Structs\TestCatStructsXE.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="TestCatStructsXE:Make">
+			<MSBuild Projects="Cat-Structs\TestCatStructsXE.dproj" Targets="Make"/>
+		</Target>
 		<Target Name="Build">
-			<CallTarget Targets="TestHexCatXE;TestDriveCatXE;TestWinSysCatXE;TestDateCatXE;TestCatMathsXE;TestCatStringXE;TestArraysCatXE"/>
+			<CallTarget Targets="TestHexCatXE;TestDriveCatXE;TestWinSysCatXE;TestDateCatXE;TestCatMathsXE;TestCatStringXE;TestArraysCatXE;TestCatStructsXE"/>
 		</Target>
 		<Target Name="Clean">
-			<CallTarget Targets="TestHexCatXE:Clean;TestDriveCatXE:Clean;TestWinSysCatXE:Clean;TestDateCatXE:Clean;TestCatMathsXE:Clean;TestCatStringXE:Clean;TestArraysCatXE:Clean"/>
+			<CallTarget Targets="TestHexCatXE:Clean;TestDriveCatXE:Clean;TestWinSysCatXE:Clean;TestDateCatXE:Clean;TestCatMathsXE:Clean;TestCatStringXE:Clean;TestArraysCatXE:Clean;TestCatStructsXE:Clean"/>
 		</Target>
 		<Target Name="Make">
-			<CallTarget Targets="TestHexCatXE:Make;TestDriveCatXE:Make;TestWinSysCatXE:Make;TestDateCatXE:Make;TestCatMathsXE:Make;TestCatStringXE:Make;TestArraysCatXE:Make"/>
+			<CallTarget Targets="TestHexCatXE:Make;TestDriveCatXE:Make;TestWinSysCatXE:Make;TestDateCatXE:Make;TestCatMathsXE:Make;TestCatStringXE:Make;TestArraysCatXE:Make;TestCatStructsXE:Make"/>
 		</Target>
 		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')" Project="$(BDS)\Bin\CodeGear.Group.Targets"/>
 	</Project>

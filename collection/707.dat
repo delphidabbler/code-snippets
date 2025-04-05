@@ -1,0 +1,8 @@
+﻿function RandomString(const SL: Classes.TStrings): string; overload;
+begin
+  if SL.Count = 0 then
+    raise SysUtils.EArgumentException.Create(
+      'RandomString called with empty string list'
+    );
+  Result := SL[Random(SL.Count)];
+end;

@@ -45,7 +45,7 @@ Contains the _TestCatStructsXE_[^3] project that provides _DUnit_ tests for all 
 
 ### `./Cat-WinSys`
 
-Contains the _TextWinSysCat_[^2] project that provides a GUI application that exercises and demonstrates all the code from the database's _Windows System_ category.
+Contains the _TestWinSysCat_[^2] project that provides a GUI application that exercises and demonstrates all the code from the database's _Windows System_ category.
 
 ### History
 

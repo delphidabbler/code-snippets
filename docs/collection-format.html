@@ -424,6 +424,9 @@ AdvancedTest.URL=&lt;url&gt; [~>2.2]</pre>
       <p>
         All keys are optional. If any of the above compiler keys is not present, or is empty, the compile result for the associated compiler is assumed to be <code class="value">Q</code>.
       </p>
+      <p>
+        <strong>[~>2.3]:</strong> Value <code class="value">W</code> is <span class="very-strong">deprecated</span>. Where present it should be treated as equivalent to <code class="value">Y</code>.
+      </p>
     </dd>
     <dt>
       <code class="key">Kind</code>
@@ -832,7 +835,7 @@ CopyrightHolderURL=&lt;url&gt;</pre>
   </h2>
 
   <p>
-    It is easy to deal with compilation results. Simply check for the existance of the key matching the required compiler (e.g. <code class="key">DelphiXE8</code>). If the key exists then read its value, otherwise proceed as if it had the value <code class="value">Q</code>.
+    It is easy to deal with compilation results. Simply check for the existance of the key matching the required compiler (e.g. <code class="key">DelphiXE8</code>). If the key exists then read its value, otherwise proceed as if it had the value <code class="value">Q</code>. ~>2.3 compliant software should also interpret a value of <code class="value">W</code> as if it was <code class="value">Y</code>.
   </p>
 
   <p>

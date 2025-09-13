@@ -3,7 +3,7 @@ unit TestUArraysCatSnippets;
 interface
 
 uses
-  TestFramework, UArraysCatSnippets;
+  TestFramework, UArraysCatSnippets, Types;
 
 type
 
@@ -44,16 +44,34 @@ type
   end;
 
   TestArraysCatSnippets = class(TTestCase)
+  private
+    function StringArraysEqual(const L, R: TStringDynArray): Boolean;
+    procedure ByteArraysSameStart_AssertionFailure;
+    procedure PopByteArray_AssertionFailure;
+    procedure ShiftByteArray_AssertionFailure;
   published
     procedure TestByteArraysEqual;
-    // The following test must come after TestByteArraysEqual since the test calls it
-    procedure TestReverseByteArray;
+    procedure TestAppendByteArray;    // test requires ByteArraysEqual
+    procedure TestArrayToStringList;
+    procedure TestByteArraysSameStart;
+    procedure TestChopByteArray;      // test requires ByteArraysEqual
+    procedure TestCloneByteArray;     // test requires ByteArraysEqual
+    procedure TestConcatByteArrays;   // test requires ByteArraysEqual
+    procedure TestIndexOfByte;
+    procedure TestLastIndexOfByte;
+    procedure TestPopByteArray;       // test requires ByteArraysEqual
+    procedure TestPushByteArray;      // test requires ByteArraysEqual
+    procedure TestReverseByteArray;   // test requires ByteArraysEqual
+    procedure TestShiftByteArray;     // test requires ByteArraysEqual
+    procedure TestSliceByteArray;     // test requires ByteArraysEqual
+    procedure TestStringListToArray;
+    procedure TestUnShiftByteArray;   // test requires ByteArraysEqual
   end;
 
 implementation
 
 uses
-  SysUtils, Generics.Defaults;
+  SysUtils, Generics.Defaults, Classes;
 
 var
   IntegerCompareFn: TEqualityComparison<Integer>;
@@ -305,6 +323,118 @@ end;
 
 { TestArraysCatSnippets }
 
+procedure TestArraysCatSnippets.ByteArraysSameStart_AssertionFailure;
+const
+  A1: array[1..3] of Byte = (1, 2, 3);
+  A2: array[11..15] of Byte = (1, 2, 3, 4, 5);
+begin
+  ByteArraysSameStart(A1, A2, 0);
+end;
+
+procedure TestArraysCatSnippets.PopByteArray_AssertionFailure;
+var
+  A: TBytes;
+begin
+  // Attempt to pop empty array
+  SetLength(A, 0);
+  PopByteArray(A);
+end;
+
+procedure TestArraysCatSnippets.ShiftByteArray_AssertionFailure;
+var
+  A: TBytes;
+begin
+  // Attempt to shift empty array
+  SetLength(A, 0);
+  ShiftByteArray(A);
+end;
+
+function TestArraysCatSnippets.StringArraysEqual(const L, R: TStringDynArray):
+  Boolean;
+var
+  I: Integer;
+begin
+  Result := Length(L) = Length(R);
+  if Result then
+  begin
+    for I := 0 to High(L) do
+    begin
+      if L[I] <> R[I] then
+      begin
+        Result := False;
+        Exit;
+      end;
+    end;
+  end;
+end;
+
+procedure TestArraysCatSnippets.TestAppendByteArray;
+var
+  B1, B2, E: TBytes;
+begin
+  B1 := TBytes.Create(42, 56);
+  B2 := TBytes.Create(99, 199, 201);
+  E := TBytes.Create(42, 56, 99, 199, 201);
+  AppendByteArray(B1, B2);
+  CheckTrue(ByteArraysEqual(E, B1), '#1');
+
+  SetLength(B1, 0);
+  B2 := TBytes.Create(1, 2, 3, 4, 5);
+  E := TBytes.Create(1, 2, 3, 4, 5);
+  AppendByteArray(B1, B2);
+  CheckTrue(ByteArraysEqual(E, B1), '#2');
+
+  SetLength(B1, 0);
+  SetLength(B2, 0);
+  SetLength(E, 0);
+  AppendByteArray(B1, B2);
+  CheckTrue(ByteArraysEqual(E, B1), '#3');
+
+  SetLength(B1, 0);
+  B2 := TBytes.Create(12, 89);
+  E := TBytes.Create(12, 89);
+  AppendByteArray(B1, B2);
+  CheckTrue(ByteArraysEqual(E, B1), '#4');
+
+  B1 := TBytes.Create(1, 2, 3);
+  SetLength(B2, 0);
+  E := TBytes.Create(1, 2, 3);
+  AppendByteArray(B1, B2);
+  CheckTrue(ByteArraysEqual(E, B1), '#5');
+end;
+
+procedure TestArraysCatSnippets.TestArrayToStringList;
+const
+  S1: array[0..0] of string = ('single elem');
+  S3: array[1..3] of string = ('one', 'two', 'three');
+var
+  S0: array of string;
+  SL: TStringList;
+  Expected: string;
+begin
+  SetLength(S0, 0);
+  SL := TStringList.Create;
+  try
+    SL.LineBreak := sLineBreak;
+    ArrayToStringList(S1, SL);
+    Expected := 'single elem';
+    CheckEquals(Expected, Trim(SL.Text), '#1a');
+    CheckEquals(1, SL.Count, '#1b');
+
+    ArrayToStringList(S3, SL);
+    Expected := 'one' + sLineBreak + 'two' + sLineBreak + 'three';
+    CheckEquals(Expected, Trim(SL.Text), '#2a');
+    CheckEquals(3, SL.Count, '#2b');
+
+    ArrayToStringList(S0, SL);
+    Expected := '';
+    CheckEquals(Expected, Trim(SL.Text), '#3a');
+    CheckEquals(0, SL.Count, '#3b');
+  finally
+    SL.Free;
+  end;
+end;
+
 procedure TestArraysCatSnippets.TestByteArraysEqual;
 var
   A0L, A0R: TBytes;
@@ -337,6 +467,215 @@ begin
   CheckFalse(ByteArraysEqual(A0L, A1L), '#10');
 end;
 
+procedure TestArraysCatSnippets.TestByteArraysSameStart;
+const
+  A1: array[1..3] of Byte = (1, 2, 3);
+  A2: array[11..15] of Byte = (1, 2, 3, 4, 5);
+  A3: array[0..3] of Byte = (2, 3, 4, 5);
+  A4: array[0..0] of Byte = (2);
+var
+  A0: array of Byte;
+begin
+  SetLength(A0, 0);
+  CheckTrue(ByteArraysSameStart(A1, A2, 2), '#1a');
+  CheckTrue(ByteArraysSameStart(A1, A2, 3), '#1b');
+  CheckFalse(ByteArraysSameStart(A1, A2, 4), '#1c');
+  CheckFalse(ByteArraysSameStart(A1, A2, 12), '#1d');
+  CheckTrue(ByteArraysSameStart(A3, A4, 1), '#2a');
+  CheckFalse(ByteArraysSameStart(A3, A4, 2), '#2b');
+  CheckFalse(ByteArraysSameStart(A1, A3, 1), '#3a');
+  CheckFalse(ByteArraysSameStart(A1, A3, 2), '#3b');
+  CheckFalse(ByteArraysSameStart(A1, A3, 12), '#3c');
+  CheckTrue(ByteArraysSameStart(A2, A2, 1), '#4a');
+  CheckTrue(ByteArraysSameStart(A2, A2, 5), '#4b');
+  CheckFalse(ByteArraysSameStart(A2, A2, 6), '#4c');
+  CheckFalse(ByteArraysSameStart(A0, A0, 1), '#5');
+  CheckException(ByteArraysSameStart_AssertionFailure, EAssertionFailed, 'Assert failed');
+end;
+
+procedure TestArraysCatSnippets.TestChopByteArray;
+var
+  A, R, E: TBytes;
+begin
+  // test zero length array => always returns empty array
+  SetLength(A, 0);
+  SetLength(E, 0);
+  R := ChopByteArray(A, 0, 0);
+  CheckTrue(ByteArraysEqual(E, R), '#1a');
+  R := ChopByteArray(A, -3, -3);
+  CheckTrue(ByteArraysEqual(E, R), '#1b');
+  R := ChopByteArray(A, 2, 29);
+  CheckTrue(ByteArraysEqual(E, R), '#1c');
+
+  // test normal cases
+  A := TBytes.Create(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+  R := ChopByteArray(A, 2, 4);
+  E := TBytes.Create(1, 2, 7, 8, 9, 10);
+  CheckTrue(ByteArraysEqual(E, R), '#2a');
+  R := ChopByteArray(A, 0, 2);
+  E := TBytes.Create(3, 4, 5, 6, 7, 8, 9, 10);
+  CheckTrue(ByteArraysEqual(E, R), '#2b');
+  R := ChopByteArray(A, 9, 1);
+  E := TBytes.Create(1, 2, 3, 4, 5, 6, 7, 8, 9);
+  CheckTrue(ByteArraysEqual(E, R), '#2c');
+  R := ChopByteArray(A, 0, 10);
+  SetLength(E, 0);
+  CheckTrue(ByteArraysEqual(E, R), '#2d');
+  R := ChopByteArray(A, 0, 1);
+  E := TBytes.Create(2, 3, 4, 5, 6, 7, 8, 9, 10);
+  CheckTrue(ByteArraysEqual(E, R), '#2e');
+
+  // test parameter out of bounds cases
+  // length = 0 => return whole array
+  A := TBytes.Create(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+  R := ChopByteArray(A, 3, 0);
+  E := TBytes.Create(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+  CheckTrue(ByteArraysEqual(E, R), '#3a');
+  // start < 0 => start = 0
+  R := ChopByteArray(A, -12, 2);
+  E := TBytes.Create(3, 4, 5, 6, 7, 8, 9, 10);
+  CheckTrue(ByteArraysEqual(E, R), '#3b');
+  // length < 0 => length = 0 => return whole array
+  R := ChopByteArray(A, 3, -12);
+  E := TBytes.Create(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+  CheckTrue(ByteArraysEqual(E, R), '#3c');
+  // start > length of array => return whole array
+  R := ChopByteArray(A, 11, 4);
+  E := TBytes.Create(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+  CheckTrue(ByteArraysEqual(E, R), '#3d');
+  // length goes beyond end of array => chop from start to end
+  R := ChopByteArray(A, 7, 100);
+  E := TBytes.Create(1, 2, 3, 4, 5, 6, 7);
+  CheckTrue(ByteArraysEqual(E, R), '#3e');
+end;
+
+procedure TestArraysCatSnippets.TestCloneByteArray;
+var
+  B0, B1, B6, R: TBytes;
+begin
+  SetLength(B0, 0);
+  B1 := TBytes.Create(42);
+  B6 := TBytes.Create(1, 1, 2, 3, 5, 8);
+  R := CloneByteArray(B0);
+  CheckTrue(ByteArraysEqual(B0, R), '#1');
+  R := CloneByteArray(B1);
+  CheckTrue(ByteArraysEqual(B1, R), '#2');
+  R := CloneByteArray(B6);
+  CheckTrue(ByteArraysEqual(B6, R), '#3');
+end;
+
+procedure TestArraysCatSnippets.TestConcatByteArrays;
+var
+  B1, B2, R, E: TBytes;
+begin
+  B1 := TBytes.Create(42, 56);
+  B2 := TBytes.Create(99, 199, 201);
+  E := TBytes.Create(42, 56, 99, 199, 201);
+  R := ConcatByteArrays(B1, B2);
+  CheckTrue(ByteArraysEqual(E, R), '#1');
+
+  SetLength(B1, 0);
+  B2 := TBytes.Create(1, 2, 3, 4, 5);
+  E := TBytes.Create(1, 2, 3, 4, 5);
+  R := ConcatByteArrays(B1, B2);
+  CheckTrue(ByteArraysEqual(E, R), '#2');
+
+  SetLength(B1, 0);
+  SetLength(B2, 0);
+  SetLength(E, 0);
+  R := ConcatByteArrays(B1, B2);
+  CheckTrue(ByteArraysEqual(E, R), '#3');
+
+  SetLength(B1, 0);
+  B2 := TBytes.Create(12, 89);
+  E := TBytes.Create(12, 89);
+  R := ConcatByteArrays(B1, B2);
+  CheckTrue(ByteArraysEqual(E, R), '#4');
+
+  B1 := TBytes.Create(1, 2, 3);
+  SetLength(B2, 0);
+  E := TBytes.Create(1, 2, 3);
+  R := ConcatByteArrays(B1, B2);
+  CheckTrue(ByteArraysEqual(E, R), '#5');
+end;
+
+procedure TestArraysCatSnippets.TestIndexOfByte;
+var
+  B0, B1, B6: TBytes;
+begin
+  SetLength(B0, 0);
+  B1 := TBytes.Create(3);
+  B6 := TBytes.Create(1, 1, 2, 3, 5, 8);
+  CheckEquals(-1, IndexOfByte(3, B0), '#3a');
+  CheckEquals(0, IndexOfByte(3, B1), '#3b');
+  CheckEquals(3, IndexOfByte(3, B6), '#3c');
+  CheckEquals(-1, IndexOfByte(1, B0), '#1a');
+  CheckEquals(-1, IndexOfByte(1, B1), '#1b');
+  CheckEquals(0, IndexOfByte(1, B6), '#1c');
+  CheckEquals(-1, IndexOfByte(8, B0), '#8a');
+  CheckEquals(-1, IndexOfByte(8, B1), '#8b');
+  CheckEquals(5, IndexOfByte(8, B6), '#8c');
+end;
+
+procedure TestArraysCatSnippets.TestLastIndexOfByte;
+var
+  B0, B2, B6: TBytes;
+begin
+  SetLength(B0, 0);
+  B2 := TBytes.Create(3, 3);
+  B6 := TBytes.Create(1, 1, 2, 3, 5, 8);
+  CheckEquals(-1, LastIndexOfByte(3, B0), '#3a');
+  CheckEquals(1, LastIndexOfByte(3, B2), '#3b');
+  CheckEquals(3, LastIndexOfByte(3, B6), '#3c');
+  CheckEquals(-1, LastIndexOfByte(1, B0), '#1a');
+  CheckEquals(-1, LastIndexOfByte(1, B2), '#1b');
+  CheckEquals(1, LastIndexOfByte(1, B6), '#1c');
+  CheckEquals(-1, LastIndexOfByte(8, B0), '#8a');
+  CheckEquals(-1, LastIndexOfByte(8, B2), '#8b');
+  CheckEquals(5, LastIndexOfByte(8, B6), '#8c');
+end;
+
+procedure TestArraysCatSnippets.TestPopByteArray;
+var
+  A, E: TBytes;
+  R: Byte;
+begin
+  // pop value from end of multi-value array
+  A := TBytes.Create(1, 2, 3);
+  E := TBytes.Create(1, 2);
+  R := PopByteArray(A);
+  CheckTrue(ByteArraysEqual(E, A), '#1a');
+  CheckEquals(2, Length(A), '#1b');
+  CheckEquals(3, R, '#1c');
+  // pop value from end of single value array
+  A := TBytes.Create(1);
+  SetLength(E, 0);
+  R := PopByteArray(A);
+  CheckTrue(ByteArraysEqual(E, A), '#2a');
+  CheckEquals(0, Length(A), '#2b');
+  CheckEquals(1, R, '#2c');
+  // check assertion failure for empty array
+  CheckException(PopByteArray_AssertionFailure, EAssertionFailed, 'Assert');
+end;
+
+procedure TestArraysCatSnippets.TestPushByteArray;
+var
+  A, E: TBytes;
+begin
+  // push value to end of non-empty array
+  A := TBytes.Create(1, 2, 3);
+  E := TBytes.Create(1, 2, 3, 42);
+  PushByteArray(42, A);
+  CheckTrue(ByteArraysEqual(E, A), '#1a');
+  CheckEquals(4, Length(A), '#1b');
+  // push value to end of empty array
+  SetLength(A, 0);
+  E := TBytes.Create(56);
+  PushByteArray(56, A);
+  CheckTrue(ByteArraysEqual(E, A), '#2a');
+  CheckEquals(1, Length(A), '#2b');
+end;
+
 procedure TestArraysCatSnippets.TestReverseByteArray;
 var
   A0, A1, A2, A6, A7, A4Sym, A5Sym: TBytes;
@@ -361,6 +700,130 @@ begin
   CheckTrue(ByteArraysEqual(R7, ReverseByteArray(A7)), '#7');
   CheckTrue(ByteArraysEqual(A4Sym, ReverseByteArray(A4Sym)), '#4 sym');
   CheckTrue(ByteArraysEqual(A5Sym, ReverseByteArray(A5Sym)), '#5 sym');
+end;
+
+procedure TestArraysCatSnippets.TestShiftByteArray;
+var
+  A, E: TBytes;
+  R: Byte;
+begin
+  // pop value from start of multi-value array
+  A := TBytes.Create(1, 2, 3);
+  E := TBytes.Create(2, 3);
+  R := ShiftByteArray(A);
+  CheckTrue(ByteArraysEqual(E, A), '#1a');
+  CheckEquals(2, Length(A), '#1b');
+  CheckEquals(1, R, '#1c');
+  // pop value from start of single value array
+  A := TBytes.Create(42);
+  SetLength(E, 0);
+  R := ShiftByteArray(A);
+  CheckTrue(ByteArraysEqual(E, A), '#2a');
+  CheckEquals(0, Length(A), '#2b');
+  CheckEquals(42, R, '#2c');
+  // check assertion failure for empty array
+  CheckException(ShiftByteArray_AssertionFailure, EAssertionFailed, 'Assert');
+end;
+
+procedure TestArraysCatSnippets.TestSliceByteArray;
+var
+  A, R, E: TBytes;
+begin
+  // test zero length array => always returns empty array
+  SetLength(A, 0);
+  SetLength(E, 0);
+  R := SliceByteArray(A, 0, 0);
+  CheckTrue(ByteArraysEqual(E, R), '#1a');
+  R := SliceByteArray(A, -3, -3);
+  CheckTrue(ByteArraysEqual(E, R), '#1b');
+  R := SliceByteArray(A, 2, 29);
+  CheckTrue(ByteArraysEqual(E, R), '#1c');
+
+  // test normal cases
+  A := TBytes.Create(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+  R := SliceByteArray(A, 3, 5);
+  E := TBytes.Create(4, 5, 6, 7, 8);
+  CheckTrue(ByteArraysEqual(E, R), '#2a');
+  R := SliceByteArray(A, 0, 1);
+  E := TBytes.Create(1);
+  CheckTrue(ByteArraysEqual(E, R), '#2b');
+  R := SliceByteArray(A, 7, 3);
+  E := TBytes.Create(8, 9, 10);
+  CheckTrue(ByteArraysEqual(E, R), '#2c');
+  R := SliceByteArray(A, 0, 10);
+  E := TBytes.Create(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+  CheckTrue(ByteArraysEqual(E, R), '#2d');
+
+  // test parameter out of bounds cases
+  // length = 0 => return empty array
+  A := TBytes.Create(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+  R := SliceByteArray(A, 3, 0);
+  SetLength(E, 0);
+  CheckTrue(ByteArraysEqual(E, R), '#3a');
+  // start < 0 => start = 0
+  R := SliceByteArray(A, -12, 2);
+  E := TBytes.Create(1, 2);
+  CheckTrue(ByteArraysEqual(E, R), '#3b');
+  // length < 0 => length = 0 => return empty array
+  R := SliceByteArray(A, 3, -12);
+  SetLength(E, 0);
+  CheckTrue(ByteArraysEqual(E, R), '#3c');
+  // start > length of array => return empty array
+  R := SliceByteArray(A, 11, 4);
+  SetLength(E, 0);
+  CheckTrue(ByteArraysEqual(E, R), '#3d');
+  // length goes beyond end of array => return from start to end of array
+  R := SliceByteArray(A, 8, 100);
+  E := TBytes.Create(9, 10);
+  CheckTrue(ByteArraysEqual(E, R), '#3e');
+end;
+
+procedure TestArraysCatSnippets.TestStringListToArray;
+var
+  SL: TStringList;
+  A, E: TStringDynArray;
+begin
+  SL := TStringList.Create;
+  try
+    SL.Clear;
+    SetLength(E, 0);
+    A := StringListToArray(SL);
+    CheckTrue(StringArraysEqual(E, A), '#1');
+
+    SL.Clear;
+    SL.Add('one');
+    A := StringListToArray(SL);
+    E := TStringDynArray.Create('one');
+    CheckTrue(StringArraysEqual(E, A), '#2');
+
+    SL.Clear;
+    SL.Add('one');
+    SL.Add('two');
+    SL.Add('three');
+    A := StringListToArray(SL);
+    E := TStringDynArray.Create('one', 'two', 'three');
+    CheckTrue(StringArraysEqual(E, A), '#3');
+  finally
+    SL.Free;
+  end;
+end;
+
+procedure TestArraysCatSnippets.TestUnShiftByteArray;
+var
+  A, E: TBytes;
+begin
+  // push value to start of non-empty array
+  A := TBytes.Create(1, 2, 3);
+  E := TBytes.Create(42, 1, 2, 3);
+  UnShiftByteArray(42, A);
+  CheckTrue(ByteArraysEqual(E, A), '#1a');
+  CheckEquals(4, Length(A), '#1b');
+  // push value to start of empty array
+  SetLength(A, 0);
+  E := TBytes.Create(56);
+  UnShiftByteArray(56, A);
+  CheckTrue(ByteArraysEqual(E, A), '#2a');
+  CheckEquals(1, Length(A), '#2b');
 end;
 
 initialization

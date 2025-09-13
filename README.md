@@ -36,7 +36,7 @@ See the `README.md` file in the `tests` directory for full details.
 
 Releases can be found on the `releases` tab on the GitHub project page.
 
-Each release[^1] comprises three zip files, as follows (replace `X.Y.X` in the file names with the release version number):
+Each release[^1] comprises three zip files, as follows (replace `X.Y.Z` in the file names with the release version number):
 
 * `csdb-vX.Y.Z-data.zip` - Contains all the data in the collection. Required by applications that access the collection.
 * `csdb-vX.Y.Z-docs.zip` - Contains the documentation developers need to understand the structure of the data.

@@ -8,6 +8,7 @@ uses
 type
   TestStringCatSnippets = class(TTestCase)
   private
+    procedure RandomString_Exception;
   published
     procedure TestStripAccelChars;
     procedure TestReverseStr;
@@ -15,12 +16,13 @@ type
     procedure TestIsNumeric;
     procedure TestSplitString;
     procedure TestParseStr;
+    procedure TestRandomString;
   end;
 
 implementation
 
 uses
-  Classes;
+  SysUtils, Classes;
 
 function IsEqualStringList(const Expected, Actual: TStrings): Boolean;
 var
@@ -36,6 +38,18 @@ begin
 end;
 
 { TestStringCatSnippets }
+
+procedure TestStringCatSnippets.RandomString_Exception;
+var
+  SL: TStrings;
+begin
+  SL := TStringList.Create;
+  try
+    RandomString(SL);
+  finally
+    SL.Free;
+  end;
+end;
 
 procedure TestStringCatSnippets.TestIsNumeric;
 begin
@@ -131,6 +145,41 @@ begin
     Result.Free;
     Expected.Free;
   end;
+end;
+
+procedure TestStringCatSnippets.TestRandomString;
+var
+  SL5, SL1: TStrings;
+  S: string;
+  Idx, I: Integer;
+begin
+  SL1 := nil;
+  SL5 := nil;
+  try
+    SL5 := TStringList.Create;
+    SL5.Add('one');
+    SL5.Add('two');
+    SL5.Add('three');
+    SL5.Add('four');
+    SL5.Add('five');
+    for I := 1 to 5 do
+    begin
+      S := RandomString(SL5);
+      Idx := SL5.IndexOf(S);
+      CheckTrue(Idx >= 0, Format('SL5.%d', [I]));
+      SL5.Delete(Idx);
+    end;
+
+    SL1 := TStringList.Create;
+    SL1.Add('only');
+    S := RandomString(SL1);
+    CheckEquals('only', S, '#2');
+  finally
+    SL5.Free;
+    SL1.Free;
+  end;
+
+  CheckException(RandomString_Exception, EArgumentException, 'Exception');
 end;
 
 procedure TestStringCatSnippets.TestReverseStr;

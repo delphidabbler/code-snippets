@@ -8,6 +8,26 @@ From v2.0.0 all notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v2.3.0 of 2025/09/13
+
+* Updated the collection specification:
+    * Added snippet properties to enable recording of compilation results with Delphi 13 (issue [62](https://github.com/delphidabbler/code-snippets/issues/62)).
+    * Deprecated compiler results with value `W` (issue [63](https://github.com/delphidabbler/code-snippets/issues/63)).
+* Changes were made to the _Structures_ category:
+    * Added a new `TIntegerRange` advanced record (issue [56](https://github.com/delphidabbler/code-snippets/issues/56)).
+    * Fixed an error in the description of the `Range` snippet.
+    * Added a warning to the `TRangeEx` advanced record to note potentially buggy behaviour if the range lower bound is greater than the upper bound.
+* Added new `RandomString` routine to the _String Management_ category (issue [28](https://github.com/delphidabbler/code-snippets/issues/28)).
+* Added results of compiling every snippet with Delphi 13 (issue [60](https://github.com/delphidabbler/code-snippets/issues/60)).
+* Fixed bug that was preventing the `Softmax` routine in the _Mathematics_ category from compiling due to a missing unit declaration (issue [61](https://github.com/delphidabbler/code-snippets/issues/61)).
+* Changes to unit tests:
+    * Added a new DUnit test project for the _Structures_ category and added it to the _CodeSnippetsTestsXE_ project group. Unit tests for all snippets in the _Structures_ category were created (issue [58](https://github.com/delphidabbler/code-snippets/issues/58)).
+    * Added further unit tests for all snippets in the _Arrays_ category that did not already have them (issue [38](https://github.com/delphidabbler/code-snippets/issues/38)).
+    * Added unit tests for the new `RandomString` routine.
+* Documentation:
+    * Updated `tests/README.md` re the unit test changes in this release and other minor revisions.
+    * Fixed typo in `README.md`. 
+
 ## v2.2.3 of 2025/04/03
 
 * Added results of compiling with Delphi 12 for all snippets with no pre-existing compile results for that compiler (issue [#27](https://github.com/delphidabbler/code-snippets/issues/27)).

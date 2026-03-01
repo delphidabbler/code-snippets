@@ -26,7 +26,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
     * Added unit tests for the new `RandomString` routine.
 * Documentation:
     * Updated `tests/README.md` re the unit test changes in this release and other minor revisions.
-    * Fixed typo in `README.md`. 
+    * Fixed typo in `README.md`.
+    * Noted collection specification changes in `docs/collection-format.html`.
 
 ## v2.2.3 of 2025/04/03
 

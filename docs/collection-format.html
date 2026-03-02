@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 
 <!--
- * This file copyright (C) 2020-2025, Peter Johnson (gravatar.com/delphidabbler)
+ * This file copyright (C) 2020-2026, Peter Johnson (gravatar.com/delphidabbler)
  * and is licensed under the MIT License: https://opensource.org/licenses/MIT
  *
  * DelphiDabbler Code Snippets Database Documentation: Collection file format
@@ -96,7 +96,7 @@
   </h2>
     
   <p>
-    For any parts of this documentation that don't apply to all collection versions, the applicable versions may be specified using Ruby's <a href="https://thoughtbot.com/blog/rubys-pessimistic-operator">twiddle-wakka</a> pessimistic operator. For example <code>~>2.1</code> means that the item applies to all versions <code>&gt;=2.1</code> but <code>&lt;3.0</code> while <code>~>2.1.2</code> means that the item applies to all versions <code>&gt;=2.1.2</code> but <code>&lt;2.2.0</code>.
+    For any parts of this documentation that don't apply to all collection versions, the applicable versions may be specified using Ruby's <a href="https://thoughtbot.com/blog/rubys-pessimistic-operator">twiddle-wakka</a> pessimistic operator. For example <code>~&gt;2.1</code> means that the item applies to all versions <code>&ge;2.1</code> but <code>&lt;3.0</code> while <code>~&gt;2.1.2</code> means that the item applies to all versions <code>&ge;2.1.2</code> but <code>&lt;2.2.0</code>.
   </p>
 
 </section>
@@ -116,6 +116,47 @@
     </li>
     <li>
       A set of further <code>.ini</code> files, one for each category specified in <code>categories.ini</code>. Each of these files contains numerous details of each snippet along with the name of the file containing its source code.
+    </li>
+  </ol>
+
+  <p>
+    The common <a href="https://en.wikipedia.org/wiki/INI_file">INI file format</a> is used for meta data files. The files
+    used in the collection conform to the following rules:
+  </p>
+  
+  <ol>
+    <li>
+      <p>
+        Section names <span class="very-strong">must not</span> have white space between the name and the enclosing <code class="symbol">[</code> and <code class="symbol">]</code> characters. For example <code class="eg">[Foo]</code> is a valid section name but <code class="eg">[&nbsp;Foo&nbsp;]</code> is not valid.
+      </p>
+    </li>
+    <li>
+      <p>
+        All key / value pairs <span class="very-strong">must</span> be inside sections.
+      </p>
+    </li>
+    <li>
+      <p>
+        A <code class="symbol">=</code> sign <span class="very-strong">must</span> be used as the key/value separator character.
+      </p>
+    </li>
+    <li>
+      <p>
+        The <code class="symbol">=</code> separator between key/value pairs may be surrounded by white space. Any such white space between the key and the <code class="symbol">=</code> sign and between the <code class="symbol">=</code> sign and the first non-white space character of the value is ignored. For example <code class="eg">Foo=Bar</code> and <code class="eg">Foo&nbsp;=&nbsp;&nbsp;Bar</code> are equivalent.
+      </p>
+    </li>
+    <li>
+      <p>
+        An <code class="symbol">=</code> sign is permitted within the value. For example <code class="eg">Foo=Baz=Bar</code> has key <code class="eg">Foo</code> and value <code class="eg">Baz=Bar</code> while <code class="eg">Foo==</code> has key <code class="eg">Foo</code> and value <code class="eg">=</code>.
+      </p>
+    </li>
+    <li>
+      <p>
+        The value may optionally be surrounded by double quotes. If this is the case then both of the double quote characters are removed from the value. For example <code class="eg">Foo=&quot;Bar&quot;</code> is equivalent to <code class="eg">Foo=Bar</code>.
+      </p>
+      <p>
+        Unmatched leading or trailing double quotes and double quotes within a value are not removed. For example <code class="eg">Foo=&quot;Bar</code> has value <code class="eg">&quot;Bar</code> and <code class="eg">Foo=&quot;&quot;Bar&quot;+&quot;Baz&quot;&quot;</code> has value <code class="eg">&quot;Bar&quot;+&quot;Baz&quot;</code>.
+      </p>
     </li>
   </ol>
 
@@ -198,19 +239,19 @@ DelphiXE7=&lt;&quot;Y&quot;|&quot;N&quot;|&quot;Q&quot;|&quot;W&quot;&gt;
 DelphiXE8=&lt;&quot;Y&quot;|&quot;N&quot;|&quot;Q&quot;|&quot;W&quot;&gt;
 Delphi10S=&lt;&quot;Y&quot;|&quot;N&quot;|&quot;Q&quot;|&quot;W&quot;&gt;
 Delphi101B=&lt;&quot;Y&quot;|&quot;N&quot;|&quot;Q&quot;|&quot;W&quot;&gt;
-Delphi102T=&lt;&quot;Y&quot;|&quot;N&quot;|&quot;Q&quot;|&quot;W&quot;&gt; [~>2.2]
-Delphi103R=&lt;&quot;Y&quot;|&quot;N&quot;|&quot;Q&quot;|&quot;W&quot;&gt; [~>2.2]
-Delphi104S=&lt;&quot;Y&quot;|&quot;N&quot;|&quot;Q&quot;|&quot;W&quot;&gt; [~>2.2]
-Delphi11A=&lt;&quot;Y&quot;|&quot;N&quot;|&quot;Q&quot;|&quot;W&quot;&gt; [~>2.2]
-Delphi12A=&lt;&quot;Y&quot;|&quot;N&quot;|&quot;Q&quot;|&quot;W&quot;&gt; [~>2.2]
-Delphi13F=&lt;&quot;Y&quot;|&quot;N&quot;|&quot;Q&quot;|&quot;W&quot;&gt; [~>2.3]
+Delphi102T=&lt;&quot;Y&quot;|&quot;N&quot;|&quot;Q&quot;|&quot;W&quot;&gt; [~&gt;2.2]
+Delphi103R=&lt;&quot;Y&quot;|&quot;N&quot;|&quot;Q&quot;|&quot;W&quot;&gt; [~&gt;2.2]
+Delphi104S=&lt;&quot;Y&quot;|&quot;N&quot;|&quot;Q&quot;|&quot;W&quot;&gt; [~&gt;2.2]
+Delphi11A=&lt;&quot;Y&quot;|&quot;N&quot;|&quot;Q&quot;|&quot;W&quot;&gt; [~&gt;2.2]
+Delphi12A=&lt;&quot;Y&quot;|&quot;N&quot;|&quot;Q&quot;|&quot;W&quot;&gt; [~&gt;2.2]
+Delphi13F=&lt;&quot;Y&quot;|&quot;N&quot;|&quot;Q&quot;|&quot;W&quot;&gt; [~&gt;2.3]
 FPC=&lt;&quot;Y&quot;|&quot;N&quot;|&quot;Q&quot;|&quot;W&quot;&gt;
 Kind=&lt;&quot;freeform&quot;|&quot;routine&quot;|&quot;type&quot;|&quot;const&quot;|&quot;class&quot;|&quot;unit&quot;&gt;
 TestInfo=&lt;&quot;none&quot;|&quot;basic&quot;|&quot;advanced&quot;&gt;
-AdvancedTest.Level=&lt;&quot;unspecified&quot;|&quot;unit-tests&quot;|&quot;demo&quot;|&quot;other&quot;&gt; [~>2.2]
-AdvancedTest.URL=&lt;url&gt; [~>2.2]</pre>
+AdvancedTest.Level=&lt;&quot;unspecified&quot;|&quot;unit-tests&quot;|&quot;demo&quot;|&quot;other&quot;&gt; [~&gt;2.2]
+AdvancedTest.URL=&lt;url&gt; [~&gt;2.2]</pre>
     <p>
-      <span class="very-strong">[~>2.1]:</span> Keys marked with an asterisk (*) are deprecated and are no longer used in the collection. However, software requiring backwards compatibility must be prepared to process these keys and to make appropriate decisions about how to handle them. See other notes below for further details.
+      <span class="very-strong">[~&gt;2.1]:</span> Keys marked with an asterisk (*) are deprecated and are no longer used in the collection. However, software requiring backwards compatibility must be prepared to process these keys and to make appropriate decisions about how to handle them. See other notes below for further details.
     </p>
   </aside>
   <p>
@@ -236,10 +277,10 @@ AdvancedTest.URL=&lt;url&gt; [~>2.2]</pre>
         Description of the snippet as plain text.
       </p>
       <p>
-       <strong> [~>2.0.0]:</strong> <code class="key">Desc</code> is ignored if a non-empty <code class="key">DescEx</code> key is present. At least one of the <code class="key">Desc</code> or <code class="key">DescEx</code> keys are <span class="very-strong">required</span> to be present and non-empty.
+       <strong> [~&gt;2.0.0]:</strong> <code class="key">Desc</code> is ignored if a non-empty <code class="key">DescEx</code> key is present. At least one of the <code class="key">Desc</code> or <code class="key">DescEx</code> keys are <span class="very-strong">required</span> to be present and non-empty.
       </p>
       <p>
-        <strong>[~>2.1]:</strong> <code class="key">Desc</code> is <span class="very-strong">deprecated</span> and <span class="very-strong">must not</span> be used. <code class="key">DescEx</code> <span class="very-strong">must</span> be used instead.
+        <strong>[~&gt;2.1]:</strong> <code class="key">Desc</code> is <span class="very-strong">deprecated</span> and <span class="very-strong">must not</span> be used. <code class="key">DescEx</code> <span class="very-strong">must</span> be used instead.
       </p>
     </dd>
     <dt>
@@ -250,10 +291,10 @@ AdvancedTest.URL=&lt;url&gt; [~>2.2]</pre>
         Formatted description of the snippet. When present the value <span class="very-strong">must</span> be a valid string of REML<sup><a href="#footnote-1">1</a></sup> code.
       </p>
       <p>
-        <strong>[~>2.0.0]:</strong> <code class="key">DescEx</code> may be empty, in which case the <code class="key">Desc</code> key is used. <code class="key">Desc</code> is ignored if <code class="key">DescEx</code> has a non-empty value. At least one of the <code class="key">Desc</code> or <code class="key">DescEx</code> keys are <span class="very-strong">required</span> to be present and non-empty.
+        <strong>[~&gt;2.0.0]:</strong> <code class="key">DescEx</code> may be empty, in which case the <code class="key">Desc</code> key is used. <code class="key">Desc</code> is ignored if <code class="key">DescEx</code> has a non-empty value. At least one of the <code class="key">Desc</code> or <code class="key">DescEx</code> keys are <span class="very-strong">required</span> to be present and non-empty.
       </p>
       <p>
-        <strong>[~>2.1]:</strong> <code class="key">DescEx</code> is <span class="very-strong">required</span> to be present and non-empty.
+        <strong>[~&gt;2.1]:</strong> <code class="key">DescEx</code> is <span class="very-strong">required</span> to be present and non-empty.
       </p>
     </dd>
     <dt>
@@ -326,7 +367,7 @@ AdvancedTest.URL=&lt;url&gt; [~>2.2]</pre>
       </p>
       <aside>
         <p>
-          <strong>[~>2.0.0]:</strong> If and only if <code class="key">Extra</code> is empty, extra information is generated from the <code class="key">Comments</code>, <code class="key">Credits</code> and <code class="key">Credits_URL</code> key values. See <a href="#generating-extra-from-credits-comments">below</a> for details of how to do this.
+          <strong>[~&gt;2.0.0]:</strong> If and only if <code class="key">Extra</code> is empty, extra information is generated from the <code class="key">Comments</code>, <code class="key">Credits</code> and <code class="key">Credits_URL</code> key values. See <a href="#generating-extra-from-credits-comments">below</a> for details of how to do this.
         </p>
       </aside>
     </dd>
@@ -338,10 +379,10 @@ AdvancedTest.URL=&lt;url&gt; [~>2.2]</pre>
         Text that notes any credits / acknowledgements. <code class="key">Credits</code> may optionally contain one (and only one) section of plain text delimited by <code>[</code> and <code>]</code> characters that indicate the presence of a hyperlink. The enclosed text is used as the text of a hyperlink whose URL <span class="very-strong">must</span> be specified in the <code class="key">Credits_URL</code> key.
       </p>
       <p>
-        <strong>[~>2.0.0]:</strong> May be omitted or empty. <code class="key">Credits</code> is ignored if a non-empty <code class="key">Extra</code> key is present.
+        <strong>[~&gt;2.0.0]:</strong> May be omitted or empty. <code class="key">Credits</code> is ignored if a non-empty <code class="key">Extra</code> key is present.
       </p>
       <p>
-        <strong>[~>2.1]:</strong> <span class="very-strong">Deprecated</span> and <span class="very-strong">must not</span> be used. Use <code class="key">Extra</code> instead.
+        <strong>[~&gt;2.1]:</strong> <span class="very-strong">Deprecated</span> and <span class="very-strong">must not</span> be used. Use <code class="key">Extra</code> instead.
       </p>
     </dd>
     <dt>
@@ -352,10 +393,10 @@ AdvancedTest.URL=&lt;url&gt; [~>2.2]</pre>
         The URL used in any hyperlink present in the <code class="key">Credits</code> key.
       </p>
       <p>
-        <strong>[~>2.0.0]:</strong> <span class="very-strong">Must</span> be present if <code class="key">Credits</code> specifies a hyperlink. Ignored if <code class="key">Credits</code> contains no hyperlink section or if a non-empty <code class="key">Extra</code> key is present.
+        <strong>[~&gt;2.0.0]:</strong> <span class="very-strong">Must</span> be present if <code class="key">Credits</code> specifies a hyperlink. Ignored if <code class="key">Credits</code> contains no hyperlink section or if a non-empty <code class="key">Extra</code> key is present.
       <p>
       <p>
-        <strong>[~>2.1]</strong> <span class="very-strong">Deprecated</span> and <span class="very-strong">must not</span> be used.
+        <strong>[~&gt;2.1]</strong> <span class="very-strong">Deprecated</span> and <span class="very-strong">must not</span> be used.
       </p>
     </dd>
     <dt>
@@ -369,10 +410,10 @@ AdvancedTest.URL=&lt;url&gt; [~>2.2]</pre>
         Optional. Ignored if a non-empty <code class="key">Extra</code> key is present.
       </p>
       <p>
-        <strong>[~>2.0.0]:</strong> May be omitted or empty. <code class="key">Comments</code> is ignored if a non-empty <code class="key">Extra</code> key is present.
+        <strong>[~&gt;2.0.0]:</strong> May be omitted or empty. <code class="key">Comments</code> is ignored if a non-empty <code class="key">Extra</code> key is present.
       </p>
       <p>
-        <strong>[~>2.1]:</strong> <span class="very-strong">Deprecated</span> and <span class="very-strong">must not</span> be used. Use <code class="key">Extra</code> instead.
+        <strong>[~&gt;2.1]:</strong> <span class="very-strong">Deprecated</span> and <span class="very-strong">must not</span> be used. Use <code class="key">Extra</code> instead.
       </p>
     </dd>
     <dt>
@@ -383,49 +424,49 @@ AdvancedTest.URL=&lt;url&gt; [~>2.2]</pre>
         This related group of keys describes the results of compiling the snippet with various compilers. The key name identifies the compiler. Valid key names are:
       </p>
       <ul class="unspaced">
-        <li><code class="key">Delphi2</code> – Delphi 2 compiler</li>
-        <li><code class="key">Delphi3</code> – Delphi 3 compiler</li>
-        <li><code class="key">Delphi4</code> – Delphi 4 compiler</li>
-        <li><code class="key">Delphi5</code> – Delphi 5 compiler</li>
-        <li><code class="key">Delphi6</code> – Delphi 6 compiler</li>
-        <li><code class="key">Delphi7</code> – Delphi 7 compiler</li>
-        <li><code class="key">Delphi2005Win32</code> – Win32 personality of Delphi 2005 compiler</li>
-        <li><code class="key">Delphi2006Win32</code> – Win32 personality of Delphi 2006 compiler</li>
-        <li><code class="key">Delphi2007</code> – Delphi 2007 compiler</li>
-        <li><code class="key">Delphi2009Win32</code> – Win32 personality of Delphi 2009 compiler</li>
-        <li><code class="key">Delphi2010</code> – Delphi 2010 compiler</li>
-        <li><code class="key">DelphiXE</code> – Delphi XE compiler</li>
-        <li><code class="key">DelphiXE2</code> – Delphi XE2 compiler</li>
-        <li><code class="key">DelphiXE3</code> – Delphi XE3 compiler</li>
-        <li><code class="key">DelphiXE4</code> – Delphi XE4 compiler</li>
-        <li><code class="key">DelphiXE5</code> – Delphi XE5 compiler</li>
-        <li><code class="key">DelphiXE6</code> – Delphi XE6 compiler</li>
-        <li><code class="key">DelphiXE7</code> – Delphi XE7 compiler</li>
-        <li><code class="key">DelphiXE8</code> – Delphi XE8 compiler</li>
-        <li><code class="key">Delphi10S</code> – Delphi 10 Seattle compiler</li>
-        <li><code class="key">Delphi101B</code> – Delphi 10.1 Berlin compiler</li>
-        <li><code class="key">Delphi102T</code> – Delphi 10.2 Tokyo compiler <strong>[~>2.2]</strong></li>
-        <li><code class="key">Delphi103R</code> – Delphi 10.3 Rio compiler <strong>[~>2.2]</strong></li>
-        <li><code class="key">Delphi104S</code> – Delphi 10.4 Sydney compiler <strong>[~>2.2]</strong></li>
-        <li><code class="key">Delphi11A</code> – Delphi 11.x Alexandria compiler <strong>[~>2.2]</strong></li>
-        <li><code class="key">Delphi12A</code> – Delphi 12.x Athens compiler <strong>[~>2.2]</strong></li>
-        <li><code class="key">Delphi13F</code> – Delphi 13.x Florence compiler <strong>[~>2.3]</strong></li>
-        <li><code class="key">FPC</code> – Free Pascal compiler</li>
+        <li><code class="key">Delphi2</code> &ndash; Delphi 2 compiler</li>
+        <li><code class="key">Delphi3</code> &ndash; Delphi 3 compiler</li>
+        <li><code class="key">Delphi4</code> &ndash; Delphi 4 compiler</li>
+        <li><code class="key">Delphi5</code> &ndash; Delphi 5 compiler</li>
+        <li><code class="key">Delphi6</code> &ndash; Delphi 6 compiler</li>
+        <li><code class="key">Delphi7</code> &ndash; Delphi 7 compiler</li>
+        <li><code class="key">Delphi2005Win32</code> &ndash; Win32 personality of Delphi 2005 compiler</li>
+        <li><code class="key">Delphi2006Win32</code> &ndash; Win32 personality of Delphi 2006 compiler</li>
+        <li><code class="key">Delphi2007</code> &ndash; Delphi 2007 compiler</li>
+        <li><code class="key">Delphi2009Win32</code> &ndash; Win32 personality of Delphi 2009 compiler</li>
+        <li><code class="key">Delphi2010</code> &ndash; Delphi 2010 compiler</li>
+        <li><code class="key">DelphiXE</code> &ndash; Delphi XE compiler</li>
+        <li><code class="key">DelphiXE2</code> &ndash; Delphi XE2 compiler</li>
+        <li><code class="key">DelphiXE3</code> &ndash; Delphi XE3 compiler</li>
+        <li><code class="key">DelphiXE4</code> &ndash; Delphi XE4 compiler</li>
+        <li><code class="key">DelphiXE5</code> &ndash; Delphi XE5 compiler</li>
+        <li><code class="key">DelphiXE6</code> &ndash; Delphi XE6 compiler</li>
+        <li><code class="key">DelphiXE7</code> &ndash; Delphi XE7 compiler</li>
+        <li><code class="key">DelphiXE8</code> &ndash; Delphi XE8 compiler</li>
+        <li><code class="key">Delphi10S</code> &ndash; Delphi 10 Seattle compiler</li>
+        <li><code class="key">Delphi101B</code> &ndash; Delphi 10.1 Berlin compiler</li>
+        <li><code class="key">Delphi102T</code> &ndash; Delphi 10.2 Tokyo compiler <strong>[~&gt;2.2]</strong></li>
+        <li><code class="key">Delphi103R</code> &ndash; Delphi 10.3 Rio compiler <strong>[~&gt;2.2]</strong></li>
+        <li><code class="key">Delphi104S</code> &ndash; Delphi 10.4 Sydney compiler <strong>[~&gt;2.2]</strong></li>
+        <li><code class="key">Delphi11A</code> &ndash; Delphi 11.x Alexandria compiler <strong>[~&gt;2.2]</strong></li>
+        <li><code class="key">Delphi12A</code> &ndash; Delphi 12.x Athens compiler <strong>[~&gt;2.2]</strong></li>
+        <li><code class="key">Delphi13F</code> &ndash; Delphi 13.x Florence compiler <strong>[~&gt;2.3]</strong></li>
+        <li><code class="key">FPC</code> &ndash; Free Pascal compiler</li>
       </ul>
       <p>
         Valid values for these keys are:
       </p>
       <ul class="unspaced">
-        <li><code class="value">Y</code> – compiles on the compiler</li>
-        <li><code class="value">N</code> – does not compile on the compiler</li>
-        <li><code class="value">W</code> – compiles with warnings on the compiler</li>
-        <li><code class="value">Q</code> – compilation result unknown</li>
+        <li><code class="value">Y</code> &ndash; compiles on the compiler</li>
+        <li><code class="value">N</code> &ndash; does not compile on the compiler</li>
+        <li><code class="value">W</code> &ndash; compiles with warnings on the compiler</li>
+        <li><code class="value">Q</code> &ndash; compilation result unknown</li>
       </ul>
       <p>
         All keys are optional. If any of the above compiler keys is not present, or is empty, the compile result for the associated compiler is assumed to be <code class="value">Q</code>.
       </p>
       <p>
-        <strong>[~>2.3]:</strong> Value <code class="value">W</code> is <span class="very-strong">deprecated</span>. Where present it should be treated as equivalent to <code class="value">Y</code>.
+        <strong>[~&gt;2.3]:</strong> Value <code class="value">W</code> is <span class="very-strong">deprecated</span>. Where present it should be treated as equivalent to <code class="value">Y</code>.
       </p>
     </dd>
     <dt>
@@ -436,12 +477,12 @@ AdvancedTest.URL=&lt;url&gt; [~>2.2]</pre>
         The kind (or type) of this code snippet. Valid values are:
       </p>
       <ul class="unspaced">
-        <li><code class="value">freeform</code><sup><a href="#footnote-3">3</a></sup> – a freeform snippet that doesn't conform to any other supported type.</li>
-        <li><code class="value">routine</code> – a Pascal routine (function or procedure).</li>
-        <li><code class="value">type</code> – a simple Pascal type definition.</li>
-        <li><code class="value">const</code> – a Pascal constant definition.</li>
-        <li><code class="value">class</code> – a Pascal class or advanced record definition and implementation.</li>
-        <li><code class="value">unit</code><sup><a href="#footnote-2">3</a></sup> – a complete Pascal unit.</li>
+        <li><code class="value">freeform</code><sup><a href="#footnote-3">3</a></sup> &ndash; a freeform snippet that doesn't conform to any other supported type.</li>
+        <li><code class="value">routine</code> &ndash; a Pascal routine (function or procedure).</li>
+        <li><code class="value">type</code> &ndash; a simple Pascal type definition.</li>
+        <li><code class="value">const</code> &ndash; a Pascal constant definition.</li>
+        <li><code class="value">class</code> &ndash; a Pascal class or advanced record definition and implementation.</li>
+        <li><code class="value">unit</code><sup><a href="#footnote-2">3</a></sup> &ndash; a complete Pascal unit.</li>
       </ul>
       <p>
         <code class="key">Kind</code> is optional. If the key is not present then its value defaults to <code class="value">routine</code>.
@@ -455,31 +496,31 @@ AdvancedTest.URL=&lt;url&gt; [~>2.2]</pre>
         Information about if or how the snippet has been tested. Valid values are:
       </p>
       <ul class="unspaced">
-        <li><code class="value">none</code> – the snippet has not been tested.</li>
-        <li><code class="value">basic</code> – the snippet has passed some simple, unspecified testing.</li>
-        <li><code class="value">advanced</code> – the snippet has passed more advanced testing, usually unit tests.</li>
+        <li><code class="value">none</code> &ndash; the snippet has not been tested.</li>
+        <li><code class="value">basic</code> &ndash; the snippet has passed some simple, unspecified testing.</li>
+        <li><code class="value">advanced</code> &ndash; the snippet has passed more advanced testing, usually unit tests.</li>
       </ul>
       <p>
         <code class="key">TestInfo</code> is optional. If it is not present then its value defaults to <code class="value">basic</code>.
       </p>
       <aside>
         <p>
-          For ~>2.2 additional testing information can be provided for snippets with <code class="key">TestInfo</code> = <code class="value">advanced</code> by using the <code class="key">AdvancedTest.Level</code> and <code class="key">AdvancedTest.URL</code> keys.
+          For ~&gt;2.2 additional testing information can be provided for snippets with <code class="key">TestInfo</code> = <code class="value">advanced</code> by using the <code class="key">AdvancedTest.Level</code> and <code class="key">AdvancedTest.URL</code> keys.
         </p>
       </aside>
     </dd>
     <dt>
-      <code class="key">AdvancedTest.Level</code> <strong>[~>2.2]</strong>
+      <code class="key">AdvancedTest.Level</code> <strong>[~&gt;2.2]</strong>
     </dt>
     <dd>
       <p>
         Provides detailed testing information for snippets with <code class="key">TestInfo</code>=<code class="value">advanced</code>. Valid values are:
       </p>
       <ul class="unspaced">
-        <li><code class="value">unspecified</code> – the type of advanced testing has not been specified.</li>
-        <li><code class="value">unit-tests</code> – the snippet has passed unit tests.</li>
-        <li><code class="value">demo</code> - there exists demo code that exercises the snippet.</li>
-        <li><code class="value">other</code> - some other form of testing has been used.</li>
+        <li><code class="value">unspecified</code> &ndash; the type of advanced testing has not been specified.</li>
+        <li><code class="value">unit-tests</code> &ndash; the snippet has passed unit tests.</li>
+        <li><code class="value">demo</code> &ndash; there exists demo code that exercises the snippet.</li>
+        <li><code class="value">other</code> &ndash; some other form of testing has been used.</li>
       </ul>
       <p>
         <code class="key">AdvancedTest.Level</code> is optional. If it is not present or is empty then its value defaults to <code class="value">unspecified</code>.
@@ -489,7 +530,7 @@ AdvancedTest.URL=&lt;url&gt; [~>2.2]</pre>
       </p>
     </dd>
     <dt>
-      <code class="key">AdvancedTest.URL</code> <strong>[~>2.2]</strong>
+      <code class="key">AdvancedTest.URL</code> <strong>[~&gt;2.2]</strong>
     </dt>
     <dd>
       <p>
@@ -508,7 +549,7 @@ AdvancedTest.URL=&lt;url&gt; [~>2.2]</pre>
     The format is quite messy, with several keys having similar or overlapping purposes. This has happened because new keys have been added over time while preserving backward compatibility.
   </p>
   <p>
-    Limited backwards compatibility with v1 file formats was retained for ~>2.0.0 in order to save development time. For ~>2.1 such duplication has been removed from the collection.
+    Limited backwards compatibility with v1 file formats was retained for ~&gt;2.0.0 in order to save development time. For ~&gt;2.1 such duplication has been removed from the collection.
   </p>
 
 </section>
@@ -749,7 +790,7 @@ CopyrightHolderURL=&lt;url&gt;</pre>
   </p>
 
   <p>
-    Backwards compatibility is guaranteed for all versions ~>2.0. The file formats are defined in such a way that software designed to read a later collection version can make sensible decisions about missing values when reading earlier versions.
+    Backwards compatibility is guaranteed for all versions ~&gt;2.0. The file formats are defined in such a way that software designed to read a later collection version can make sensible decisions about missing values when reading earlier versions.
   </p>
 
   <p>
@@ -769,7 +810,7 @@ CopyrightHolderURL=&lt;url&gt;</pre>
   </h3>
 
   <p>
-    In ~>v2.0.0, both <code class="key">Desc</code> and <code class="key">DescEx</code> keys can be found together or individually. Deal with them as follows:
+    In ~&gt;v2.0.0, both <code class="key">Desc</code> and <code class="key">DescEx</code> keys can be found together or individually. Deal with them as follows:
   </p>
 
   <ul>
@@ -785,7 +826,7 @@ CopyrightHolderURL=&lt;url&gt;</pre>
   </ul>
 
   <p>
-    For ~>2.1 you can expect that <code class="key">DescEx</code> will always be non-empty and that <code class="key">Desc</code> does not exist.
+    For ~&gt;2.1 you can expect that <code class="key">DescEx</code> will always be non-empty and that <code class="key">Desc</code> does not exist.
   </p>
 
   <h3 id="generating-extra-from-credits-comments">
@@ -793,7 +834,7 @@ CopyrightHolderURL=&lt;url&gt;</pre>
   </h3>
 
   <p>
-    For ~>2.0.0 various combinations of the above keys can be found. Deal with them as follows:
+    For ~&gt;2.0.0 various combinations of the above keys can be found. Deal with them as follows:
   </p>
 
   <ul>
@@ -827,7 +868,7 @@ CopyrightHolderURL=&lt;url&gt;</pre>
   </ul>
 
   <p>
-    For ~>2.1 you can expect that <code class="key">Credits</code>, <code class="key">Credits_URL</code> or <code class="key">Comments</code> won't exist and simply deal with <code class="key">Extra</code> if it is present.
+    For ~&gt;2.1 you can expect that <code class="key">Credits</code>, <code class="key">Credits_URL</code> or <code class="key">Comments</code> won't exist and simply deal with <code class="key">Extra</code> if it is present.
   </p>
 
   <h2>
@@ -835,11 +876,11 @@ CopyrightHolderURL=&lt;url&gt;</pre>
   </h2>
 
   <p>
-    It is easy to deal with compilation results. Simply check for the existance of the key matching the required compiler (e.g. <code class="key">DelphiXE8</code>). If the key exists then read its value, otherwise proceed as if it had the value <code class="value">Q</code>. ~>2.3 compliant software should also interpret a value of <code class="value">W</code> as if it was <code class="value">Y</code>.
+    It is easy to deal with compilation results. Simply check for the existance of the key matching the required compiler (e.g. <code class="key">DelphiXE8</code>). If the key exists then read its value, otherwise proceed as if it had the value <code class="value">Q</code>. ~&gt;2.3 compliant software should also interpret a value of <code class="value">W</code> as if it was <code class="value">Y</code>.
   </p>
 
   <p>
-    Note that Delphi 10.2 Tokyo through to Delphi 12.x Athens are defined only for ~>2.2 and Delphi 13.x is defined only for ~>2.3.
+    Note that Delphi 10.2 Tokyo through to Delphi 12.x Athens are defined only for ~&gt;2.2 and Delphi 13.x is defined only for ~&gt;2.3.
   </p>
 
   <h2>
@@ -855,7 +896,7 @@ CopyrightHolderURL=&lt;url&gt;</pre>
   </p>
   
   <p>
-    ~>2.2 compliant software can get further information about snippets that have received advanced &quot;testing&quot;, where such information is available. The possible values are documented above.
+    ~&gt;2.2 compliant software can get further information about snippets that have received advanced &quot;testing&quot;, where such information is available. The possible values are documented above.
   </p>
 
   <p>

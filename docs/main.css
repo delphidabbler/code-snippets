@@ -122,7 +122,9 @@ aside em {
 }
 
 code.key,
-code.value {
+code.value,
+code.eg,
+code.symbol {
   background-color: #f5f5f5;
   padding: 1px 4px;
 }
@@ -132,7 +134,9 @@ code.key {
 }
 
 aside code.key,
-aside code.value {
+aside code.value,
+aside code.eg,
+aside code.symbol {
   background-color: #e5e5e5;
 }
 

@@ -119,6 +119,47 @@
     </li>
   </ol>
 
+  <p>
+    The common <a href="https://en.wikipedia.org/wiki/INI_file">INI file format</a> is used for meta data files. The files
+    used in the collection conform to the following rules:
+  </p>
+  
+  <ol>
+    <li>
+      <p>
+        Section names <span class="very-strong">must not</span> have white space between the name and the enclosing <code class="symbol">[</code> and <code class="symbol">]</code> characters. For example <code class="eg">[Foo]</code> is a valid section name but <code class="eg">[&nbsp;Foo&nbsp;]</code> is not valid.
+      </p>
+    </li>
+    <li>
+      <p>
+        All key / value pairs <span class="very-strong">must</span> be inside sections.
+      </p>
+    </li>
+    <li>
+      <p>
+        A <code class="symbol">=</code> sign <span class="very-strong">must</span> be used as the key/value separator character.
+      </p>
+    </li>
+    <li>
+      <p>
+        The <code class="symbol">=</code> separator between key/value pairs may be surrounded by white space. Any such white space between the key and the <code class="symbol">=</code> sign and between the <code class="symbol">=</code> sign and the first non-white space character of the value is ignored. For example <code class="eg">Foo=Bar</code> and <code class="eg">Foo&nbsp;=&nbsp;&nbsp;Bar</code> are equivalent.
+      </p>
+    </li>
+    <li>
+      <p>
+        An <code class="symbol">=</code> sign is permitted within the value. For example <code class="eg">Foo=Baz=Bar</code> has key <code class="eg">Foo</code> and value <code class="eg">Baz=Bar</code> while <code class="eg">Foo==</code> has key <code class="eg">Foo</code> and value <code class="eg">=</code>.
+      </p>
+    </li>
+    <li>
+      <p>
+        The value may optionally be surrounded by double quotes. If this is the case then both of the double quote characters are removed from the value. For example <code class="eg">Foo=&quot;Bar&quot;</code> is equivalent to <code class="eg">Foo=Bar</code>.
+      </p>
+      <p>
+        Unmatched leading or trailing double quotes and double quotes within a value are not removed. For example <code class="eg">Foo=&quot;Bar</code> has value <code class="eg">&quot;Bar</code> and <code class="eg">Foo=&quot;&quot;Bar&quot;+&quot;Baz&quot;&quot;</code> has value <code class="eg">&quot;Bar&quot;+&quot;Baz&quot;</code>.
+      </p>
+    </li>
+  </ol>
+
   <h2>
     Format Of <code>categories.ini</code>
   </h2>
